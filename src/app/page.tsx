@@ -1,18 +1,21 @@
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
+import Banner from "@/components/ui/Home/Banner";
+import FeaturedListing from "@/components/ui/Home/FeaturedListing";
+import Features from "@/components/ui/Home/Features";
+import { Stack } from "@mui/material";
 
 export default function Home() {
   return (
-    <Container maxWidth="lg">
-      <Box
-        sx={{
-          my: 4,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      ></Box>
-    </Container>
+    <Stack
+      sx={{
+        justifyContent: "center",
+        alignItems: "center",
+        overflow: "hidden",
+        position: "relative",
+      }}
+    >
+      <Banner />
+      <Features />
+      <FeaturedListing />
+    </Stack>
   );
 }

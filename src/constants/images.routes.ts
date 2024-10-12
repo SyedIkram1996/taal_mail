@@ -1,0 +1,17 @@
+const basePublicUrl = "/images/";
+
+export const LogoIcon = `${basePublicUrl}logo.svg`;
+export const SellPropertyIcon = `${basePublicUrl}sellProperty.svg`;
+export const RentPropertyIcon = `${basePublicUrl}rentProperty.svg`;
+export const BuyPropertyIcon = `${basePublicUrl}buyProperty.svg`;
+export const InvestPropertyIcon = `${basePublicUrl}investProperty.svg`;
+export const Line = `${basePublicUrl}line.svg`;
+export const BedroomIcon = `${basePublicUrl}bedroom.svg`;
+export const BathroomIcon = `${basePublicUrl}bathroom.svg`;
+export const AreaIcon = `${basePublicUrl}area.svg`;
+export const BuyIcon = `${basePublicUrl}buy.svg`;
+export const HouseIcon = `${basePublicUrl}house.svg`;
+export const LocationIcon = `${basePublicUrl}location.svg`;
+export const CarousalChevronRightIcon = `${basePublicUrl}carousalChevronRight.svg`;
+export const CarousalChevronLeftIcon = `${basePublicUrl}carousalChevronLeft.svg`;
+export const BannerImage = `${basePublicUrl}banner.png`;

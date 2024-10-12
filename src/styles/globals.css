@@ -1,0 +1,19 @@
+* {
+  margin: 0;
+  scroll-behavior: smooth;
+}
+
+:root {
+  --text-primary: #1768ac;
+  --text-secondary: #2541b2;
+  --text-black: #000000;
+  --text-white: #ffffff;
+  --light-grey: #e3e3e3;
+  --accent-color-1: #03256c;
+  --accent-color-3: #297373;
+}
+
+a {
+  text-decoration: none;
+  color: initial;
+}
