@@ -12,8 +12,8 @@ const TextXl = ({ text, sx }: Props) => {
         fontSize: "2.5rem",
         fontWeight: "600",
         fontStyle: "normal",
-        letterSpacing: "-0.045rem",
         color: "var(--text-primary)",
+        lineHeight: "normal",
         ...sx,
       }}
     >

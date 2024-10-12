@@ -33,7 +33,7 @@ const PropertyCard = ({
     <Stack
       sx={{
         borderRadius: "0.9375rem",
-        border: "1px solid var(--light-grey)",
+        border: "1px solid var(--platinum)",
         backgroundColor: "var(--text-white)",
         boxShadow: "2px 4px 6px 0px rgba(0, 0, 0, 0.25)",
         width: "18.5rem",

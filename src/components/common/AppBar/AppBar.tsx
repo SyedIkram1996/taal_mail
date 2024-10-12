@@ -4,6 +4,7 @@ import { LogoIcon } from "@/constants/images.routes";
 import { navbarPages } from "@/constants/navbar";
 import {
   HOME,
+  LOGIN,
   MY_BIDS,
   MY_INFO,
   MY_OFFERS,
@@ -41,6 +42,7 @@ const CustomMenu = ({ menu, children, sx }: MenuProps) => {
         gap: "0.625rem",
         padding: "0.625rem",
         pointerEvents: "none",
+        zIndex: 1,
         ...sx,
       }}
     >
@@ -235,7 +237,7 @@ function ResponsiveAppBar() {
 
         <ClickAwayListener onClickAway={() => handleProfileMenu(false)}>
           <Box sx={{ position: "relative" }}>
-            <TextMd
+            {/* <TextMd
               onClick={() => handleProfileMenu(!openProfileMenu)}
               text={"My Profile"}
               sx={{
@@ -243,7 +245,17 @@ function ResponsiveAppBar() {
                 cursor: "pointer",
                 paddingY: "1rem",
               }}
-            />
+            /> */}
+            <MUILink href={LOGIN}>
+              <TextMd
+                text={"Login"}
+                sx={{
+                  color: "var(--text-secondary)",
+                  cursor: "pointer",
+                  paddingY: "1rem",
+                }}
+              />
+            </MUILink>
 
             {openProfileMenu && (
               <CustomMenu menu={profilePages}>

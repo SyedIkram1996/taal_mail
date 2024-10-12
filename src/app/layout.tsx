@@ -1,4 +1,5 @@
 import ResponsiveAppBar from "@/components/common/AppBar/AppBar";
+import Footer from "@/components/common/Footer/Footer";
 import "@/styles/globals.css";
 import theme from "@/theme";
 import { Container, Stack } from "@mui/material";
@@ -27,6 +28,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
                 {props.children}
               </Container>
             </Stack>
+            <Footer />
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

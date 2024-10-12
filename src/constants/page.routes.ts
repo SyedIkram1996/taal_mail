@@ -8,6 +8,7 @@ export const RENT_HOUSE = "/rent/house";
 export const CONTACT_US = "/contact-us";
 export const TERMS_AND_CONDITIONS = "/terms-and-conditions";
 
+export const LOGIN = "/login";
 export const PROFILE = "/profile";
 export const MY_BIDS = `${PROFILE}/my-bids`;
 export const MY_INFO = `${PROFILE}/my-info`;

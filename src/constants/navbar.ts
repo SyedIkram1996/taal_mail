@@ -34,7 +34,11 @@ export const navbarPages = [
       { title: "Rent a House", link: RENT_HOUSE },
     ],
   },
-  { title: "Invest", link: "", menu: [] },
+  {
+    title: "Invest",
+    link: "",
+    menu: [{ title: "Invest in a Project", link: RENT_APARTMENT }],
+  },
   {
     title: "About Us",
     link: "",
