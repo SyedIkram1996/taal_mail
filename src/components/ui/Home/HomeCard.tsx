@@ -25,7 +25,7 @@ const HomeCard = ({ image, title, desc, index, sxRow }: Props) => {
           width: "18.75rem",
           height: "18.75rem",
           backgroundColor:
-            index % 2 == 0 ? "var(--accent-color-3)" : "var(--accent-color-1)",
+            index % 2 == 0 ? "var(--myrtle-green)" : "var(--accent-color-1)",
           textAlign: "center",
           borderRadius: "50%",
           ">p": { color: "white" },

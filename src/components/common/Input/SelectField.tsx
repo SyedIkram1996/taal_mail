@@ -17,23 +17,24 @@ const SelectField = ({ text, children, sx }: Props) => {
         direction={"row"}
         onClick={() => setOpen(!open)}
         sx={{
-          gap: "0.75rem",
           padding: "0.5rem 1.19rem",
           backgroundColor: "white",
           borderRadius: "0.9375rem",
           alignItems: "center",
           position: "relative",
           cursor: "pointer",
+          height: "3.125rem",
+          justifyContent: "space-between",
           ".chevron": {
-            transform: open ? "rotate(180deg)" : "rotate(0deg)",
-            transition: "ease-in-out 0.2s",
+            transform: open ? "rotate(-180deg)" : "rotate(0deg)",
+            transition: "ease-in-out 0.3s",
           },
           ...sx,
         }}
       >
         <TextLg
           text={text}
-          sx={{ color: "var(--text-black)", fontWeight: "400" }}
+          sx={{ color: "var(--text-black)", fontWeight: "400", flex: 1 }}
         />
         <Image
           className="chevron"

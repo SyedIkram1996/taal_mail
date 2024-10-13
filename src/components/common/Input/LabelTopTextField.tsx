@@ -20,10 +20,10 @@ export interface ITextField {
 }
 
 const CustomTextField = styled(TextField)({
-  "& .MuiOutlinedInput-root": {
+  ".MuiOutlinedInput-root": {
     backgroundColor: "white",
     borderRadius: "0.9375rem",
-    "& fieldset": {
+    fieldset: {
       border: "1px solid var(--spanish-gray)",
       borderRadius: "0.9375rem",
     },

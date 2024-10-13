@@ -2,13 +2,20 @@
 
 import FilledButton from "@/components/common/Button/FilledButton";
 import MenuCard from "@/components/common/Card/MenuCard";
+import IconText from "@/components/common/IconText";
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import SelectField from "@/components/common/Input/SelectField";
 import TextLg from "@/components/common/Text/TextLg";
 import TextMd from "@/components/common/Text/TextMd";
-import { areas, baths, rentBuy } from "@/constants/filters";
-import { Stack } from "@mui/material";
+import { areas, baths, propertyTypes, rentBuy } from "@/constants/filters";
+import { Box, Stack, Tab, Tabs } from "@mui/material";
 import { useState } from "react";
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
 
 const Filters = () => {
   const [rentBuyValue, setRentBuyValue] = useState<{
@@ -16,10 +23,14 @@ const Filters = () => {
     value: string;
   }>({ title: "Rent", value: "rent" });
 
+  const [location, setLocation] = useState("");
+
   const [areaValue, setAreaValue] = useState<{
     title: string;
     value: string;
   }>({ title: "", value: "" });
+
+  const [keyword, setKeyword] = useState("");
 
   const [bathsValue, setBathsValue] = useState<string>("");
 
@@ -35,19 +46,34 @@ const Filters = () => {
     currency: "PKR",
   });
 
+  const [propertyTypeValue, setPropertyTypeValue] = useState<{
+    type: string;
+    category: string;
+  }>({ type: "Residential", category: "" });
+
+  const [tabValue, setTabValue] = useState(0);
+
+  const handleChangeTabs = (event: React.SyntheticEvent, newValue: number) => {
+    setTabValue(newValue);
+  };
+
   return (
     <Stack
       sx={{
         backgroundColor: "var(--green-blue)",
-        width: "100%",
-        padding: "2rem 14.81rem",
+        padding: "2rem",
         gap: "2.5rem",
+        alignItems: "center",
+        width: "98.8vw",
       }}
     >
       <Stack
         direction="row"
         sx={{
           gap: "3rem",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          maxWidth: "1200px",
         }}
       >
         <SelectField text={rentBuyValue?.title} sx={{ width: "8.9375rem" }}>
@@ -70,6 +96,29 @@ const Filters = () => {
           </MenuCard>
         </SelectField>
 
+        <Stack sx={{ width: "23.6875rem" }}>
+          <LabelTopTextField
+            placeholder="Location"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            sx={{
+              width: "100%",
+              ".MuiOutlinedInput-root": {
+                height: "3.125rem",
+                "& fieldset": {
+                  border: "none",
+                },
+              },
+              ".MuiInputBase-root": {
+                input: {
+                  fontSize: "1.25rem",
+                  color: "var(--text-primary)",
+                },
+              },
+            }}
+          />
+        </Stack>
+
         <SelectField text={"Price"} sx={{ width: "10.625rem" }}>
           <MenuCard
             onClick={(e) => e.stopPropagation()}
@@ -77,7 +126,6 @@ const Filters = () => {
               top: "3.8rem",
               width: "35.5625rem",
               padding: "0.88rem 1.25rem 1.55rem 1.31rem ",
-              left: "0",
               cursor: "initial",
             }}
           >
@@ -165,33 +213,122 @@ const Filters = () => {
             ))}
           </MenuCard>
         </SelectField>
-      </Stack>
 
-      <Stack
-        direction="row"
-        sx={{
-          gap: "3rem",
-        }}
-      >
         <SelectField text={"Property Type"} sx={{ width: "15.9375rem" }}>
-          <MenuCard sx={{ top: "3.8rem", width: "100%", textAlign: "center" }}>
-            {baths.map((val, index) => (
-              <TextLg
-                text={val}
-                onClick={() => setBathsValue(val)}
+          <MenuCard
+            onClick={(e) => e.stopPropagation()}
+            sx={{
+              top: "3.8rem",
+              width: "49rem",
+              textAlign: "center",
+              left: 0,
+              cursor: "initial",
+            }}
+          >
+            <Box
+              sx={{
+                borderBottom: "1px solid var(--platinum)",
+                marginX: "1rem !important",
+              }}
+            >
+              <Tabs
+                value={tabValue}
+                onChange={handleChangeTabs}
                 sx={{
-                  color: "var(--text-black)",
-                  fontWeight: "400",
-                  padding: "0.5rem",
-                  borderBottom:
-                    index !== areas.length - 1
-                      ? "1px solid var(--platinum)"
-                      : "none",
+                  ".MuiTabs-flexContainer": {
+                    gap: "4rem",
+                  },
+
+                  button: {
+                    fontSize: "1.25rem",
+                    color: "var(--text-black)",
+                  },
+                  ".Mui-selected": {
+                    color: "var(--text-black)",
+                  },
                 }}
-              />
-            ))}
+                TabIndicatorProps={{
+                  sx: {
+                    backgroundColor: "var(--myrtle-green)",
+                    height: "0.25rem",
+                  },
+                }}
+              >
+                {propertyTypes.map((val, index) => (
+                  <Tab key={val.type} disableRipple label={val.type} />
+                ))}
+              </Tabs>
+            </Box>
+
+            {propertyTypes.map(
+              ({ index, items, type }) =>
+                tabValue === index && (
+                  <Stack
+                    key={index}
+                    direction={"row"}
+                    sx={{
+                      flexWrap: "wrap",
+                      gap: "1.62rem",
+                      padding: "3.32rem 1.38rem 1rem 1.38rem",
+                    }}
+                  >
+                    {items.map((val) => (
+                      <IconText
+                        onClick={() =>
+                          setPropertyTypeValue({ type, category: val.text })
+                        }
+                        text={val.text}
+                        icon={val.icon}
+                        iconWidth={30}
+                        iconHeight={30}
+                        sxRow={{
+                          cursor: "pointer",
+                          gap: "0.63rem",
+                          // border:
+                          //   propertyTypeValue.category === val.text
+                          //     ? "2px solid var(--text-primary)"
+                          //     : "1px solid var(--spanish-gray)",
+                          borderRadius: "0.9375rem",
+                          padding: "0.75rem 1.69rem",
+                          boxShadow:
+                            propertyTypeValue.category === val.text
+                              ? "0px 0px 0px 4px var(--text-primary) inset"
+                              : "0px 0px 0px 1px var(--spanish-gray) inset",
+                        }}
+                        sxText={{
+                          fontSize: "1.25rem",
+                          color: "var(--text-primary)",
+                        }}
+                      />
+                    ))}
+                  </Stack>
+                ),
+            )}
           </MenuCard>
         </SelectField>
+
+        <Stack sx={{ width: "16.125rem" }}>
+          <LabelTopTextField
+            placeholder="Keyword"
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            sx={{
+              width: "100%",
+              ".MuiOutlinedInput-root": {
+                height: "3.125rem",
+                "& fieldset": {
+                  border: "none",
+                },
+              },
+              ".MuiInputBase-root": {
+                input: {
+                  fontSize: "1.25rem",
+                  color: "var(--text-primary)",
+                },
+              },
+            }}
+          />
+        </Stack>
 
         <SelectField
           text={bathsValue ? `Baths (${bathsValue})` : "Baths"}
