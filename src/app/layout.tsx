@@ -6,10 +6,12 @@ import { Container, Stack } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
+import { cookies } from "next/headers";
 import * as React from "react";
 import "swiper/css";
 
 export default function RootLayout(props: { children: React.ReactNode }) {
+  const user = cookies().get("user");
   return (
     <html lang="en">
       <body>
@@ -17,7 +19,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
-            <ResponsiveAppBar />
+            <ResponsiveAppBar user={user} />
             <Stack sx={{ alignItems: "center" }}>
               <Container
                 maxWidth="xl"

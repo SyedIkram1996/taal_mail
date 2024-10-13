@@ -4,11 +4,19 @@ import {
   DiningIcon,
   ElectricityIcon,
   GasIcon,
+  HospitalIcon,
   KitchenIcon,
   LoungeIcon,
+  MaintenanceIcon,
+  MosqueIcon,
+  PetrolPumpIcon,
   Property1Image,
   Property2Image,
+  SchoolIcon,
+  SecurityIcon,
+  TvIcon,
   WaterIcon,
+  WifiIcon,
 } from "./images.routes";
 
 export const propertyImages = [Property1Image, Property2Image, BannerImage];
@@ -60,5 +68,43 @@ export const basicFeatures = [
   {
     title: "Balcony",
     icon: BalconyIcon,
+  },
+];
+
+export const facilities = [
+  {
+    title: "Wifi",
+    icon: WifiIcon,
+  },
+  {
+    title: "TV",
+    icon: TvIcon,
+  },
+  {
+    title: "Maintenance",
+    icon: MaintenanceIcon,
+  },
+  {
+    title: "Security",
+    icon: SecurityIcon,
+  },
+];
+
+export const nearbyPlaces = [
+  {
+    title: "School",
+    icon: SchoolIcon,
+  },
+  {
+    title: "Mosque",
+    icon: MosqueIcon,
+  },
+  {
+    title: "Hospital",
+    icon: HospitalIcon,
+  },
+  {
+    title: "Petrol pump",
+    icon: PetrolPumpIcon,
   },
 ];

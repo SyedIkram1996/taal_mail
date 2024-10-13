@@ -1,27 +1,69 @@
-import FilledButton from "@/components/common/Button/FilledButton";
 import ShadowCard from "@/components/common/Card/ShadowCard";
 import IconText from "@/components/common/IconText";
 import TextLg from "@/components/common/Text/TextLg";
 import TextMd from "@/components/common/Text/TextMd";
 import TextXl from "@/components/common/Text/TextXl";
 import {
+  AllotmentLetterImage,
   AreaIcon,
   BathroomIcon,
   BedroomIcon,
-  BidIcon,
   HouseIcon,
 } from "@/constants/images.routes";
-import { basicFeatures, propertyStatus } from "@/constants/property";
+import {
+  basicFeatures,
+  facilities,
+  nearbyPlaces,
+  propertyStatus,
+} from "@/constants/property";
 import { IBuyRentProperty } from "@/interfaces/IBuyRent";
 import { Grid2, Stack } from "@mui/material";
+import { cookies } from "next/headers";
 import Image from "next/image";
+import BidButton from "./BidButton";
 import PropertiesImages from "./PropertiesImages";
+
+interface FeaturesFacilitiesNearbyProps {
+  heading: string;
+  array: { title: string; icon: string }[];
+}
+
+const FeaturesFacilitiesNearby = ({
+  heading,
+  array,
+}: FeaturesFacilitiesNearbyProps) => {
+  return (
+    <ShadowCard sx={{ padding: "2.81rem 3.94rem", mt: "6.25rem !important" }}>
+      <TextXl text={heading} sx={{ fontSize: "2rem", alignSelf: "start" }} />
+
+      <Grid2 container spacing={8} sx={{ pt: "3.13rem", pl: "2rem" }}>
+        {array.map(({ title, icon }, index) => (
+          <Grid2 size={2} key={title}>
+            <Stack sx={{ gap: "0.63rem", alignItems: "center" }}>
+              <Image priority src={icon} alt={"icon"} width={90} height={60} />
+              <TextMd
+                text={title}
+                sx={{
+                  fontWeight: "400",
+                  color: "var(--text-black)",
+                  textAlign: "center",
+                }}
+              />
+            </Stack>
+          </Grid2>
+        ))}
+      </Grid2>
+    </ShadowCard>
+  );
+};
 
 interface Props {
   data: IBuyRentProperty;
 }
 
 const PropertyDetails = ({ data }: Props) => {
+  const user = cookies().get("user");
+
   const descIcon = [
     {
       icon: BedroomIcon,
@@ -47,7 +89,7 @@ const PropertyDetails = ({ data }: Props) => {
   return (
     <>
       <PropertiesImages />
-      <Stack sx={{ padding: "2rem" }}>
+      <Stack sx={{ padding: "2rem", paddingBottom: "4.69rem" }}>
         <Grid2 container>
           <Grid2 size={10}>
             <Stack sx={{ gap: "2rem" }}>
@@ -83,19 +125,7 @@ const PropertyDetails = ({ data }: Props) => {
                   color: "var(--text-black)",
                 }}
               />
-              <FilledButton
-                text="Bid"
-                startIcon={
-                  <Image
-                    priority
-                    src={BidIcon}
-                    alt={"BidIcon"}
-                    width={30}
-                    height={30}
-                  />
-                }
-                sx={{ gap: "0.62rem", width: "11.875rem", height: "3.125rem" }}
-              />
+              <BidButton user={user} />
             </Stack>
           </Grid2>
         </Grid2>
@@ -107,7 +137,10 @@ const PropertyDetails = ({ data }: Props) => {
             {propertyStatus.map(({ title, value }, index) => (
               <Grid2 key={title} size={6}>
                 <Stack direction={"row"} sx={{ gap: "1.87rem" }}>
-                  <TextLg text={title} />
+                  <TextLg
+                    text={title}
+                    sx={{ color: "var(--text-secondary)" }}
+                  />
                   <TextLg
                     text={value}
                     sx={{ fontWeight: 400, color: "var(--text-black)" }}
@@ -118,36 +151,32 @@ const PropertyDetails = ({ data }: Props) => {
           </Grid2>
         </ShadowCard>
 
-        <ShadowCard
-          sx={{ padding: "2.81rem 3.94rem", mt: "6.25rem !important" }}
-        >
-          <Stack sx={{ alignItems: "center" }}>
-            <TextXl
-              text="Basic Features"
-              sx={{ fontSize: "2rem", alignSelf: "start" }}
-            />
+        <FeaturesFacilitiesNearby
+          heading="Basic Features"
+          array={basicFeatures}
+        />
 
-            <Grid2 container spacing={8} sx={{ pt: "3.13rem" }}>
-              {basicFeatures.map(({ title, icon }, index) => (
-                <Grid2 size={2} key={title}>
-                  <Stack sx={{ gap: "0.63rem" }}>
-                    <Image
-                      priority
-                      src={icon}
-                      alt={"icon"}
-                      width={90}
-                      height={60}
-                    />
-                    <TextMd
-                      text={title}
-                      sx={{ fontWeight: "400", color: "var(--text-black)" }}
-                    />
-                  </Stack>
-                </Grid2>
-              ))}
-            </Grid2>
-          </Stack>
-        </ShadowCard>
+        <FeaturesFacilitiesNearby heading="Facilities" array={facilities} />
+
+        <FeaturesFacilitiesNearby
+          heading="Nearby Places"
+          array={nearbyPlaces}
+        />
+
+        <Stack sx={{ img: { alignSelf: "center" } }}>
+          <TextXl
+            text={"Allotment Letter"}
+            sx={{ fontSize: "2rem", py: "4.69rem" }}
+          />
+
+          <Image
+            priority
+            src={AllotmentLetterImage}
+            alt={"allotment letter"}
+            width={990}
+            height={1276}
+          />
+        </Stack>
       </Stack>
     </>
   );

@@ -13,5 +13,5 @@ export const LOGIN = "/login";
 export const PROFILE = "/profile";
 export const MY_BIDS = `${PROFILE}/my-bids`;
 export const MY_INFO = `${PROFILE}/my-info`;
-export const MY_PROPERTY = `${PROFILE}/my-property`;
+export const MY_PROPERTY = `${PROFILE}/my-properties`;
 export const MY_OFFERS = `${PROFILE}/my-offers`;

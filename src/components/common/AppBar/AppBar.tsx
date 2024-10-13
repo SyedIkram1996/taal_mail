@@ -1,5 +1,6 @@
 "use client";
 
+import { logoutAction } from "@/app/actions";
 import { LogoIcon } from "@/constants/images.routes";
 import { navbarPages } from "@/constants/navbar";
 import {
@@ -16,6 +17,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Image from "next/image";
 import NextLink from "next/link";
+import { usePathname } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
 import TextMd from "../../common/Text/TextMd";
 import MUILink from "../MUILink/MUILink";
@@ -62,7 +64,11 @@ const CustomMenu = ({ menu, children, sx }: MenuProps) => {
   );
 };
 
-function ResponsiveAppBar() {
+interface Props {
+  user: any;
+}
+function ResponsiveAppBar({ user }: Props) {
+  const pathname = usePathname();
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openMenu, setOpenMenu] = useState("");
 
@@ -128,6 +134,10 @@ function ResponsiveAppBar() {
   const Logo = () => {
     return <Image src={LogoIcon} priority alt="Logo" width={257} height={85} />;
   };
+
+  if (pathname === LOGIN) {
+    return <></>;
+  }
 
   return (
     <AppBar
@@ -236,31 +246,39 @@ function ResponsiveAppBar() {
 
         <ClickAwayListener onClickAway={() => handleProfileMenu(false)}>
           <Box sx={{ position: "relative" }}>
-            {/* <TextMd
-              onClick={() => handleProfileMenu(!openProfileMenu)}
-              text={"My Profile"}
-              sx={{
-                color: "var(--text-secondary)",
-                cursor: "pointer",
-                paddingY: "1rem",
-              }}
-            /> */}
-            <MUILink href={LOGIN}>
+            {user ? (
               <TextMd
-                text={"Login"}
+                onClick={() => handleProfileMenu(!openProfileMenu)}
+                text={"My Profile"}
                 sx={{
                   color: "var(--text-secondary)",
                   cursor: "pointer",
                   paddingY: "1rem",
                 }}
               />
-            </MUILink>
+            ) : (
+              <MUILink href={LOGIN}>
+                <TextMd
+                  text={"Login"}
+                  sx={{
+                    color: "var(--text-secondary)",
+                    cursor: "pointer",
+                    paddingY: "1rem",
+                  }}
+                />
+              </MUILink>
+            )}
 
             {openProfileMenu && (
               <CustomMenu menu={profilePages}>
                 <TextSm
+                  onClick={() => {
+                    logoutAction();
+                    handleProfileMenu(false);
+                  }}
                   text={"Logout"}
                   sx={{
+                    cursor: "pointer",
                     color: "var(--text-secondary)",
                     fontWeight: "600",
                   }}

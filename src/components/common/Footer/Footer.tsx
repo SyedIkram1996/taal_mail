@@ -3,14 +3,21 @@
 import { followUs } from "@/constants/footer";
 import { Logo2Icon } from "@/constants/images.routes";
 import { navbarPages } from "@/constants/navbar";
+import { LOGIN } from "@/constants/page.routes";
 import { montserrat } from "@/theme";
 import { Stack } from "@mui/material";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import MUILink from "../MUILink/MUILink";
 import TextSm from "../Text/TextSm";
 import TextXs from "../Text/TextXs";
 
 const Footer = () => {
+  const pathname = usePathname();
+
+  if (pathname === LOGIN) {
+    return <></>;
+  }
   return (
     <Stack
       direction={"row"}
