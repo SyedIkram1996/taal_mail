@@ -39,6 +39,7 @@ const PropertyCard = ({
         width: "18.5rem",
         height: "26.8125rem",
         overflow: "hidden",
+        cursor: "pointer",
       }}
     >
       <Box sx={{ position: "relative", width: "100%", height: "15.59231rem" }}>

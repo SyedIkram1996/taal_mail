@@ -7,6 +7,7 @@ export const RENT_APARTMENT = "/rent/apartment";
 export const RENT_HOUSE = "/rent/house";
 export const CONTACT_US = "/contact-us";
 export const TERMS_AND_CONDITIONS = "/terms-and-conditions";
+export const PROPERTY = "/property";
 
 export const LOGIN = "/login";
 export const PROFILE = "/profile";

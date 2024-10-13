@@ -43,20 +43,20 @@ const FilledButton = ({
       disabled={disabled}
       type={type}
       variant={"contained"}
-      // startIcon={
-      //   loading ? (
-      //     <Image
-      //       className={"rotating"}
-      //       priority
-      //       src={secondary ? LoadingDarkIcon : LoadingIcon}
-      //       alt={"icon"}
-      //       width={21}
-      //       height={20}
-      //     />
-      //   ) : (
-      //     startIcon
-      //   )
-      // }
+      startIcon={
+        // loading ? (
+        //   <Image
+        //     className={"rotating"}
+        //     priority
+        //     src={secondary ? LoadingDarkIcon : LoadingIcon}
+        //     alt={"icon"}
+        //     width={21}
+        //     height={20}
+        //   />
+        // ) : (
+        startIcon
+        // )
+      }
       endIcon={endIcon}
       onClick={onClick}
       sx={{

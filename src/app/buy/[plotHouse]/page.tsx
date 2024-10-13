@@ -1,4 +1,6 @@
+import BuyRentProperties from "@/components/ui/Buy/BuyRentProperties";
 import Filters from "@/components/ui/Buy/Filters";
+import { buyRentProperties } from "@/constants/buyRent";
 import { BUY_PLOT } from "@/constants/page.routes";
 import { EPropertyType } from "@/enums/enums";
 import { Stack } from "@mui/material";
@@ -18,6 +20,9 @@ export default function Buy({ params, searchParams }: Params) {
   } else {
     redirect(BUY_PLOT);
   }
+
+  const data = buyRentProperties;
+
   return (
     <Stack
       sx={{
@@ -26,6 +31,7 @@ export default function Buy({ params, searchParams }: Params) {
       }}
     >
       <Filters />
+      <BuyRentProperties data={data} />
     </Stack>
   );
 }

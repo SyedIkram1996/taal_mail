@@ -108,11 +108,15 @@ const Filters = () => {
                 "& fieldset": {
                   border: "none",
                 },
+                "input::placeholder": {
+                  fontSize: "1.5rem",
+                  color: "var(--text-black)",
+                },
               },
               ".MuiInputBase-root": {
                 input: {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
+                  fontSize: "1.5rem",
+                  color: "var(--text-black)",
                 },
               },
             }}
@@ -319,11 +323,15 @@ const Filters = () => {
                 "& fieldset": {
                   border: "none",
                 },
+                "input::placeholder": {
+                  fontSize: "1.5rem",
+                  color: "var(--text-black)",
+                },
               },
               ".MuiInputBase-root": {
                 input: {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
+                  fontSize: "1.5rem",
+                  color: "var(--text-black)",
                 },
               },
             }}
