@@ -24,8 +24,7 @@ const CustomTextField = styled(TextField)({
     backgroundColor: "white",
     borderRadius: "0.9375rem",
     "& fieldset": {
-      border: "none",
-      boxShadow: "0px 1px 2px 0px rgba(16, 24, 40, 0.05)",
+      border: "1px solid var(--spanish-gray)",
       borderRadius: "0.9375rem",
     },
 
@@ -122,7 +121,6 @@ const LabelTopTextField = ({
         error={error}
         helperText={helperText}
         sx={{ ...sx }}
-        inputProps={{ maxLength: maxLength, step: "any" }}
         InputProps={{
           endAdornment: endIcon,
           startAdornment: startIcon,

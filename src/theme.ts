@@ -21,6 +21,9 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: openSans.style.fontFamily,
+    button: {
+      textTransform: "none",
+    },
   },
   components: {
     MuiAlert: {

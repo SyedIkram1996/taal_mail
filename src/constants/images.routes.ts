@@ -19,4 +19,5 @@ export const InstagramIcon = `${basePublicUrl}instagram.svg`;
 export const TwitterIcon = `${basePublicUrl}twitter.svg`;
 export const FacebookIcon = `${basePublicUrl}facebook.svg`;
 export const SearchBlueBgIcon = `${basePublicUrl}searchBlueBg.svg`;
+export const ChevronDownGreyIcon = `${basePublicUrl}chevronDownGrey.svg`;
 export const BannerImage = `${basePublicUrl}banner.png`;

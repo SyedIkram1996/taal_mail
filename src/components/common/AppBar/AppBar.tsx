@@ -41,7 +41,6 @@ const CustomMenu = ({ menu, children, sx }: MenuProps) => {
         backgroundColor: "white",
         gap: "0.625rem",
         padding: "0.625rem",
-        pointerEvents: "none",
         zIndex: 1,
         ...sx,
       }}
