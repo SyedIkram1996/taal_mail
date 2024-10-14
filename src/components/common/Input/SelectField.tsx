@@ -8,8 +8,16 @@ interface Props {
   text: string;
   children: ReactNode;
   sx?: SxProps;
+  iconWidth?: number;
+  iconHeight?: number;
 }
-const SelectField = ({ text, children, sx }: Props) => {
+const SelectField = ({
+  text,
+  children,
+  sx,
+  iconWidth = 40,
+  iconHeight = 40,
+}: Props) => {
   const [open, setOpen] = useState(false);
   return (
     <ClickAwayListener onClickAway={() => setOpen(false)}>
@@ -40,8 +48,8 @@ const SelectField = ({ text, children, sx }: Props) => {
           className="chevron"
           src={ChevronDownGreyIcon}
           alt="Chevron down"
-          width={40}
-          height={40}
+          width={iconWidth}
+          height={iconHeight}
         />
 
         {open && <Stack onClick={() => setOpen(false)}>{children}</Stack>}

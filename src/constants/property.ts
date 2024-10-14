@@ -108,3 +108,25 @@ export const nearbyPlaces = [
     icon: PetrolPumpIcon,
   },
 ];
+
+export const dues = [
+  {
+    title: "All dues cleared",
+    value: "cleared",
+  },
+  {
+    title: "Not cleared",
+    value: "notCleared",
+  },
+];
+
+export const status = [
+  {
+    title: "Completion",
+    value: "completion",
+  },
+  {
+    title: "Possession",
+    value: "possession",
+  },
+];

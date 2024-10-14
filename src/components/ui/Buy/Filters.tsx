@@ -248,7 +248,7 @@ const Filters = () => {
                     color: "var(--text-black)",
                   },
                   ".Mui-selected": {
-                    color: "var(--text-black)",
+                    color: "var(--text-black)  !important",
                   },
                 }}
                 TabIndicatorProps={{
