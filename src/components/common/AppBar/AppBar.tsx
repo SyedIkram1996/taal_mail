@@ -25,14 +25,16 @@ import TextSm from "../Text/TextSm";
 
 interface MenuProps {
   children?: ReactNode;
+  user: any;
   menu: {
     title: string;
     link: string;
+    authReq?: boolean;
   }[];
   sx?: SxProps;
 }
 
-const CustomMenu = ({ menu, children, sx }: MenuProps) => {
+const CustomMenu = ({ user, menu, children, sx }: MenuProps) => {
   return (
     <Stack
       sx={{
@@ -48,8 +50,11 @@ const CustomMenu = ({ menu, children, sx }: MenuProps) => {
       }}
     >
       {" "}
-      {menu.map(({ title, link }) => (
-        <MUILink key={title} href={link}>
+      {menu.map(({ title, link, authReq }) => (
+        <MUILink
+          key={title}
+          href={authReq && !user ? `${LOGIN}?redirect=${link}` : link}
+        >
           <TextSm
             text={title}
             sx={{
@@ -224,7 +229,7 @@ function ResponsiveAppBar({ user }: Props) {
                     padding: "1rem",
                     cursor: "pointer",
                   }}
-                  onClick={() => setOpenMenu(title)}
+                  onClick={() => setOpenMenu(openMenu === title ? "" : title)}
                 >
                   <MUILink href={link}>
                     <TextMd
@@ -236,7 +241,11 @@ function ResponsiveAppBar({ user }: Props) {
                   </MUILink>
 
                   {openMenu === title && (
-                    <CustomMenu menu={menu} sx={{ width: "12rem" }} />
+                    <CustomMenu
+                      menu={menu}
+                      sx={{ width: "12rem" }}
+                      user={user}
+                    />
                   )}
                 </Box>
               ))}
@@ -270,7 +279,7 @@ function ResponsiveAppBar({ user }: Props) {
             )}
 
             {openProfileMenu && (
-              <CustomMenu menu={profilePages}>
+              <CustomMenu menu={profilePages} user={user}>
                 <TextSm
                   onClick={() => {
                     logoutAction();

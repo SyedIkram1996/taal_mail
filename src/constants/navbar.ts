@@ -14,8 +14,8 @@ export const navbarPages = [
     title: "Sell",
     link: "",
     menu: [
-      { title: "Sell a Plot", link: SELL_PLOT },
-      { title: "Sell a House", link: SELL_HOUSE },
+      { title: "Sell a Plot", link: SELL_PLOT, authReq: true },
+      { title: "Sell a House", link: SELL_HOUSE, authReq: true },
     ],
   },
   {

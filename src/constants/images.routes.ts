@@ -56,6 +56,7 @@ export const HospitalIcon = `${basePublicUrl}hospital.svg`;
 export const PetrolPumpIcon = `${basePublicUrl}petrolPump.svg`;
 export const CloseIcon = `${basePublicUrl}close.svg`;
 export const GoogleColorIcon = `${basePublicUrl}googleColor.svg`;
+export const AddPropertyIcon = `${basePublicUrl}addProperty.svg`;
 
 export const BannerImage = `${basePublicUrl}banner.png`;
 export const Property1Image = `${basePublicUrl}property1.png`;

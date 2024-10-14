@@ -8,11 +8,15 @@ import TextXs from "@/components/common/Text/TextXs";
 import { GoogleColorIcon } from "@/constants/images.routes";
 import { Box, Stack, Typography } from "@mui/material";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
+  const searchParams = useSearchParams();
+  const redirectLink = searchParams.get("redirect");
+
   return (
     <Stack
       sx={{
@@ -23,11 +27,17 @@ const LoginForm = () => {
         sx={{
           backgroundColor: "white",
           borderRadius: "1.875rem",
-          width: "80%",
-          margin: "6rem !important",
+          width: {
+            xs: "90%",
+            md: "25rem",
+            lg: "35.125rem",
+            xl: "38.125rem",
+          },
+          margin: "3rem",
           boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
           height: "51.4375rem",
-          padding: "3rem 4rem",
+          padding: { xs: "1rem", md: "3rem 4rem" },
+          boxSizing: "border-box",
         }}
       >
         <TextXl
@@ -92,7 +102,7 @@ const LoginForm = () => {
 
         <FilledButton
           text="Login"
-          onClick={() => loginAction()}
+          onClick={() => loginAction({ redirectLink })}
           sx={{
             height: "3.0625rem",
             fontSize: "1rem",

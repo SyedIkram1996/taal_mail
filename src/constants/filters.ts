@@ -14,8 +14,10 @@ import {
   IndustrialPlotIcon,
   LowerPortionIcon,
   OfficeIcon,
+  RentPropertyIcon,
   ResidentialPlotIcon,
   RoomIcon,
+  SellPropertyIcon,
   ShopIcon,
   UpperPortionIcon,
 } from "./images.routes";
@@ -28,6 +30,19 @@ export const rentBuy = [
   {
     title: "Buy",
     value: "buy",
+  },
+];
+
+export const rentSell = [
+  {
+    title: "Sell",
+    value: "sell",
+    icon: SellPropertyIcon,
+  },
+  {
+    title: "Rent",
+    value: "rent",
+    icon: RentPropertyIcon,
   },
 ];
 

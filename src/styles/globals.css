@@ -1,6 +1,9 @@
 * {
-  margin: 0;
   scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
 }
 
 :root {

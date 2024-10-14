@@ -288,10 +288,6 @@ const Filters = () => {
                         sxRow={{
                           cursor: "pointer",
                           gap: "0.63rem",
-                          // border:
-                          //   propertyTypeValue.category === val.text
-                          //     ? "2px solid var(--text-primary)"
-                          //     : "1px solid var(--spanish-gray)",
                           borderRadius: "0.9375rem",
                           padding: "0.75rem 1.69rem",
                           boxShadow:
