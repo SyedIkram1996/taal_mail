@@ -29,7 +29,8 @@ export default function SellPage({ params, searchParams }: Params) {
   return (
     <Stack
       sx={{
-        minHeight: "100vh",
+        alignItems: "center",
+        mt: "6.5rem",
       }}
     >
       <AddPropertyBanner />

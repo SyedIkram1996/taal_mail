@@ -75,6 +75,7 @@ const FeaturedListing = () => {
             >
               <MUILink href={`${PROPERTY}/${val.id}`}>
                 <PropertyCard
+                  id={val.id}
                   title={val.title}
                   bedRooms={val.bedRooms}
                   bathRooms={val.bathRooms}

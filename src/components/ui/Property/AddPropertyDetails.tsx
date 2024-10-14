@@ -77,7 +77,7 @@ const AddPropertyDetails = () => {
   };
 
   return (
-    <Stack sx={{ pt: "2.38rem", px: "8.81rem" }}>
+    <Stack sx={{ pt: "2.38rem", px: "8.81rem", maxWidth: "xl" }}>
       <TitleDesc
         title="Purpose:"
         desc="What do you do to with your property?"

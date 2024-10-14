@@ -22,6 +22,7 @@ const BuyRentProperties = ({ data }: Props) => {
           <Stack sx={{ alignItems: "center" }}>
             <MUILink href={`${PROPERTY}/${val.id}`}>
               <PropertyCard
+                id={val.id}
                 title={val.title}
                 bedRooms={val.bedRooms}
                 bathRooms={val.bathRooms}

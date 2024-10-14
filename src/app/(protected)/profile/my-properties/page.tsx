@@ -1,4 +1,5 @@
-import TextXl from "@/components/common/Text/TextXl";
+import MyProperties from "@/components/ui/Profile/MyProperties/MyProperties";
+import { buyRentProperties } from "@/constants/buyRent";
 import { LOGIN } from "@/constants/page.routes";
 import { Stack } from "@mui/material";
 import { cookies } from "next/headers";
@@ -10,6 +11,8 @@ export default function MyPropertiesPage() {
     redirect(LOGIN);
   }
 
+  const data = buyRentProperties;
+
   return (
     <Stack
       sx={{
@@ -17,7 +20,7 @@ export default function MyPropertiesPage() {
         minHeight: "100vh",
       }}
     >
-      <TextXl text="MY PROPERTIES" />
+      <MyProperties data={data} />
     </Stack>
   );
 }

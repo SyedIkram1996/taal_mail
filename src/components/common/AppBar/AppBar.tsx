@@ -146,7 +146,7 @@ function ResponsiveAppBar({ user }: Props) {
 
   return (
     <AppBar
-      position="static"
+      position="absolute"
       elevation={0}
       sx={{
         backgroundColor: "white",

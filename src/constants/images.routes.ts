@@ -63,6 +63,12 @@ export const CloseGreyIcon = `${basePublicUrl}closeGrey.svg`;
 export const PlusGreyIcon = `${basePublicUrl}plusGrey.svg`;
 export const CloseRoundedIcon = `${basePublicUrl}closeRounded.svg`;
 export const UploadImageIcon = `${basePublicUrl}uploadImage.svg`;
+export const InfoCircleIcon = `${basePublicUrl}infoCircle.svg`;
+export const PropertyManagerIcon = `${basePublicUrl}propertyManager.svg`;
+export const BidBlueIcon = `${basePublicUrl}bidBlue.svg`;
+export const OffersIcon = `${basePublicUrl}offers.svg`;
+export const PencilBlueIcon = `${basePublicUrl}pencilBlue.svg`;
+export const TrashRedIcon = `${basePublicUrl}trashRed.svg`;
 
 export const BannerImage = `${basePublicUrl}banner.png`;
 export const Property1Image = `${basePublicUrl}property1.png`;
