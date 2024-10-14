@@ -7,7 +7,13 @@ import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import SelectField from "@/components/common/Input/SelectField";
 import TextLg from "@/components/common/Text/TextLg";
 import TextMd from "@/components/common/Text/TextMd";
-import { areas, baths, propertyTypes, rentBuy } from "@/constants/filters";
+import {
+  areas,
+  baths,
+  beds,
+  propertyTypes,
+  rentBuy,
+} from "@/constants/filters";
 import { Box, Stack, Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 
@@ -362,7 +368,7 @@ const Filters = () => {
           sx={{ minWidth: "10.625rem" }}
         >
           <MenuCard sx={{ top: "3.8rem", width: "100%", textAlign: "center" }}>
-            {baths.map((val, index) => (
+            {beds.map((val, index) => (
               <TextLg
                 text={val}
                 onClick={() => setBedsValue(val)}
