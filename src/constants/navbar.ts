@@ -2,6 +2,7 @@ import {
   BUY_HOUSE,
   BUY_PLOT,
   CONTACT_US,
+  INVESTMENT,
   RENT_APARTMENT,
   RENT_HOUSE,
   SELL_HOUSE,
@@ -36,8 +37,8 @@ export const navbarPages = [
   },
   {
     title: "Invest",
-    link: "",
-    menu: [{ title: "Invest in a Project", link: RENT_APARTMENT }],
+    link: INVESTMENT,
+    menu: [],
   },
   {
     title: "About Us",

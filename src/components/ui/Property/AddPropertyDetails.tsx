@@ -346,7 +346,7 @@ const AddPropertyDetails = () => {
         </Stack>
 
         <Stack>
-          <TitleDesc title="Area:" desc="Wat is the size of your property?" />
+          <TitleDesc title="Area:" desc="What is the size of your property?" />
           <LabelTopTextField
             placeholder="Area"
             endIcon={

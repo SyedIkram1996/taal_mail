@@ -1,5 +1,5 @@
-import FeedbackForm from "@/components/ui/ContactUs/FeedbackForm";
 import Banner from "@/components/ui/Home/Banner";
+import TermsAndConditions from "@/components/ui/TermsAndConditions/TermsAndConditions";
 import { Stack } from "@mui/material";
 
 export default function ContactUsPage() {
@@ -7,8 +7,8 @@ export default function ContactUsPage() {
     <Stack
       sx={{ alignItems: "center", overflow: "hidden", position: "relative" }}
     >
-      <Banner text="Contact US" sx={{ top: "16.5rem" }} />
-      <FeedbackForm />
+      <Banner text="Terms and Conditions" sx={{ top: "16.5rem" }} />
+      <TermsAndConditions />
     </Stack>
   );
 }
