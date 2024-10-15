@@ -12,6 +12,10 @@ export default function Home() {
         alignItems: "center",
         overflow: "hidden",
         position: "relative",
+        ".bannerImage": {
+          height: "100%",
+          width: { xs: "720px", md: "1440px" },
+        },
       }}
     >
       <Banner text="THE MOST TRUSTED REAL ESTATE MANAGEMENT COMPANY OF GENUINE CUSTOMERS">

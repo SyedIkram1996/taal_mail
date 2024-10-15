@@ -15,9 +15,20 @@ const HomeCard = ({ image, title, desc, index, sxRow }: Props) => {
   return (
     <Stack
       direction={"row"}
-      sx={{ gap: "15.69rem", alignItems: "center", ...sxRow }}
+      sx={{
+        gap: "15.69rem",
+        alignItems: "center",
+        ...sxRow,
+        ".featureImage": { display: { xs: "none", md: "initial" } },
+      }}
     >
-      <Image src={image} alt="Home card" width={350} height={350} />
+      <Image
+        className="featureImage"
+        src={image}
+        alt="Home card"
+        width={350}
+        height={350}
+      />
       <Stack
         sx={{
           justifyContent: "center",

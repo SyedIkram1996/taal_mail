@@ -15,9 +15,12 @@ const Features = () => {
             ".lineImage": {
               position: "absolute",
               bottom: "-20rem",
-              right: index % 2 == 0 ? "15rem" : "auto",
-              left: index % 2 == 1 ? "15rem" : "auto",
-              transform: index % 2 == 0 ? "initial" : "rotate(90deg)",
+              right: index % 2 == 0 ? { xs: "-18%", md: "15rem" } : "auto",
+              left: index % 2 == 1 ? { xs: "-15%", md: "15rem" } : "auto",
+              transform:
+                index % 2 == 0
+                  ? { xs: "rotate(-46deg)", md: "initial" }
+                  : { xs: "rotate(-46deg)", md: "rotate(90deg)" },
             },
           }}
         >

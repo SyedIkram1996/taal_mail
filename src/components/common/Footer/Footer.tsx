@@ -20,18 +20,18 @@ const Footer = () => {
   }
   return (
     <Stack
-      direction={"row"}
+      direction={{ xs: "column", md: "row" }}
       sx={{
         width: "100%",
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "var(--light-blue)",
-        padding: "3.88rem 4.31rem",
+        padding: { xs: "3rem 1rem", md: "3.88rem 4.31rem" },
         gap: "1.69rem",
       }}
     >
       <Image src={Logo2Icon} priority alt="Logo2" width={245} height={118} />
-      <Stack direction={"row"} sx={{ gap: "1.5rem" }}>
+      <Stack direction={"row"} sx={{ gap: "1.5rem", flexWrap: "wrap" }}>
         {navbarPages.map(({ title, menu }) => (
           <Stack
             key={title}
