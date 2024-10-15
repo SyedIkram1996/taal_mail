@@ -1,4 +1,5 @@
-import TextXl from "@/components/common/Text/TextXl";
+import MyOffers from "@/components/ui/Profile/MyOffers/MyOffers";
+import { buyRentProperties } from "@/constants/buyRent";
 import { LOGIN } from "@/constants/page.routes";
 import { Stack } from "@mui/material";
 import { cookies } from "next/headers";
@@ -10,6 +11,8 @@ export default function MyOffersPage() {
     redirect(LOGIN);
   }
 
+  const data = buyRentProperties;
+
   return (
     <Stack
       sx={{
@@ -17,7 +20,7 @@ export default function MyOffersPage() {
         minHeight: "100vh",
       }}
     >
-      <TextXl text="MY OFFERS" />
+      <MyOffers data={data} />
     </Stack>
   );
 }

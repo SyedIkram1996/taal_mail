@@ -1,4 +1,5 @@
-import TextXl from "@/components/common/Text/TextXl";
+import MyBids from "@/components/ui/Profile/MyBids/MyBids";
+import { buyRentProperties } from "@/constants/buyRent";
 import { LOGIN } from "@/constants/page.routes";
 import { Stack } from "@mui/material";
 import { cookies } from "next/headers";
@@ -10,6 +11,8 @@ export default function MyBidsPage() {
     redirect(LOGIN);
   }
 
+  const data = buyRentProperties;
+
   return (
     <Stack
       sx={{
@@ -17,7 +20,7 @@ export default function MyBidsPage() {
         minHeight: "100vh",
       }}
     >
-      <TextXl text="MY BIDS" />
+      <MyBids data={data} />
     </Stack>
   );
 }
