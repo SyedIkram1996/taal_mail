@@ -1,12 +1,10 @@
 "use client";
 
-import MUILink from "@/components/common/MUILink/MUILink";
-import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
 import { propertyTypes } from "@/constants/filters";
-import { PROPERTY } from "@/constants/page.routes";
 import { IBuyRentProperty } from "@/interfaces/IBuyRent";
 import { Box, Grid2, Stack, Tab, Tabs } from "@mui/material";
 import { useState } from "react";
+import MyProperty from "./MyProperty";
 
 interface Props {
   data: IBuyRentProperty[];
@@ -66,20 +64,7 @@ const MyProperties = ({ data }: Props) => {
       >
         {data.map((val, index) => (
           <Grid2 size={{ xs: 12, md: 6, lg: 4 }} key={index}>
-            <Stack sx={{ alignItems: "center" }}>
-              <MUILink href={`${PROPERTY}/${val.id}`}>
-                <PropertyCard
-                  id={val.id}
-                  title={val.title}
-                  bedRooms={val.bedRooms}
-                  bathRooms={val.bathRooms}
-                  area={val.area}
-                  type={val.type}
-                  location={val.location}
-                  showActions
-                />
-              </MUILink>
-            </Stack>
+            <MyProperty val={val} />
           </Grid2>
         ))}
       </Grid2>

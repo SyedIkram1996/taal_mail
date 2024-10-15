@@ -69,6 +69,7 @@ export const BidBlueIcon = `${basePublicUrl}bidBlue.svg`;
 export const OffersIcon = `${basePublicUrl}offers.svg`;
 export const PencilBlueIcon = `${basePublicUrl}pencilBlue.svg`;
 export const TrashRedIcon = `${basePublicUrl}trashRed.svg`;
+export const ProfileIcon = `${basePublicUrl}profile.svg`;
 
 export const BannerImage = `${basePublicUrl}banner.png`;
 export const Property1Image = `${basePublicUrl}property1.png`;

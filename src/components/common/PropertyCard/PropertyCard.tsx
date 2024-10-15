@@ -6,13 +6,10 @@ import {
   BuyIcon,
   HouseIcon,
   LocationIcon,
-  PencilBlueIcon,
-  TrashRedIcon,
 } from "@/constants/images.routes";
-import { SELL_PLOT } from "@/constants/page.routes";
 import { Box, Stack } from "@mui/material";
 import Image from "next/image";
-import Link from "next/link";
+import { ReactNode } from "react";
 import IconText from "../IconText";
 import TextMd from "../Text/TextMd";
 
@@ -24,7 +21,7 @@ interface Props {
   area: string;
   type: string;
   location: string;
-  showActions?: boolean;
+  children?: ReactNode;
 }
 
 const PropertyCard = ({
@@ -35,7 +32,7 @@ const PropertyCard = ({
   area,
   type,
   location,
-  showActions,
+  children,
 }: Props) => {
   return (
     <Stack
@@ -105,54 +102,7 @@ const PropertyCard = ({
         />
       </Stack>
 
-      {showActions && (
-        <Stack
-          direction={"row"}
-          sx={{
-            alignItems: "center",
-            justifyContent: "center",
-            mb: "1.12rem",
-            gap: "2.5rem",
-          }}
-        >
-          <Stack
-            href={`${SELL_PLOT}/${id}`}
-            component={Link}
-            sx={{
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: "0.9375rem",
-              border: "1px solid var(--spanish-gray)",
-              backgroundColor: "white",
-              boxShadow: "2px 4px 6px 0px rgba(0, 0, 0, 0.25)",
-              padding: "0.75rem",
-              width: "fit-content",
-            }}
-          >
-            <Image
-              src={PencilBlueIcon}
-              alt="pencilIcon"
-              width={30}
-              height={30}
-            />
-          </Stack>
-
-          <Stack
-            sx={{
-              justifyContent: "center",
-              alignItems: "center",
-              borderRadius: "0.9375rem",
-              border: "1px solid var(--spanish-gray)",
-              backgroundColor: "white",
-              boxShadow: "2px 4px 6px 0px rgba(0, 0, 0, 0.25)",
-              padding: "0.75rem",
-              width: "fit-content",
-            }}
-          >
-            <Image src={TrashRedIcon} alt="pencilIcon" width={30} height={30} />
-          </Stack>
-        </Stack>
-      )}
+      {children}
     </Stack>
   );
 };

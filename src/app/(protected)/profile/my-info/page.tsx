@@ -1,4 +1,4 @@
-import TextXl from "@/components/common/Text/TextXl";
+import MyInfo from "@/components/ui/Profile/MyInfo/MyInfo";
 import { LOGIN } from "@/constants/page.routes";
 import { Stack } from "@mui/material";
 import { cookies } from "next/headers";
@@ -17,7 +17,7 @@ export default function MyInfoPage() {
         minHeight: "100vh",
       }}
     >
-      <TextXl text="MY INFO" />
+      <MyInfo />
     </Stack>
   );
 }
