@@ -1,19 +1,15 @@
-import TextXl from "@/components/common/Text/TextXl";
-import { BannerImage } from "@/constants/images.routes";
-import { Stack, SxProps } from "@mui/material";
-import Image from "next/image";
-import { ReactNode } from "react";
+import FeedbackForm from "@/components/ui/ContactUs/FeedbackForm";
+import Banner from "@/components/ui/Home/Banner";
+import { Stack } from "@mui/material";
 
-interface Props {
-  text: string;
-  children?: ReactNode;
-  sx?: SxProps;
-}
-
-const Banner = ({ text, children, sx }: Props) => {
+export default function ContactUsPage() {
   return (
-    <>
-      <Image
+    <Stack
+      sx={{ alignItems: "center", overflow: "hidden", position: "relative" }}
+    >
+      <Banner text="Contact US" sx={{ top: "16.5rem" }} />
+      <FeedbackForm />
+      {/* <Image
         src={BannerImage}
         alt="Banner"
         priority
@@ -24,14 +20,13 @@ const Banner = ({ text, children, sx }: Props) => {
       <Stack
         sx={{
           position: "absolute",
-          top: "9.94rem",
+          top: "16.5rem",
           gap: "4.81rem",
           alignItems: "center",
-          ...sx,
         }}
       >
         <TextXl
-          text={text}
+          text="Contact US"
           sx={{
             width: "48.625rem",
             textAlign: "center",
@@ -42,11 +37,7 @@ const Banner = ({ text, children, sx }: Props) => {
             WebkitTextStrokeColor: "black",
           }}
         />
-
-        {children}
-      </Stack>
-    </>
+      </Stack> */}
+    </Stack>
   );
-};
-
-export default Banner;
+}
