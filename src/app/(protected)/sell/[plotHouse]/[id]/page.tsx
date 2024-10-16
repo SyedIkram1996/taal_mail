@@ -37,7 +37,7 @@ export default function SellEditPage({ params, searchParams }: Params) {
     <Stack
       sx={{
         alignItems: "center",
-        mt: "6.5rem",
+        mt: { md: "6.5rem" },
       }}
     >
       <AddPropertyBanner id={params.id} />
