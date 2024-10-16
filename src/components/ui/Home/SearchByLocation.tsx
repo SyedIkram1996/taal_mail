@@ -45,7 +45,7 @@ const SearchByLocation = () => {
         />
       }
       sx={{
-        minWidth: { xs: "95%", md: "58.6875rem" },
+        minWidth: { xs: "95%", sm: "80%", md: "58.6875rem" },
         ".endIcon": {
           width: { xs: "60px", md: "93px" },
           height: "100%",

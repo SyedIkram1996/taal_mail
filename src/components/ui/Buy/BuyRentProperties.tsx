@@ -17,23 +17,19 @@ const BuyRentProperties = ({ data }: Props) => {
     >
       {data.map((val, index) => (
         <Grid2
-          size={{ xs: 12, md: 6, lg: 4 }}
+          size={{ xs: 12, sm: 6, md: 4 }}
           key={index}
           sx={{ display: "flex", justifyContent: "center" }}
         >
-          <Stack
-            sx={{ alignItems: "center", width: { xs: "100%", md: "initial" } }}
-          >
-            <PropertyCard
-              id={val.id}
-              title={val.title}
-              bedRooms={val.bedRooms}
-              bathRooms={val.bathRooms}
-              area={val.area}
-              type={val.type}
-              location={val.location}
-            />
-          </Stack>
+          <PropertyCard
+            id={val.id}
+            title={val.title}
+            bedRooms={val.bedRooms}
+            bathRooms={val.bathRooms}
+            area={val.area}
+            type={val.type}
+            location={val.location}
+          />
         </Grid2>
       ))}
     </Grid2>

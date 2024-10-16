@@ -33,9 +33,9 @@ const LoginForm = () => {
             lg: "35.125rem",
             xl: "38.125rem",
           },
-          margin: "3rem",
+          margin: { xs: "1rem", md: "3rem" },
           boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
-          height: "51.4375rem",
+          height: { md: "51.4375rem" },
           padding: { xs: "1rem", md: "3rem 4rem" },
           boxSizing: "border-box",
         }}
@@ -45,7 +45,7 @@ const LoginForm = () => {
           sx={{
             color: "var(--text-black)",
             alignSelf: "center",
-            pb: "6.75rem",
+            pb: { xs: "2rem", md: "6.75rem" },
           }}
         />
 

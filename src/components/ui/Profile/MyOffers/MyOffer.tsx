@@ -23,56 +23,48 @@ const MyOffer = ({ val }: Props) => {
 
   return (
     <>
-      <Stack
-        sx={{
-          alignItems: "center",
-          width: { xs: "100%", md: "initial" },
-          position: "relative",
-        }}
+      <PropertyCard
+        id={val.id}
+        title={val.title}
+        bedRooms={val.bedRooms}
+        bathRooms={val.bathRooms}
+        area={val.area}
+        type={val.type}
+        location={val.location}
       >
-        <PropertyCard
-          id={val.id}
-          title={val.title}
-          bedRooms={val.bedRooms}
-          bathRooms={val.bathRooms}
-          area={val.area}
-          type={val.type}
-          location={val.location}
-        >
-          <TextMd
-            text={`Title: Deal Closed.`}
-            sx={{
-              paddingX: "1.94rem",
-              color: "var(--text-black)",
-              mb: "0.94rem",
-            }}
-          />
+        <TextMd
+          text={`Title: Deal Closed.`}
+          sx={{
+            paddingX: "1.94rem",
+            color: "var(--text-black)",
+            mb: "0.94rem",
+          }}
+        />
 
-          <TextMd
-            text={`Bid: PKR 1.9 Crore`}
-            sx={{
-              paddingX: "1.94rem",
-              color: "var(--text-black)",
-              mb: "0.94rem",
-            }}
-          />
-          <FilledButton
-            onClick={(e) => {
-              e.preventDefault();
-              setOpenBidDetails(true);
-            }}
-            text="Details"
-            sx={{
-              alignSelf: "center",
-              fontSize: "1rem",
-              width: "6.52163rem",
-              height: "2.0625rem",
-              padding: "0",
-              mb: "1.56rem",
-            }}
-          />
-        </PropertyCard>
-      </Stack>
+        <TextMd
+          text={`Bid: PKR 1.9 Crore`}
+          sx={{
+            paddingX: "1.94rem",
+            color: "var(--text-black)",
+            mb: "0.94rem",
+          }}
+        />
+        <FilledButton
+          onClick={(e) => {
+            e.preventDefault();
+            setOpenBidDetails(true);
+          }}
+          text="Details"
+          sx={{
+            alignSelf: "center",
+            fontSize: "1rem",
+            width: "6.52163rem",
+            height: "2.0625rem",
+            padding: "0",
+            mb: "1.56rem",
+          }}
+        />
+      </PropertyCard>
 
       {openBidDetails && (
         <Dialog

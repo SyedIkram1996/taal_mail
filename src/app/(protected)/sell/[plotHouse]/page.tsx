@@ -30,7 +30,7 @@ export default function SellPage({ params, searchParams }: Params) {
     <Stack
       sx={{
         alignItems: "center",
-        mt: "6.5rem",
+        mt: { md: "6.5rem" },
       }}
     >
       <AddPropertyBanner />
