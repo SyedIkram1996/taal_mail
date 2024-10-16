@@ -13,11 +13,11 @@ const TermsAndConditions = () => {
     "Only solid house/plot will be dealt with but no file.",
   ];
   return (
-    <Stack sx={{ alignSelf: "start", px: "4rem" }}>
+    <Stack sx={{ alignSelf: "start", px: { xs: "1rem", md: "4rem" } }}>
       <TextLg
         text="Our Terms and Conditions are as follows:"
         sx={{
-          fontSize: "2rem",
+          fontSize: { xs: "1.8rem", md: "2rem" },
           color: "var(--text-secondary)",
           mt: "2.25rem",
           mb: "1.62rem",

@@ -5,7 +5,7 @@ import { BUY_PLOT } from "@/constants/page.routes";
 import { EPropertyType } from "@/enums/enums";
 import { Stack } from "@mui/material";
 import { redirect } from "next/navigation";
-const { PLOT, HOUSE } = EPropertyType;
+const { PLOT, HOUSE, APARTMENT } = EPropertyType;
 
 interface Params {
   params: { plotHouse: string };
