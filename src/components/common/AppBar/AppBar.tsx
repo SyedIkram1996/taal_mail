@@ -43,9 +43,16 @@ interface MenuProps {
     authReq?: boolean;
   }[];
   sx?: SxProps;
+  handleProfileMenu?: (value: boolean) => void;
 }
 
-const CustomMenu = ({ user, menu, children, sx }: MenuProps) => {
+const CustomMenu = ({
+  user,
+  menu,
+  children,
+  sx,
+  handleProfileMenu,
+}: MenuProps) => {
   return (
     <Stack
       sx={{
@@ -65,6 +72,11 @@ const CustomMenu = ({ user, menu, children, sx }: MenuProps) => {
         <MUILink
           key={title}
           href={authReq && !user ? `${LOGIN}?redirect=${link}` : link}
+          onClick={() => {
+            if (handleProfileMenu) {
+              handleProfileMenu(false);
+            }
+          }}
         >
           <TextSm
             text={title}
@@ -440,7 +452,12 @@ function ResponsiveAppBar({ user }: Props) {
             )}
 
             {openProfileMenu && (
-              <CustomMenu menu={profilePages} user={user}>
+              <CustomMenu
+                menu={profilePages}
+                user={user}
+                sx={{ width: "7.75rem" }}
+                handleProfileMenu={handleProfileMenu}
+              >
                 <TextSm
                   onClick={() => {
                     logoutAction();

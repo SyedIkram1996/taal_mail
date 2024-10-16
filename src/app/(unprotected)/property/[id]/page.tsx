@@ -2,7 +2,12 @@ import PropertyDetails from "@/components/ui/Property/PropertyDetails";
 import { buyRentProperties } from "@/constants/buyRent";
 import { HOME } from "@/constants/page.routes";
 import { Stack } from "@mui/material";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "Property | Taal Mail",
+};
 
 interface Params {
   params: { id: string };

@@ -5,9 +5,14 @@ import theme from "@/theme";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
+import { Metadata } from "next";
 import { cookies } from "next/headers";
 import * as React from "react";
 import "swiper/css";
+
+export const metadata: Metadata = {
+  title: "Taal Mail",
+};
 
 export default function RootLayout(props: { children: React.ReactNode }) {
   const user = cookies().get("user");
