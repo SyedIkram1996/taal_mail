@@ -14,10 +14,10 @@ const Banner = ({ text, children, sx }: Props) => {
   return (
     <>
       <Image
+        priority
         className="bannerImage"
         src={BannerImage}
         alt="Banner"
-        priority
         width={1440}
         height={647}
       />
@@ -25,7 +25,7 @@ const Banner = ({ text, children, sx }: Props) => {
       <Stack
         sx={{
           position: "absolute",
-          top: { xs: "4rem", md: "9.94rem" },
+          top: { xs: "3rem", md: "9.94rem" },
           gap: { xs: "2rem", md: "4.81rem" },
           alignItems: "center",
           ...sx,
@@ -34,7 +34,7 @@ const Banner = ({ text, children, sx }: Props) => {
         <TextXl
           text={text}
           sx={{
-            fontSize: { xs: "1.5rem", md: "2.5rem" },
+            fontSize: { xs: "1.8rem", md: "2.5rem" },
             width: { xs: "100%", md: "48.625rem" },
             textAlign: "center",
             color: "white",

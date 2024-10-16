@@ -88,6 +88,7 @@ function ResponsiveAppBar({ user }: Props) {
   const pathname = usePathname();
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openMenu, setOpenMenu] = useState("");
+  const [expandMenu, setExpandMenu] = useState<string[]>([]);
 
   const profilePages = [
     {
@@ -210,20 +211,43 @@ function ResponsiveAppBar({ user }: Props) {
               />
               {navbarPages.map(({ title, link, menu }, idx) => (
                 <Stack
-                  onClick={() => setOpenMenu(openMenu === title ? "" : title)}
+                  onClick={() => {
+                    if (expandMenu.includes(title)) {
+                      setExpandMenu(expandMenu.filter((val) => val != title));
+                    } else {
+                      let tempMenus = [...expandMenu];
+                      tempMenus.push(title);
+                      setExpandMenu(tempMenus);
+                    }
+                    // setOpenMenu(openMenu === title ? "" : title);
+                  }}
                   sx={{
-                    backgroundColor:
-                      openMenu === title ? "var(--alice-blue)" : "transparent",
+                    backgroundColor: expandMenu.includes(title)
+                      ? "var(--alice-blue)"
+                      : "transparent",
                     padding: "0.5rem 1rem",
                     borderRadius: "0.5rem",
                   }}
                 >
-                  <MUILink href={link}>
+                  <MUILink
+                    href={link}
+                    onClick={() => {
+                      if (link) {
+                        setOpenDrawer(false);
+                      }
+                    }}
+                  >
                     <Stack
                       direction={"row"}
                       sx={{
                         alignItems: "center",
                         justifyContent: "space-between",
+                        img: {
+                          transform: expandMenu.includes(title)
+                            ? "rotate(-180deg)"
+                            : "rotate(0deg)",
+                          transition: "ease 0.3s",
+                        },
                       }}
                     >
                       <TextMd text={title} />
@@ -238,7 +262,7 @@ function ResponsiveAppBar({ user }: Props) {
                     </Stack>
                   </MUILink>
 
-                  <Collapse in={openMenu === title}>
+                  <Collapse in={expandMenu.includes(title)}>
                     {menu.map(({ title, link }) => (
                       <MUILink
                         key={title}
@@ -256,6 +280,71 @@ function ResponsiveAppBar({ user }: Props) {
                   </Collapse>
                 </Stack>
               ))}
+
+              <Stack
+                sx={{
+                  backgroundColor: openProfileMenu
+                    ? "var(--alice-blue)"
+                    : "transparent",
+                  padding: "0.5rem 1rem",
+                  borderRadius: "0.5rem",
+                }}
+              >
+                {user ? (
+                  <Stack
+                    onClick={() => handleProfileMenu(!openProfileMenu)}
+                    direction={"row"}
+                    sx={{
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <TextMd text={"My Profile"} />
+
+                    <Image
+                      src={ChevronDownGreyIcon}
+                      alt="chevron"
+                      width={20}
+                      height={20}
+                    />
+                  </Stack>
+                ) : (
+                  <MUILink href={LOGIN} onClick={() => setOpenDrawer(false)}>
+                    <TextMd text={"Login"} />
+                  </MUILink>
+                )}
+
+                <Collapse in={openProfileMenu}>
+                  {profilePages.map(({ title, link }) => (
+                    <MUILink
+                      onClick={() => setOpenDrawer(false)}
+                      key={title}
+                      href={!user ? `${LOGIN}?redirect=${link}` : link}
+                    >
+                      <TextMd
+                        text={title}
+                        sx={{
+                          fontWeight: "600",
+                          ml: "1rem",
+                          mt: "0.25rem",
+                        }}
+                      />
+                    </MUILink>
+                  ))}
+                  <TextMd
+                    onClick={() => {
+                      logoutAction();
+                      handleProfileMenu(false);
+                    }}
+                    text={"Logout"}
+                    sx={{
+                      fontWeight: "600",
+                      ml: "1rem",
+                      mt: "0.25rem",
+                    }}
+                  />
+                </Collapse>
+              </Stack>
             </Stack>
           </Drawer>
         </Box>
@@ -272,9 +361,9 @@ function ResponsiveAppBar({ user }: Props) {
           className="largeScreen"
           sx={{ alignItems: "center", gap: { lg: "2rem", xl: "3rem" } }}
         >
-          <NextLink href={HOME}>
+          <MUILink href={HOME} className="largeScreen">
             <Logo />
-          </NextLink>
+          </MUILink>
 
           <ClickAwayListener
             onClickAway={() => {

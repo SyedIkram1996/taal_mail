@@ -36,6 +36,7 @@ const SearchByLocation = () => {
       hideSearchResult
       endIcon={
         <Image
+          priority
           className="endIcon"
           src={SearchBlueBgIcon}
           alt="Search"
@@ -46,7 +47,7 @@ const SearchByLocation = () => {
       sx={{
         minWidth: { xs: "95%", md: "58.6875rem" },
         ".endIcon": {
-          width: { xs: "65px", md: "93px" },
+          width: { xs: "60px", md: "93px" },
           height: "100%",
         },
       }}
