@@ -35,7 +35,7 @@ const Banner = ({ text, children, sx }: Props) => {
           text={text}
           sx={{
             fontSize: { xs: "1.8rem", md: "2.5rem" },
-            width: { xs: "100%", md: "48.625rem" },
+            width: { xs: "100%", sm: "80%", md: "48.625rem" },
             textAlign: "center",
             color: "white",
             textShadow:

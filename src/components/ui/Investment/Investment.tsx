@@ -337,7 +337,7 @@ const Investment = () => {
             rows={10}
             sx={{
               mt: "3.13rem",
-              maxWidth: "31.125rem",
+              maxWidth: { md: "31.125rem" },
               ".MuiOutlinedInput-root": {
                 "textArea::placeholder": {
                   fontSize: "1.25rem",

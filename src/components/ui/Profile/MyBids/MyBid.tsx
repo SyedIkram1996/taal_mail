@@ -14,54 +14,44 @@ interface Props {
 
 const MyBid = ({ val }: Props) => {
   return (
-    <>
-      <Stack
+    <PropertyCard
+      id={val.id}
+      title={val.title}
+      bedRooms={val.bedRooms}
+      bathRooms={val.bathRooms}
+      area={val.area}
+      type={val.type}
+      location={val.location}
+    >
+      <TextMd
+        text={`Bid: PKR 1.9 Crore`}
         sx={{
-          alignItems: "center",
-          width: { xs: "100%", md: "initial" },
-          position: "relative",
+          paddingX: "1.94rem",
+          color: "var(--text-black)",
+          mb: "1.75rem",
         }}
-      >
-        <PropertyCard
-          id={val.id}
-          title={val.title}
-          bedRooms={val.bedRooms}
-          bathRooms={val.bathRooms}
-          area={val.area}
-          type={val.type}
-          location={val.location}
-        >
-          <TextMd
-            text={`Bid: PKR 1.9 Crore`}
-            sx={{
-              paddingX: "1.94rem",
-              color: "var(--text-black)",
-              mb: "1.75rem",
-            }}
+      />
+      <FilledButton
+        onClick={(e) => e.preventDefault()}
+        text="Cancel Bid"
+        startIcon={
+          <Image
+            priority
+            src={CrossWhiteIcon}
+            alt={"close icon"}
+            width={40}
+            height={40}
           />
-          <FilledButton
-            onClick={(e) => e.preventDefault()}
-            text="Cancel Bid"
-            startIcon={
-              <Image
-                priority
-                src={CrossWhiteIcon}
-                alt={"close icon"}
-                width={40}
-                height={40}
-              />
-            }
-            sx={{
-              alignSelf: "center",
-              width: "10.625rem",
-              height: "3.4375rem",
-              padding: "0",
-              mb: "1.56rem",
-            }}
-          />
-        </PropertyCard>
-      </Stack>
-    </>
+        }
+        sx={{
+          alignSelf: "center",
+          width: "10.625rem",
+          height: "3.4375rem",
+          padding: "0",
+          mb: "1.56rem",
+        }}
+      />
+    </PropertyCard>
   );
 };
 

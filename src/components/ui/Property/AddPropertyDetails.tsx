@@ -83,7 +83,7 @@ const AddPropertyDetails = () => {
     <Stack
       sx={{
         pt: "2.38rem",
-        px: { xs: "1rem", md: "8.81rem" },
+        px: { xs: "1rem", md: "2rem", lg: "8.81rem" },
         maxWidth: "xl",
       }}
     >
@@ -634,7 +634,7 @@ const AddPropertyDetails = () => {
             rows={10}
             sx={{
               mt: "3.13rem",
-              maxWidth: "31.125rem",
+              maxWidth: { md: "31.125rem" },
               ".MuiOutlinedInput-root": {
                 "textArea::placeholder": {
                   fontSize: "1.25rem",

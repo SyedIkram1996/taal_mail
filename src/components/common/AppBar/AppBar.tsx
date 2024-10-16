@@ -175,8 +175,8 @@ function ResponsiveAppBar({ user }: Props) {
           justifyContent: "space-between",
           paddingLeft: { lg: "2rem", xl: "3rem" },
           paddingRight: { lg: "2rem", xl: "4.31rem" },
-          ".smallScreen": { display: { xs: "flex", md: "none" } },
-          ".largeScreen": { display: { xs: "none", md: "flex" } },
+          ".smallScreen": { display: { xs: "flex", lg: "none" } },
+          ".largeScreen": { display: { xs: "none", lg: "flex" } },
         }}
       >
         {/* SMALL SCREEN */}
