@@ -50,9 +50,10 @@ const SearchResultTextField = ({
             ".MuiInputBase-root": {
               padding: "0",
               input: {
-                px: "2rem",
+                px: { xs: "1rem", md: "2rem" },
                 pr: "0.5rem",
                 fontSize: "1.25rem",
+                height: { xs: "1rem" },
               },
             },
             "& .MuiInputBase-input": {

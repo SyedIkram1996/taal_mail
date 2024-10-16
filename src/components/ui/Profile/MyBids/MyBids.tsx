@@ -16,7 +16,11 @@ const MyBids = ({ data }: Props) => {
       sx={{ padding: "2rem", py: "6.25rem" }}
     >
       {data.map((val, index) => (
-        <Grid2 size={{ xs: 12, md: 6, lg: 4 }} key={index}>
+        <Grid2
+          size={{ xs: 12, md: 6, lg: 4 }}
+          key={index}
+          sx={{ display: "flex", justifyContent: "center" }}
+        >
           <MyBid val={val} />
         </Grid2>
       ))}

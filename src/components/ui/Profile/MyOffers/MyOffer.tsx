@@ -2,12 +2,10 @@
 
 import FilledButton from "@/components/common/Button/FilledButton";
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
-import MUILink from "@/components/common/MUILink/MUILink";
 import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
 import TextMd from "@/components/common/Text/TextMd";
 import TextXl from "@/components/common/Text/TextXl";
 import { CloseIcon, TickWhiteIcon } from "@/constants/images.routes";
-import { PROPERTY } from "@/constants/page.routes";
 import { IBuyRentProperty } from "@/interfaces/IBuyRent";
 import { Dialog, Stack } from "@mui/material";
 import Image from "next/image";
@@ -25,51 +23,55 @@ const MyOffer = ({ val }: Props) => {
 
   return (
     <>
-      <Stack sx={{ alignItems: "center" }}>
-        <MUILink href={`${PROPERTY}/${val.id}`}>
-          <PropertyCard
-            id={val.id}
-            title={val.title}
-            bedRooms={val.bedRooms}
-            bathRooms={val.bathRooms}
-            area={val.area}
-            type={val.type}
-            location={val.location}
-          >
-            <TextMd
-              text={`Title: Deal Closed.`}
-              sx={{
-                paddingX: "1.94rem",
-                color: "var(--text-black)",
-                mb: "0.94rem",
-              }}
-            />
+      <Stack
+        sx={{
+          alignItems: "center",
+          width: { xs: "100%", md: "initial" },
+          position: "relative",
+        }}
+      >
+        <PropertyCard
+          id={val.id}
+          title={val.title}
+          bedRooms={val.bedRooms}
+          bathRooms={val.bathRooms}
+          area={val.area}
+          type={val.type}
+          location={val.location}
+        >
+          <TextMd
+            text={`Title: Deal Closed.`}
+            sx={{
+              paddingX: "1.94rem",
+              color: "var(--text-black)",
+              mb: "0.94rem",
+            }}
+          />
 
-            <TextMd
-              text={`Bid: PKR 1.9 Crore`}
-              sx={{
-                paddingX: "1.94rem",
-                color: "var(--text-black)",
-                mb: "0.94rem",
-              }}
-            />
-            <FilledButton
-              onClick={(e) => {
-                e.preventDefault();
-                setOpenBidDetails(true);
-              }}
-              text="Details"
-              sx={{
-                alignSelf: "center",
-                fontSize: "1rem",
-                width: "6.52163rem",
-                height: "2.0625rem",
-                padding: "0",
-                mb: "1.56rem",
-              }}
-            />
-          </PropertyCard>
-        </MUILink>
+          <TextMd
+            text={`Bid: PKR 1.9 Crore`}
+            sx={{
+              paddingX: "1.94rem",
+              color: "var(--text-black)",
+              mb: "0.94rem",
+            }}
+          />
+          <FilledButton
+            onClick={(e) => {
+              e.preventDefault();
+              setOpenBidDetails(true);
+            }}
+            text="Details"
+            sx={{
+              alignSelf: "center",
+              fontSize: "1rem",
+              width: "6.52163rem",
+              height: "2.0625rem",
+              padding: "0",
+              mb: "1.56rem",
+            }}
+          />
+        </PropertyCard>
       </Stack>
 
       {openBidDetails && (

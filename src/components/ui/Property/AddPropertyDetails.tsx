@@ -38,7 +38,10 @@ interface Props {
 
 const TitleDesc = ({ title, desc }: Props) => {
   return (
-    <Stack direction={"row"} sx={{ alignItems: "center", gap: "0.62rem" }}>
+    <Stack
+      direction={{ xs: "column", md: "row" }}
+      sx={{ alignItems: "center", gap: "0.62rem" }}
+    >
       <TextLg
         text={title}
         sx={{ fontWeight: "400", color: "var(--text-black)" }}
@@ -77,7 +80,13 @@ const AddPropertyDetails = () => {
   };
 
   return (
-    <Stack sx={{ pt: "2.38rem", px: "8.81rem", maxWidth: "xl" }}>
+    <Stack
+      sx={{
+        pt: "2.38rem",
+        px: { xs: "1rem", md: "8.81rem" },
+        maxWidth: "xl",
+      }}
+    >
       <TitleDesc
         title="Purpose:"
         desc="What do you do to with your property?"
@@ -89,6 +98,7 @@ const AddPropertyDetails = () => {
           flexWrap: "wrap",
           gap: "2.69rem",
           mt: "3.13rem",
+          justifyContent: { xs: "center", md: "flex-start" },
         }}
       >
         {rentSell.map((val) => (
@@ -117,25 +127,34 @@ const AddPropertyDetails = () => {
       </Stack>
 
       <Stack sx={{ gap: "6.25rem", mt: "6.25rem" }}>
-        <Stack sx={{ width: "46.50206rem" }}>
+        <Stack
+          sx={{
+            width: { xs: "100%", md: "46.50206rem" },
+            alignItems: { xs: "center", md: "inherit" },
+          }}
+        >
           <TitleDesc title="Property Type:" desc="Choose you property type." />
           <Box
             sx={{
               borderBottom: "1px solid var(--platinum)",
               mt: "3.12rem",
+              // maxWidth: { xs: 350, md: "initial" },
             }}
           >
             <Tabs
               value={tabValue}
               onChange={handleChangeTabs}
+              // variant="scrollable"
+              // allowScrollButtonsMobile
               sx={{
                 ".MuiTabs-flexContainer": {
-                  gap: "4rem",
+                  gap: { xs: "1rem", md: "4rem" },
                 },
 
                 button: {
                   fontSize: "1.25rem",
                   color: "var(--text-black)",
+                  paddingX: { xs: "0", md: "1rem" },
                 },
                 ".Mui-selected": {
                   color: "var(--text-black)  !important",
@@ -163,7 +182,7 @@ const AddPropertyDetails = () => {
                   sx={{
                     flexWrap: "wrap",
                     gap: "1.62rem",
-                    padding: "3.32rem 1.38rem 1rem 0",
+                    padding: { xs: "2rem 0", md: "3.32rem 1.38rem 1rem 0" },
                   }}
                 >
                   {items.map((val) => (
@@ -205,7 +224,7 @@ const AddPropertyDetails = () => {
             sx={{
               mt: "3.12rem",
               minWidth: "10.9375rem",
-              width: "fit-content",
+              width: { md: "fit-content" },
               border: "1px solid var(--platinum)",
               borderRadius: "0.3125rem",
               ">p": {
@@ -252,7 +271,7 @@ const AddPropertyDetails = () => {
             sx={{
               mt: "3.12rem",
               minWidth: "10.9375rem",
-              width: "fit-content",
+              width: { md: "fit-content" },
               border: "1px solid var(--platinum)",
               borderRadius: "0.3125rem",
               ">p": {
@@ -309,7 +328,7 @@ const AddPropertyDetails = () => {
                 input: {
                   fontSize: "1.25rem",
                   color: "var(--text-primary)",
-                  px: "2.31rem",
+                  px: { xs: "1rem", md: "2.31rem" },
                 },
               },
             }}
@@ -338,7 +357,7 @@ const AddPropertyDetails = () => {
                 input: {
                   fontSize: "1.25rem",
                   color: "var(--text-primary)",
-                  px: "2.31rem",
+                  px: { xs: "1rem", md: "2.31rem" },
                 },
               },
             }}
@@ -402,7 +421,7 @@ const AddPropertyDetails = () => {
                 input: {
                   fontSize: "1.25rem",
                   color: "var(--text-primary)",
-                  px: "2.31rem",
+                  px: { xs: "1rem", md: "2.31rem" },
                 },
               },
             }}
@@ -433,7 +452,7 @@ const AddPropertyDetails = () => {
                 input: {
                   fontSize: "1.25rem",
                   color: "var(--text-primary)",
-                  px: "2.31rem",
+                  px: { xs: "1rem", md: "2.31rem" },
                 },
               },
             }}
@@ -451,7 +470,10 @@ const AddPropertyDetails = () => {
             desc="How many bed rooms does your property have?"
           />
 
-          <Stack direction={"row"} sx={{ gap: "1.44rem", mt: "3.11rem" }}>
+          <Stack
+            direction={"row"}
+            sx={{ gap: "1.44rem", mt: "3.11rem", flexWrap: "wrap" }}
+          >
             {beds.map((val, index) => (
               <TextLg
                 key={index}
@@ -479,7 +501,10 @@ const AddPropertyDetails = () => {
             desc="How many bathrooms does your property have?"
           />
 
-          <Stack direction={"row"} sx={{ gap: "1.44rem", mt: "3.11rem" }}>
+          <Stack
+            direction={"row"}
+            sx={{ gap: "1.44rem", mt: "3.11rem", flexWrap: "wrap" }}
+          >
             {baths.map((val, index) => (
               <TextLg
                 key={index}
@@ -590,7 +615,7 @@ const AddPropertyDetails = () => {
                 input: {
                   fontSize: "1.25rem",
                   color: "var(--text-primary)",
-                  px: "2.31rem",
+                  px: { xs: "1rem", md: "2.31rem" },
                 },
               },
             }}
@@ -622,7 +647,7 @@ const AddPropertyDetails = () => {
                 textArea: {
                   fontSize: "1.25rem",
                   color: "var(--text-primary)",
-                  px: "1.37rem",
+                  px: { xs: "0.25rem", md: "1.37rem" },
                 },
               },
             }}
@@ -642,8 +667,8 @@ const AddPropertyDetails = () => {
               mt: "2.3rem",
               border: "1px solid var(--spanish-gray)",
               borderRadius: "0.9375rem",
-              paddingX: "2.87rem",
-              paddingY: "3.44rem",
+              paddingX: { xs: "1rem", md: "2.87rem" },
+              paddingY: { xs: "2rem", md: "3.44rem" },
             }}
           >
             {[
@@ -654,7 +679,10 @@ const AddPropertyDetails = () => {
               Property1Image,
               Property2Image,
             ].map((val) => (
-              <Grid2 size={{ xs: 6, md: 4, lg: 3 }}>
+              <Grid2
+                size={{ xs: 12, md: 4, lg: 3 }}
+                sx={{ display: "flex", justifyContent: "center" }}
+              >
                 <Stack
                   sx={{
                     justifyContent: "center",
@@ -662,12 +690,18 @@ const AddPropertyDetails = () => {
                     backgroundColor: "#EAE8E8",
                     width: "fit-content",
                     position: "relative",
-                    ".propertyImg": { objectFit: "contain" },
+                    ".propertyImg": {
+                      objectFit: "cover",
+                      width: { xs: "300px", md: "184px" },
+                      height: { xs: "100%", md: "165px" },
+                    },
                     ".closeIcon": {
                       position: "absolute",
-                      top: "-20px",
-                      right: "-25px",
+                      top: { xs: "-10px", md: "-20px" },
+                      right: { xs: "-15px", md: "-25px" },
                       cursor: "pointer",
+                      width: { xs: "40px", md: "60px" },
+                      height: { xs: "40px", md: "60px" },
                     },
                   }}
                 >
@@ -689,7 +723,10 @@ const AddPropertyDetails = () => {
               </Grid2>
             ))}
 
-            <Grid2 size={{ xs: 6, md: 4, lg: 3 }}>
+            <Grid2
+              size={{ xs: 6, md: 4, lg: 3 }}
+              sx={{ display: "flex", justifyContent: "center", width: "100%" }}
+            >
               <Stack
                 sx={{
                   justifyContent: "center",
@@ -715,7 +752,11 @@ const AddPropertyDetails = () => {
           <TitleDesc title="Upload Allotment Letter:" desc="" />
           <TextLg
             text={"(Optional)"}
-            sx={{ fontWeight: "400", color: "var(--text-black)" }}
+            sx={{
+              fontWeight: "400",
+              color: "var(--text-black)",
+              textAlign: "center",
+            }}
           />
 
           <Stack

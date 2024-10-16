@@ -15,6 +15,7 @@ export default function MyInfoPage() {
       sx={{
         alignItems: "center",
         minHeight: "100vh",
+        paddingX: "1rem",
       }}
     >
       <MyInfo />

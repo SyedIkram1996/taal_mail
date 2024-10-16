@@ -8,9 +8,10 @@ interface Props extends LinkProps {
   sx?: SxProps;
 }
 
-const MUILink = ({ href, children, sx, onClick, target }: Props) => {
+const MUILink = ({ href, children, sx, onClick, target, className }: Props) => {
   return (
     <Link
+      className={className}
       href={href}
       component={href ? NextLink : "div"}
       onClick={onClick}

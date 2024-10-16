@@ -25,7 +25,10 @@ interface Props {
 
 const TitleDesc = ({ title, desc }: Props) => {
   return (
-    <Stack direction={"row"} sx={{ alignItems: "center", gap: "0.62rem" }}>
+    <Stack
+      direction={{ xs: "column", md: "row" }}
+      sx={{ alignItems: "center", gap: "0.62rem" }}
+    >
       <TextLg
         text={title}
         sx={{ fontWeight: "400", color: "var(--text-black)" }}
@@ -53,15 +56,31 @@ const Investment = () => {
     <>
       <TextLg
         text="We’ll  find the Perfect Project for you!"
-        sx={{ fontSize: "2rem", color: "var(--text-secondary)", mt: "6.19rem" }}
+        sx={{
+          fontSize: "2rem",
+          textAlign: "center",
+          color: "var(--text-secondary)",
+          mt: { xs: "3rem", md: "6.19rem" },
+          px: { xs: "1rem", md: "0" },
+        }}
       />
       <TextMd
         text="Enter your preferences! We’ll get in touch with you shortly after."
-        sx={{ fontWeight: "400", color: "var(--text-black)" }}
+        sx={{
+          fontWeight: "400",
+          color: "var(--text-black)",
+          textAlign: "center",
+          px: { xs: "1rem", md: "0" },
+        }}
       />
 
       <Stack
-        sx={{ gap: "6.25rem", mt: "6.25rem", width: "100%", px: "6.37rem" }}
+        sx={{
+          gap: "6.25rem",
+          mt: "6.25rem",
+          width: "100%",
+          px: { xs: "1rem", md: "6.37rem" },
+        }}
       >
         <Stack>
           <TitleDesc title="Name:" desc="" />
@@ -82,7 +101,7 @@ const Investment = () => {
                 input: {
                   fontSize: "1.25rem",
                   color: "var(--text-primary)",
-                  px: "2.31rem",
+                  px: { xs: "1rem", md: "2.31rem" },
                 },
               },
             }}
@@ -108,7 +127,7 @@ const Investment = () => {
                 input: {
                   fontSize: "1.25rem",
                   color: "var(--text-primary)",
-                  px: "2.31rem",
+                  px: { xs: "1rem", md: "2.31rem" },
                 },
               },
             }}
@@ -134,7 +153,7 @@ const Investment = () => {
                 input: {
                   fontSize: "1.25rem",
                   color: "var(--text-primary)",
-                  px: "2.31rem",
+                  px: { xs: "1rem", md: "2.31rem" },
                 },
               },
             }}
@@ -163,7 +182,7 @@ const Investment = () => {
                 input: {
                   fontSize: "1.25rem",
                   color: "var(--text-primary)",
-                  px: "2.31rem",
+                  px: { xs: "1rem", md: "2.31rem" },
                 },
               },
             }}
@@ -227,7 +246,7 @@ const Investment = () => {
                 input: {
                   fontSize: "1.25rem",
                   color: "var(--text-primary)",
-                  px: "2.31rem",
+                  px: { xs: "1rem", md: "2.31rem" },
                 },
               },
             }}
@@ -258,7 +277,7 @@ const Investment = () => {
                 input: {
                   fontSize: "1.25rem",
                   color: "var(--text-primary)",
-                  px: "2.31rem",
+                  px: { xs: "1rem", md: "2.31rem" },
                 },
               },
             }}
@@ -294,7 +313,7 @@ const Investment = () => {
                 input: {
                   fontSize: "1.25rem",
                   color: "var(--text-primary)",
-                  px: "2.31rem",
+                  px: { xs: "1rem", md: "2.31rem" },
                 },
               },
             }}
@@ -331,7 +350,7 @@ const Investment = () => {
                 textArea: {
                   fontSize: "1.25rem",
                   color: "var(--text-primary)",
-                  px: "1.37rem",
+                  px: { xs: "0.25rem", md: "1.37rem" },
                 },
               },
             }}
@@ -344,7 +363,10 @@ const Investment = () => {
             desc="How many bed rooms does this property have?"
           />
 
-          <Stack direction={"row"} sx={{ gap: "1.44rem", mt: "3.11rem" }}>
+          <Stack
+            direction={"row"}
+            sx={{ gap: "1.44rem", mt: "3.11rem", flexWrap: "wrap" }}
+          >
             {beds.map((val, index) => (
               <TextLg
                 key={index}
@@ -372,7 +394,10 @@ const Investment = () => {
             desc="How many bathrooms does this property have?"
           />
 
-          <Stack direction={"row"} sx={{ gap: "1.44rem", mt: "3.11rem" }}>
+          <Stack
+            direction={"row"}
+            sx={{ gap: "1.44rem", mt: "3.11rem", flexWrap: "wrap" }}
+          >
             {baths.map((val, index) => (
               <TextLg
                 key={index}

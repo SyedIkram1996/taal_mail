@@ -25,16 +25,18 @@ const SearchByLocation = () => {
       setSearchValue={setSearchValue}
       handleSearching={handleSearching}
       sxResult={{
-        top: "4.25rem",
+        top: { xs: "3rem", md: "4.25rem" },
         width: "100%",
         maxHeight: "15rem",
         overflow: "auto",
         flexWrap: "nowrap",
         zIndex: "1000000000000",
+        // left: "0",
       }}
       hideSearchResult
       endIcon={
         <Image
+          priority
           className="endIcon"
           src={SearchBlueBgIcon}
           alt="Search"
@@ -42,7 +44,13 @@ const SearchByLocation = () => {
           height={65}
         />
       }
-      sx={{ minWidth: "58.6875rem" }}
+      sx={{
+        minWidth: { xs: "95%", md: "58.6875rem" },
+        ".endIcon": {
+          width: { xs: "60px", md: "93px" },
+          height: "100%",
+        },
+      }}
     >
       {isTyping ? (
         <TextXs

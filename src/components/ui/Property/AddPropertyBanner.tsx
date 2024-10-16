@@ -22,18 +22,27 @@ const AddPropertyBanner = ({ id }: Props) => {
         }}
       >
         <Stack
-          direction={"row"}
+          direction={{ xs: "column-reverse", md: "row" }}
           sx={{
             justifyContent: "space-between",
             alignItems: "center",
-            padding: "6.25rem 10rem",
+            padding: { xs: "2rem 1rem", md: "6.25rem 10rem" },
+            ".addPropertyIcon": {
+              width: { xs: "100px", md: "401px" },
+              height: "100%",
+            },
+            gap: { xs: "1rem", md: "0" },
           }}
         >
           <TextXl
             text={`${id ? "Edit" : "Add"} Property Info`}
-            sx={{ fontSize: "2.8125rem", color: "var(--text-white)" }}
+            sx={{
+              fontSize: { xs: "2rem", md: "2.8125rem" },
+              color: "var(--text-white)",
+            }}
           />
           <Image
+            className="addPropertyIcon"
             src={AddPropertyIcon}
             alt="add property"
             width={401}

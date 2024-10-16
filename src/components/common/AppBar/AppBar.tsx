@@ -1,7 +1,11 @@
 "use client";
 
 import { logoutAction } from "@/app/actions";
-import { LogoIcon } from "@/constants/images.routes";
+import {
+  ChevronDownGreyIcon,
+  CloseGreyIcon,
+  LogoIcon,
+} from "@/constants/images.routes";
 import { navbarPages } from "@/constants/navbar";
 import {
   HOME,
@@ -11,12 +15,19 @@ import {
   MY_OFFERS,
   MY_PROPERTY,
 } from "@/constants/page.routes";
-import { ClickAwayListener, Stack, SxProps } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import {
+  ClickAwayListener,
+  Collapse,
+  Drawer,
+  IconButton,
+  Stack,
+  SxProps,
+} from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Image from "next/image";
-import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
 import TextMd from "../../common/Text/TextMd";
@@ -76,6 +87,7 @@ function ResponsiveAppBar({ user }: Props) {
   const pathname = usePathname();
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openMenu, setOpenMenu] = useState("");
+  const [expandMenu, setExpandMenu] = useState<string[]>([]);
 
   const profilePages = [
     {
@@ -146,29 +158,29 @@ function ResponsiveAppBar({ user }: Props) {
 
   return (
     <AppBar
-      position="absolute"
       elevation={0}
       sx={{
         backgroundColor: "white",
         borderBottom: "1px solid var(--border-color)",
         boxShadow: "0px 4px 6px 0px rgba(0, 0, 0, 0.25)",
+        position: { xs: "static", md: "absolute" },
       }}
     >
       <Toolbar
         disableGutters
         sx={{
-          height: "6.4375rem",
-          minHeight: "6.4375rem",
+          height: { md: "6.4375rem" },
+          minHeight: { md: "6.4375rem" },
           alignItems: "center",
           justifyContent: "space-between",
-          paddingLeft: "3rem",
-          paddingRight: "4.31rem",
-          // ".smallScreen": { display: { xs: "flex", md: "none" } },
-          // ".largeScreen": { display: { xs: "none", md: "flex" } },
+          paddingLeft: { lg: "2rem", xl: "3rem" },
+          paddingRight: { lg: "2rem", xl: "4.31rem" },
+          ".smallScreen": { display: { xs: "flex", md: "none" } },
+          ".largeScreen": { display: { xs: "none", md: "flex" } },
         }}
       >
         {/* SMALL SCREEN */}
-        {/* <Box className="smallScreen">
+        <Box className="smallScreen">
           <IconButton
             size="large"
             aria-label="account of current user"
@@ -180,46 +192,189 @@ function ResponsiveAppBar({ user }: Props) {
           </IconButton>
 
           <Drawer open={openDrawer} onClose={() => setOpenDrawer(false)}>
-            <Stack spacing={1} sx={{ width: "250px", padding: "1rem" }}>
-              {navbarPages.map(({ title, link }, idx) => (
-                <Link
-                  key={title}
-                  href={link}
+            <Stack
+              spacing={1}
+              sx={{
+                width: "280px",
+                p: "1rem",
+                ".closeIcon": { alignSelf: "end" },
+              }}
+            >
+              <Image
+                onClick={() => setOpenDrawer(false)}
+                className="closeIcon"
+                src={CloseGreyIcon}
+                alt="close"
+                width={30}
+                height={30}
+              />
+              {navbarPages.map(({ title, link, menu }, idx) => (
+                <Stack
                   onClick={() => {
-                    setOpenDrawer(false);
+                    if (expandMenu.includes(title)) {
+                      setExpandMenu(expandMenu.filter((val) => val != title));
+                    } else {
+                      let tempMenus = [...expandMenu];
+                      tempMenus.push(title);
+                      setExpandMenu(tempMenus);
+                    }
+                    // setOpenMenu(openMenu === title ? "" : title);
                   }}
-                  component={NextLink}
+                  sx={{
+                    backgroundColor: expandMenu.includes(title)
+                      ? "var(--alice-blue)"
+                      : "transparent",
+                    padding: "0.5rem 1rem",
+                    borderRadius: "0.5rem",
+                  }}
                 >
-                  <TextMd
-                    text={title}
+                  <MUILink
+                    href={link}
+                    onClick={() => {
+                      if (link) {
+                        setOpenDrawer(false);
+                      }
+                    }}
+                  >
+                    <Stack
+                      direction={"row"}
+                      sx={{
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        img: {
+                          transform: expandMenu.includes(title)
+                            ? "rotate(-180deg)"
+                            : "rotate(0deg)",
+                          transition: "ease 0.3s",
+                        },
+                      }}
+                    >
+                      <TextMd text={title} />
+                      {menu.length > 0 && (
+                        <Image
+                          src={ChevronDownGreyIcon}
+                          alt="chevron"
+                          width={20}
+                          height={20}
+                        />
+                      )}
+                    </Stack>
+                  </MUILink>
+
+                  <Collapse in={expandMenu.includes(title)}>
+                    {menu.map(({ title, link }) => (
+                      <MUILink
+                        key={title}
+                        href={link}
+                        onClick={() => {
+                          setOpenDrawer(false);
+                        }}
+                      >
+                        <TextMd
+                          text={title}
+                          sx={{ ml: "1rem", mt: "0.25rem" }}
+                        />
+                      </MUILink>
+                    ))}
+                  </Collapse>
+                </Stack>
+              ))}
+
+              <Stack
+                sx={{
+                  backgroundColor: openProfileMenu
+                    ? "var(--alice-blue)"
+                    : "transparent",
+                  padding: "0.5rem 1rem",
+                  borderRadius: "0.5rem",
+                }}
+              >
+                {user ? (
+                  <Stack
+                    onClick={() => handleProfileMenu(!openProfileMenu)}
+                    direction={"row"}
                     sx={{
-                      color:
-                        pathname === link
-                          ? "var(--primary)"
-                          : "var(--text-secondary)",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <TextMd text={"My Profile"} />
+
+                    <Image
+                      src={ChevronDownGreyIcon}
+                      alt="chevron"
+                      width={20}
+                      height={20}
+                    />
+                  </Stack>
+                ) : (
+                  <MUILink href={LOGIN} onClick={() => setOpenDrawer(false)}>
+                    <TextMd text={"Login"} />
+                  </MUILink>
+                )}
+
+                <Collapse in={openProfileMenu}>
+                  {profilePages.map(({ title, link }) => (
+                    <MUILink
+                      onClick={() => setOpenDrawer(false)}
+                      key={title}
+                      href={!user ? `${LOGIN}?redirect=${link}` : link}
+                    >
+                      <TextMd
+                        text={title}
+                        sx={{
+                          fontWeight: "600",
+                          ml: "1rem",
+                          mt: "0.25rem",
+                        }}
+                      />
+                    </MUILink>
+                  ))}
+                  <TextMd
+                    onClick={() => {
+                      logoutAction();
+                      handleProfileMenu(false);
+                    }}
+                    text={"Logout"}
+                    sx={{
+                      fontWeight: "600",
+                      ml: "1rem",
+                      mt: "0.25rem",
                     }}
                   />
-                </Link>
-              ))}
+                </Collapse>
+              </Stack>
             </Stack>
           </Drawer>
         </Box>
 
-        <NextLink className="smallScreen" href={HOME}>
+        <MUILink
+          className="smallScreen"
+          href={HOME}
+          sx={{ mr: "3rem", img: { width: "200px", height: "100%" } }}
+        >
           <Logo />
-        </NextLink> */}
+        </MUILink>
+
+        <Box className="smallScreen" />
 
         {/* LARGE SCREEN */}
         <Stack
           direction={"row"}
           className="largeScreen"
-          sx={{ alignItems: "center", gap: "3rem" }}
+          sx={{ alignItems: "center", gap: { lg: "2rem", xl: "3rem" } }}
         >
-          <NextLink href={HOME}>
+          <MUILink href={HOME} className="largeScreen">
             <Logo />
-          </NextLink>
+          </MUILink>
 
-          <ClickAwayListener onClickAway={() => setOpenMenu("")}>
+          <ClickAwayListener
+            onClickAway={() => {
+              if (!openDrawer) {
+                setOpenMenu("");
+              }
+            }}
+          >
             <Stack direction={"row"} sx={{ gap: "4.25rem" }}>
               {navbarPages.map(({ title, link, menu }) => (
                 <Box
@@ -253,8 +408,14 @@ function ResponsiveAppBar({ user }: Props) {
           </ClickAwayListener>
         </Stack>
 
-        <ClickAwayListener onClickAway={() => handleProfileMenu(false)}>
-          <Box sx={{ position: "relative" }}>
+        <ClickAwayListener
+          onClickAway={() => {
+            if (!openDrawer) {
+              handleProfileMenu(false);
+            }
+          }}
+        >
+          <Box className="largeScreen" sx={{ position: "relative" }}>
             {user ? (
               <TextMd
                 onClick={() => handleProfileMenu(!openProfileMenu)}

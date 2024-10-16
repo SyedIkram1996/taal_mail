@@ -14,20 +14,29 @@ const MyInfo = () => {
           mb: "4.69rem",
           justifyContent: "center",
           alignItems: "center",
-          width: "15.625rem",
-          height: "15.625rem",
+          width: { xs: "10rem", md: "15.625rem" },
+          height: { xs: "10rem", md: "15.625rem" },
           backgroundColor: "var(--text-secondary)",
           borderRadius: "50%",
+          ".profileImage": {
+            width: { xs: "100px", md: "150px" },
+          },
         }}
       >
-        <Image src={ProfileIcon} alt="profile" width={150} height={150} />
+        <Image
+          className="profileImage"
+          src={ProfileIcon}
+          alt="profile"
+          width={150}
+          height={150}
+        />
       </Stack>
 
       <Stack
         sx={{
-          maxWidth: "66rem",
+          maxWidth: { xs: "100%", md: "66rem" },
           width: "100%",
-          padding: "2.8rem 12.94rem",
+          padding: { xs: "1rem", md: "2.8rem 12.94rem" },
           backgroundColor: "var(--alice-blue)",
           borderRadius: "1.25rem",
           mb: "10.12rem",
@@ -58,7 +67,7 @@ const MyInfo = () => {
             },
             ".MuiInputBase-root": {
               input: {
-                px: "2.31rem",
+                px: { xs: "1rem", md: "2.31rem" },
               },
             },
           }}
@@ -89,7 +98,7 @@ const MyInfo = () => {
             },
             ".MuiInputBase-root": {
               input: {
-                px: "2.31rem",
+                px: { xs: "1rem", md: "2.31rem" },
               },
             },
           }}
@@ -120,7 +129,7 @@ const MyInfo = () => {
             },
             ".MuiInputBase-root": {
               input: {
-                px: "2.31rem",
+                px: { xs: "1rem", md: "2.31rem" },
               },
             },
           }}

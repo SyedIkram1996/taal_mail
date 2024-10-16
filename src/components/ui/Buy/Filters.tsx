@@ -67,7 +67,7 @@ const Filters = () => {
     <Stack
       sx={{
         backgroundColor: "var(--green-blue)",
-        padding: "2rem",
+        padding: { xs: "1rem", md: "2rem" },
         gap: "2.5rem",
         alignItems: "center",
         width: "98.8vw",
@@ -76,13 +76,16 @@ const Filters = () => {
       <Stack
         direction="row"
         sx={{
-          gap: "3rem",
+          gap: { xs: "1rem", md: "3rem" },
           flexWrap: "wrap",
           justifyContent: "center",
           maxWidth: "1200px",
         }}
       >
-        <SelectField text={rentBuyValue?.title} sx={{ width: "8.9375rem" }}>
+        <SelectField
+          text={rentBuyValue?.title}
+          sx={{ width: { xs: "100%", md: "8.9375rem" } }}
+        >
           <MenuCard sx={{ top: "3.8rem", width: "100%" }}>
             {rentBuy.map((val, index) => (
               <TextLg
@@ -102,7 +105,7 @@ const Filters = () => {
           </MenuCard>
         </SelectField>
 
-        <Stack sx={{ width: "23.6875rem" }}>
+        <Stack sx={{ width: { xs: "100%", md: "23.6875rem" } }}>
           <LabelTopTextField
             placeholder="Location"
             value={location}
@@ -129,12 +132,15 @@ const Filters = () => {
           />
         </Stack>
 
-        <SelectField text={"Price"} sx={{ width: "10.625rem" }}>
+        <SelectField
+          text={"Price"}
+          sx={{ width: { xs: "100%", md: "10.625rem" } }}
+        >
           <MenuCard
             onClick={(e) => e.stopPropagation()}
             sx={{
               top: "3.8rem",
-              width: "35.5625rem",
+              width: { xs: "100%", md: "35.5625rem" },
               padding: "0.88rem 1.25rem 1.55rem 1.31rem ",
               cursor: "initial",
             }}
@@ -203,7 +209,7 @@ const Filters = () => {
 
         <SelectField
           text={areaValue.title ? areaValue.title : "Area"}
-          sx={{ width: "8.9375rem" }}
+          sx={{ width: { xs: "100%", md: "8.9375rem" } }}
         >
           <MenuCard sx={{ top: "3.8rem", width: "100%" }}>
             {areas.map((val, index) => (
@@ -224,12 +230,15 @@ const Filters = () => {
           </MenuCard>
         </SelectField>
 
-        <SelectField text={"Property Type"} sx={{ width: "15.9375rem" }}>
+        <SelectField
+          text={"Property Type"}
+          sx={{ width: { xs: "100%", md: "15.9375rem" } }}
+        >
           <MenuCard
             onClick={(e) => e.stopPropagation()}
             sx={{
               top: "3.8rem",
-              width: "49rem",
+              width: { xs: "100%", md: "49rem" },
               textAlign: "center",
               left: 0,
               cursor: "initial",
@@ -244,14 +253,17 @@ const Filters = () => {
               <Tabs
                 value={tabValue}
                 onChange={handleChangeTabs}
+                // allowScrollButtonsMobile
+                variant="scrollable"
                 sx={{
                   ".MuiTabs-flexContainer": {
-                    gap: "4rem",
+                    gap: { xs: "0", md: "4rem" },
                   },
 
                   button: {
                     fontSize: "1.25rem",
                     color: "var(--text-black)",
+                    padding: { xs: "0", md: "inherit" },
                   },
                   ".Mui-selected": {
                     color: "var(--text-black)  !important",
@@ -313,7 +325,7 @@ const Filters = () => {
           </MenuCard>
         </SelectField>
 
-        <Stack sx={{ width: "16.125rem" }}>
+        <Stack sx={{ width: { xs: "100%", md: "16.125rem" } }}>
           <LabelTopTextField
             placeholder="Keyword"
             value={keyword}
@@ -342,7 +354,7 @@ const Filters = () => {
 
         <SelectField
           text={bathsValue ? `Baths (${bathsValue})` : "Baths"}
-          sx={{ minWidth: "10.625rem" }}
+          sx={{ minWidth: { xs: "100%", md: "10.625rem" } }}
         >
           <MenuCard sx={{ top: "3.8rem", width: "100%", textAlign: "center" }}>
             {baths.map((val, index) => (
@@ -365,7 +377,7 @@ const Filters = () => {
 
         <SelectField
           text={bedsValue ? `Beds (${bedsValue})` : "Beds"}
-          sx={{ minWidth: "10.625rem" }}
+          sx={{ minWidth: { xs: "100%", md: "10.625rem" } }}
         >
           <MenuCard sx={{ top: "3.8rem", width: "100%", textAlign: "center" }}>
             {beds.map((val, index) => (
