@@ -1,5 +1,4 @@
 "use client";
-import MUILink from "@/components/common/MUILink/MUILink";
 import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
 import TextSm from "@/components/common/Text/TextSm";
 import { featuredListing } from "@/constants/buyRent";
@@ -7,7 +6,6 @@ import {
   CarousalChevronLeftIcon,
   CarousalChevronRightIcon,
 } from "@/constants/images.routes";
-import { PROPERTY } from "@/constants/page.routes";
 import { Box, Stack } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
@@ -85,17 +83,15 @@ const FeaturedListing = () => {
               key={index}
               style={{ width: "311px", marginRight: "50px" }}
             >
-              <MUILink href={`${PROPERTY}/${val.id}`}>
-                <PropertyCard
-                  id={val.id}
-                  title={val.title}
-                  bedRooms={val.bedRooms}
-                  bathRooms={val.bathRooms}
-                  area={val.area}
-                  type={val.type}
-                  location={val.location}
-                />
-              </MUILink>
+              <PropertyCard
+                id={val.id}
+                title={val.title}
+                bedRooms={val.bedRooms}
+                bathRooms={val.bathRooms}
+                area={val.area}
+                type={val.type}
+                location={val.location}
+              />
             </SwiperSlide>
           ))}
         </Swiper>

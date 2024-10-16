@@ -28,9 +28,17 @@ const Footer = () => {
         backgroundColor: "var(--light-blue)",
         padding: { xs: "3rem 1rem", md: "3.88rem 4.31rem" },
         gap: "1.69rem",
+        ".logoImg": { width: { xs: "200px", md: "245px" } },
       }}
     >
-      <Image src={Logo2Icon} priority alt="Logo2" width={245} height={118} />
+      <Image
+        className="logoImg"
+        src={Logo2Icon}
+        priority
+        alt="Logo2"
+        width={245}
+        height={118}
+      />
       <Stack direction={"row"} sx={{ gap: "1.5rem", flexWrap: "wrap" }}>
         {navbarPages.map(({ title, menu }) => (
           <Stack

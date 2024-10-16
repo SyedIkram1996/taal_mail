@@ -4,7 +4,7 @@ export default function UnProtectedLayout(props: {
   children: React.ReactNode;
 }) {
   return (
-    <Stack sx={{ alignItems: "center", mt: "6.5rem" }}>
+    <Stack sx={{ alignItems: "center", mt: { md: "6.5rem" } }}>
       <Container
         maxWidth="xl"
         sx={{

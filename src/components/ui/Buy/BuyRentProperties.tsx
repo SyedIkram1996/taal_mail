@@ -1,6 +1,4 @@
-import MUILink from "@/components/common/MUILink/MUILink";
 import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
-import { PROPERTY } from "@/constants/page.routes";
 import { IBuyRentProperty } from "@/interfaces/IBuyRent";
 import { Grid2, Stack } from "@mui/material";
 
@@ -26,17 +24,15 @@ const BuyRentProperties = ({ data }: Props) => {
           <Stack
             sx={{ alignItems: "center", width: { xs: "100%", md: "initial" } }}
           >
-            <MUILink href={`${PROPERTY}/${val.id}`} sx={{ width: "100%" }}>
-              <PropertyCard
-                id={val.id}
-                title={val.title}
-                bedRooms={val.bedRooms}
-                bathRooms={val.bathRooms}
-                area={val.area}
-                type={val.type}
-                location={val.location}
-              />
-            </MUILink>
+            <PropertyCard
+              id={val.id}
+              title={val.title}
+              bedRooms={val.bedRooms}
+              bathRooms={val.bathRooms}
+              area={val.area}
+              type={val.type}
+              location={val.location}
+            />
           </Stack>
         </Grid2>
       ))}

@@ -23,7 +23,7 @@ const MyProperties = ({ data }: Props) => {
         sx={{
           borderBottom: "1px solid var(--platinum)",
           mt: "3.12rem",
-          px: "2rem",
+          px: { xs: "1rem", md: "2rem" },
         }}
       >
         <Tabs
@@ -31,12 +31,13 @@ const MyProperties = ({ data }: Props) => {
           onChange={handleChangeTabs}
           sx={{
             ".MuiTabs-flexContainer": {
-              gap: "4rem",
+              gap: { xs: "1rem", md: "4rem" },
             },
 
             button: {
               fontSize: "1.25rem",
               color: "var(--text-black)",
+              paddingX: { xs: "0", md: "1rem" },
             },
             ".Mui-selected": {
               color: "var(--text-black)  !important",
@@ -63,7 +64,11 @@ const MyProperties = ({ data }: Props) => {
         sx={{ padding: "2rem", py: "6.25rem" }}
       >
         {data.map((val, index) => (
-          <Grid2 size={{ xs: 12, md: 6, lg: 4 }} key={index}>
+          <Grid2
+            size={{ xs: 12, md: 6, lg: 4 }}
+            sx={{ display: "flex", justifyContent: "center" }}
+            key={index}
+          >
             <MyProperty val={val} />
           </Grid2>
         ))}

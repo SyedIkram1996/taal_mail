@@ -28,7 +28,6 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Image from "next/image";
-import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
 import TextMd from "../../common/Text/TextMd";
@@ -159,19 +158,19 @@ function ResponsiveAppBar({ user }: Props) {
 
   return (
     <AppBar
-      position="absolute"
       elevation={0}
       sx={{
         backgroundColor: "white",
         borderBottom: "1px solid var(--border-color)",
         boxShadow: "0px 4px 6px 0px rgba(0, 0, 0, 0.25)",
+        position: { xs: "static", md: "absolute" },
       }}
     >
       <Toolbar
         disableGutters
         sx={{
-          height: "6.4375rem",
-          minHeight: "6.4375rem",
+          height: { md: "6.4375rem" },
+          minHeight: { md: "6.4375rem" },
           alignItems: "center",
           justifyContent: "space-between",
           paddingLeft: { lg: "2rem", xl: "3rem" },
@@ -349,7 +348,11 @@ function ResponsiveAppBar({ user }: Props) {
           </Drawer>
         </Box>
 
-        <MUILink className="smallScreen" href={HOME} sx={{ mr: "2rem" }}>
+        <MUILink
+          className="smallScreen"
+          href={HOME}
+          sx={{ mr: "3rem", img: { width: "200px", height: "100%" } }}
+        >
           <Logo />
         </MUILink>
 
