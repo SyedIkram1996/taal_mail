@@ -4,8 +4,13 @@ import { buyRentProperties } from "@/constants/buyRent";
 import { BUY_PLOT } from "@/constants/page.routes";
 import { EPropertyType } from "@/enums/enums";
 import { Stack } from "@mui/material";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
 const { PLOT, HOUSE, APARTMENT } = EPropertyType;
+
+export const metadata: Metadata = {
+  title: "Buy | Taal Mail",
+};
 
 interface Params {
   params: { plotHouse: string };

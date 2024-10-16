@@ -3,6 +3,11 @@ import FeaturedListing from "@/components/ui/Home/FeaturedListing";
 import Features from "@/components/ui/Home/Features";
 import SearchByLocation from "@/components/ui/Home/SearchByLocation";
 import { Stack } from "@mui/material";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home | Taal Mail",
+};
 
 export default function Home() {
   return (

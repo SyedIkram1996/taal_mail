@@ -1,6 +1,11 @@
 import Banner from "@/components/ui/Home/Banner";
 import TermsAndConditions from "@/components/ui/TermsAndConditions/TermsAndConditions";
 import { Stack } from "@mui/material";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Terms & Conditions | Taal Mail",
+};
 
 export default function ContactUsPage() {
   return (
