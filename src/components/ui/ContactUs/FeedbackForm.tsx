@@ -4,25 +4,37 @@ import FilledButton from "@/components/common/Button/FilledButton";
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import TextLg from "@/components/common/Text/TextLg";
 import TextMd from "@/components/common/Text/TextMd";
+import { Stack } from "@mui/material";
 
 const FeedbackForm = () => {
   return (
-    <>
+    <Stack sx={{ padding: { xs: "0.5rem", md: "0" } }}>
       <TextLg
         text="We want to hear from you!"
-        sx={{ fontSize: "2rem", color: "var(--text-secondary)", mt: "6.19rem" }}
+        sx={{
+          fontSize: { xs: "1.8rem", md: "2rem" },
+          color: "var(--text-secondary)",
+          mt: { xs: "3rem", md: "6.19rem" },
+          textAlign: "center",
+        }}
       />
       <TextMd
         text="Send us your queries and valuable feedback."
-        sx={{ fontWeight: "400", color: "var(--text-black)" }}
+        sx={{
+          fontWeight: "400",
+          color: "var(--text-black)",
+          px: { xs: "0.5rem", md: "0" },
+          textAlign: "center",
+        }}
       />
 
       <LabelTopTextField
         placeholder="Email"
         sx={{
-          width: "40.1875rem",
+          width: { xs: "100%", md: "40.1875rem" },
           pt: "1.81rem",
           pb: "2.87rem",
+          px: "0.5rem",
           ".MuiOutlinedInput-root": {
             backgroundColor: "var(--anti-flash-white)",
             borderRadius: "0.3125rem",
@@ -44,7 +56,8 @@ const FeedbackForm = () => {
         multiline
         rows={10}
         sx={{
-          width: "40.1875rem",
+          width: { xs: "100%", md: "40.1875rem" },
+          px: "0.5rem",
           ".MuiOutlinedInput-root": {
             backgroundColor: "var(--anti-flash-white)",
             borderRadius: "0.3125rem",
@@ -70,9 +83,10 @@ const FeedbackForm = () => {
           fontSize: "1.25rem",
           padding: "0",
           height: "3.4375rem",
+          alignSelf: { xs: "center" },
         }}
       />
-    </>
+    </Stack>
   );
 };
 

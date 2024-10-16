@@ -33,13 +33,30 @@ const FeaturesFacilitiesNearby = ({
   array,
 }: FeaturesFacilitiesNearbyProps) => {
   return (
-    <ShadowCard sx={{ padding: "2.81rem 3.94rem", mt: "6.25rem !important" }}>
-      <TextXl text={heading} sx={{ fontSize: "2rem", alignSelf: "start" }} />
+    <ShadowCard
+      sx={{
+        padding: { xs: "1rem", md: "2.81rem 3.94rem" },
+        mt: "6.25rem !important",
+      }}
+    >
+      <TextXl
+        text={heading}
+        sx={{ fontSize: "2rem", alignSelf: { xs: "center", md: "start" } }}
+      />
 
-      <Grid2 container spacing={8} sx={{ pt: "3.13rem", pl: "2rem" }}>
+      <Grid2 container spacing={8} sx={{ pt: "3.13rem", pl: { md: "2rem" } }}>
         {array.map(({ title, icon }, index) => (
-          <Grid2 size={2} key={title}>
-            <Stack sx={{ gap: "0.63rem", alignItems: "center" }}>
+          <Grid2 size={{ xs: 6, md: 2 }} key={title}>
+            <Stack
+              sx={{
+                gap: { xs: "0.25rem", md: "0.63rem" },
+                alignItems: "center",
+                img: {
+                  width: { xs: "45px", md: "90px" },
+                  height: { xs: "45px", md: "90px" },
+                },
+              }}
+            >
               <Image priority src={icon} alt={"icon"} width={90} height={60} />
               <TextMd
                 text={title}
@@ -89,19 +106,24 @@ const PropertyDetails = ({ data }: Props) => {
   return (
     <>
       <PropertiesImages />
-      <Stack sx={{ padding: "2rem", paddingBottom: "4.69rem" }}>
+      <Stack
+        sx={{ padding: { xs: "1rem", md: "2rem" }, paddingBottom: "4.69rem" }}
+      >
         <Grid2 container>
-          <Grid2 size={10}>
+          <Grid2 size={{ xs: 12, md: 10 }}>
             <Stack sx={{ gap: "2rem" }}>
               <TextLg
                 text={"10 Marla Villa with a swimming pool"}
                 sx={{
                   pt: "1.5rem",
-                  fontSize: "1.875rem",
+                  fontSize: { xs: "1.5rem", md: "1.875rem" },
                   color: "var(--text-black)",
                 }}
               />
-              <Stack direction={"row"} sx={{ gap: "2rem" }}>
+              <Stack
+                direction={"row"}
+                sx={{ gap: "2rem", flexWrap: { xs: "wrap", md: "initial" } }}
+              >
                 {descIcon.map(({ icon, text }, index) => (
                   <IconText
                     icon={icon}
@@ -115,8 +137,8 @@ const PropertyDetails = ({ data }: Props) => {
             </Stack>
           </Grid2>
 
-          <Grid2 size={2}>
-            <Stack sx={{ gap: "2.13rem" }}>
+          <Grid2 size={{ xs: 12, md: 2 }}>
+            <Stack sx={{ gap: "2.13rem", alignItems: "center" }}>
               <TextLg
                 text={data.title}
                 sx={{
@@ -131,12 +153,18 @@ const PropertyDetails = ({ data }: Props) => {
         </Grid2>
 
         <ShadowCard
-          sx={{ padding: "2.62rem 2.81rem", mt: "8.75rem !important" }}
+          sx={{
+            padding: { xs: "1rem", md: "2.62rem 2.81rem" },
+            mt: "8.75rem !important",
+          }}
         >
           <Grid2 container spacing={4}>
             {propertyStatus.map(({ title, value }, index) => (
-              <Grid2 key={title} size={6}>
-                <Stack direction={"row"} sx={{ gap: "1.87rem" }}>
+              <Grid2 key={title} size={{ xs: 12, md: 6 }}>
+                <Stack
+                  direction={"row"}
+                  sx={{ gap: { xs: "0.5rem", md: "1.87rem" } }}
+                >
                   <TextLg
                     text={title}
                     sx={{ color: "var(--text-secondary)" }}
@@ -163,10 +191,22 @@ const PropertyDetails = ({ data }: Props) => {
           array={nearbyPlaces}
         />
 
-        <Stack sx={{ img: { alignSelf: "center" } }}>
+        <Stack
+          sx={{
+            img: {
+              alignSelf: "center",
+              width: { xs: "100%", md: "990px" },
+              height: { xs: "100%", md: "1276px" },
+            },
+          }}
+        >
           <TextXl
             text={"Allotment Letter"}
-            sx={{ fontSize: "2rem", py: "4.69rem" }}
+            sx={{
+              fontSize: "2rem",
+              py: "4.69rem",
+              textAlign: { xs: "center", md: "start" },
+            }}
           />
 
           <Image
