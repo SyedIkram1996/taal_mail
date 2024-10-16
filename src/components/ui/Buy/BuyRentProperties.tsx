@@ -18,9 +18,15 @@ const BuyRentProperties = ({ data }: Props) => {
       sx={{ padding: "2rem", py: "6.25rem" }}
     >
       {data.map((val, index) => (
-        <Grid2 size={{ xs: 12, md: 6, lg: 4 }} key={index}>
-          <Stack sx={{ alignItems: "center" }}>
-            <MUILink href={`${PROPERTY}/${val.id}`}>
+        <Grid2
+          size={{ xs: 12, md: 6, lg: 4 }}
+          key={index}
+          sx={{ display: "flex", justifyContent: "center" }}
+        >
+          <Stack
+            sx={{ alignItems: "center", width: { xs: "100%", md: "initial" } }}
+          >
+            <MUILink href={`${PROPERTY}/${val.id}`} sx={{ width: "100%" }}>
               <PropertyCard
                 id={val.id}
                 title={val.title}

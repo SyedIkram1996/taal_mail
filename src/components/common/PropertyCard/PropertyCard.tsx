@@ -41,7 +41,7 @@ const PropertyCard = ({
         border: "1px solid var(--platinum)",
         backgroundColor: "var(--text-white)",
         boxShadow: "2px 4px 6px 0px rgba(0, 0, 0, 0.25)",
-        width: { sm: "18.5rem" },
+        width: { md: "18.5rem" },
         minHeight: "26.8125rem",
         overflow: "hidden",
         cursor: "pointer",
