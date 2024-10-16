@@ -119,6 +119,12 @@ const ProfileSideBarLayout = () => {
         >
           {items.map((item) => (
             <BottomNavigationAction
+              sx={{
+                bgcolor:
+                  item.link === pathname
+                    ? "var(--anti-flash-white)"
+                    : "transparent",
+              }}
               label={
                 <TextMd
                   text={item.title}
