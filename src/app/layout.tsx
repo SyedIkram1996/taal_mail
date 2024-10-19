@@ -32,7 +32,10 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
             <UserState>
-              <ResponsiveAppBar userSession={session} userData={null} />
+              <ResponsiveAppBar
+                userSession={session}
+                userData={JSON.parse(data ?? "")}
+              />
             </UserState>
             {props.children}
             <Footer />
