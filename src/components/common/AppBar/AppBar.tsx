@@ -108,11 +108,11 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
   const { setUser } = useUserContext();
 
   //Fetch data using react query and setUser
-  useEffect(() => {
-    if (userData) {
-      setUser(userData);
-    }
-  }, [userData]);
+  // useEffect(() => {
+  //   if (userData) {
+  //     setUser(userData);
+  //   }
+  // }, [userData]);
 
   const profilePages = [
     {
