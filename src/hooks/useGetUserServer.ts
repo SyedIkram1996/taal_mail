@@ -1,3 +1,4 @@
+import { BASE_URL } from "@/constants/environment copy";
 import { IUser } from "@/interfaces/IUser";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
@@ -5,7 +6,7 @@ export const useGetUserServer = async (session: RequestCookie | undefined) => {
   let data: IUser | null = null;
 
   if (session) {
-    const res = await fetch("http://localhost:3000/api/v1/user", {
+    const res = await fetch(`${BASE_URL}/user`, {
       cache: "no-store",
       headers: {
         Authorization: `Bearer ${session}`,
