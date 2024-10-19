@@ -14,7 +14,7 @@ export const useGetUserServer = async (session: RequestCookie | undefined) => {
       },
     });
 
-    data = await res.json();
+    data = JSON.parse(await res.text());
   }
 
   return { data };

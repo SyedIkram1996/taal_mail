@@ -1,7 +1,7 @@
 import ResponsiveAppBar from "@/components/common/AppBar/AppBar";
-import FetchUserData from "@/components/common/FetchUserData/FetchUserData";
 import Footer from "@/components/common/Footer/Footer";
 import UserState from "@/context/userContext";
+import { useGetUserServer } from "@/hooks/useGetUserServer";
 import "@/styles/globals.css";
 import theme from "@/theme";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
@@ -18,7 +18,11 @@ export const metadata: Metadata = {
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const session = cookies().get("session");
-  // const { data } = await useGetUserServer(session);
+  const { data } = await useGetUserServer(session);
+
+  if (data) {
+    console.log(data);
+  }
 
   return (
     <html lang="en">
@@ -27,7 +31,6 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
-            <FetchUserData />
             <UserState>
               <ResponsiveAppBar userSession={session} userData={null} />
             </UserState>
