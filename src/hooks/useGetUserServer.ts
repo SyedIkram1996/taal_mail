@@ -14,7 +14,11 @@ export const useGetUserServer = async (session: RequestCookie | undefined) => {
       },
     });
 
-    data = await res.json();
+    console.log(res);
+
+    if (res.ok) {
+      data = await res.json();
+    }
   }
 
   return { data };
