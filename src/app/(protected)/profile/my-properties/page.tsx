@@ -10,13 +10,10 @@ export const metadata: Metadata = {
   title: "My Properties | Taal Mail",
 };
 
-export default function MyPropertiesPage() {
-  const user = cookies().get("user");
-  if (!user) {
-    redirect(LOGIN);
-  }
-
+export default async function MyPropertiesPage() {
   const data = buyRentProperties;
+  // let dataFetch = await fetch("https://api.vercel.app/blog");
+  // let posts = await dataFetch.json();
 
   return (
     <Stack

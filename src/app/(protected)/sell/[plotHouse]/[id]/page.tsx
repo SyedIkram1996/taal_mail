@@ -18,11 +18,6 @@ interface Params {
 }
 
 export default function SellEditPage({ params, searchParams }: Params) {
-  const user = cookies().get("user");
-  if (!user) {
-    redirect(LOGIN);
-  }
-
   if (
     params.plotHouse.toLowerCase() === PLOT ||
     params.plotHouse.toLowerCase() === HOUSE
@@ -30,8 +25,6 @@ export default function SellEditPage({ params, searchParams }: Params) {
   } else {
     redirect(SELL_PLOT);
   }
-
-  console.log(params);
 
   return (
     <Stack

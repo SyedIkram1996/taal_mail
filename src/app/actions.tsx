@@ -10,13 +10,13 @@ export const loginAction = ({
   redirectLink: string | null;
 }) => {
   cookies().set(
-    "user",
+    "session",
     JSON.stringify({ name: "Ikram", email: "ikram96211@gmail.com" }),
   );
   redirect(redirectLink ? redirectLink : MY_PROPERTY);
 };
 
 export const logoutAction = () => {
-  cookies().delete("user");
+  cookies().delete("session");
   redirect(HOME);
 };

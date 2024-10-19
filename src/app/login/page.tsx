@@ -10,11 +10,6 @@ export const metadata: Metadata = {
 };
 
 export default function LoginPage() {
-  const user = cookies().get("user");
-  if (user) {
-    redirect(HOME);
-  }
-
   return (
     <Stack
       sx={{

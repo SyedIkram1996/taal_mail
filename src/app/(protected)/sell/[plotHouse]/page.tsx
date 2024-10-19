@@ -18,11 +18,6 @@ interface Params {
 }
 
 export default function SellPage({ params, searchParams }: Params) {
-  const user = cookies().get("user");
-  if (!user) {
-    redirect(LOGIN);
-  }
-
   if (
     params.plotHouse.toLowerCase() === PLOT ||
     params.plotHouse.toLowerCase() === HOUSE

@@ -10,11 +10,6 @@ export const metadata: Metadata = {
 };
 
 export default function MyInfoPage() {
-  const user = cookies().get("user");
-  if (!user) {
-    redirect(LOGIN);
-  }
-
   return (
     <Stack
       sx={{

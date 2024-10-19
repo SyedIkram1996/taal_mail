@@ -1,5 +1,6 @@
 import ResponsiveAppBar from "@/components/common/AppBar/AppBar";
 import Footer from "@/components/common/Footer/Footer";
+import UserState from "@/context/userContext";
 import "@/styles/globals.css";
 import theme from "@/theme";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout(props: { children: React.ReactNode }) {
-  const user = cookies().get("user");
+  const user = cookies().get("session");
   return (
     <html lang="en">
       <body>
@@ -23,7 +24,9 @@ export default function RootLayout(props: { children: React.ReactNode }) {
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
-            <ResponsiveAppBar user={user} />
+            <UserState>
+              <ResponsiveAppBar user={user} />
+            </UserState>
             {props.children}
             <Footer />
           </ThemeProvider>

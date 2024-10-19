@@ -11,11 +11,6 @@ export const metadata: Metadata = {
 };
 
 export default function MyBidsPage() {
-  const user = cookies().get("user");
-  if (!user) {
-    redirect(LOGIN);
-  }
-
   const data = buyRentProperties;
 
   return (
