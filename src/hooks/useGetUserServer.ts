@@ -1,4 +1,4 @@
-import { BASE_URL } from "@/constants/environment copy";
+import { BASE_URL } from "@/constants/environment";
 import { IUser } from "@/interfaces/IUser";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
@@ -14,7 +14,9 @@ export const useGetUserServer = async (session: RequestCookie | undefined) => {
       },
     });
 
-    console.log(res);
+    console.log("res", res);
+    console.log("BASE_URL", BASE_URL);
+    console.log("BASE_URL", process.env.NEXT_PUBLIC_BASE_URL);
 
     if (res.ok) {
       data = await res.json();
