@@ -1,9 +1,10 @@
 import ResponsiveAppBar from "@/components/common/AppBar/AppBar";
 import Footer from "@/components/common/Footer/Footer";
+import { BASE_URL } from "@/constants/environment copy";
 import UserState from "@/context/userContext";
-import { useGetUserServer } from "@/hooks/useGetUserServer";
 import "@/styles/globals.css";
 import theme from "@/theme";
+import { parseJson } from "@/utils/helperFunctions";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
@@ -18,9 +19,19 @@ export const metadata: Metadata = {
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const session = cookies().get("session");
-  const { data } = await useGetUserServer(session);
+  // const { data } = await useGetUserServer(session);
 
-  console.log(data);
+  const res = await fetch(`${BASE_URL}/user`, {
+    cache: "no-store",
+    headers: {
+      Authorization: `Bearer ${session}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  const data = await res.json();
+
+  console.log(parseJson(data));
 
   return (
     <html lang="en">
