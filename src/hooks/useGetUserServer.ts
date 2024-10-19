@@ -10,7 +10,7 @@ export const useGetUserServer = async (session: RequestCookie | undefined) => {
       cache: "no-store",
       headers: {
         Authorization: `Bearer ${session}`,
-        "Content-Type": "application/json",
+        // "Content-Type": "application/json",
       },
     });
 
