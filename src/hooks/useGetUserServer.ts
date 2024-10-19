@@ -8,13 +8,13 @@ export const useGetUserServer = async (session: RequestCookie | undefined) => {
   if (session) {
     const res = await fetch(`${BASE_URL}/user`, {
       cache: "no-store",
-      headers: {
-        Authorization: `Bearer ${session}`,
-        // "Content-Type": "application/json",
-      },
+      // headers: {
+      //   Authorization: `Bearer ${session}`,
+      //   // "Content-Type": "application/json",
+      // },
     });
 
-    data = await res.json();
+    // data = await res.json();
   }
 
   return { data };
