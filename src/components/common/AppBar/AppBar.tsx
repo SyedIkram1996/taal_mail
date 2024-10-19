@@ -15,6 +15,7 @@ import {
   MY_OFFERS,
   MY_PROPERTY,
 } from "@/constants/page.routes";
+import { useUserContext } from "@/context/userContext";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
   ClickAwayListener,
@@ -93,13 +94,22 @@ const CustomMenu = ({
 };
 
 interface Props {
-  user: any;
+  userSession: any;
 }
-function ResponsiveAppBar({ user }: Props) {
+function ResponsiveAppBar({ userSession }: Props) {
   const pathname = usePathname();
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openMenu, setOpenMenu] = useState("");
   const [expandMenu, setExpandMenu] = useState<string[]>([]);
+
+  const { setUser } = useUserContext();
+
+  //Fetch data using react query and setUser
+  // useEffect(() => {
+  //   if (userSession) {
+  //     setUser(userData);
+  //   }
+  // }, [userSession]);
 
   const profilePages = [
     {
@@ -128,22 +138,6 @@ function ResponsiveAppBar({ user }: Props) {
 
   const handleProfileMenu = (value: boolean) => {
     setOpenProfileMenu(value);
-  };
-
-  const handleClickAction = async (action: any) => {
-    // switch (action) {
-    //   case EPROFILE:
-    //     navigate(PROFILE);
-    //     break;
-    //   case LOGOUT:
-    //     await logout();
-    //     setUser(null);
-    //     navigate(SIGN_IN);
-    //     break;
-    //   default:
-    //     break;
-    // }
-    // handleProfileMenu();
   };
 
   useEffect(() => {
@@ -301,7 +295,7 @@ function ResponsiveAppBar({ user }: Props) {
                   borderRadius: "0.5rem",
                 }}
               >
-                {user ? (
+                {userSession ? (
                   <Stack
                     onClick={() => handleProfileMenu(!openProfileMenu)}
                     direction={"row"}
@@ -330,7 +324,7 @@ function ResponsiveAppBar({ user }: Props) {
                     <MUILink
                       onClick={() => setOpenDrawer(false)}
                       key={title}
-                      href={!user ? `${LOGIN}?redirect=${link}` : link}
+                      href={!userSession ? `${LOGIN}?redirect=${link}` : link}
                     >
                       <TextMd
                         text={title}
@@ -411,7 +405,7 @@ function ResponsiveAppBar({ user }: Props) {
                     <CustomMenu
                       menu={menu}
                       sx={{ width: "12rem" }}
-                      user={user}
+                      user={userSession}
                     />
                   )}
                 </Box>
@@ -428,7 +422,7 @@ function ResponsiveAppBar({ user }: Props) {
           }}
         >
           <Box className="largeScreen" sx={{ position: "relative" }}>
-            {user ? (
+            {userSession ? (
               <TextMd
                 onClick={() => handleProfileMenu(!openProfileMenu)}
                 text={"My Profile"}
@@ -454,7 +448,7 @@ function ResponsiveAppBar({ user }: Props) {
             {openProfileMenu && (
               <CustomMenu
                 menu={profilePages}
-                user={user}
+                user={userSession}
                 sx={{ width: "7.75rem" }}
                 handleProfileMenu={handleProfileMenu}
               >
