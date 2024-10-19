@@ -20,10 +20,6 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   const session = cookies().get("session");
   const { data } = await useGetUserServer(session);
 
-  if (data) {
-    console.log(data);
-  }
-
   return (
     <html lang="en">
       <body>
@@ -32,10 +28,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
             <UserState>
-              <ResponsiveAppBar
-                userSession={session}
-                userData={JSON.parse(data ?? "")}
-              />
+              <ResponsiveAppBar userSession={session} userData={data} />
             </UserState>
             {props.children}
             <Footer />

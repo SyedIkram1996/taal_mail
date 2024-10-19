@@ -1,8 +1,9 @@
 import { BASE_URL } from "@/constants/environment copy";
+import { IUser } from "@/interfaces/IUser";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 export const useGetUserServer = async (session: RequestCookie | undefined) => {
-  let data: string | null = null;
+  let data: IUser | null = null;
 
   if (session) {
     const res = await fetch(`${BASE_URL}/user`, {
@@ -13,7 +14,7 @@ export const useGetUserServer = async (session: RequestCookie | undefined) => {
       },
     });
 
-    data = await res.text();
+    data = await res.json();
   }
 
   return { data };

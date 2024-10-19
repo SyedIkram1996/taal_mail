@@ -12,8 +12,5 @@ export async function GET(request: NextRequest) {
     role: "user",
   };
 
-  return Response.json(
-    { ...user },
-    { headers: { "Content-Type": "application/json" } },
-  );
+  return Response.json(user);
 }
