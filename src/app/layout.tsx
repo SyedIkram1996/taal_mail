@@ -18,8 +18,9 @@ export const metadata: Metadata = {
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const session = cookies().get("session");
-  const { res } = await useGetUserServer(session);
-  const data = await res?.json();
+  const { data } = await useGetUserServer(session);
+
+  console.log(data);
 
   return (
     <html lang="en">
@@ -29,7 +30,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
             <UserState>
-              <ResponsiveAppBar userSession={session} userData={data} />
+              <ResponsiveAppBar userSession={session} userData={null} />
             </UserState>
             {props.children}
             <Footer />
