@@ -18,8 +18,8 @@ export const metadata: Metadata = {
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const session = cookies().get("session");
-  const { data: userData } = await useGetUserServer(session);
-  const data = null;
+  const { res } = await useGetUserServer(session);
+  const data = await res?.json();
 
   return (
     <html lang="en">
