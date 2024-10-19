@@ -28,9 +28,11 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
     },
   });
 
-  // const data = await res.json();
-
-  // console.log(parseJson(data));
+  const data = await res.json();
+  console.log(data);
+  if (data) {
+    // console.log(JSON.parse(data));
+  }
 
   return (
     <html lang="en">

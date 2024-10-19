@@ -1,5 +1,5 @@
 import { IUser } from "@/interfaces/IUser";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const token = request.headers.get("authorization");
@@ -12,5 +12,5 @@ export async function GET(request: NextRequest) {
     role: "user",
   };
 
-  return Response.json({ data: { user, status: true } });
+  return NextResponse.json({ data: { user, status: true } });
 }
