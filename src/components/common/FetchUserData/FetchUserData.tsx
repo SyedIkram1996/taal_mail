@@ -11,7 +11,7 @@ const FetchUserData = async () => {
     },
   });
 
-  const data = await res.json();
+  const data = await res.text();
   console.log(data);
 
   return <></>;
