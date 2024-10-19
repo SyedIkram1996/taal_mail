@@ -4,7 +4,7 @@ export type IUserContextType = {
 };
 
 export interface IUser {
-  _id: string;
+  id: string;
   name: string;
   age: number | string;
   email: string;

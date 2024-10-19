@@ -1,6 +1,7 @@
 import ResponsiveAppBar from "@/components/common/AppBar/AppBar";
 import Footer from "@/components/common/Footer/Footer";
 import UserState from "@/context/userContext";
+import { useGetUserServer } from "@/hooks/useGetUserServer";
 import "@/styles/globals.css";
 import theme from "@/theme";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
@@ -15,8 +16,10 @@ export const metadata: Metadata = {
   title: "Taal Mail",
 };
 
-export default function RootLayout(props: { children: React.ReactNode }) {
-  const user = cookies().get("session");
+export default async function RootLayout(props: { children: React.ReactNode }) {
+  const session = cookies().get("session");
+  const { data } = await useGetUserServer(session);
+
   return (
     <html lang="en">
       <body>
@@ -25,7 +28,7 @@ export default function RootLayout(props: { children: React.ReactNode }) {
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
             <UserState>
-              <ResponsiveAppBar userSession={user} />
+              <ResponsiveAppBar userSession={session} userData={data} />
             </UserState>
             {props.children}
             <Footer />

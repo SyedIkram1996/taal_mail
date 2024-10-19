@@ -16,6 +16,7 @@ import {
   MY_PROPERTY,
 } from "@/constants/page.routes";
 import { useUserContext } from "@/context/userContext";
+import { IUser } from "@/interfaces/IUser";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
   ClickAwayListener,
@@ -28,6 +29,7 @@ import {
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
@@ -94,9 +96,10 @@ const CustomMenu = ({
 };
 
 interface Props {
-  userSession: any;
+  userSession: RequestCookie | undefined;
+  userData: IUser | null;
 }
-function ResponsiveAppBar({ userSession }: Props) {
+function ResponsiveAppBar({ userSession, userData }: Props) {
   const pathname = usePathname();
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openMenu, setOpenMenu] = useState("");
@@ -105,11 +108,11 @@ function ResponsiveAppBar({ userSession }: Props) {
   const { setUser } = useUserContext();
 
   //Fetch data using react query and setUser
-  // useEffect(() => {
-  //   if (userSession) {
-  //     setUser(userData);
-  //   }
-  // }, [userSession]);
+  useEffect(() => {
+    if (userData) {
+      setUser(userData);
+    }
+  }, [userData]);
 
   const profilePages = [
     {
