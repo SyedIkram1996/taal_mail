@@ -8,10 +8,10 @@ export const useGetUserServer = async (session: RequestCookie | undefined) => {
   if (session) {
     const res = await fetch(`${BASE_URL}/user`, {
       cache: "no-store",
-      headers: {
-        Authorization: `Bearer ${session}`,
-        "Content-Type": "application/json",
-      },
+      // headers: {
+      //   Authorization: `Bearer ${session}`,
+      //   "Content-Type": "application/json",
+      // },
     });
 
     console.log("res", res);
