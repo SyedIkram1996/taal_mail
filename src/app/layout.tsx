@@ -1,6 +1,6 @@
 import ResponsiveAppBar from "@/components/common/AppBar/AppBar";
+import FetchUserData from "@/components/common/FetchUserData/FetchUserData";
 import Footer from "@/components/common/Footer/Footer";
-import { BASE_URL } from "@/constants/environment copy";
 import UserState from "@/context/userContext";
 import "@/styles/globals.css";
 import theme from "@/theme";
@@ -20,20 +20,6 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   const session = cookies().get("session");
   // const { data } = await useGetUserServer(session);
 
-  const res = await fetch(`${BASE_URL}/user`, {
-    cache: "no-store",
-    headers: {
-      Authorization: `Bearer ${session}`,
-      "Content-Type": "application/json",
-    },
-  });
-
-  const data = await res.json();
-  console.log(data);
-  if (data) {
-    // console.log(JSON.parse(data));
-  }
-
   return (
     <html lang="en">
       <body>
@@ -41,6 +27,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
+            <FetchUserData />
             <UserState>
               <ResponsiveAppBar userSession={session} userData={null} />
             </UserState>
