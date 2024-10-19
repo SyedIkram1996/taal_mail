@@ -4,7 +4,6 @@ import { BASE_URL } from "@/constants/environment copy";
 import UserState from "@/context/userContext";
 import "@/styles/globals.css";
 import theme from "@/theme";
-import { parseJson } from "@/utils/helperFunctions";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
@@ -29,9 +28,9 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
     },
   });
 
-  const data = await res.json();
+  // const data = await res.json();
 
-  console.log(parseJson(data));
+  // console.log(parseJson(data));
 
   return (
     <html lang="en">
