@@ -14,10 +14,6 @@ export const useGetUserServer = async (session: RequestCookie | undefined) => {
       // },
     });
 
-    console.log("res", res);
-    console.log("BASE_URL", BASE_URL);
-    console.log("BASE_URL", process.env.NEXT_PUBLIC_BASE_URL);
-
     if (res.ok) {
       data = await res.json();
     }

@@ -104,7 +104,6 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openMenu, setOpenMenu] = useState("");
   const [expandMenu, setExpandMenu] = useState<string[]>([]);
-  console.log(userData?.name);
 
   const { setUser } = useUserContext();
 

@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
-  const session = cookies().get("token");
+  const session = cookies().get("session");
   const { data } = await useGetUserServer(session);
 
   return (
