@@ -1,15 +1,45 @@
 import dbConnect from "@/lib/db/dbConnect";
-import { User } from "@/lib/models/userModel";
+import UserModel from "@/lib/models/userModel";
+
 import "@/lib/utils/firebaseAdminInitialize";
+import { validateResultError } from "@/lib/utils/validateResultError";
+import { signUpSchema } from "@/validators/auth";
+import admin from "firebase-admin";
 import { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
   await dbConnect();
-  const { email, password } = await request.json();
+  const body = await request.json();
 
-  const users = await User.find();
+  const validationResult = signUpSchema.safeParse(body);
 
-  console.log(users);
+  if (!validationResult.success) {
+    return validateResultError(validationResult);
+  }
 
-  return Response.json({ data: { status: true, token: "" } });
+  const { name, email, password, phoneNo } = validationResult.data;
+
+  try {
+    const firebaseUser = await admin
+      .auth()
+      .createUser({ email, password, emailVerified: false });
+
+    const uid = firebaseUser.uid;
+
+    const verifyCode = Math.floor(100000 + Math.random() * 900000);
+
+    const user = await UserModel.create({
+      name,
+      email,
+      phoneNo,
+      uid,
+      verifyCode,
+    });
+
+    return Response.json({ data: { user }, error: false });
+  } catch (error) {
+    return Response.json({
+      data: { message: "User already exist", error: true },
+    });
+  }
 }

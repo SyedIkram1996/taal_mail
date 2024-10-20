@@ -1,0 +1,14 @@
+import { object, string } from "zod";
+
+export const signUpSchema = object({
+  name: string()
+    .min(2, "Username must be at least 2 characters")
+    .max(20, "Username must be no more than 20 characters"),
+  email: string().email("Invalid email address"),
+  password: string().min(6, "Password must be at least 6 characters"),
+  phoneNo: string(),
+});
+
+export const verifySchema = object({
+  verifyCode: string().length(6, "Verification code must be 6 digits"),
+});

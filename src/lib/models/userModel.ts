@@ -1,33 +1,57 @@
-import { Schema, model, models } from "mongoose";
+import { Document, Model, Schema, model, models } from "mongoose";
 
-const userSchema = new Schema({
+export interface IUserSchema extends Document {
+  uid: string;
+  name: string;
+  email: string;
+  phoneNo: string;
+  avatar: {
+    public_id: string;
+    url: string;
+  };
+  role: string;
+  verifyCode: string;
+  isVerified: boolean;
+  createdAt: Date;
+}
+
+const userSchema: Schema<IUserSchema> = new Schema({
+  uid: { type: String, required: true },
   name: {
     type: String,
-    required: true,
+    required: [true, "Name is required"],
+    trim: true,
   },
   email: {
     type: String,
-    required: true,
+    required: [true, "Email is required"],
     unique: true,
+    match: [
+      /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g,
+      "Please use a valid email",
+    ],
   },
   phoneNo: {
     type: String,
-    required: true,
+    required: [true, "Phone number is required"],
   },
   avatar: {
     public_id: String,
-
     url: String,
   },
   role: {
     type: String,
     default: "User",
   },
-  accountStatus: { type: String, default: "Pending" },
+  verifyCode: { type: String, required: true },
+  isVerified: { type: Boolean, default: false },
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
 
-export const User = models.User || model("User", userSchema);
+const UserModel =
+  (models.User as Model<IUserSchema>) || model("User", userSchema);
+
+export default UserModel;
