@@ -9,6 +9,11 @@ export const signUpSchema = object({
   phoneNo: string(),
 });
 
+export const loginInSchema = object({
+  email: string().email("Invalid email address"),
+  password: string(),
+});
+
 export const verifySchema = object({
   verifyCode: string().length(6, "Verification code must be 6 digits"),
 });

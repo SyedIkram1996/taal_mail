@@ -1,21 +1,38 @@
 "use client";
 
-import { loginAction } from "@/app/actions";
 import FilledButton from "@/components/common/Button/FilledButton";
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import TextXl from "@/components/common/Text/TextXl";
 import TextXs from "@/components/common/Text/TextXs";
 import { GoogleColorIcon } from "@/constants/images.routes";
+import { loginInSchema } from "@/validators/auth";
 import { Box, Stack, Typography } from "@mui/material";
+import { useFormik } from "formik";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { toFormikValidationSchema } from "zod-formik-adapter";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   const searchParams = useSearchParams();
   const redirectLink = searchParams.get("redirect");
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: (values) => {},
+    validationSchema: toFormikValidationSchema(loginInSchema),
+  });
+
+  console.log(
+    `Values : ${JSON.stringify(formik.values)}\n\nerrors : ${JSON.stringify(
+      formik.errors,
+    )}\n\n`,
+  );
 
   return (
     <Stack
@@ -24,6 +41,8 @@ const LoginForm = () => {
       }}
     >
       <Stack
+        onSubmit={formik.handleSubmit}
+        component={"form"}
         sx={{
           backgroundColor: "white",
           borderRadius: "1.875rem",
@@ -67,7 +86,22 @@ const LoginForm = () => {
               },
             },
           }}
+          error={Boolean(formik.errors.email && formik.touched.email)}
+          helperText={
+            formik.errors.email && formik.touched.email
+              ? formik.errors.email
+              : ""
+          }
+          {...formik.getFieldProps("email")}
+          onChange={(e) => {
+            formik.setTouched({
+              email: false,
+              password: formik.touched.password,
+            });
+            formik.handleChange(e);
+          }}
         />
+
         <LabelTopTextField
           type="password"
           placeholder="Password"
@@ -87,6 +121,20 @@ const LoginForm = () => {
               },
             },
           }}
+          error={Boolean(formik.errors.password && formik.touched.password)}
+          helperText={
+            formik.errors.password && formik.touched.password
+              ? formik.errors.password
+              : ""
+          }
+          {...formik.getFieldProps("password")}
+          onChange={(e) => {
+            formik.setTouched({
+              email: formik.touched.email,
+              password: false,
+            });
+            formik.handleChange(e);
+          }}
         />
 
         <TextXs
@@ -102,7 +150,8 @@ const LoginForm = () => {
 
         <FilledButton
           text="Login"
-          onClick={() => loginAction({ redirectLink })}
+          type="submit"
+          // onClick={() => loginAction({ redirectLink })}
           sx={{
             height: "3.0625rem",
             fontSize: "1rem",
