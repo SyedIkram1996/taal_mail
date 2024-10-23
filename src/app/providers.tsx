@@ -9,6 +9,15 @@ import {
 } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
+import "@tanstack/react-query";
+import { AxiosError } from "axios";
+
+declare module "@tanstack/react-query" {
+  interface Register {
+    defaultError: AxiosError;
+  }
+}
+
 function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {

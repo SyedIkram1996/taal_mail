@@ -72,6 +72,7 @@ export const TrashRedIcon = `${basePublicUrl}trashRed.svg`;
 export const ProfileIcon = `${basePublicUrl}profile.svg`;
 export const CrossWhiteIcon = `${basePublicUrl}crossWhite.svg`;
 export const TickWhiteIcon = `${basePublicUrl}tickWhite.svg`;
+export const Loading = `${basePublicUrl}loading.svg`;
 
 export const BannerImage = `${basePublicUrl}banner.png`;
 export const Property1Image = `${basePublicUrl}property1.png`;

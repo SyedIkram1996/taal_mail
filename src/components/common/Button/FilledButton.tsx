@@ -1,4 +1,7 @@
+import { ROTATING } from "@/constants/classNames";
+import { Loading } from "@/constants/images.routes";
 import { Button, SxProps } from "@mui/material";
+import Image from "next/image";
 import { MouseEventHandler, ReactNode } from "react";
 
 interface Props {
@@ -44,18 +47,18 @@ const FilledButton = ({
       type={type}
       variant={"contained"}
       startIcon={
-        // loading ? (
-        //   <Image
-        //     className={"rotating"}
-        //     priority
-        //     src={secondary ? LoadingDarkIcon : LoadingIcon}
-        //     alt={"icon"}
-        //     width={21}
-        //     height={20}
-        //   />
-        // ) : (
-        startIcon
-        // )
+        loading ? (
+          <Image
+            className={ROTATING}
+            priority
+            src={Loading}
+            alt={"icon"}
+            width={21}
+            height={20}
+          />
+        ) : (
+          startIcon
+        )
       }
       endIcon={endIcon}
       onClick={onClick}

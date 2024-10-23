@@ -8,6 +8,9 @@ export const signUpSchema = object({
   password: string().min(6, "Password must be at least 6 characters"),
   confirmPassword: string().min(6, "Password must be at least 6 characters"),
   phoneNo: string(),
+}).refine((data) => data.password === data.confirmPassword, {
+  path: ["confirmPassword"],
+  message: "Passwords do not match",
 });
 
 export const loginInSchema = object({

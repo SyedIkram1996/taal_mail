@@ -7,30 +7,22 @@ import TextXl from "@/components/common/Text/TextXl";
 import TextXs from "@/components/common/Text/TextXs";
 import { GoogleColorIcon } from "@/constants/images.routes";
 import { LOGIN } from "@/constants/page.routes";
+import { ISignUp } from "@/interfaces/api";
+import { signUp } from "@/services/auth.services";
 import { signUpSchema } from "@/validators/auth";
 import { Box, Stack, Typography } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
 const SignUpForm = () => {
-  const searchParams = useSearchParams();
-  const redirectLink = searchParams.get("redirect");
+  const [signUpError, setSignUpError] = useState("");
+  const router = useRouter();
 
-  const mutation = useMutation({
-    mutationKey: ["fetchingData"],
-    mutationFn: async () => {
-      return { data: "asdf" };
-    },
-    onSuccess: (data) => {
-      // Invalidate and refetch
-      console.log(data);
-    },
-  });
-
-  const formik = useFormik({
+  const formik = useFormik<ISignUp>({
     initialValues: {
       name: "",
       email: "",
@@ -39,17 +31,25 @@ const SignUpForm = () => {
       confirmPassword: "",
     },
     onSubmit: (values) => {
+      setSignUpError("");
+      router.prefetch(LOGIN);
       mutation.mutate();
     },
 
     validationSchema: toFormikValidationSchema(signUpSchema),
   });
 
-  //   console.log(
-  //     `Values : ${JSON.stringify(formik.values)}\n\nerrors : ${JSON.stringify(
-  //       formik.errors
-  //     )}\n\n`
-  //   );
+  const mutation = useMutation({
+    mutationKey: ["fetchingData"],
+    mutationFn: async () => signUp(formik.values),
+    onSuccess: (data) => {
+      router.replace(LOGIN);
+    },
+    onError: (error) => {
+      console.log("error", error);
+      setSignUpError(error.message);
+    },
+  });
 
   return (
     <Stack
@@ -88,8 +88,9 @@ const SignUpForm = () => {
         <LabelTopTextField
           placeholder="Name"
           sx={{
-            pb: "2.37rem",
+            minHeight: "5.38rem",
             ".MuiOutlinedInput-root": {
+              height: "3rem",
               backgroundColor: "var(--anti-flash-white)",
               borderRadius: "0.3125rem",
               fieldset: {
@@ -117,8 +118,9 @@ const SignUpForm = () => {
         <LabelTopTextField
           placeholder="Email"
           sx={{
-            pb: "2.37rem",
+            minHeight: "5.38rem",
             ".MuiOutlinedInput-root": {
+              height: "3rem",
               backgroundColor: "var(--anti-flash-white)",
               borderRadius: "0.3125rem",
               fieldset: {
@@ -148,8 +150,9 @@ const SignUpForm = () => {
         <LabelTopTextField
           placeholder="+92 Phone Number"
           sx={{
-            pb: "2.37rem",
+            minHeight: "5.38rem",
             ".MuiOutlinedInput-root": {
+              height: "3rem",
               backgroundColor: "var(--anti-flash-white)",
               borderRadius: "0.3125rem",
               fieldset: {
@@ -180,8 +183,9 @@ const SignUpForm = () => {
           type="password"
           placeholder="Password"
           sx={{
-            pb: "2.37rem",
+            minHeight: "5.38rem",
             ".MuiOutlinedInput-root": {
+              height: "3rem",
               backgroundColor: "var(--anti-flash-white)",
               borderRadius: "0.3125rem",
               fieldset: {
@@ -212,8 +216,9 @@ const SignUpForm = () => {
           type="password"
           placeholder="Confirm Password"
           sx={{
-            pb: "2.37rem",
+            minHeight: "5.38rem",
             ".MuiOutlinedInput-root": {
+              height: "3rem",
               backgroundColor: "var(--anti-flash-white)",
               borderRadius: "0.3125rem",
               fieldset: {
@@ -246,6 +251,7 @@ const SignUpForm = () => {
           text="Signup"
           type="submit"
           // onClick={() => loginAction({ redirectLink })}
+          loading={mutation.isPending}
           sx={{
             height: "3.0625rem",
             fontSize: "1rem",
@@ -258,6 +264,13 @@ const SignUpForm = () => {
             },
           }}
         />
+
+        {signUpError && (
+          <TextXs
+            text={signUpError}
+            sx={{ color: "var(--error)", textAlign: "center", mt: "0.5rem" }}
+          />
+        )}
 
         <Stack
           direction={"row"}
