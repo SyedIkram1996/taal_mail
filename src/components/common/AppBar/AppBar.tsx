@@ -14,6 +14,7 @@ import {
   MY_INFO,
   MY_OFFERS,
   MY_PROPERTY,
+  SIGN_UP,
 } from "@/constants/page.routes";
 import { useUserContext } from "@/context/userContext";
 import { IUser } from "@/interfaces/IUser";
@@ -70,7 +71,6 @@ const CustomMenu = ({
         ...sx,
       }}
     >
-      {" "}
       {menu.map(({ title, link, authReq }) => (
         <MUILink
           key={title}
@@ -161,7 +161,7 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
     return <Image src={LogoIcon} priority alt="Logo" width={257} height={85} />;
   };
 
-  if (pathname === LOGIN) {
+  if (pathname === LOGIN || pathname === SIGN_UP) {
     return <></>;
   }
 
@@ -219,6 +219,7 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
               />
               {navbarPages.map(({ title, link, menu }, idx) => (
                 <Stack
+                  key={title}
                   onClick={() => {
                     if (expandMenu.includes(title)) {
                       setExpandMenu(expandMenu.filter((val) => val != title));
@@ -227,7 +228,6 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
                       tempMenus.push(title);
                       setExpandMenu(tempMenus);
                     }
-                    // setOpenMenu(openMenu === title ? "" : title);
                   }}
                   sx={{
                     backgroundColor: expandMenu.includes(title)

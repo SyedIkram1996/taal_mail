@@ -126,6 +126,7 @@ const PropertyDetails = ({ data }: Props) => {
               >
                 {descIcon.map(({ icon, text }, index) => (
                   <IconText
+                    key={text}
                     icon={icon}
                     text={text}
                     iconWidth={30}

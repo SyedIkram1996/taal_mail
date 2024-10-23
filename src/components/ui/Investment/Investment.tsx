@@ -215,6 +215,7 @@ const Investment = () => {
                 >
                   {areas.map((val, index) => (
                     <TextLg
+                      key={val.title}
                       text={val.title}
                       onClick={() => setAreaValue(val)}
                       sx={{
@@ -369,7 +370,7 @@ const Investment = () => {
           >
             {beds.map((val, index) => (
               <TextLg
-                key={index}
+                key={val}
                 text={val}
                 onClick={() => setBathsValue(val)}
                 sx={{
@@ -400,7 +401,7 @@ const Investment = () => {
           >
             {baths.map((val, index) => (
               <TextLg
-                key={index}
+                key={val}
                 text={val}
                 onClick={() => setBedsValue(val)}
                 sx={{

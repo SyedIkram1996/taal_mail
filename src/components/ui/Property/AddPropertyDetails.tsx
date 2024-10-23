@@ -103,6 +103,7 @@ const AddPropertyDetails = () => {
       >
         {rentSell.map((val) => (
           <IconText
+            key={val.title}
             onClick={() => setPropertyPurpose(val.value)}
             text={val.title}
             icon={val.icon}
@@ -187,6 +188,7 @@ const AddPropertyDetails = () => {
                 >
                   {items.map((val) => (
                     <IconText
+                      key={val.text}
                       onClick={() =>
                         setPropertyTypeValue({ type, category: val.text })
                       }
@@ -242,6 +244,7 @@ const AddPropertyDetails = () => {
             >
               {dues.map((val, index) => (
                 <TextLg
+                  key={val.title}
                   text={val.title}
                   onClick={() => setDuesValues(val)}
                   sx={{
@@ -289,6 +292,7 @@ const AddPropertyDetails = () => {
             >
               {status.map((val, index) => (
                 <TextLg
+                  key={val.title}
                   text={val.title}
                   onClick={() => setStatusValue(val)}
                   sx={{
@@ -390,6 +394,7 @@ const AddPropertyDetails = () => {
                 >
                   {areas.map((val, index) => (
                     <TextLg
+                      key={val.title}
                       text={val.title}
                       onClick={() => setAreaValue(val)}
                       sx={{
@@ -476,7 +481,7 @@ const AddPropertyDetails = () => {
           >
             {beds.map((val, index) => (
               <TextLg
-                key={index}
+                key={val}
                 text={val}
                 onClick={() => setBathsValue(val)}
                 sx={{
@@ -507,7 +512,7 @@ const AddPropertyDetails = () => {
           >
             {baths.map((val, index) => (
               <TextLg
-                key={index}
+                key={val}
                 text={val}
                 onClick={() => setBedsValue(val)}
                 sx={{
@@ -680,6 +685,7 @@ const AddPropertyDetails = () => {
               Property2Image,
             ].map((val) => (
               <Grid2
+                key={val}
                 size={{ xs: 12, md: 4, lg: 3 }}
                 sx={{ display: "flex", justifyContent: "center" }}
               >

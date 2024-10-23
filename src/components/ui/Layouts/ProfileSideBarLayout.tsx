@@ -119,6 +119,7 @@ const ProfileSideBarLayout = () => {
         >
           {items.map((item) => (
             <BottomNavigationAction
+              key={item.link}
               sx={{
                 bgcolor:
                   item.link === pathname

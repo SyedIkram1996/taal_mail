@@ -6,25 +6,28 @@ import MUILink from "@/components/common/MUILink/MUILink";
 import TextXl from "@/components/common/Text/TextXl";
 import TextXs from "@/components/common/Text/TextXs";
 import { GoogleColorIcon } from "@/constants/images.routes";
-import { SIGN_UP } from "@/constants/page.routes";
-import { loginInSchema } from "@/validators/auth";
+import { LOGIN } from "@/constants/page.routes";
+import { signUpSchema } from "@/validators/auth";
 import { Box, Stack, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
-const LoginForm = () => {
+const SignUpForm = () => {
   const searchParams = useSearchParams();
   const redirectLink = searchParams.get("redirect");
 
   const formik = useFormik({
     initialValues: {
+      name: "",
       email: "",
+      phoneNo: "",
       password: "",
+      confirmPassword: "",
     },
     onSubmit: (values) => {},
-    validationSchema: toFormikValidationSchema(loginInSchema),
+    validationSchema: toFormikValidationSchema(signUpSchema),
   });
 
   console.log(
@@ -59,18 +62,47 @@ const LoginForm = () => {
         }}
       >
         <TextXl
-          text="Login"
+          text="Signup"
           sx={{
             color: "var(--text-black)",
             alignSelf: "center",
-            pb: { xs: "2rem", md: "6.75rem" },
+            pb: { xs: "2rem", md: "3rem" },
+          }}
+        />
+
+        <LabelTopTextField
+          placeholder="Name"
+          sx={{
+            pb: "2.37rem",
+            ".MuiOutlinedInput-root": {
+              backgroundColor: "var(--anti-flash-white)",
+              borderRadius: "0.3125rem",
+              fieldset: {
+                border: "none",
+                borderRadius: "0.3125rem",
+              },
+              "input::placeholder": {
+                fontSize: "1rem",
+                color: "var(--old-silver)",
+                opacity: "1",
+              },
+            },
+          }}
+          error={Boolean(formik.errors.name && formik.touched.name)}
+          helperText={
+            formik.errors.name && formik.touched.name ? formik.errors.name : ""
+          }
+          {...formik.getFieldProps("name")}
+          onChange={(e) => {
+            formik.setFieldTouched("name", false);
+            formik.handleChange(e);
           }}
         />
 
         <LabelTopTextField
           placeholder="Email"
           sx={{
-            pb: "2.75rem",
+            pb: "2.37rem",
             ".MuiOutlinedInput-root": {
               backgroundColor: "var(--anti-flash-white)",
               borderRadius: "0.3125rem",
@@ -93,10 +125,7 @@ const LoginForm = () => {
           }
           {...formik.getFieldProps("email")}
           onChange={(e) => {
-            formik.setTouched({
-              email: false,
-              password: formik.touched.password,
-            });
+            formik.setFieldTouched("email", false);
             formik.handleChange(e);
           }}
         />
@@ -105,7 +134,7 @@ const LoginForm = () => {
           type="password"
           placeholder="Password"
           sx={{
-            pb: "0.56rem",
+            pb: "2.37rem",
             ".MuiOutlinedInput-root": {
               backgroundColor: "var(--anti-flash-white)",
               borderRadius: "0.3125rem",
@@ -128,27 +157,47 @@ const LoginForm = () => {
           }
           {...formik.getFieldProps("password")}
           onChange={(e) => {
-            formik.setTouched({
-              email: formik.touched.email,
-              password: false,
-            });
+            formik.setFieldTouched("password", false);
             formik.handleChange(e);
           }}
         />
 
-        <TextXs
-          text="Forgot Password"
+        <LabelTopTextField
+          type="password"
+          placeholder="Confirm Password"
           sx={{
-            color: "var(--old-silver)",
-            alignSelf: "flex-end",
-            cursor: "pointer",
-            pb: "2.75rem",
-            textDecoration: "underLine",
+            pb: "2.37rem",
+            ".MuiOutlinedInput-root": {
+              backgroundColor: "var(--anti-flash-white)",
+              borderRadius: "0.3125rem",
+              fieldset: {
+                border: "none",
+                borderRadius: "0.3125rem",
+              },
+              "input::placeholder": {
+                fontSize: "1rem",
+                color: "var(--old-silver)",
+                opacity: "1",
+              },
+            },
+          }}
+          error={Boolean(
+            formik.errors.confirmPassword && formik.touched.confirmPassword,
+          )}
+          helperText={
+            formik.errors.confirmPassword && formik.touched.confirmPassword
+              ? formik.errors.confirmPassword
+              : ""
+          }
+          {...formik.getFieldProps("confirmPassword")}
+          onChange={(e) => {
+            formik.setFieldTouched("confirmPassword", false);
+            formik.handleChange(e);
           }}
         />
 
         <FilledButton
-          text="Login"
+          text="Signup"
           type="submit"
           // onClick={() => loginAction({ redirectLink })}
           sx={{
@@ -176,7 +225,7 @@ const LoginForm = () => {
             }}
           />
           <TextXs
-            text="Or login with"
+            text="Or Signup with"
             sx={{
               fontSize: "0.75rem",
               color: "var(--spanish-gray)",
@@ -224,9 +273,9 @@ const LoginForm = () => {
             fontWeight: "600",
           }}
         >
-          Don’t have an account?
+          Already have an account?
           <MUILink
-            href={SIGN_UP}
+            href={LOGIN}
             sx={{
               cursor: "pointer",
               color: "var(--text-secondary) !important",
@@ -235,7 +284,7 @@ const LoginForm = () => {
             }}
           >
             {" "}
-            Signup
+            Login
           </MUILink>
         </Typography>
       </Stack>
@@ -243,4 +292,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default SignUpForm;

@@ -26,7 +26,7 @@ const TermsAndConditions = () => {
 
       <Stack sx={{ mb: "3.06rem", maxWidth: "47.625rem" }}>
         {conditions.map((val, index) => (
-          <Stack direction={"row"}>
+          <Stack key={val} direction={"row"}>
             <TextMd
               key={val}
               text={`${index + 1}.`}

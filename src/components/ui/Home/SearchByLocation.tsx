@@ -59,7 +59,7 @@ const SearchByLocation = () => {
         />
       ) : searchResult.length > 0 ? (
         searchResult.map((result, index: number) => (
-          <Stack>
+          <Stack key={result}>
             <TextXs text={result} />
           </Stack>
         ))

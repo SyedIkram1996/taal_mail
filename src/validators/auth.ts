@@ -6,6 +6,7 @@ export const signUpSchema = object({
     .max(20, "Username must be no more than 20 characters"),
   email: string().email("Invalid email address"),
   password: string().min(6, "Password must be at least 6 characters"),
+  confirmPassword: string().min(6, "Password must be at least 6 characters"),
   phoneNo: string(),
 });
 
