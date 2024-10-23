@@ -9,6 +9,7 @@ import { GoogleColorIcon } from "@/constants/images.routes";
 import { LOGIN } from "@/constants/page.routes";
 import { signUpSchema } from "@/validators/auth";
 import { Box, Stack, Typography } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -18,6 +19,17 @@ const SignUpForm = () => {
   const searchParams = useSearchParams();
   const redirectLink = searchParams.get("redirect");
 
+  const mutation = useMutation({
+    mutationKey: ["fetchingData"],
+    mutationFn: async () => {
+      return { data: "asdf" };
+    },
+    onSuccess: (data) => {
+      // Invalidate and refetch
+      console.log(data);
+    },
+  });
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -26,15 +38,18 @@ const SignUpForm = () => {
       password: "",
       confirmPassword: "",
     },
-    onSubmit: (values) => {},
+    onSubmit: (values) => {
+      mutation.mutate();
+    },
+
     validationSchema: toFormikValidationSchema(signUpSchema),
   });
 
-  console.log(
-    `Values : ${JSON.stringify(formik.values)}\n\nerrors : ${JSON.stringify(
-      formik.errors,
-    )}\n\n`,
-  );
+  //   console.log(
+  //     `Values : ${JSON.stringify(formik.values)}\n\nerrors : ${JSON.stringify(
+  //       formik.errors
+  //     )}\n\n`
+  //   );
 
   return (
     <Stack
@@ -126,6 +141,37 @@ const SignUpForm = () => {
           {...formik.getFieldProps("email")}
           onChange={(e) => {
             formik.setFieldTouched("email", false);
+            formik.handleChange(e);
+          }}
+        />
+
+        <LabelTopTextField
+          placeholder="+92 Phone Number"
+          sx={{
+            pb: "2.37rem",
+            ".MuiOutlinedInput-root": {
+              backgroundColor: "var(--anti-flash-white)",
+              borderRadius: "0.3125rem",
+              fieldset: {
+                border: "none",
+                borderRadius: "0.3125rem",
+              },
+              "input::placeholder": {
+                fontSize: "1rem",
+                color: "var(--old-silver)",
+                opacity: "1",
+              },
+            },
+          }}
+          error={Boolean(formik.errors.phoneNo && formik.touched.phoneNo)}
+          helperText={
+            formik.errors.phoneNo && formik.touched.phoneNo
+              ? formik.errors.phoneNo
+              : ""
+          }
+          {...formik.getFieldProps("phoneNo")}
+          onChange={(e) => {
+            formik.setFieldTouched("phoneNo", false);
             formik.handleChange(e);
           }}
         />

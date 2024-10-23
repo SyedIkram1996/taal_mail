@@ -7,14 +7,18 @@ import theme from "@/theme";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
+import { QueryClient } from "@tanstack/react-query";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 import * as React from "react";
 import "swiper/css";
+import Providers from "./providers";
 
 export const metadata: Metadata = {
   title: "Taal Mail",
 };
+
+const queryClient = new QueryClient();
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const session = cookies().get("session");
@@ -30,7 +34,10 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             <UserState>
               <ResponsiveAppBar userSession={session} userData={data} />
             </UserState>
-            {props.children}
+            <Providers>
+              <>{props.children}</>
+            </Providers>
+
             <Footer />
           </ThemeProvider>
         </AppRouterCacheProvider>
