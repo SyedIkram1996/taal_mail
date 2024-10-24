@@ -98,6 +98,9 @@ const SignUpForm = () => {
                 border: "none",
                 borderRadius: "0.3125rem",
               },
+              input: {
+                height: "1.9rem",
+              },
               "input::placeholder": {
                 fontSize: "1rem",
                 color: "var(--old-silver)",
@@ -127,6 +130,9 @@ const SignUpForm = () => {
               fieldset: {
                 border: "none",
                 borderRadius: "0.3125rem",
+              },
+              input: {
+                height: "1.9rem",
               },
               "input::placeholder": {
                 fontSize: "1rem",
@@ -159,6 +165,9 @@ const SignUpForm = () => {
               fieldset: {
                 border: "none",
                 borderRadius: "0.3125rem",
+              },
+              input: {
+                height: "1.9rem",
               },
               "input::placeholder": {
                 fontSize: "1rem",
@@ -193,6 +202,9 @@ const SignUpForm = () => {
                 border: "none",
                 borderRadius: "0.3125rem",
               },
+              input: {
+                height: "1.9rem",
+              },
               "input::placeholder": {
                 fontSize: "1rem",
                 color: "var(--old-silver)",
@@ -225,6 +237,9 @@ const SignUpForm = () => {
               fieldset: {
                 border: "none",
                 borderRadius: "0.3125rem",
+              },
+              input: {
+                height: "1.9rem",
               },
               "input::placeholder": {
                 fontSize: "1rem",
