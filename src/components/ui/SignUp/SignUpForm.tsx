@@ -40,7 +40,6 @@ const SignUpForm = () => {
   });
 
   const mutation = useMutation({
-    mutationKey: ["fetchingData"],
     mutationFn: async () => signUp(formik.values),
     onSuccess: (data) => {
       router.replace(LOGIN);

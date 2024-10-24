@@ -1,5 +1,6 @@
 "use client";
 
+import { auth } from "@/../firebase";
 import FilledButton from "@/components/common/Button/FilledButton";
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import MUILink from "@/components/common/MUILink/MUILink";
@@ -13,7 +14,6 @@ import { toastError } from "@/utils/toaster";
 import { loginInSchema } from "@/validators/auth";
 import { Box, Stack, Typography } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
-import { auth } from "firebase";
 import { useFormik } from "formik";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -37,14 +37,7 @@ const LoginForm = () => {
     validationSchema: toFormikValidationSchema(loginInSchema),
   });
 
-  // console.log(
-  //   `Values : ${JSON.stringify(formik.values)}\n\nerrors : ${JSON.stringify(
-  //     formik.errors
-  //   )}\n\n`
-  // );
-
   const mutation = useMutation({
-    mutationKey: ["loginUser"],
     mutationFn: async () => {
       const { email, password } = formik.values;
 
@@ -53,6 +46,11 @@ const LoginForm = () => {
           email,
           password,
         );
+
+        //TODO: use This in the acctmgmt page
+        // const oobCode = await auth.applyActionCode(
+        //   "f7WwvEaKu5nhKED-FPuZ4plrQ4tYONoaMKErhedWL8EAAAGSv8vUXw"
+        // );
 
         const user = userCredential.user;
 
@@ -66,7 +64,20 @@ const LoginForm = () => {
           const uid = userCredential.user.uid;
           return login({ email, idToken, uid });
         }
-      } catch (error) {}
+      } catch (error: any) {
+        let message = "Something went wrong";
+        console.log(error);
+        switch (error.code) {
+          case "auth/invalid-credential":
+            message = "Invalid Credentials";
+            break;
+
+          default:
+            break;
+        }
+
+        throw Error(message);
+      }
     },
     onSuccess: (data) => {
       //In Server actions set cookie token and redirect
@@ -204,6 +215,13 @@ const LoginForm = () => {
             },
           }}
         />
+
+        {loginError && (
+          <TextXs
+            text={loginError}
+            sx={{ color: "var(--error)", textAlign: "center", mt: "0.5rem" }}
+          />
+        )}
 
         <Stack
           direction={"row"}
