@@ -8,6 +8,7 @@ import dbConnect from "@/lib/db/dbConnect";
 import UserModel from "@/lib/models/userModel";
 import { apiResponseError } from "@/lib/utils/apiResponseError";
 import "@/lib/utils/firebaseAdminInitialize";
+import { verifyEmail } from "@/lib/utils/sendEmail";
 import { validateResultError } from "@/lib/utils/validateResultError";
 import { signUpSchema } from "@/validators/auth";
 import admin from "firebase-admin";
@@ -42,9 +43,7 @@ export async function POST(request: NextRequest) {
       verifyCode,
     });
 
-    const emailLink = await admin.auth().generateEmailVerificationLink(email);
-
-    // TODO: send email to user with link
+    await verifyEmail(email);
 
     return Response.json({ user, error: false }, { status: CREATED });
   } catch (error: any) {

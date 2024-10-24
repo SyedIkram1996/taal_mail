@@ -21,3 +21,9 @@ export interface ISignUp
 export interface ILogin extends Pick<IUserSchema, "email"> {
   password: string;
 }
+
+export interface ISendEmail {
+  subject: string;
+  body: string;
+  sentTo: string;
+}

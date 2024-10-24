@@ -47,15 +47,11 @@ const LoginForm = () => {
           password,
         );
 
-        //TODO: use This in the acctmgmt page
-        // const oobCode = await auth.applyActionCode(
-        //   "f7WwvEaKu5nhKED-FPuZ4plrQ4tYONoaMKErhedWL8EAAAGSv8vUXw"
-        // );
-
         const user = userCredential.user;
 
         if (!user?.emailVerified) {
-          toastError("Email is not verfied");
+          toastError("Email is not verified");
+          setLoginError("Email is not verified");
           return auth.signOut();
         }
 
@@ -166,6 +162,9 @@ const LoginForm = () => {
               fieldset: {
                 border: "none",
                 borderRadius: "0.3125rem",
+              },
+              input: {
+                height: "1.9rem",
               },
               "input::placeholder": {
                 fontSize: "1rem",

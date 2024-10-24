@@ -3,7 +3,7 @@
 import { followUs } from "@/constants/footer";
 import { Logo2Icon } from "@/constants/images.routes";
 import { navbarPages } from "@/constants/navbar";
-import { LOGIN, SIGN_UP } from "@/constants/page.routes";
+import { ACCOUNT_MANAGEMENT, LOGIN, SIGN_UP } from "@/constants/page.routes";
 import { montserrat } from "@/theme";
 import { Stack } from "@mui/material";
 import Image from "next/image";
@@ -15,7 +15,11 @@ import TextXs from "../Text/TextXs";
 const Footer = () => {
   const pathname = usePathname();
 
-  if (pathname === LOGIN || pathname === SIGN_UP) {
+  if (
+    pathname === LOGIN ||
+    pathname === SIGN_UP ||
+    pathname === ACCOUNT_MANAGEMENT
+  ) {
     return <></>;
   }
   return (

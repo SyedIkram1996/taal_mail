@@ -9,6 +9,7 @@ import { GoogleColorIcon } from "@/constants/images.routes";
 import { LOGIN } from "@/constants/page.routes";
 import { ISignUp } from "@/interfaces/api";
 import { signUp } from "@/services/auth.services";
+import { toastSuccess } from "@/utils/toaster";
 import { signUpSchema } from "@/validators/auth";
 import { Box, Stack, Typography } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
@@ -42,6 +43,7 @@ const SignUpForm = () => {
   const mutation = useMutation({
     mutationFn: async () => signUp(formik.values),
     onSuccess: (data) => {
+      toastSuccess("Account created! Verify your email address");
       router.replace(LOGIN);
     },
     onError: (error) => {

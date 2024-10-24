@@ -8,6 +8,7 @@ import {
 } from "@/constants/images.routes";
 import { navbarPages } from "@/constants/navbar";
 import {
+  ACCOUNT_MANAGEMENT,
   HOME,
   LOGIN,
   MY_BIDS,
@@ -161,7 +162,11 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
     return <Image src={LogoIcon} priority alt="Logo" width={257} height={85} />;
   };
 
-  if (pathname === LOGIN || pathname === SIGN_UP) {
+  if (
+    pathname === LOGIN ||
+    pathname === SIGN_UP ||
+    pathname === ACCOUNT_MANAGEMENT
+  ) {
     return <></>;
   }
 
