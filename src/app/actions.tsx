@@ -6,13 +6,19 @@ import { redirect } from "next/navigation";
 
 export const loginAction = ({
   redirectLink,
+  token,
 }: {
-  redirectLink: string | null;
+  redirectLink?: string | null;
+  token: string;
 }) => {
-  cookies().set(
-    "token",
-    JSON.stringify({ name: "Ikram", email: "ikram96211@gmail.com" }),
-  );
+  const expiresIn = 60 * 60 * 24 * 15;
+  const options = {
+    maxAge: expiresIn,
+    httpOnly: true,
+    secure: true,
+    // path: "/",
+  };
+  cookies().set("token", token, options);
   redirect(redirectLink ? redirectLink : MY_PROPERTY);
 };
 

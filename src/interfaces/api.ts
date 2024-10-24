@@ -1,5 +1,6 @@
 import { IUserSchema } from "@/lib/models/userModel";
-import { Method } from "axios";
+
+import { AxiosError, AxiosResponse, Method } from "axios";
 
 export interface IAPIRequest {
   method: Method;
@@ -27,3 +28,5 @@ export interface ISendEmail {
   body: string;
   sentTo: string;
 }
+
+export type TServiceResponse = [null | AxiosResponse, AxiosError | null];

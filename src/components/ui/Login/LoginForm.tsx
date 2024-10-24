@@ -1,6 +1,7 @@
 "use client";
 
 import { auth } from "@/../firebase";
+import { loginAction } from "@/app/actions";
 import FilledButton from "@/components/common/Button/FilledButton";
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import MUILink from "@/components/common/MUILink/MUILink";
@@ -75,8 +76,10 @@ const LoginForm = () => {
         throw Error(message);
       }
     },
-    onSuccess: (data) => {
-      //In Server actions set cookie token and redirect
+    onSuccess: (data: any) => {
+      if (data && data.data) {
+        loginAction({ token: data.data.token });
+      }
     },
     onError: (error) => {
       console.log("error", error);
