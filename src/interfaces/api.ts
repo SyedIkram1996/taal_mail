@@ -17,3 +17,7 @@ export interface ISignUp
   password: string;
   confirmPassword: string;
 }
+
+export interface ILogin extends Pick<IUserSchema, "email"> {
+  password: string;
+}

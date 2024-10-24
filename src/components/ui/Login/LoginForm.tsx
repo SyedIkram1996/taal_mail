@@ -7,31 +7,75 @@ import TextXl from "@/components/common/Text/TextXl";
 import TextXs from "@/components/common/Text/TextXs";
 import { GoogleColorIcon } from "@/constants/images.routes";
 import { SIGN_UP } from "@/constants/page.routes";
+import { ILogin } from "@/interfaces/api";
+import { login } from "@/services/auth.services";
+import { toastError } from "@/utils/toaster";
 import { loginInSchema } from "@/validators/auth";
 import { Box, Stack, Typography } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
+import { auth } from "firebase";
 import { useFormik } from "formik";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
 const LoginForm = () => {
   const searchParams = useSearchParams();
+  const [loginError, setLoginError] = useState("");
   const redirectLink = searchParams.get("redirect");
 
-  const formik = useFormik({
+  const formik = useFormik<ILogin>({
     initialValues: {
       email: "",
       password: "",
     },
-    onSubmit: (values) => {},
+    onSubmit: ({ email }) => {
+      setLoginError("");
+      mutation.mutate();
+    },
     validationSchema: toFormikValidationSchema(loginInSchema),
   });
 
-  console.log(
-    `Values : ${JSON.stringify(formik.values)}\n\nerrors : ${JSON.stringify(
-      formik.errors,
-    )}\n\n`,
-  );
+  // console.log(
+  //   `Values : ${JSON.stringify(formik.values)}\n\nerrors : ${JSON.stringify(
+  //     formik.errors
+  //   )}\n\n`
+  // );
+
+  const mutation = useMutation({
+    mutationKey: ["loginUser"],
+    mutationFn: async () => {
+      const { email, password } = formik.values;
+
+      try {
+        const userCredential = await auth.signInWithEmailAndPassword(
+          email,
+          password,
+        );
+
+        const user = userCredential.user;
+
+        if (!user?.emailVerified) {
+          toastError("Email is not verfied");
+          return auth.signOut();
+        }
+
+        if (userCredential.user) {
+          const idToken = await userCredential.user.getIdToken();
+          const uid = userCredential.user.uid;
+          return login({ email, idToken, uid });
+        }
+      } catch (error) {}
+    },
+    onSuccess: (data) => {
+      //In Server actions set cookie token and redirect
+    },
+    onError: (error) => {
+      console.log("error", error);
+      setLoginError(error.message);
+    },
+  });
 
   return (
     <Stack
@@ -70,8 +114,9 @@ const LoginForm = () => {
         <LabelTopTextField
           placeholder="Email"
           sx={{
-            pb: "2.75rem",
+            minHeight: "5.38rem",
             ".MuiOutlinedInput-root": {
+              height: "3rem",
               backgroundColor: "var(--anti-flash-white)",
               borderRadius: "0.3125rem",
               fieldset: {
@@ -93,10 +138,7 @@ const LoginForm = () => {
           }
           {...formik.getFieldProps("email")}
           onChange={(e) => {
-            formik.setTouched({
-              email: false,
-              password: formik.touched.password,
-            });
+            formik.setFieldTouched("email", false);
             formik.handleChange(e);
           }}
         />
@@ -105,8 +147,9 @@ const LoginForm = () => {
           type="password"
           placeholder="Password"
           sx={{
-            pb: "0.56rem",
+            minHeight: "5.38rem",
             ".MuiOutlinedInput-root": {
+              height: "3rem",
               backgroundColor: "var(--anti-flash-white)",
               borderRadius: "0.3125rem",
               fieldset: {
@@ -128,10 +171,7 @@ const LoginForm = () => {
           }
           {...formik.getFieldProps("password")}
           onChange={(e) => {
-            formik.setTouched({
-              email: formik.touched.email,
-              password: false,
-            });
+            formik.setFieldTouched("password", false);
             formik.handleChange(e);
           }}
         />
@@ -150,6 +190,7 @@ const LoginForm = () => {
         <FilledButton
           text="Login"
           type="submit"
+          loading={mutation.isPending}
           // onClick={() => loginAction({ redirectLink })}
           sx={{
             height: "3.0625rem",

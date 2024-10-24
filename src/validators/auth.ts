@@ -18,6 +18,12 @@ export const loginInSchema = object({
   password: string(),
 });
 
+export const loginInIdTokenSchema = object({
+  email: string().email("Invalid email address"),
+  idToken: string(),
+  uid: string(),
+});
+
 export const verifySchema = object({
   verifyCode: string().length(6, "Verification code must be 6 digits"),
 });

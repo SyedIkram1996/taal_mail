@@ -1,5 +1,6 @@
 import ResponsiveAppBar from "@/components/common/AppBar/AppBar";
 import Footer from "@/components/common/Footer/Footer";
+import ReactHotToaster from "@/components/common/ReactHotToaster/ReactHotToaster";
 import UserState from "@/context/userContext";
 import { useGetUserServer } from "@/hooks/useGetUserServer";
 import "@/styles/globals.css";
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
-  const session = cookies().get("session");
+  const session = cookies().get("token");
   const { data } = await useGetUserServer(session);
 
   return (
@@ -28,6 +29,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
           <ThemeProvider theme={theme}>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
+            <ReactHotToaster />
             <UserState>
               <ResponsiveAppBar userSession={session} userData={data} />
             </UserState>

@@ -1,10 +1,7 @@
 import MyBids from "@/components/ui/Profile/MyBids/MyBids";
 import { buyRentProperties } from "@/constants/buyRent";
-import { LOGIN } from "@/constants/page.routes";
 import { Stack } from "@mui/material";
 import { Metadata } from "next";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "My Bids | Taal Mail",

@@ -79,7 +79,7 @@ interface Props {
 }
 
 const PropertyDetails = ({ data }: Props) => {
-  const user = cookies().get("session");
+  const user = cookies().get("token");
 
   const descIcon = [
     {

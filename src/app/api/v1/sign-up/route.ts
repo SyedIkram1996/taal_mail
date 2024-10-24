@@ -1,3 +1,9 @@
+import {
+  BAD_REQUEST,
+  CONFLICT,
+  CREATED,
+  INTERNAL_SERVER_ERROR,
+} from "@/constants/statusCodes";
 import dbConnect from "@/lib/db/dbConnect";
 import UserModel from "@/lib/models/userModel";
 import { apiResponseError } from "@/lib/utils/apiResponseError";
@@ -37,29 +43,29 @@ export async function POST(request: NextRequest) {
       verifyCode,
     });
 
-    return Response.json({ user, error: false }, { status: 201 });
+    return Response.json({ user, error: false }, { status: CREATED });
   } catch (error: any) {
     let message = "Something went wrong";
-    let statusCode = 500;
+    let statusCode = INTERNAL_SERVER_ERROR;
 
     if (error.code) {
       switch (error.code) {
         case "auth/email-already-exists":
           message = "The email address is already in use.";
-          statusCode = 409;
+          statusCode = CONFLICT;
           break;
         case "auth/invalid-email":
           message = "The email address is not valid.";
-          statusCode = 400;
+          statusCode = BAD_REQUEST;
           break;
         case "auth/invalid-password":
           message =
             "The password is not valid. It should meet the required criteria.";
-          statusCode = 400;
+          statusCode = BAD_REQUEST;
           break;
         case "auth/weak-password":
           message = "The password is too weak.";
-          statusCode = 400;
+          statusCode = BAD_REQUEST;
           break;
         default:
           message = "An unknown error occurred during user creation.";
