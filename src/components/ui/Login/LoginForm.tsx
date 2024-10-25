@@ -63,7 +63,6 @@ const LoginForm = () => {
         }
       } catch (error: any) {
         let message = "Something went wrong";
-        console.log(error);
         switch (error.code) {
           case "auth/invalid-credential":
             message = "Invalid Credentials";
@@ -82,7 +81,6 @@ const LoginForm = () => {
       }
     },
     onError: (error) => {
-      console.log("error", error);
       setLoginError(error.message);
     },
   });

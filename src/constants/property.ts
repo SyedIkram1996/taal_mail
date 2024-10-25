@@ -13,7 +13,6 @@ import {
   Property1Image,
   Property2Image,
   SchoolIcon,
-  SecurityIcon,
   TvIcon,
   WaterIcon,
   WifiIcon,
@@ -50,43 +49,81 @@ export const basicFeatures = [
     icon: DiningIcon,
   },
   {
+    title: "Drawing Room",
+    icon: DiningIcon,
+  },
+  {
+    title: "Store Room",
+    icon: DiningIcon,
+  },
+  {
+    title: "Laundry Room",
+    icon: DiningIcon,
+  },
+  {
+    title: "Powder Room",
+    icon: DiningIcon,
+  },
+  {
+    title: "Study Room",
+    icon: DiningIcon,
+  },
+  {
+    title: "Basement",
+    icon: DiningIcon,
+  },
+  {
+    title: "Servant Quarter",
+    icon: DiningIcon,
+  },
+  {
     title: "Kitchen",
     icon: KitchenIcon,
-  },
-  {
-    title: "Gas",
-    icon: GasIcon,
-  },
-  {
-    title: "Electricity",
-    icon: ElectricityIcon,
-  },
-  {
-    title: "Water",
-    icon: WaterIcon,
   },
   {
     title: "Balcony",
     icon: BalconyIcon,
   },
+  {
+    title: "Furnished",
+    icon: KitchenIcon,
+  },
 ];
 
 export const facilities = [
   {
-    title: "Wifi",
-    icon: WifiIcon,
+    title: "Electricity",
+    icon: ElectricityIcon,
   },
   {
-    title: "TV",
+    title: "Gas",
+    icon: GasIcon,
+  },
+
+  {
+    title: "Water",
+    icon: WaterIcon,
+  },
+  {
+    title: "Sewerage",
+    icon: WaterIcon,
+  },
+  {
+    title: "Security",
+    icon: WaterIcon,
+  },
+  {
+    title: "TV Cable",
     icon: TvIcon,
+  },
+
+  {
+    title: "Wifi and Internet",
+    icon: WifiIcon,
   },
   {
     title: "Maintenance",
     icon: MaintenanceIcon,
-  },
-  {
-    title: "Security",
-    icon: SecurityIcon,
   },
 ];
 
@@ -104,7 +141,42 @@ export const nearbyPlaces = [
     icon: HospitalIcon,
   },
   {
+    title: "Restaurant",
+    icon: PetrolPumpIcon,
+  },
+  {
     title: "Petrol pump",
+    icon: PetrolPumpIcon,
+  },
+];
+
+export const secondaryFeatures = [
+  {
+    title: "Dirty Kitchen",
+    icon: PetrolPumpIcon,
+  },
+  {
+    title: "Lawn",
+    icon: PetrolPumpIcon,
+  },
+  {
+    title: "Swimming Pool",
+    icon: PetrolPumpIcon,
+  },
+  {
+    title: "Elevator/Lift",
+    icon: PetrolPumpIcon,
+  },
+  {
+    title: "Home Theater",
+    icon: PetrolPumpIcon,
+  },
+  {
+    title: "Central Cooling",
+    icon: PetrolPumpIcon,
+  },
+  {
+    title: "Accessibility",
     icon: PetrolPumpIcon,
   },
 ];

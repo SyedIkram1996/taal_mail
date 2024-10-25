@@ -28,8 +28,6 @@ const EmailVerified = ({ oobCode }: Props) => {
           if (error.code === "auth/invalid-action-code") {
             setIsInvalidCode("Invalid code / Code Expired");
           }
-
-          console.log(error);
         }
 
         setLoading(false);

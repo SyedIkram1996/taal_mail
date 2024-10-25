@@ -47,7 +47,6 @@ const SignUpForm = () => {
       router.replace(LOGIN);
     },
     onError: (error) => {
-      console.log("error", error);
       setSignUpError(error.message);
     },
   });

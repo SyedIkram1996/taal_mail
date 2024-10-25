@@ -28,7 +28,7 @@ export const propertySchema = object({
   description: string(),
   images: array(
     object({
-      public_id: string(),
+      public_id: string().optional(),
       url: string(),
     }),
   ),

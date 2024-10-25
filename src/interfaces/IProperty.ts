@@ -21,4 +21,10 @@ export interface IProperty
     | "allotmentLetter"
   > {
   id: string;
+  images:
+    | {
+        public_id: string;
+        url: string;
+      }[]
+    | [];
 }
