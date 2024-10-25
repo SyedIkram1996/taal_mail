@@ -1,9 +1,9 @@
 import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
-import { IBuyRentProperty } from "@/interfaces/IBuyRent";
-import { Grid2, Stack } from "@mui/material";
+import { IProperty } from "@/interfaces/IProperty";
+import { Grid2 } from "@mui/material";
 
 interface Props {
-  data: IBuyRentProperty[];
+  data: IProperty[];
 }
 
 const BuyRentProperties = ({ data }: Props) => {

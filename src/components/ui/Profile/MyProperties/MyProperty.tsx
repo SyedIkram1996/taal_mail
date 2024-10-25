@@ -1,13 +1,13 @@
 import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
 import { PencilBlueIcon, TrashRedIcon } from "@/constants/images.routes";
 import { SELL_PLOT } from "@/constants/page.routes";
-import { IBuyRentProperty } from "@/interfaces/IBuyRent";
+import { IProperty } from "@/interfaces/IProperty";
 import { Stack } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 
 interface Props {
-  val: IBuyRentProperty;
+  val: IProperty;
 }
 
 const MyProperty = ({ val }: Props) => {

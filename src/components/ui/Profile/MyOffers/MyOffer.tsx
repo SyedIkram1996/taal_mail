@@ -6,13 +6,13 @@ import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
 import TextMd from "@/components/common/Text/TextMd";
 import TextXl from "@/components/common/Text/TextXl";
 import { CloseIcon, TickWhiteIcon } from "@/constants/images.routes";
-import { IBuyRentProperty } from "@/interfaces/IBuyRent";
+import { IProperty } from "@/interfaces/IProperty";
 import { Dialog, Stack } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
 
 interface Props {
-  val: IBuyRentProperty;
+  val: IProperty;
 }
 
 const MyOffer = ({ val }: Props) => {

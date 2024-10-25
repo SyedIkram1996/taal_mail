@@ -1,9 +1,9 @@
-import { IBuyRentProperty } from "@/interfaces/IBuyRent";
+import { IProperty } from "@/interfaces/IProperty";
 import { Grid2 } from "@mui/material";
 import MyOffer from "./MyOffer";
 
 interface Props {
-  data: IBuyRentProperty[];
+  data: IProperty[];
 }
 
 const MyOffers = ({ data }: Props) => {

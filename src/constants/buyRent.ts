@@ -1,6 +1,6 @@
-import { IBuyRentProperty } from "@/interfaces/IBuyRent";
+import { IProperty } from "@/interfaces/IProperty";
 
-export const buyRentProperties: IBuyRentProperty[] = [
+export const buyRentProperties: IProperty[] = [
   {
     id: "a8dj2k9pq",
     title: "PKR 2.2 Crore",
@@ -84,7 +84,7 @@ export const buyRentProperties: IBuyRentProperty[] = [
   },
 ];
 
-export const featuredListing: IBuyRentProperty[] = [
+export const featuredListing: IProperty[] = [
   {
     id: "n3k7f1vrp",
     title: "PKR 6.2 Crore",

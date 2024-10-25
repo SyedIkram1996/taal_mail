@@ -1,5 +1,6 @@
 "use client";
 
+import { auth } from "@/../firebase";
 import { logoutAction } from "@/app/actions";
 import {
   ChevronDownGreyIcon,
@@ -346,6 +347,7 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
                   ))}
                   <TextMd
                     onClick={() => {
+                      auth.signOut();
                       logoutAction();
                       handleProfileMenu(false);
                     }}
@@ -462,6 +464,7 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
               >
                 <TextSm
                   onClick={() => {
+                    auth.signOut();
                     logoutAction();
                     handleProfileMenu(false);
                   }}

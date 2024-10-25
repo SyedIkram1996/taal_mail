@@ -78,7 +78,7 @@ const LoginForm = () => {
     },
     onSuccess: (data: any) => {
       if (data && data.data) {
-        loginAction({ token: data.data.token });
+        loginAction({ token: data.data.token, redirectLink });
       }
     },
     onError: (error) => {
@@ -206,7 +206,7 @@ const LoginForm = () => {
         <FilledButton
           text="Login"
           type="submit"
-          loading={mutation.isPending}
+          loading={mutation.isPending || mutation.isSuccess}
           // onClick={() => loginAction({ redirectLink })}
           sx={{
             height: "3.0625rem",

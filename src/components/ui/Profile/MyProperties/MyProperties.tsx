@@ -1,13 +1,13 @@
 "use client";
 
 import { propertyTypes } from "@/constants/filters";
-import { IBuyRentProperty } from "@/interfaces/IBuyRent";
+import { IProperty } from "@/interfaces/IProperty";
 import { Box, Grid2, Stack, Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 import MyProperty from "./MyProperty";
 
 interface Props {
-  data: IBuyRentProperty[];
+  data: IProperty[];
 }
 
 const MyProperties = ({ data }: Props) => {

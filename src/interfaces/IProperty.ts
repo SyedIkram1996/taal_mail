@@ -1,4 +1,4 @@
-export interface IBuyRentProperty {
+export interface IProperty {
   id: string;
   title: string;
   bedRooms: string;

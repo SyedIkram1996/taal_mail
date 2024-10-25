@@ -16,7 +16,7 @@ import {
   nearbyPlaces,
   propertyStatus,
 } from "@/constants/property";
-import { IBuyRentProperty } from "@/interfaces/IBuyRent";
+import { IProperty } from "@/interfaces/IProperty";
 import { Grid2, Stack } from "@mui/material";
 import { cookies } from "next/headers";
 import Image from "next/image";
@@ -75,7 +75,7 @@ const FeaturesFacilitiesNearby = ({
 };
 
 interface Props {
-  data: IBuyRentProperty;
+  data: IProperty;
 }
 
 const PropertyDetails = ({ data }: Props) => {
