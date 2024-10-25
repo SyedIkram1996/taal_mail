@@ -3,18 +3,11 @@
 import FilledButton from "@/components/common/Button/FilledButton";
 import MenuCard from "@/components/common/Card/MenuCard";
 import IconText from "@/components/common/IconText";
-import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import SelectField from "@/components/common/Input/SelectField";
 import TextLg from "@/components/common/Text/TextLg";
 import TextMd from "@/components/common/Text/TextMd";
 import TextSm from "@/components/common/Text/TextSm";
-import {
-  areas,
-  baths,
-  beds,
-  propertyTypes,
-  rentSell,
-} from "@/constants/filters";
+import { propertyTypes, rentSell } from "@/constants/filters";
 import {
   BannerImage,
   CloseGreyIcon,
@@ -27,9 +20,30 @@ import {
   UploadImageIcon,
 } from "@/constants/images.routes";
 import { dues, status } from "@/constants/property";
+import {
+  EPropertyClassification,
+  EPropertyDues,
+  EPropertyStatus,
+} from "@/enums/enums";
+import { IProperty } from "@/interfaces/IProperty";
+import { propertySchema } from "@/validators/property";
 import { Box, Grid2, Stack, Tab, Tabs } from "@mui/material";
+import { useFormik } from "formik";
 import Image from "next/image";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+import { toFormikValidationSchema } from "zod-formik-adapter";
+import AreaField from "./AreaField";
+import BathroomsSelect from "./BathroomsSelect";
+import BedroomsSelect from "./BedroomsSelect";
+import CityField from "./CityField";
+import DescriptionField from "./DescriptionField";
+import LocationField from "./LocationField";
+import NameField from "./NameField";
+import PriceField from "./PriceField";
+
+const { RESIDENTIAL_VALUE } = EPropertyClassification;
+const { CLEARED } = EPropertyDues;
+const { COMPLETION } = EPropertyStatus;
 
 interface Props {
   title: string;
@@ -55,7 +69,6 @@ const TitleDesc = ({ title, desc }: Props) => {
 };
 
 const AddPropertyDetails = () => {
-  const [propertyPurpose, setPropertyPurpose] = useState("");
   const [tabValue, setTabValue] = useState(0);
   const [propertyTypeValue, setPropertyTypeValue] = useState<{
     type: string;
@@ -79,8 +92,107 @@ const AddPropertyDetails = () => {
     setTabValue(newValue);
   };
 
+  const formik = useFormik<IProperty>({
+    initialValues: {
+      id: "",
+      purpose: "",
+      classification: RESIDENTIAL_VALUE,
+      type: "",
+      duesCleared: "",
+      status: "",
+      city: "",
+      location: "",
+      area: {
+        type: "",
+        totalArea: "",
+      },
+      price: {
+        askingPrice: "",
+        currency: "PKR",
+      },
+      bedrooms: "",
+      bathrooms: "",
+      features: {
+        basicFeatures: [],
+        facilities: [],
+        nearbyPlaces: [],
+        secondaryFeatures: [],
+      },
+      name: "",
+      description: "",
+      images: [
+        {
+          public_id: "",
+          url: "",
+        },
+      ],
+      allotmentLetter: {
+        public_id: "",
+        url: "",
+      },
+    },
+    onSubmit: () => {
+      // setLoginError("");
+      // mutation.mutate();
+    },
+    validationSchema: toFormikValidationSchema(propertySchema),
+  });
+
+  // console.log(
+  //   `Values : ${JSON.stringify(formik.values)}\n\nerrors : ${JSON.stringify(
+  //     formik.errors
+  //   )}\n\n`
+  // );
+
+  const formikValues = formik.values;
+  const { purpose } = formikValues;
+
+  const handleChangeLocation = useCallback((e: any) => {
+    formik.setFieldTouched("location", false);
+    formik.handleChange(e);
+  }, []);
+
+  const handleChangeCity = useCallback((e: any) => {
+    formik.setFieldTouched("city", false);
+    formik.handleChange(e);
+  }, []);
+
+  const handleChangeTotalArea = useCallback((e: any) => {
+    formik.setFieldTouched("area.totalArea", false);
+    formik.setFieldValue("area.totalArea", e.target.value);
+  }, []);
+
+  const handleChangeType = useCallback((value: any) => {
+    formik.setFieldValue("area.type", value);
+  }, []);
+
+  const handleChangePrice = useCallback((e: any) => {
+    formik.setFieldTouched("price.askingPrice", false);
+    formik.setFieldValue("price.askingPrice", e.target.value);
+  }, []);
+
+  const handleChangeBedrooms = useCallback((value: any) => {
+    formik.setFieldValue("bedrooms", value);
+  }, []);
+
+  const handleChangeBathrooms = useCallback((value: any) => {
+    formik.setFieldValue("bathrooms", value);
+  }, []);
+
+  const handleChangeName = useCallback((e: any) => {
+    formik.setFieldTouched("name", false);
+    formik.handleChange(e);
+  }, []);
+
+  const handleChangeDescription = useCallback((e: any) => {
+    formik.setFieldTouched("description", false);
+    formik.handleChange(e);
+  }, []);
+
   return (
     <Stack
+      component={"form"}
+      onSubmit={formik.handleSubmit}
       sx={{
         pt: "2.38rem",
         px: { xs: "1rem", md: "2rem", lg: "8.81rem" },
@@ -104,7 +216,7 @@ const AddPropertyDetails = () => {
         {rentSell.map((val) => (
           <IconText
             key={val.title}
-            onClick={() => setPropertyPurpose(val.value)}
+            onClick={() => formik.setFieldValue("purpose", val.value)}
             text={val.title}
             icon={val.icon}
             iconWidth={30}
@@ -115,7 +227,7 @@ const AddPropertyDetails = () => {
               borderRadius: "0.9375rem",
               padding: "0.75rem 1.69rem",
               boxShadow:
-                propertyPurpose === val.value
+                purpose === val.value
                   ? "0px 0px 0px 4px var(--text-primary) inset"
                   : "0px 0px 0px 1px var(--spanish-gray) inset",
             }}
@@ -169,13 +281,20 @@ const AddPropertyDetails = () => {
               }}
             >
               {propertyTypes.map((val, index) => (
-                <Tab key={val.type} disableRipple label={val.type} />
+                <Tab
+                  key={val.type}
+                  disableRipple
+                  label={val.type}
+                  onClick={() =>
+                    formik.setFieldValue("classification", val.value)
+                  }
+                />
               ))}
             </Tabs>
           </Box>
 
           {propertyTypes.map(
-            ({ index, items, type }) =>
+            ({ index, items }) =>
               tabValue === index && (
                 <Stack
                   key={index}
@@ -189,9 +308,7 @@ const AddPropertyDetails = () => {
                   {items.map((val) => (
                     <IconText
                       key={val.text}
-                      onClick={() =>
-                        setPropertyTypeValue({ type, category: val.text })
-                      }
+                      onClick={() => formik.setFieldValue("type", val.text)}
                       text={val.text}
                       icon={val.icon}
                       iconWidth={30}
@@ -202,7 +319,7 @@ const AddPropertyDetails = () => {
                         borderRadius: "0.9375rem",
                         padding: "0.75rem 1.69rem",
                         boxShadow:
-                          propertyTypeValue.category === val.text
+                          formikValues.type === val.text
                             ? "0px 0px 0px 4px var(--text-primary) inset"
                             : "0px 0px 0px 1px var(--spanish-gray) inset",
                       }}
@@ -222,7 +339,13 @@ const AddPropertyDetails = () => {
           <SelectField
             iconWidth={30}
             iconHeight={30}
-            text={duesValue.title}
+            text={
+              formikValues.duesCleared
+                ? formikValues.duesCleared === CLEARED
+                  ? "All dues cleared"
+                  : "Not cleared"
+                : "Dues"
+            }
             sx={{
               mt: "3.12rem",
               minWidth: "10.9375rem",
@@ -246,7 +369,7 @@ const AddPropertyDetails = () => {
                 <TextLg
                   key={val.title}
                   text={val.title}
-                  onClick={() => setDuesValues(val)}
+                  onClick={() => formik.setFieldValue("duesCleared", val.value)}
                   sx={{
                     fontSize: "1.25rem",
                     fontWeight: "400",
@@ -270,7 +393,13 @@ const AddPropertyDetails = () => {
           <SelectField
             iconWidth={30}
             iconHeight={30}
-            text={statusValue.title}
+            text={
+              formikValues.status
+                ? formikValues.status === COMPLETION
+                  ? "Completion"
+                  : "Possession"
+                : "Status"
+            }
             sx={{
               mt: "3.12rem",
               minWidth: "10.9375rem",
@@ -294,7 +423,7 @@ const AddPropertyDetails = () => {
                 <TextLg
                   key={val.title}
                   text={val.title}
-                  onClick={() => setStatusValue(val)}
+                  onClick={() => formik.setFieldValue("status", val.value)}
                   sx={{
                     fontSize: "1.25rem",
                     fontWeight: "400",
@@ -310,226 +439,34 @@ const AddPropertyDetails = () => {
           </SelectField>
         </Stack>
 
-        <Stack>
-          <TitleDesc
-            title="City:"
-            desc="Which city is your property located in?"
-          />
-          <LabelTopTextField
-            placeholder="City"
-            sx={{
-              mt: "3.13rem",
-              maxWidth: "41rem",
-              ".MuiOutlinedInput-root": {
-                height: "3rem",
-                "input::placeholder": {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                },
-              },
+        <CityField handleChange={handleChangeCity} value={formikValues.city} />
 
-              ".MuiInputBase-root": {
-                input: {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                  px: { xs: "1rem", md: "2.31rem" },
-                },
-              },
-            }}
-          />
-        </Stack>
+        <LocationField
+          handleChange={handleChangeLocation}
+          value={formikValues.location}
+        />
+        <AreaField
+          handleChangeTotalArea={handleChangeTotalArea}
+          handleChangeType={handleChangeType}
+          totalAreaValue={formikValues.area.totalArea}
+          areaTypeValue={formikValues.area.type}
+        />
 
-        <Stack>
-          <TitleDesc
-            title="Location:"
-            desc="What is the location of your property?"
-          />
-          <LabelTopTextField
-            placeholder="Location"
-            sx={{
-              mt: "3.13rem",
-              maxWidth: "53.375rem",
-              ".MuiOutlinedInput-root": {
-                height: "3rem",
-                "input::placeholder": {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                },
-              },
+        <PriceField
+          handleChange={handleChangePrice}
+          value={formikValues.price.askingPrice}
+          currency={formikValues.price.currency}
+        />
 
-              ".MuiInputBase-root": {
-                input: {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                  px: { xs: "1rem", md: "2.31rem" },
-                },
-              },
-            }}
-          />
-        </Stack>
+        <BedroomsSelect
+          handleChange={handleChangeBedrooms}
+          value={formikValues.bedrooms}
+        />
 
-        <Stack>
-          <TitleDesc title="Area:" desc="What is the size of your property?" />
-          <LabelTopTextField
-            placeholder="Area"
-            endIcon={
-              <SelectField
-                iconWidth={30}
-                iconHeight={30}
-                text={areaValue.title ? areaValue.title : "Area"}
-                sx={{
-                  width: "8.9375rem",
-                  ">p": {
-                    fontSize: "1.25rem",
-                    color: "var(--text-primary)",
-                  },
-                }}
-              >
-                <MenuCard
-                  sx={{
-                    top: "3.8rem",
-                    width: "100%",
-                    borderRadius: "0rem 0rem 0.3125rem 0.3125rem",
-                  }}
-                >
-                  {areas.map((val, index) => (
-                    <TextLg
-                      key={val.title}
-                      text={val.title}
-                      onClick={() => setAreaValue(val)}
-                      sx={{
-                        fontSize: "1.25rem",
-                        fontWeight: "400",
-                        padding: "0.5rem",
-                        borderBottom:
-                          index !== areas.length - 1
-                            ? "1px solid var(--platinum)"
-                            : "none",
-                      }}
-                    />
-                  ))}
-                </MenuCard>
-              </SelectField>
-            }
-            sx={{
-              mt: "3.13rem",
-              maxWidth: "50.375rem",
-              ".MuiOutlinedInput-root": {
-                height: "3rem",
-                "input::placeholder": {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                },
-              },
-
-              ".MuiInputBase-root": {
-                input: {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                  px: { xs: "1rem", md: "2.31rem" },
-                },
-              },
-            }}
-          />
-        </Stack>
-
-        <Stack>
-          <TitleDesc
-            title="Asking Price:"
-            desc="How much do you want for your property?"
-          />
-
-          <LabelTopTextField
-            placeholder="Price"
-            endIcon={<TextMd text={"PKR"} sx={{ fontWeight: "400" }} />}
-            sx={{
-              mt: "3.13rem",
-              maxWidth: "52.375rem",
-              ".MuiOutlinedInput-root": {
-                height: "3",
-                "input::placeholder": {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                },
-              },
-
-              ".MuiInputBase-root": {
-                input: {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                  px: { xs: "1rem", md: "2.31rem" },
-                },
-              },
-            }}
-          />
-
-          <TextMd
-            text={"i.e 2 Lac"}
-            sx={{ fontWeight: "400", pl: "2.31rem" }}
-          />
-        </Stack>
-
-        <Stack>
-          <TitleDesc
-            title="No. of Bedrooms:"
-            desc="How many bed rooms does your property have?"
-          />
-
-          <Stack
-            direction={"row"}
-            sx={{ gap: "1.44rem", mt: "3.11rem", flexWrap: "wrap" }}
-          >
-            {beds.map((val, index) => (
-              <TextLg
-                key={val}
-                text={val}
-                onClick={() => setBathsValue(val)}
-                sx={{
-                  fontSize: "1.25rem",
-                  fontWeight: "400",
-                  cursor: "pointer",
-                  borderRadius: "0.9375rem",
-                  padding: "0.75rem 1.69rem",
-                  boxShadow:
-                    bathsValue === val
-                      ? "0px 0px 0px 4px var(--text-primary) inset"
-                      : "0px 0px 0px 1px var(--spanish-gray) inset",
-                }}
-              />
-            ))}
-          </Stack>
-        </Stack>
-
-        <Stack>
-          <TitleDesc
-            title="No. of Bathrooms:"
-            desc="How many bathrooms does your property have?"
-          />
-
-          <Stack
-            direction={"row"}
-            sx={{ gap: "1.44rem", mt: "3.11rem", flexWrap: "wrap" }}
-          >
-            {baths.map((val, index) => (
-              <TextLg
-                key={val}
-                text={val}
-                onClick={() => setBedsValue(val)}
-                sx={{
-                  fontSize: "1.25rem",
-                  fontWeight: "400",
-                  cursor: "pointer",
-                  borderRadius: "0.9375rem",
-                  padding: "0.75rem 1.69rem",
-                  boxShadow:
-                    bedsValue === val
-                      ? "0px 0px 0px 4px var(--text-primary) inset"
-                      : "0px 0px 0px 1px var(--spanish-gray) inset",
-                }}
-              />
-            ))}
-          </Stack>
-        </Stack>
+        <BathroomsSelect
+          handleChange={handleChangeBathrooms}
+          value={formikValues.bathrooms}
+        />
 
         <Stack>
           <TitleDesc
@@ -597,67 +534,12 @@ const AddPropertyDetails = () => {
           </Stack>
         </Stack>
 
-        <Stack>
-          <TitleDesc
-            title="Name of Property:"
-            desc="Add the Title of your post."
-          />
+        <NameField handleChange={handleChangeName} value={formikValues.name} />
 
-          <LabelTopTextField
-            placeholder="Name of Property"
-            sx={{
-              mt: "3.13rem",
-              maxWidth: "53.375rem",
-              ".MuiOutlinedInput-root": {
-                height: "3rem",
-                "input::placeholder": {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                },
-              },
-
-              ".MuiInputBase-root": {
-                input: {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                  px: { xs: "1rem", md: "2.31rem" },
-                },
-              },
-            }}
-          />
-        </Stack>
-
-        <Stack>
-          <TitleDesc
-            title="Description:"
-            desc="Add any description required."
-          />
-
-          <LabelTopTextField
-            placeholder="Description"
-            multiline
-            rows={10}
-            sx={{
-              mt: "3.13rem",
-              maxWidth: { md: "31.125rem" },
-              ".MuiOutlinedInput-root": {
-                "textArea::placeholder": {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                  opacity: 1,
-                },
-              },
-
-              ".MuiInputBase-root": {
-                textArea: {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                  px: { xs: "0.25rem", md: "1.37rem" },
-                },
-              },
-            }}
-          />
-        </Stack>
+        <DescriptionField
+          handleChange={handleChangeDescription}
+          value={formikValues.description}
+        />
 
         <Stack>
           <TitleDesc

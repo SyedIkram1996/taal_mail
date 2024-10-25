@@ -20,7 +20,7 @@ interface Props {
   title: string;
   bedRooms: string;
   bathRooms: string;
-  area: string;
+  area: { totalArea: string; type: string };
   type: string;
   location: string;
   children?: ReactNode;
@@ -91,7 +91,7 @@ const PropertyCard = ({
                 icon={AreaIcon}
                 iconWidth={20}
                 iconHeight={20}
-                text={area}
+                text={`${area.totalArea} ${area.type}`}
               />
             </Stack>
 

@@ -84,19 +84,15 @@ const PropertyDetails = ({ data }: Props) => {
   const descIcon = [
     {
       icon: BedroomIcon,
-      text: data.bedRooms,
+      text: data.bedrooms,
     },
     {
       icon: BathroomIcon,
-      text: data.bathRooms,
-    },
-    {
-      icon: BedroomIcon,
-      text: data.bedRooms,
+      text: data.bathrooms,
     },
     {
       icon: AreaIcon,
-      text: data.area,
+      text: `${data.area.totalArea} ${data.area.type}`,
     },
     {
       icon: HouseIcon,
@@ -141,7 +137,7 @@ const PropertyDetails = ({ data }: Props) => {
           <Grid2 size={{ xs: 12, md: 2 }}>
             <Stack sx={{ gap: "2.13rem", alignItems: "center" }}>
               <TextLg
-                text={data.title}
+                text={data.description}
                 sx={{
                   pt: "1.5rem",
                   fontSize: "1.875rem",

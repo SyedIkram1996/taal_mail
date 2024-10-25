@@ -1,9 +1,24 @@
-export interface IProperty {
+import { IPropertySchema } from "@/lib/models/propertyModel";
+
+export interface IProperty
+  extends Pick<
+    IPropertySchema,
+    | "purpose"
+    | "classification"
+    | "type"
+    | "duesCleared"
+    | "status"
+    | "city"
+    | "location"
+    | "area"
+    | "price"
+    | "bedrooms"
+    | "bathrooms"
+    | "features"
+    | "name"
+    | "description"
+    | "images"
+    | "allotmentLetter"
+  > {
   id: string;
-  title: string;
-  bedRooms: string;
-  bathRooms: string;
-  area: string;
-  type: string;
-  location: string;
 }

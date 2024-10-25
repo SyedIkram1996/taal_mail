@@ -13,6 +13,19 @@ export enum EPropertyClassification {
   RESIDENTIAL = "Residential",
   PLOT = "Plot",
   COMMERCIAL = "Commercial",
+  RESIDENTIAL_VALUE = "residential",
+  PLOT_VALUE = "plot",
+  COMMERCIAL_VALUE = "commercial",
+}
+
+export enum EPropertyDues {
+  CLEARED = "cleared",
+  NOT_CLEARED = "notCleared",
+}
+
+export enum EPropertyStatus {
+  COMPLETION = "completion",
+  POSSESSION = "possession",
 }
 
 export enum EPropertyClassificationType {

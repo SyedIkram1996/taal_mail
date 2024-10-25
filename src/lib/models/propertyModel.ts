@@ -1,11 +1,11 @@
-import { Document } from "mongoose";
+import { Document, model, Model, models, Schema } from "mongoose";
 
 export interface IPropertySchema extends Document {
   purpose: string;
   classification: string;
   type: string;
-  duesCleared: boolean;
-  status: boolean;
+  duesCleared: string;
+  status: string;
   city: string;
   location: string;
   area: {
@@ -27,11 +27,98 @@ export interface IPropertySchema extends Document {
   name: string;
   description: string;
   images: {
-    public_id: String;
-    url: String;
+    public_id: string;
+    url: string;
   }[];
   allotmentLetter: {
-    public_id: String;
-    url: String;
+    public_id: string;
+    url: string;
   };
 }
+
+const propertySchema: Schema<IPropertySchema> = new Schema({
+  purpose: {
+    type: String,
+    required: [true, "Purpose is required"],
+  },
+  classification: {
+    type: String,
+    required: [true, "Classification is required"],
+  },
+  type: {
+    type: String,
+    required: [true, "Type is required"],
+  },
+  duesCleared: {
+    type: String,
+    required: [true, "Dues cleared is required"],
+  },
+  status: {
+    type: String,
+    required: [true, "Status is required"],
+  },
+  city: {
+    type: String,
+    required: [true, "City is required"],
+  },
+  location: {
+    type: String,
+    required: [true, "Location is required"],
+  },
+  area: {
+    type: {
+      type: String,
+      required: [true, "Area type is required"],
+    },
+    totalArea: {
+      type: String,
+      required: [true, "Total area is required"],
+    },
+  },
+  price: {
+    askingPrice: {
+      type: String,
+      required: [true, "Price is required"],
+    },
+    currency: {
+      type: String,
+      required: [true, "Currency is required"],
+    },
+  },
+  bedrooms: {
+    type: String,
+    required: [true, "Bedrooms is required"],
+  },
+  bathrooms: {
+    type: String,
+    required: [true, "Bathrooms is required"],
+  },
+  features: {
+    basicFeatures: Array<String>,
+    facilities: Array<String>,
+    nearbyPlaces: Array<String>,
+    secondaryFeatures: Array<String>,
+  },
+  name: {
+    type: String,
+    required: [true, "Name is required"],
+  },
+  description: {
+    type: String,
+    required: [true, "Description is required"],
+  },
+  images: Array<{
+    public_id: String;
+    url: String;
+  }>,
+  allotmentLetter: {
+    public_id: String,
+    url: String,
+  },
+});
+
+const PropertyModel =
+  (models.Property as Model<IPropertySchema>) ||
+  model("Property", propertySchema);
+
+export default PropertyModel;
