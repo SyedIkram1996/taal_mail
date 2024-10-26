@@ -1,23 +1,5 @@
 import { EPropertyFeatures, EPropertyFeaturesType } from "@/enums/enums";
-import {
-  BalconyIcon,
-  BannerImage,
-  DiningIcon,
-  ElectricityIcon,
-  GasIcon,
-  HospitalIcon,
-  KitchenIcon,
-  LoungeIcon,
-  MaintenanceIcon,
-  MosqueIcon,
-  PetrolPumpIcon,
-  Property1Image,
-  Property2Image,
-  SchoolIcon,
-  TvIcon,
-  WaterIcon,
-  WifiIcon,
-} from "./images.routes";
+import { BannerImage, Property1Image, Property2Image } from "./images.routes";
 const {
   BASIC_FEATURES,
   FACILITIES,
@@ -29,7 +11,63 @@ const {
   SECONDARY_FEATURES_VALUE,
 } = EPropertyFeatures;
 
+import BalconyIcon from "@/components/common/SvgIcons/BalconyIcon";
+import BasementIcon from "@/components/common/SvgIcons/BasementIcon";
+import DiningRoomIcon from "@/components/common/SvgIcons/DiningRoomIcon";
+import DrawingRoomIcon from "@/components/common/SvgIcons/DrawingRoomIcon";
+import ElectricityIcon from "@/components/common/SvgIcons/ElectricityIcon";
+import FurnishedIcon from "@/components/common/SvgIcons/FurnishedIcon";
+import GasIcon from "@/components/common/SvgIcons/GasIcon";
+import KitchenIcon from "@/components/common/SvgIcons/KitchenIcon";
+import LaundryRoomIcon from "@/components/common/SvgIcons/LaundryRoomIcon";
+import LoungeIcon from "@/components/common/SvgIcons/LoungeIcon";
+import MaintenanceIcon from "@/components/common/SvgIcons/MaintenanceIcon";
+import PowderRoomIcon from "@/components/common/SvgIcons/PowderRoomIcon";
+import SecurityIcon from "@/components/common/SvgIcons/SecurityIcon";
+import ServantQuarterIcon from "@/components/common/SvgIcons/ServantQuarterIcon";
+import SewerageIcon from "@/components/common/SvgIcons/SewerageIcon";
+import StoreRoomIcon from "@/components/common/SvgIcons/StoreRoomIcon";
+import StudyRoomIcon from "@/components/common/SvgIcons/StudyRoomIcon";
+import TbCableIcon from "@/components/common/SvgIcons/TvCableIcon";
+import WaterIcon from "@/components/common/SvgIcons/WaterIcon";
+import WifiAndInternetIcon from "@/components/common/SvgIcons/WifiAndInternetIcon";
+
 const { MULTIPLE, SINGLE } = EPropertyFeaturesType;
+
+const {
+  LOUNGE,
+  DINING_ROOM,
+  DRAWING_ROOM,
+  STORE_ROOM,
+  LAUNDRY_ROOM,
+  POWDER_ROOM,
+  STUDY_ROOM,
+  BASEMENT,
+  SERVANT_QUARTER,
+  KITCHEN,
+  BALCONY,
+  FURNISHED,
+  ELECTRICITY,
+  GAS,
+  WATER,
+  SEWERAGE,
+  SECURITY,
+  TV_CABLE,
+  WIFI_AND_INTERNET,
+  MAINTENANCE,
+  SCHOOL,
+  MOSQUE,
+  HOSPITAL,
+  RESTAURANT,
+  PETROL_PUMP,
+  DIRTY_KITCHEN,
+  LAWN,
+  SWIMMING_POOL,
+  ELEVATOR_LIFT,
+  HOME_THEATER,
+  CENTRAL_COOLING,
+  ACCESSIBILITY,
+} = EPropertyFeaturesType;
 
 export const propertyImages = [Property1Image, Property2Image, BannerImage];
 
@@ -52,178 +90,211 @@ export const propertyStatus = [
   },
 ];
 
+// export const greyIcons: { [key: string]: string } = {
+//   [LOUNGE]: LoungeIcon,
+//   [DINING_ROOM]: LoungeIcon,
+//   [DRAWING_ROOM]: LoungeIcon,
+//   [STORE_ROOM]: LoungeIcon,
+//   [LAUNDRY_ROOM]: LoungeIcon,
+//   [POWDER_ROOM]: LoungeIcon,
+//   [STUDY_ROOM]: LoungeIcon,
+//   [BASEMENT]: LoungeIcon,
+//   [SERVANT_QUARTER]: LoungeIcon,
+//   [KITCHEN]: LoungeIcon,
+//   [BALCONY]: LoungeIcon,
+//   [FURNISHED]: LoungeIcon,
+//   [ELECTRICITY]: LoungeIcon,
+//   [GAS]: LoungeIcon,
+//   [WATER]: LoungeIcon,
+//   [SEWERAGE]: LoungeIcon,
+//   [SECURITY]: LoungeIcon,
+//   [TV_CABLE]: LoungeIcon,
+//   [WIFI_AND_INTERNET]: LoungeIcon,
+//   [MAINTENANCE]: LoungeIcon,
+//   [SCHOOL]: LoungeIcon,
+//   [MOSQUE]: LoungeIcon,
+//   [HOSPITAL]: LoungeIcon,
+//   [RESTAURANT]: LoungeIcon,
+//   [PETROL_PUMP]: LoungeIcon,
+//   [DIRTY_KITCHEN]: LoungeIcon,
+//   [LAWN]: LoungeIcon,
+//   [SWIMMING_POOL]: LoungeIcon,
+//   [ELEVATOR_LIFT]: LoungeIcon,
+//   [HOME_THEATER]: LoungeIcon,
+//   [CENTRAL_COOLING]: LoungeIcon,
+//   [ACCESSIBILITY]: LoungeIcon,
+// };
+
 export const basicFeatures = [
   {
-    title: "Lounge",
+    title: LOUNGE,
     icon: LoungeIcon,
     type: MULTIPLE,
   },
   {
-    title: "Dining Room",
-    icon: DiningIcon,
+    title: DINING_ROOM,
+    icon: DiningRoomIcon,
     type: MULTIPLE,
   },
   {
-    title: "Drawing Room",
-    icon: DiningIcon,
+    title: DRAWING_ROOM,
+    icon: DrawingRoomIcon,
     type: MULTIPLE,
   },
   {
-    title: "Store Room",
-    icon: DiningIcon,
+    title: STORE_ROOM,
+    icon: StoreRoomIcon,
     type: MULTIPLE,
   },
   {
-    title: "Laundry Room",
-    icon: DiningIcon,
+    title: LAUNDRY_ROOM,
+    icon: LaundryRoomIcon,
     type: MULTIPLE,
   },
   {
-    title: "Powder Room",
-    icon: DiningIcon,
+    title: POWDER_ROOM,
+    icon: PowderRoomIcon,
     type: MULTIPLE,
   },
   {
-    title: "Study Room",
-    icon: DiningIcon,
+    title: STUDY_ROOM,
+    icon: StudyRoomIcon,
     type: MULTIPLE,
   },
   {
-    title: "Basement",
-    icon: DiningIcon,
+    title: BASEMENT,
+    icon: BasementIcon,
     type: MULTIPLE,
   },
   {
-    title: "Servant Quarter",
-    icon: DiningIcon,
+    title: SERVANT_QUARTER,
+    icon: ServantQuarterIcon,
     type: MULTIPLE,
   },
   {
-    title: "Kitchen",
+    title: KITCHEN,
     icon: KitchenIcon,
     type: MULTIPLE,
   },
   {
-    title: "Balcony",
+    title: BALCONY,
     icon: BalconyIcon,
     type: MULTIPLE,
   },
   {
-    title: "Furnished",
-    icon: KitchenIcon,
+    title: FURNISHED,
+    icon: FurnishedIcon,
     type: SINGLE,
   },
 ];
 
 export const facilities = [
   {
-    title: "Electricity",
+    title: ELECTRICITY,
     icon: ElectricityIcon,
     type: SINGLE,
   },
   {
-    title: "Gas",
+    title: GAS,
     icon: GasIcon,
     type: SINGLE,
   },
-
   {
-    title: "Water",
+    title: WATER,
     icon: WaterIcon,
     type: SINGLE,
   },
   {
-    title: "Sewerage",
-    icon: WaterIcon,
+    title: SEWERAGE,
+    icon: SewerageIcon,
     type: SINGLE,
   },
   {
-    title: "Security",
-    icon: WaterIcon,
+    title: SECURITY,
+    icon: SecurityIcon,
     type: SINGLE,
   },
   {
-    title: "TV Cable",
-    icon: TvIcon,
-    type: SINGLE,
-  },
-
-  {
-    title: "Wifi and Internet",
-    icon: WifiIcon,
+    title: TV_CABLE,
+    icon: TbCableIcon,
     type: SINGLE,
   },
   {
-    title: "Maintenance",
+    title: WIFI_AND_INTERNET,
+    icon: WifiAndInternetIcon,
+    type: SINGLE,
+  },
+  {
+    title: MAINTENANCE,
     icon: MaintenanceIcon,
     type: SINGLE,
   },
 ];
 
 export const nearbyPlaces = [
-  {
-    title: "School",
-    icon: SchoolIcon,
-    type: SINGLE,
-  },
-  {
-    title: "Mosque",
-    icon: MosqueIcon,
-    type: SINGLE,
-  },
-  {
-    title: "Hospital",
-    icon: HospitalIcon,
-    type: SINGLE,
-  },
-  {
-    title: "Restaurant",
-    icon: PetrolPumpIcon,
-    type: SINGLE,
-  },
-  {
-    title: "Petrol pump",
-    icon: PetrolPumpIcon,
-    type: SINGLE,
-  },
+  // {
+  //   title: SCHOOL,
+  //   icon: SchoolIcon,
+  //   type: SINGLE,
+  // },
+  // {
+  //   title: MOSQUE,
+  //   icon: MosqueIcon,
+  //   type: SINGLE,
+  // },
+  // {
+  //   title: HOSPITAL,
+  //   icon: HospitalIcon,
+  //   type: SINGLE,
+  // },
+  // {
+  //   title: RESTAURANT,
+  //   icon: PetrolPumpIcon,
+  //   type: SINGLE,
+  // },
+  // {
+  //   title: PETROL_PUMP,
+  //   icon: PetrolPumpIcon,
+  //   type: SINGLE,
+  // },
 ];
 
 export const secondaryFeatures = [
-  {
-    title: "Dirty Kitchen",
-    icon: PetrolPumpIcon,
-    type: MULTIPLE,
-  },
-  {
-    title: "Lawn",
-    icon: PetrolPumpIcon,
-    type: MULTIPLE,
-  },
-  {
-    title: "Swimming Pool",
-    icon: PetrolPumpIcon,
-    type: MULTIPLE,
-  },
-  {
-    title: "Elevator/Lift",
-    icon: PetrolPumpIcon,
-    type: MULTIPLE,
-  },
-  {
-    title: "Home Theater",
-    icon: PetrolPumpIcon,
-    type: MULTIPLE,
-  },
-  {
-    title: "Central Cooling",
-    icon: PetrolPumpIcon,
-    type: SINGLE,
-  },
-  {
-    title: "Accessibility",
-    icon: PetrolPumpIcon,
-    type: SINGLE,
-  },
+  // {
+  //   title: DIRTY_KITCHEN,
+  //   icon: PetrolPumpIcon,
+  //   type: MULTIPLE,
+  // },
+  // {
+  //   title: LAWN,
+  //   icon: PetrolPumpIcon,
+  //   type: MULTIPLE,
+  // },
+  // {
+  //   title: SWIMMING_POOL,
+  //   icon: PetrolPumpIcon,
+  //   type: MULTIPLE,
+  // },
+  // {
+  //   title: ELEVATOR_LIFT,
+  //   icon: PetrolPumpIcon,
+  //   type: MULTIPLE,
+  // },
+  // {
+  //   title: HOME_THEATER,
+  //   icon: PetrolPumpIcon,
+  //   type: MULTIPLE,
+  // },
+  // {
+  //   title: CENTRAL_COOLING,
+  //   icon: PetrolPumpIcon,
+  //   type: SINGLE,
+  // },
+  // {
+  //   title: ACCESSIBILITY,
+  //   icon: PetrolPumpIcon,
+  //   type: SINGLE,
+  // },
 ];
 
 export const features = [

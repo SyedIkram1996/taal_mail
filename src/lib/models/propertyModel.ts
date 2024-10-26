@@ -1,3 +1,4 @@
+import { IPropertyFeature } from "@/interfaces/IProperty";
 import { Document, model, Model, models, Schema } from "mongoose";
 
 export interface IPropertySchema extends Document {
@@ -19,10 +20,10 @@ export interface IPropertySchema extends Document {
   bedrooms: string;
   bathrooms: string;
   features: {
-    basicFeatures: { title: string; count: number }[];
-    facilities: { title: string; count: number }[];
-    nearbyPlaces: { title: string; count: number }[];
-    secondaryFeatures: { title: string; count: number }[];
+    basicFeatures: Pick<IPropertyFeature, "title" | "count">[];
+    facilities: Pick<IPropertyFeature, "title" | "count">[];
+    nearbyPlaces: Pick<IPropertyFeature, "title" | "count">[];
+    secondaryFeatures: Pick<IPropertyFeature, "title" | "count">[];
   };
   name: string;
   description: string;
@@ -94,10 +95,10 @@ const propertySchema: Schema<IPropertySchema> = new Schema({
     required: [true, "Bathrooms is required"],
   },
   features: {
-    basicFeatures: Array<String>,
-    facilities: Array<String>,
-    nearbyPlaces: Array<String>,
-    secondaryFeatures: Array<String>,
+    basicFeatures: Array<{ title: String; count: Number }>,
+    facilities: Array<{ title: String; count: Number }>,
+    nearbyPlaces: Array<{ title: String; count: Number }>,
+    secondaryFeatures: Array<{ title: String; count: Number }>,
   },
   name: {
     type: String,

@@ -3,6 +3,7 @@
 import FilledButton from "@/components/common/Button/FilledButton";
 import TextLg from "@/components/common/Text/TextLg";
 import TextSm from "@/components/common/Text/TextSm";
+
 import { EPropertyClassification } from "@/enums/enums";
 import { IProperty } from "@/interfaces/IProperty";
 import { propertySchema } from "@/validators/property";

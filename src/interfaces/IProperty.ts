@@ -1,5 +1,19 @@
 import { IPropertySchema } from "@/lib/models/propertyModel";
 
+export interface IPropertyFeatures {
+  basicFeatures: IPropertyFeature[];
+  facilities: IPropertyFeature[];
+  nearbyPlaces: IPropertyFeature[];
+  secondaryFeatures: IPropertyFeature[];
+}
+
+export interface IPropertyFeature {
+  title: string;
+  count: number;
+  icon: any;
+  tabValue: string;
+}
+
 export interface IProperty
   extends Pick<
     IPropertySchema,
@@ -27,4 +41,5 @@ export interface IProperty
         url: string;
       }[]
     | [];
+  features: IPropertyFeatures;
 }

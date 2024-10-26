@@ -25,7 +25,7 @@ import PropertiesImages from "./PropertiesImages";
 
 interface FeaturesFacilitiesNearbyProps {
   heading: string;
-  array: { title: string; icon: string }[];
+  array: { title: string; icon: any }[];
 }
 
 const FeaturesFacilitiesNearby = ({

@@ -1,17 +1,17 @@
 import FilledButton from "@/components/common/Button/FilledButton";
 import DialogHeader from "@/components/common/Dialog/DialogHeader";
-import IconText from "@/components/common/IconText";
 import FieldTitleDesc from "@/components/common/Input/FieldTitleDesc";
+import SvgIconText from "@/components/common/SvgIconText";
 import TextXs from "@/components/common/Text/TextXs";
 import {
   CircleCheckboxFilledIcon,
   CircleCheckboxOutlinedIcon,
   CloseGreyIcon,
-  FlameGreyIcon,
   PlusIcon,
 } from "@/constants/images.routes";
 import { features } from "@/constants/property";
 import { EPropertyFeatures, EPropertyFeaturesType } from "@/enums/enums";
+import { IPropertyFeature, IPropertyFeatures } from "@/interfaces/IProperty";
 import { arrayContainObject } from "@/utils/helperFunctions";
 import { Box, Dialog, Grid2, Stack, Tab, Tabs } from "@mui/material";
 import Image from "next/image";
@@ -22,11 +22,18 @@ const { BASIC_FEATURES_VALUE } = EPropertyFeatures;
 const { MULTIPLE, SINGLE } = EPropertyFeaturesType;
 
 interface SelectedFeatureProps {
-  icon: string;
-  text: string;
+  icon: any;
+  title: string;
+  tab: string;
+  handleRemoveFeature: (tab: string, title: string) => void;
 }
 
-const SelectedFeature = ({ icon, text }: SelectedFeatureProps) => {
+const SelectedFeature = ({
+  icon: Icon,
+  title,
+  tab,
+  handleRemoveFeature,
+}: SelectedFeatureProps) => {
   return (
     <Stack
       direction={"row"}
@@ -41,15 +48,27 @@ const SelectedFeature = ({ icon, text }: SelectedFeatureProps) => {
         },
       }}
     >
-      <IconText
-        icon={icon}
-        iconWidth={30}
-        iconHeight={30}
-        text={text}
-        sxText={{ fontSize: "1.25rem", color: "var(--spanish-gray)" }}
+      <SvgIconText
+        text={title}
+        icon={
+          <Icon
+            sx={{
+              path: { stroke: "grey", fill: "grey" },
+            }}
+          />
+        }
+        sxRow={{
+          cursor: "pointer",
+          gap: "0.63rem",
+        }}
+        sxText={{
+          fontSize: "1.25rem",
+          color: "var(--text-primary)",
+        }}
       />
 
       <Image
+        onClick={() => handleRemoveFeature(tab, title)}
         className="closeIcon"
         src={CloseGreyIcon}
         alt="close icon"
@@ -61,9 +80,15 @@ const SelectedFeature = ({ icon, text }: SelectedFeatureProps) => {
 };
 
 interface Props {
-  value: any;
+  value: IPropertyFeatures;
   formik: any;
 }
+
+// const getArrayWithGreyIcon = (array: IPropertyFeature[]) => {
+//   return array.map((val) => {
+//     return { ...val, greyIcon: greyIcons[val.title] };
+//   });
+// };
 
 const FeaturesSelect = ({ value, formik }: Props) => {
   const [openFeatures, setOpenFeatures] = useState(false);
@@ -74,15 +99,15 @@ const FeaturesSelect = ({ value, formik }: Props) => {
     setTabValue(val);
   };
 
-  const handleClickCheckBox = (title: string) => {
+  const handleClickCheckBox = (title: string, icon: any) => {
     let temp = clone(tempValues);
-    temp[tabValue].push({ title, count: 1 });
+    temp[tabValue].push({ title, count: 1, icon: icon, tabValue });
     setTempValues(temp);
   };
 
   const handleClickUnCheckBox = (title: string) => {
     const filteredValue = tempValues[tabValue].filter(
-      (val: any) => val.title !== title,
+      (val: IPropertyFeature) => val.title !== title,
     );
     const newValue = { ...tempValues, [tabValue]: filteredValue };
     setTempValues(newValue);
@@ -97,6 +122,14 @@ const FeaturesSelect = ({ value, formik }: Props) => {
     setTempValues(clone(value));
   };
 
+  const handleRemoveFeature = (tab: string, title: string) => {
+    //@ts-ignore
+    const filteredValue = value[tab].filter((val: any) => val.title !== title);
+    const newValue = { ...value, [tab]: filteredValue };
+    formik.setFieldValue("features", newValue);
+    setTempValues(newValue);
+  };
+
   const currentArray = tempValues[tabValue];
 
   const selectedFeatures = useMemo(
@@ -106,11 +139,10 @@ const FeaturesSelect = ({ value, formik }: Props) => {
       ...value.nearbyPlaces,
       ...value.secondaryFeatures,
     ],
-    [openFeatures],
+    [value],
   );
 
-  console.log("tempValues=====>", tempValues);
-  console.log("value=====>", value);
+  console.log(tempValues);
 
   return (
     <Stack>
@@ -150,8 +182,14 @@ const FeaturesSelect = ({ value, formik }: Props) => {
         direction={"row"}
         sx={{ mt: "1.42rem", gap: "1rem", flexWrap: "wrap" }}
       >
-        {selectedFeatures.map((val: any, index: any) => (
-          <SelectedFeature key={index} icon={FlameGreyIcon} text={val.title} />
+        {selectedFeatures.map((val, index) => (
+          <SelectedFeature
+            key={index}
+            icon={val.icon}
+            title={val.title}
+            tab={val.tabValue}
+            handleRemoveFeature={handleRemoveFeature}
+          />
         ))}
       </Stack>
 
@@ -246,7 +284,7 @@ const FeaturesSelect = ({ value, formik }: Props) => {
                       }
                     }
                   >
-                    {items.map((val) => (
+                    {items.map(({ icon: Icon, ...val }) => (
                       <Grid2
                         size={{ xs: 12, md: 6 }}
                         sx={{
@@ -262,13 +300,15 @@ const FeaturesSelect = ({ value, formik }: Props) => {
                           },
                         }}
                       >
-                        <IconText
-                          key={val.title}
-                          //   onClick={() => handleChangeType(val.text)}
+                        <SvgIconText
                           text={val.title}
-                          icon={val.icon}
-                          iconWidth={30}
-                          iconHeight={30}
+                          icon={
+                            <Icon
+                              sx={{
+                                path: { stroke: "red" },
+                              }}
+                            />
+                          }
                           sxRow={{
                             cursor: "pointer",
                             gap: "0.63rem",
@@ -306,7 +346,12 @@ const FeaturesSelect = ({ value, formik }: Props) => {
                           </Stack>
                         ) : arrayContainObject(
                             currentArray,
-                            { title: val.title, count: 1 },
+                            {
+                              title: val.title,
+                              count: 1,
+                              tabValue,
+                              icon: Icon,
+                            },
                             "title",
                           ) ? (
                           <Image
@@ -320,7 +365,7 @@ const FeaturesSelect = ({ value, formik }: Props) => {
                         ) : (
                           <Image
                             className="checkBox"
-                            onClick={() => handleClickCheckBox(val.title)}
+                            onClick={() => handleClickCheckBox(val.title, Icon)}
                             alt="tick"
                             src={CircleCheckboxOutlinedIcon}
                             width={26}
