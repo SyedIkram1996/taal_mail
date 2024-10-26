@@ -258,7 +258,7 @@ const AddPropertyDetails = () => {
           value={formikValues.bathrooms}
         />
 
-        <FeaturesSelect />
+        <FeaturesSelect value={formikValues.features} formik={formik} />
 
         <NameField handleChange={handleChangeName} value={formikValues.name} />
 

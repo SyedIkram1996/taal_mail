@@ -19,10 +19,10 @@ export interface IPropertySchema extends Document {
   bedrooms: string;
   bathrooms: string;
   features: {
-    basicFeatures: string[];
-    facilities: string[];
-    nearbyPlaces: string[];
-    secondaryFeatures: string[];
+    basicFeatures: { title: string; count: number }[];
+    facilities: { title: string; count: number }[];
+    nearbyPlaces: { title: string; count: number }[];
+    secondaryFeatures: { title: string; count: number }[];
   };
   name: string;
   description: string;

@@ -49,3 +49,20 @@ export enum EPropertyClassificationType {
   GYM = "Gym",
   FACTORY = "Factory",
 }
+
+export enum EPropertyFeatures {
+  BASIC_FEATURES = "Basic Features",
+  FACILITIES = "Facilities",
+  NEARBY_PLACES = "Nearby Places",
+  SECONDARY_FEATURES = "Secondary Features",
+
+  BASIC_FEATURES_VALUE = "basicFeatures",
+  FACILITIES_VALUE = "facilities",
+  NEARBY_PLACES_VALUE = "nearbyPlaces",
+  SECONDARY_FEATURES_VALUE = "secondaryFeatures",
+}
+
+export enum EPropertyFeaturesType {
+  SINGLE = "single",
+  MULTIPLE = "multiple",
+}
