@@ -4,9 +4,12 @@ import FilledButton from "@/components/common/Button/FilledButton";
 
 import { EPropertyClassification } from "@/enums/enums";
 import { IProperty } from "@/interfaces/IProperty";
+import { addProperty } from "@/services/property.services";
 import { propertySchema } from "@/validators/property";
 import { Stack } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { useCallback } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import AreaField from "./AreaField";
@@ -28,13 +31,13 @@ import UploadImagesSelect from "./UploadImagesSelect";
 const { RESIDENTIAL_VALUE } = EPropertyClassification;
 
 interface Props {
-  title: string;
-  desc: string;
+  token?: RequestCookie;
 }
 
-const AddPropertyDetails = () => {
+const AddPropertyDetails = ({ token }: Props) => {
   const formik = useFormik<IProperty>({
     initialValues: {
+      createdBy: "",
       id: "",
       purpose: "",
       classification: RESIDENTIAL_VALUE,
@@ -67,12 +70,23 @@ const AddPropertyDetails = () => {
         url: "",
       },
     },
-    onSubmit: () => {
-      // setLoginError("");
-      // mutation.mutate();
+    onSubmit: (values) => {
+      console.log(values);
+      mutation.mutate();
       console.log("SUBMIT THE FORM");
     },
     validationSchema: toFormikValidationSchema(propertySchema),
+  });
+
+  const mutation = useMutation({
+    mutationFn: async () => addProperty(formik.values, token),
+    onSuccess: (data) => {
+      // toastSuccess("Account created! Verify your email address");
+      // router.replace(LOGIN);
+    },
+    onError: (error) => {
+      // setSignUpError(error.message);
+    },
   });
 
   // console.log(
@@ -358,6 +372,7 @@ const AddPropertyDetails = () => {
         <FilledButton
           text="Add Property"
           type="submit"
+          loading={mutation.isPending}
           onClick={() => {
             const errorsKeys = Object.keys(formikErrors);
             if (errorsKeys.length) {

@@ -1,7 +1,8 @@
 import { IPropertyFeature } from "@/interfaces/IProperty";
-import { Document, model, Model, models, Schema } from "mongoose";
+import { Document, model, Model, models, Schema, Types } from "mongoose";
 
 export interface IPropertySchema extends Document {
+  createdBy: any;
   purpose: string;
   classification: string;
   type: string;
@@ -38,6 +39,11 @@ export interface IPropertySchema extends Document {
 }
 
 const propertySchema: Schema<IPropertySchema> = new Schema({
+  createdBy: {
+    type: Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   purpose: {
     type: String,
     required: [true, "Purpose is required"],
@@ -98,7 +104,10 @@ const propertySchema: Schema<IPropertySchema> = new Schema({
     basicFeatures: Array<{ title: String; count: Number }>,
     facilities: Array<{ title: String; count: Number }>,
     nearbyPlaces: Array<{ title: String; count: Number }>,
-    secondaryFeatures: Array<{ title: String; count: Number }>,
+    secondaryFeatures: Array<{
+      title: String;
+      count: Number;
+    }>,
   },
   name: {
     type: String,

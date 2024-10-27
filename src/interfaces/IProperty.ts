@@ -11,7 +11,7 @@ export interface IPropertyFeature {
   title: string;
   count: number;
   icon: any;
-  tabValue: string;
+  tab: string;
 }
 
 export interface IProperty
@@ -34,7 +34,8 @@ export interface IProperty
     | "images"
     | "allotmentLetter"
   > {
-  id: string;
+  createdBy?: string;
+  id?: string;
   images:
     | {
         public_id: string;

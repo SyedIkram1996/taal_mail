@@ -31,6 +31,7 @@ const AreaField = ({
         error={error}
       />
       <LabelTopTextField
+        type="number"
         name="area"
         placeholder="Area"
         value={totalAreaValue}

@@ -23,6 +23,7 @@ const PriceField = ({ handleChange, currency, value, error }: Props) => {
 
       <LabelTopTextField
         name="price"
+        type="number"
         placeholder="Price"
         value={value}
         onChange={(e) => {

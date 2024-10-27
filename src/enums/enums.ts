@@ -99,5 +99,6 @@ export enum EPropertyFeaturesType {
   ELEVATOR_LIFT = "Elevator/Lift",
   HOME_THEATER = "Home Theater",
   CENTRAL_COOLING = "Central Cooling",
+  CENTRAL_HEATING = "Central Heating",
   ACCESSIBILITY = "Accessibility",
 }

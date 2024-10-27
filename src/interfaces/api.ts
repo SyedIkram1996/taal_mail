@@ -1,6 +1,7 @@
 import { IUserSchema } from "@/lib/models/userModel";
 
 import { AxiosError, AxiosResponse, Method } from "axios";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 export interface IAPIRequest {
   method: Method;
@@ -8,7 +9,7 @@ export interface IAPIRequest {
   data?: object;
   headers?: object;
   formData?: boolean;
-  serverToken?: string;
+  token?: RequestCookie;
   uploadProgress?: object;
   timeout?: number;
 }

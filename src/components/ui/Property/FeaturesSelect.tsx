@@ -9,7 +9,13 @@ import {
   CloseGreyIcon,
   PlusIcon,
 } from "@/constants/images.routes";
-import { features } from "@/constants/property";
+import {
+  basicFeatures,
+  facilities,
+  features,
+  nearbyPlaces,
+  secondaryFeatures,
+} from "@/constants/property";
 import { EPropertyFeatures, EPropertyFeaturesType } from "@/enums/enums";
 import { IPropertyFeature, IPropertyFeatures } from "@/interfaces/IProperty";
 import { arrayContainObject } from "@/utils/helperFunctions";
@@ -18,7 +24,12 @@ import Image from "next/image";
 import { clone } from "ramda";
 import { useMemo, useState } from "react";
 
-const { BASIC_FEATURES_VALUE } = EPropertyFeatures;
+const {
+  BASIC_FEATURES_VALUE,
+  FACILITIES_VALUE,
+  NEARBY_PLACES_VALUE,
+  SECONDARY_FEATURES_VALUE,
+} = EPropertyFeatures;
 const { MULTIPLE, SINGLE } = EPropertyFeaturesType;
 
 interface SelectedFeatureProps {
@@ -85,11 +96,19 @@ interface Props {
   error: string;
 }
 
-// const getArrayWithGreyIcon = (array: IPropertyFeature[]) => {
-//   return array.map((val) => {
-//     return { ...val, greyIcon: greyIcons[val.title] };
-//   });
-// };
+const getFeatureTabAndIcon = (
+  tab: EPropertyFeatures,
+  selectedItemsArray: IPropertyFeature[],
+  constantsArray: any[],
+) => {
+  return selectedItemsArray.map((val) => {
+    return {
+      ...val,
+      tab,
+      icon: constantsArray.find((feature) => feature.title === val.title)?.icon,
+    };
+  });
+};
 
 const FeaturesSelect = ({ value, formik, error }: Props) => {
   const [openFeatures, setOpenFeatures] = useState(false);
@@ -102,7 +121,7 @@ const FeaturesSelect = ({ value, formik, error }: Props) => {
 
   const handleClickCheckBox = (title: string, icon: any) => {
     let temp = clone(tempValues);
-    temp[tabValue].push({ title, count: 1, icon: icon, tabValue });
+    temp[tabValue].push({ title, count: 1 });
     setTempValues(temp);
   };
 
@@ -135,10 +154,22 @@ const FeaturesSelect = ({ value, formik, error }: Props) => {
 
   const selectedFeatures = useMemo(
     () => [
-      ...value.basicFeatures,
-      ...value.facilities,
-      ...value.nearbyPlaces,
-      ...value.secondaryFeatures,
+      ...getFeatureTabAndIcon(
+        BASIC_FEATURES_VALUE,
+        value.basicFeatures,
+        basicFeatures,
+      ),
+      ...getFeatureTabAndIcon(FACILITIES_VALUE, value.facilities, facilities),
+      ...getFeatureTabAndIcon(
+        NEARBY_PLACES_VALUE,
+        value.nearbyPlaces,
+        nearbyPlaces,
+      ),
+      ...getFeatureTabAndIcon(
+        SECONDARY_FEATURES_VALUE,
+        value.secondaryFeatures,
+        secondaryFeatures,
+      ),
     ],
     [value],
   );
@@ -187,7 +218,7 @@ const FeaturesSelect = ({ value, formik, error }: Props) => {
             key={index}
             icon={val.icon}
             title={val.title}
-            tab={val.tabValue}
+            tab={val.tab}
             handleRemoveFeature={handleRemoveFeature}
           />
         ))}
@@ -302,13 +333,7 @@ const FeaturesSelect = ({ value, formik, error }: Props) => {
                       >
                         <SvgIconText
                           text={val.title}
-                          icon={
-                            <Icon
-                              sx={{
-                                path: { stroke: "red" },
-                              }}
-                            />
-                          }
+                          icon={<Icon />}
                           sxRow={{
                             cursor: "pointer",
                             gap: "0.63rem",

@@ -4,6 +4,7 @@ import { SELL_PLOT } from "@/constants/page.routes";
 import { EPropertyType } from "@/enums/enums";
 import { Stack } from "@mui/material";
 import { Metadata } from "next";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 const { PLOT, HOUSE } = EPropertyType;
 
@@ -25,6 +26,7 @@ export default function SellEditPage({ params, searchParams }: Params) {
     redirect(SELL_PLOT);
   }
 
+  const token = cookies().get("token");
   return (
     <Stack
       sx={{
@@ -33,7 +35,7 @@ export default function SellEditPage({ params, searchParams }: Params) {
       }}
     >
       <AddPropertyBanner id={params.id} />
-      <AddPropertyDetails />
+      <AddPropertyDetails token={token} />
     </Stack>
   );
 }

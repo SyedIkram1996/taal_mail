@@ -2,14 +2,11 @@ import { IAPIRequest } from "@/interfaces/api";
 import axios, { AxiosRequestConfig, RawAxiosRequestHeaders } from "axios";
 
 export const makeApiRequest = async <T>(params: IAPIRequest) => {
-  const { method, url, data, headers, serverToken, uploadProgress, timeout } =
-    params;
-
-  const token = "";
+  const { method, url, data, headers, token, uploadProgress, timeout } = params;
 
   const defaultHeaders: RawAxiosRequestHeaders = {
     "Content-Type": "application/json",
-    Authorization: token ? `Bearer ${token}` : undefined,
+    Authorization: token ? `Bearer ${token.value}` : undefined,
     ...headers,
   };
 

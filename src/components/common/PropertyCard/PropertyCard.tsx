@@ -16,7 +16,7 @@ import MUILink from "../MUILink/MUILink";
 import TextMd from "../Text/TextMd";
 
 interface Props {
-  id: string;
+  id?: string;
   title: string;
   bedRooms: string;
   bathRooms: string;
