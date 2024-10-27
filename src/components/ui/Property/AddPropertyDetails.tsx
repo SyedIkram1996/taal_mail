@@ -5,7 +5,7 @@ import FilledButton from "@/components/common/Button/FilledButton";
 import TextMd from "@/components/common/Text/TextMd";
 import { EPropertyClassification } from "@/enums/enums";
 import { IProperty } from "@/interfaces/IProperty";
-import { addProperty } from "@/services/property.services";
+import { addProperty, updateProperty } from "@/services/property.services";
 import { propertySchema } from "@/validators/property";
 import { Dialog, Stack } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
@@ -33,43 +33,45 @@ const { RESIDENTIAL_VALUE } = EPropertyClassification;
 
 interface Props {
   token?: RequestCookie;
+  data?: IProperty;
 }
 
-const AddPropertyDetails = ({ token }: Props) => {
+const AddPropertyDetails = ({ token, data }: Props) => {
+  console.log(data);
   const [openPropertyAdded, setOpenPropertyAdded] = useState(false);
   const formik = useFormik<IProperty>({
     initialValues: {
-      createdBy: "",
-      id: "",
-      purpose: "",
-      classification: RESIDENTIAL_VALUE,
-      type: "",
-      duesCleared: "",
-      status: "",
-      city: "",
-      location: "",
+      createdBy: data ? data.createdBy : "",
+      id: data ? data.id : "",
+      purpose: data ? data.purpose : "",
+      classification: data ? data.classification : RESIDENTIAL_VALUE,
+      type: data ? data.type : "",
+      duesCleared: data ? data.duesCleared : "",
+      status: data ? data.status : "",
+      city: data ? data.city : "",
+      location: data ? data.location : "",
       area: {
-        type: "sqft",
-        totalArea: "",
+        type: data ? data.area.type : "sqft",
+        totalArea: data ? data.area.totalArea : "",
       },
       price: {
-        askingPrice: "",
-        currency: "PKR",
+        askingPrice: data ? data.price.askingPrice : "",
+        currency: data ? data.price.currency : "PKR",
       },
-      bedrooms: "",
-      bathrooms: "",
+      bedrooms: data ? data.bedrooms : "",
+      bathrooms: data ? data.bathrooms : "",
       features: {
-        basicFeatures: [],
-        facilities: [],
-        nearbyPlaces: [],
-        secondaryFeatures: [],
+        basicFeatures: data ? data.features.basicFeatures : [],
+        facilities: data ? data.features.facilities : [],
+        nearbyPlaces: data ? data.features.nearbyPlaces : [],
+        secondaryFeatures: data ? data.features.secondaryFeatures : [],
       },
-      name: "",
-      description: "",
-      images: [],
+      name: data ? data.name : "",
+      description: data ? data.description : "",
+      images: data ? data.images : [],
       allotmentLetter: {
-        public_id: "",
-        url: "",
+        public_id: data ? data.allotmentLetter.public_id : "",
+        url: data ? data.allotmentLetter.url : "",
       },
     },
     onSubmit: (values) => {
@@ -78,16 +80,21 @@ const AddPropertyDetails = ({ token }: Props) => {
     validationSchema: toFormikValidationSchema(propertySchema),
   });
 
+  const formikValues = formik.values;
+  const formikErrors = formik.errors;
+
   const mutation = useMutation({
-    mutationFn: async () => addProperty(formik.values, token),
+    mutationFn: async () => {
+      if (formikValues.id) {
+        return updateProperty(formikValues, token);
+      }
+
+      return addProperty(formikValues, token);
+    },
     onSuccess: (data) => {
       setOpenPropertyAdded(true);
-      // toastSuccess("Account created! Verify your email address");
-      // router.replace(LOGIN);
     },
-    onError: (error) => {
-      // setSignUpError(error.message);
-    },
+    onError: (error) => {},
   });
 
   // console.log(
@@ -95,9 +102,6 @@ const AddPropertyDetails = ({ token }: Props) => {
   //     formik.errors
   //   )}\n\n`
   // );
-
-  const formikValues = formik.values;
-  const formikErrors = formik.errors;
 
   const handleChangePurpose = useCallback((value: any) => {
     formik.setFieldValue("purpose", value);
@@ -371,9 +375,10 @@ const AddPropertyDetails = ({ token }: Props) => {
         />
 
         <FilledButton
-          text="Add Property"
+          text={formikValues.id ? "Update Property" : "Add Property"}
           type="submit"
           loading={mutation.isPending}
+          disabled={mutation.isPending}
           onClick={() => {
             const errorsKeys = Object.keys(formikErrors);
             if (errorsKeys.length) {
@@ -417,7 +422,7 @@ const AddPropertyDetails = ({ token }: Props) => {
           }}
         >
           <TextMd
-            text={"Property Added!"}
+            text={formikValues.id ? "Property Updated" : "Property Added!"}
             sx={{
               width: "8.43rem",
               fontSize: "1.125rem",

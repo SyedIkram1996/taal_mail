@@ -79,8 +79,8 @@ const FilledButton = ({
         },
         "&.Mui-disabled": !secondary
           ? {
-              borderColor: "var(--primary-disable)",
-              backgroundColor: "var(--primary-disable)",
+              borderColor: "var(--philippine-silver)",
+              backgroundColor: "var(--philippine-silver)",
               color: "white",
             }
           : {

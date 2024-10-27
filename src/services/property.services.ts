@@ -11,3 +11,19 @@ export const addProperty = (data: IProperty, token?: RequestCookie) => {
     data,
   });
 };
+
+export const updateProperty = (data: IProperty, token?: RequestCookie) => {
+  return makeApiRequest({
+    method: "PUT",
+    url: PROPERTY,
+    token,
+    data,
+  });
+};
+export const deleteProperty = (id?: string, token?: RequestCookie) => {
+  return makeApiRequest({
+    method: "DELETE",
+    url: `${PROPERTY}?id=${id}`,
+    token,
+  });
+};

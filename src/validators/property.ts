@@ -1,6 +1,7 @@
-import { array, object, string } from "zod";
+import { array, number, object, string } from "zod";
 
 export const propertySchema = object({
+  id: string().optional(),
   createdBy: string().optional(),
   purpose: string(),
   classification: string(),
@@ -20,10 +21,10 @@ export const propertySchema = object({
   bedrooms: string(),
   bathrooms: string(),
   features: object({
-    basicFeatures: array(object({})),
-    facilities: array(object({})),
-    nearbyPlaces: array(object({})),
-    secondaryFeatures: array(object({})),
+    basicFeatures: array(object({ title: string(), count: number() })),
+    facilities: array(object({ title: string(), count: number() })),
+    nearbyPlaces: array(object({ title: string(), count: number() })),
+    secondaryFeatures: array(object({ title: string(), count: number() })),
   }).refine(
     (data) => {
       // Check if at least one of the arrays has a length greater than 0

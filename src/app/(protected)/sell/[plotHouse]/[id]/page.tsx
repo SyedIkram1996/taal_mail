@@ -1,5 +1,6 @@
 import AddPropertyBanner from "@/components/ui/Property/AddPropertyBanner";
 import AddPropertyDetails from "@/components/ui/Property/AddPropertyDetails";
+import { PROPERTY } from "@/constants/api.routes";
 import { SELL_PLOT } from "@/constants/page.routes";
 import { EPropertyType } from "@/enums/enums";
 import { Stack } from "@mui/material";
@@ -17,7 +18,7 @@ interface Params {
   searchParams: { query?: string; page?: string };
 }
 
-export default function SellEditPage({ params, searchParams }: Params) {
+export default async function SellEditPage({ params, searchParams }: Params) {
   if (
     params.plotHouse.toLowerCase() === PLOT ||
     params.plotHouse.toLowerCase() === HOUSE
@@ -27,6 +28,17 @@ export default function SellEditPage({ params, searchParams }: Params) {
   }
 
   const token = cookies().get("token");
+  const id = params.id;
+
+  const response = await fetch(`${PROPERTY}?id=${id}`, {
+    cache: "no-store",
+    headers: {
+      Authorization: token ? `Bearer ${token.value}` : "",
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await response.json();
+
   return (
     <Stack
       sx={{
@@ -35,7 +47,7 @@ export default function SellEditPage({ params, searchParams }: Params) {
       }}
     >
       <AddPropertyBanner id={params.id} />
-      <AddPropertyDetails token={token} />
+      <AddPropertyDetails token={token} data={data.property} />
     </Stack>
   );
 }

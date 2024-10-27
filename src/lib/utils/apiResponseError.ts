@@ -1,4 +1,4 @@
-import { INTERNAL_SERVER_ERROR } from "@/constants/statusCodes";
+import { INVALID_TOKEN, TOKEN_REQUIRED } from "@/constants/statusCodes";
 
 export const apiResponseError = ({
   message,
@@ -19,12 +19,12 @@ export const apiResponseError = ({
 export const tokenRequiredError = () => {
   return apiResponseError({
     message: "Token Required",
-    statusCode: INTERNAL_SERVER_ERROR,
+    statusCode: TOKEN_REQUIRED,
   });
 };
 export const tokenInvalidError = () => {
   return apiResponseError({
     message: "Invalid Token",
-    statusCode: INTERNAL_SERVER_ERROR,
+    statusCode: INVALID_TOKEN,
   });
 };

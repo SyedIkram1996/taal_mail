@@ -67,13 +67,11 @@ const CustomMenu = ({
         top: "3.38rem",
         width: "8.75rem",
         backgroundColor: "white",
-        gap: "0.625rem",
-        padding: "0.625rem",
         zIndex: 1,
         ...sx,
       }}
     >
-      {menu.map(({ title, link, authReq }) => (
+      {menu.map(({ title, link, authReq }, index) => (
         <MUILink
           key={title}
           href={authReq && !user ? `${LOGIN}?redirect=${link}` : link}
@@ -81,6 +79,10 @@ const CustomMenu = ({
             if (handleProfileMenu) {
               handleProfileMenu(false);
             }
+          }}
+          sx={{
+            padding: "0.625rem",
+            pb: index !== menu.length - 1 ? "0" : "0.625rem",
           }}
         >
           <TextSm
@@ -473,6 +475,8 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
                     cursor: "pointer",
                     color: "var(--text-secondary)",
                     fontWeight: "600",
+                    padding: "0.625rem",
+                    pt: "0",
                   }}
                 />
               </CustomMenu>

@@ -127,6 +127,14 @@ const propertySchema: Schema<IPropertySchema> = new Schema({
   },
 });
 
+propertySchema.set("toJSON", {
+  virtuals: true,
+  versionKey: false,
+  transform: function (doc, ret) {
+    delete ret._id;
+  },
+});
+
 const PropertyModel =
   (models.Property as Model<IPropertySchema>) ||
   model("Property", propertySchema);

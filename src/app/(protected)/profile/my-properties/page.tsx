@@ -26,7 +26,7 @@ export default async function MyPropertiesPage() {
         minHeight: "100vh",
       }}
     >
-      <MyProperties data={!data.error ? data.properties : []} />
+      <MyProperties data={!data.error ? data.properties : []} token={token} />
     </Stack>
   );
 }
