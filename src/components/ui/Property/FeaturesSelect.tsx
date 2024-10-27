@@ -82,6 +82,7 @@ const SelectedFeature = ({
 interface Props {
   value: IPropertyFeatures;
   formik: any;
+  error: string;
 }
 
 // const getArrayWithGreyIcon = (array: IPropertyFeature[]) => {
@@ -90,7 +91,7 @@ interface Props {
 //   });
 // };
 
-const FeaturesSelect = ({ value, formik }: Props) => {
+const FeaturesSelect = ({ value, formik, error }: Props) => {
   const [openFeatures, setOpenFeatures] = useState(false);
   const [tabValue, setTabValue] = useState<string>(BASIC_FEATURES_VALUE);
   const [tempValues, setTempValues] = useState<any>(clone(value));
@@ -142,13 +143,12 @@ const FeaturesSelect = ({ value, formik }: Props) => {
     [value],
   );
 
-  console.log(tempValues);
-
   return (
-    <Stack>
+    <Stack id="features">
       <FieldTitleDesc
         title="Features:"
         desc="what features does yor property have?"
+        error={error}
       />
 
       <FilledButton

@@ -9,6 +9,7 @@ interface Props {
   handleChangeType: any;
   classification: string;
   type: string;
+  error: string;
 }
 
 const TypeSelect = ({
@@ -16,15 +17,21 @@ const TypeSelect = ({
   handleChangeType,
   classification,
   type,
+  error,
 }: Props) => {
   return (
     <Stack
+      id="type"
       sx={{
         width: { xs: "100%", md: "46.50206rem" },
         alignItems: { xs: "center", md: "inherit" },
       }}
     >
-      <FieldTitleDesc title="Property Type:" desc="Choose you property type." />
+      <FieldTitleDesc
+        title="Property Type:"
+        desc="Choose you property type."
+        error={error}
+      />
       <Box
         sx={{
           borderBottom: "1px solid var(--platinum)",

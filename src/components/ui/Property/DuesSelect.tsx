@@ -12,12 +12,17 @@ const { CLEARED } = EPropertyDues;
 interface Props {
   handleChange: any;
   value: string;
+  error: string;
 }
 
-const DuesSelect = ({ handleChange, value }: Props) => {
+const DuesSelect = ({ handleChange, value, error }: Props) => {
   return (
-    <Stack>
-      <FieldTitleDesc title="Dues:" desc="Are all your dues cleared?" />
+    <Stack id="duesCleared">
+      <FieldTitleDesc
+        title="Dues:"
+        desc="Are all your dues cleared?"
+        error={error}
+      />
       <SelectField
         iconWidth={30}
         iconHeight={30}

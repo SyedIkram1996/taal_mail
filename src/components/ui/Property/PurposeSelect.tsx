@@ -7,14 +7,16 @@ import { memo } from "react";
 interface Props {
   handleChange: any;
   value: string;
+  error: string;
 }
 
-const PurposeSelect = ({ handleChange, value }: Props) => {
+const PurposeSelect = ({ handleChange, value, error }: Props) => {
   return (
-    <>
+    <Stack id="purpose">
       <FieldTitleDesc
         title="Purpose:"
         desc="What do you do to with your property?"
+        error={error}
       />
 
       <Stack
@@ -51,7 +53,7 @@ const PurposeSelect = ({ handleChange, value }: Props) => {
           />
         ))}
       </Stack>
-    </>
+    </Stack>
   );
 };
 

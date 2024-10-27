@@ -5,14 +5,16 @@ import { Stack } from "@mui/material";
 interface Props {
   handleChange: any;
   value: string;
+  error: string;
 }
 
-const NameField = ({ handleChange, value }: Props) => {
+const NameField = ({ handleChange, value, error }: Props) => {
   return (
-    <Stack>
+    <Stack id="name">
       <FieldTitleDesc
         title="Name of Property:"
         desc="Add the Title of your post."
+        error={error}
       />
 
       <LabelTopTextField

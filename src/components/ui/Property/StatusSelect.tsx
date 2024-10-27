@@ -12,14 +12,16 @@ const { COMPLETION } = EPropertyStatus;
 interface Props {
   handleChange: any;
   value: string;
+  error: string;
 }
 
-const StatusSelect = ({ handleChange, value }: Props) => {
+const StatusSelect = ({ handleChange, value, error }: Props) => {
   return (
-    <Stack>
+    <Stack id="status">
       <FieldTitleDesc
         title="Status:"
         desc="What is the status of your property?"
+        error={error}
       />
       <SelectField
         iconWidth={30}

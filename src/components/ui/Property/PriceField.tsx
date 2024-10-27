@@ -8,15 +8,17 @@ interface Props {
   handleChange: any;
   value: string;
   currency: string;
+  error: string;
 }
 
-const PriceField = ({ handleChange, currency, value }: Props) => {
+const PriceField = ({ handleChange, currency, value, error }: Props) => {
   console.log("render price");
   return (
-    <Stack>
+    <Stack id="price">
       <FieldTitleDesc
         title="Asking Price:"
         desc="How much do you want for your property?"
+        error={error}
       />
 
       <LabelTopTextField

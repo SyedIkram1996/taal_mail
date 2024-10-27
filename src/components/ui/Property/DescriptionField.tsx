@@ -5,14 +5,16 @@ import { Stack } from "@mui/material";
 interface Props {
   handleChange: any;
   value: string;
+  error: string;
 }
 
-const DescriptionField = ({ handleChange, value }: Props) => {
+const DescriptionField = ({ handleChange, value, error }: Props) => {
   return (
-    <Stack>
+    <Stack id="description">
       <FieldTitleDesc
         title="Description:"
         desc="Add any description required."
+        error={error}
       />
 
       <LabelTopTextField

@@ -11,18 +11,21 @@ interface Props {
     public_id: string;
     url: string;
   }[];
+  error: string;
 }
 
 const UploadImagesSelect = ({
   handleChange,
   handleDeleteImage,
   images,
+  error,
 }: Props) => {
   return (
-    <Stack>
+    <Stack id="images">
       <FieldTitleDesc
         title="Upload Images:"
         desc="what features does yor property have?"
+        error={error}
       />
 
       <Grid2

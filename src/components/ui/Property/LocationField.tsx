@@ -6,15 +6,17 @@ import { memo } from "react";
 interface Props {
   handleChange: any;
   value: string;
+  error: string;
 }
 
-const LocationField = ({ handleChange, value }: Props) => {
+const LocationField = ({ handleChange, value, error }: Props) => {
   console.log("rerender Location");
   return (
-    <Stack>
+    <Stack id="location">
       <FieldTitleDesc
         title="Location:"
         desc="What is the location of your property?"
+        error={error}
       />
       <LabelTopTextField
         name="location"

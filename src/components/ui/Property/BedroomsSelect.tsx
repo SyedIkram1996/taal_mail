@@ -7,14 +7,16 @@ import { memo } from "react";
 interface Props {
   handleChange: any;
   value: string;
+  error: string;
 }
 
-const BedroomsSelect = ({ handleChange, value }: Props) => {
+const BedroomsSelect = ({ handleChange, value, error }: Props) => {
   return (
-    <Stack>
+    <Stack id="bedrooms">
       <FieldTitleDesc
         title="No. of Bedrooms:"
         desc="How many bed rooms does your property have?"
+        error={error}
       />
 
       <Stack

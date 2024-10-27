@@ -12,6 +12,7 @@ interface Props {
   handleChangeType: any;
   totalAreaValue: string;
   areaTypeValue: string;
+  error: string;
 }
 
 const AreaField = ({
@@ -19,11 +20,16 @@ const AreaField = ({
   handleChangeType,
   totalAreaValue,
   areaTypeValue,
+  error,
 }: Props) => {
   console.log("render area");
   return (
-    <Stack>
-      <FieldTitleDesc title="Area:" desc="What is the size of your property?" />
+    <Stack id="area">
+      <FieldTitleDesc
+        title="Area:"
+        desc="What is the size of your property?"
+        error={error}
+      />
       <LabelTopTextField
         name="area"
         placeholder="Area"

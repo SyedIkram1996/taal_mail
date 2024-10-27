@@ -1,8 +1,6 @@
 "use client";
 
 import FilledButton from "@/components/common/Button/FilledButton";
-import TextLg from "@/components/common/Text/TextLg";
-import TextSm from "@/components/common/Text/TextSm";
 
 import { EPropertyClassification } from "@/enums/enums";
 import { IProperty } from "@/interfaces/IProperty";
@@ -34,24 +32,6 @@ interface Props {
   desc: string;
 }
 
-const TitleDesc = ({ title, desc }: Props) => {
-  return (
-    <Stack
-      direction={{ xs: "column", md: "row" }}
-      sx={{ alignItems: "center", gap: "0.62rem" }}
-    >
-      <TextLg
-        text={title}
-        sx={{ fontWeight: "400", color: "var(--text-black)" }}
-      />
-      <TextSm
-        text={desc}
-        sx={{ fontWeight: "400", color: "var(--spanish-gray)" }}
-      />
-    </Stack>
-  );
-};
-
 const AddPropertyDetails = () => {
   const formik = useFormik<IProperty>({
     initialValues: {
@@ -64,7 +44,7 @@ const AddPropertyDetails = () => {
       city: "",
       location: "",
       area: {
-        type: "",
+        type: "sqft",
         totalArea: "",
       },
       price: {
@@ -90,17 +70,19 @@ const AddPropertyDetails = () => {
     onSubmit: () => {
       // setLoginError("");
       // mutation.mutate();
+      console.log("SUBMIT THE FORM");
     },
     validationSchema: toFormikValidationSchema(propertySchema),
   });
 
-  console.log(
-    `Values : ${JSON.stringify(formik.values)}\n\nerrors : ${JSON.stringify(
-      formik.errors,
-    )}\n\n`,
-  );
+  // console.log(
+  //   `Values : ${JSON.stringify(formik.values)}\n\nerrors : ${JSON.stringify(
+  //     formik.errors
+  //   )}\n\n`
+  // );
 
   const formikValues = formik.values;
+  const formikErrors = formik.errors;
 
   const handleChangePurpose = useCallback((value: any) => {
     formik.setFieldValue("purpose", value);
@@ -197,6 +179,27 @@ const AddPropertyDetails = () => {
     [formikValues.images],
   );
 
+  const handleChangeAllotmentLetter = useCallback(
+    (e: any) => {
+      const files = Array.from(e.target.files);
+
+      files.forEach((file: any, index) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.onload = () => {
+          if (reader.readyState === 2) {
+            formik.setFieldValue("allotmentLetter", {
+              public_id: "",
+              url: reader.result as string,
+            });
+          }
+        };
+      });
+    },
+    [formikValues.allotmentLetter],
+  );
+
   return (
     <Stack
       component={"form"}
@@ -210,6 +213,11 @@ const AddPropertyDetails = () => {
       <PurposeSelect
         handleChange={handleChangePurpose}
         value={formikValues.purpose}
+        error={
+          formikErrors.purpose && formik.touched.purpose
+            ? formikErrors.purpose
+            : ""
+        }
       />
 
       <Stack sx={{ gap: "6.25rem", mt: "6.25rem" }}>
@@ -218,66 +226,147 @@ const AddPropertyDetails = () => {
           handleChangeType={handleChangeType}
           classification={formikValues.classification}
           type={formikValues.type}
+          error={
+            formikErrors.type && formik.touched.type ? formikErrors.type : ""
+          }
         />
 
         <DuesSelect
           handleChange={handleChangeDues}
           value={formikValues.duesCleared}
+          error={
+            formikErrors.duesCleared && formik.touched.duesCleared
+              ? formikErrors.duesCleared
+              : ""
+          }
         />
 
         <StatusSelect
           handleChange={handleChangeStatus}
           value={formikValues.status}
+          error={
+            formikErrors.status && formik.touched.status
+              ? formikErrors.status
+              : ""
+          }
         />
 
-        <CityField handleChange={handleChangeCity} value={formikValues.city} />
+        <CityField
+          handleChange={handleChangeCity}
+          value={formikValues.city}
+          error={
+            formikErrors.city && formik.touched.city ? formikErrors.city : ""
+          }
+        />
 
         <LocationField
           handleChange={handleChangeLocation}
           value={formikValues.location}
+          error={
+            formikErrors.location && formik.touched.location
+              ? formikErrors.location
+              : ""
+          }
         />
         <AreaField
           handleChangeTotalArea={handleChangeTotalArea}
           handleChangeType={handleChangeAreaType}
           totalAreaValue={formikValues.area.totalArea}
           areaTypeValue={formikValues.area.type}
+          error={
+            formikErrors.area?.totalArea && formik.touched.area?.totalArea
+              ? formikErrors.area?.totalArea
+              : ""
+          }
         />
 
         <PriceField
           handleChange={handleChangePrice}
           value={formikValues.price.askingPrice}
           currency={formikValues.price.currency}
+          error={
+            formikErrors.price?.askingPrice && formik.touched.price?.askingPrice
+              ? formikErrors.price?.askingPrice
+              : ""
+          }
         />
 
         <BedroomsSelect
           handleChange={handleChangeBedrooms}
           value={formikValues.bedrooms}
+          error={
+            formikErrors.bedrooms && formik.touched.bedrooms
+              ? formikErrors.bedrooms
+              : ""
+          }
         />
 
         <BathroomsSelect
           handleChange={handleChangeBathrooms}
           value={formikValues.bathrooms}
+          error={
+            formikErrors.bathrooms && formik.touched.bathrooms
+              ? formikErrors.bathrooms
+              : ""
+          }
         />
 
-        <FeaturesSelect value={formikValues.features} formik={formik} />
+        <FeaturesSelect
+          value={formikValues.features}
+          formik={formik}
+          error={
+            formikErrors.features && formik.touched.features
+              ? `${formikErrors.features}`
+              : ""
+          }
+        />
 
-        <NameField handleChange={handleChangeName} value={formikValues.name} />
+        <NameField
+          handleChange={handleChangeName}
+          value={formikValues.name}
+          error={
+            formikErrors.name && formik.touched.name ? formikErrors.name : ""
+          }
+        />
 
         <DescriptionField
           handleChange={handleChangeDescription}
           value={formikValues.description}
+          error={
+            formikErrors.description && formik.touched.description
+              ? formikErrors.description
+              : ""
+          }
         />
 
         <UploadImagesSelect
           handleChange={handleChangeAddImages}
           handleDeleteImage={handleDeleteImage}
           images={formikValues.images}
+          error={
+            formikErrors.images && formik.touched.images
+              ? `${formikErrors.images}`
+              : ""
+          }
         />
 
-        <UploadAllotmentSelect />
+        <UploadAllotmentSelect
+          handleChange={handleChangeAllotmentLetter}
+          allotmentLetter={formikValues.allotmentLetter}
+        />
 
         <FilledButton
           text="Add Property"
+          type="submit"
+          onClick={() => {
+            const errorsKeys = Object.keys(formikErrors);
+            if (errorsKeys.length) {
+              const element = document.getElementById(errorsKeys[0]);
+              if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+              }
+            }
+          }}
           sx={{
             mb: "6.21rem",
             alignSelf: "center",
