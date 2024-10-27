@@ -31,3 +31,9 @@ export interface ISendEmail {
 }
 
 export type TServiceResponse = [null | AxiosResponse, AxiosError | null];
+
+export interface IJWT {
+  email: string;
+  id: string;
+  role: string;
+}

@@ -1,36 +1,33 @@
-import { INTERNAL_SERVER_ERROR } from "@/constants/statusCodes";
+import { CREATED } from "@/constants/statusCodes";
 import dbConnect from "@/lib/db/dbConnect";
-import { apiResponseError } from "@/lib/utils/apiResponseError";
+import PropertyModel from "@/lib/models/propertyModel";
 import { validateResultError } from "@/lib/utils/validateResultError";
+import { verifyJwtToken } from "@/lib/utils/verifyJwtToken";
 import { propertySchema } from "@/validators/property";
 import { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
-  let token = request.headers.get("authorization");
+  const decodedToken = verifyJwtToken(request);
 
-  if (!token) {
-    return apiResponseError({
-      message: "Token Required",
-      statusCode: INTERNAL_SERVER_ERROR,
+  if (!decodedToken.error) {
+    await dbConnect();
+    const body = await request.json();
+
+    const validationResult = propertySchema.safeParse(body);
+
+    if (!validationResult.success) {
+      return validateResultError(validationResult);
+    }
+
+    const data = validationResult.data;
+
+    const property = await PropertyModel.create({
+      ...data,
+      createdBy: decodedToken.userId,
     });
+
+    return Response.json({ property, error: false }, { status: CREATED });
+  } else {
+    return decodedToken.response;
   }
-
-  // token = token.split(" ")[1];
-
-  await dbConnect();
-  const body = await request.json();
-
-  const validationResult = propertySchema.safeParse(body);
-
-  if (!validationResult.success) {
-    return validateResultError(validationResult);
-  }
-
-  // const { email, idToken, uid } = validationResult.data;
-
-  console.log(body);
-
-  // const validationResult =
-
-  return apiResponseError({ message: "", statusCode: INTERNAL_SERVER_ERROR });
 }

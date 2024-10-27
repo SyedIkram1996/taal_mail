@@ -2,15 +2,16 @@
 
 import FilledButton from "@/components/common/Button/FilledButton";
 
+import TextMd from "@/components/common/Text/TextMd";
 import { EPropertyClassification } from "@/enums/enums";
 import { IProperty } from "@/interfaces/IProperty";
 import { addProperty } from "@/services/property.services";
 import { propertySchema } from "@/validators/property";
-import { Stack } from "@mui/material";
+import { Dialog, Stack } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import AreaField from "./AreaField";
 import BathroomsSelect from "./BathroomsSelect";
@@ -35,6 +36,7 @@ interface Props {
 }
 
 const AddPropertyDetails = ({ token }: Props) => {
+  const [openPropertyAdded, setOpenPropertyAdded] = useState(false);
   const formik = useFormik<IProperty>({
     initialValues: {
       createdBy: "",
@@ -71,9 +73,7 @@ const AddPropertyDetails = ({ token }: Props) => {
       },
     },
     onSubmit: (values) => {
-      console.log(values);
       mutation.mutate();
-      console.log("SUBMIT THE FORM");
     },
     validationSchema: toFormikValidationSchema(propertySchema),
   });
@@ -81,6 +81,7 @@ const AddPropertyDetails = ({ token }: Props) => {
   const mutation = useMutation({
     mutationFn: async () => addProperty(formik.values, token),
     onSuccess: (data) => {
+      setOpenPropertyAdded(true);
       // toastSuccess("Account created! Verify your email address");
       // router.replace(LOGIN);
     },
@@ -397,6 +398,52 @@ const AddPropertyDetails = ({ token }: Props) => {
           }}
         />
       </Stack>
+
+      <Dialog
+        open={openPropertyAdded}
+        PaperProps={{
+          sx: {
+            width: "11.0625rem",
+            textAlign: "center",
+            borderRadius: "1.875rem",
+          },
+        }}
+      >
+        <Stack
+          sx={{
+            padding: "1.88rem 0.81rem 1.87rem 0.81rem",
+            alignItems: "center",
+            gap: "1.87rem",
+          }}
+        >
+          <TextMd
+            text={"Property Added!"}
+            sx={{
+              width: "8.43rem",
+              fontSize: "1.125rem",
+              fontWeight: "400",
+              color: "var(--text-black)",
+              lineHeight: "normal",
+              textAlign: "center",
+            }}
+          />
+
+          <FilledButton
+            text="Ok"
+            onClick={() => {
+              setOpenPropertyAdded(false);
+            }}
+            sx={{
+              width: "4.125rem",
+              height: "2rem",
+              fontSize: "1rem",
+              fontWeight: "400",
+              borderRadius: "0.9375rem",
+              padding: "0.31rem 1.44rem",
+            }}
+          />
+        </Stack>
+      </Dialog>
     </Stack>
   );
 };

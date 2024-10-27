@@ -1,6 +1,7 @@
 import { array, object, string } from "zod";
 
 export const propertySchema = object({
+  createdBy: string().optional(),
   purpose: string(),
   classification: string(),
   type: string(),
