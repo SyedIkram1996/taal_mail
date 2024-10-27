@@ -85,7 +85,7 @@ const FeaturedListing = () => {
             >
               <PropertyCard
                 id={val.id}
-                title={val.description}
+                name={val.description}
                 bedRooms={val.bedrooms}
                 bathRooms={val.bathrooms}
                 area={val.area}

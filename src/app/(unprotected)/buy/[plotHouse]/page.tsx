@@ -1,6 +1,6 @@
 import BuyRentProperties from "@/components/ui/Buy/BuyRentProperties";
 import Filters from "@/components/ui/Buy/Filters";
-import { buyRentProperties } from "@/constants/buyRent";
+import { PROPERTIES } from "@/constants/api.routes";
 import { BUY_PLOT } from "@/constants/page.routes";
 import { EPropertyType } from "@/enums/enums";
 import { Stack } from "@mui/material";
@@ -17,7 +17,7 @@ interface Params {
   searchParams: { query?: string; page?: string };
 }
 
-export default function Buy({ params, searchParams }: Params) {
+export default async function Buy({ params, searchParams }: Params) {
   if (
     params.plotHouse.toLowerCase() === PLOT ||
     params.plotHouse.toLowerCase() === HOUSE
@@ -26,7 +26,8 @@ export default function Buy({ params, searchParams }: Params) {
     redirect(BUY_PLOT);
   }
 
-  const data = buyRentProperties;
+  const response = await fetch(PROPERTIES, { cache: "no-store" });
+  const data = await response.json();
 
   return (
     <Stack
@@ -36,7 +37,7 @@ export default function Buy({ params, searchParams }: Params) {
       }}
     >
       <Filters />
-      <BuyRentProperties data={data} />
+      <BuyRentProperties data={!data.error ? data.properties : []} />
     </Stack>
   );
 }

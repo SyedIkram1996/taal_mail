@@ -17,7 +17,7 @@ import TextMd from "../Text/TextMd";
 
 interface Props {
   id?: string;
-  title: string;
+  name: string;
   bedRooms: string;
   bathRooms: string;
   area: { totalArea: string; type: string };
@@ -29,7 +29,7 @@ interface Props {
 
 const PropertyCard = ({
   id,
-  title,
+  name,
   bedRooms,
   bathRooms,
   area,
@@ -73,7 +73,7 @@ const PropertyCard = ({
           </Box>
 
           <Stack sx={{ padding: "0.94rem 1.94rem", gap: "1.19rem" }}>
-            <TextMd text={title} sx={{ color: "var(--text-black)" }} />
+            <TextMd noWrap text={name} sx={{ color: "var(--text-black)" }} />
             <Stack direction={"row"} sx={{ justifyContent: "space-between" }}>
               <IconText
                 icon={BedroomIcon}

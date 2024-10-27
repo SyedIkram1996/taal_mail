@@ -13,7 +13,11 @@ const BuyRentProperties = ({ data }: Props) => {
       container
       spacing={4}
       rowSpacing={12}
-      sx={{ padding: "2rem", py: "6.25rem" }}
+      sx={{
+        padding: "2rem",
+        py: "6.25rem",
+        width: "100%",
+      }}
     >
       {data.map((val, index) => (
         <Grid2
@@ -23,7 +27,7 @@ const BuyRentProperties = ({ data }: Props) => {
         >
           <PropertyCard
             id={val.id}
-            title={val.description}
+            name={val.name}
             bedRooms={val.bedrooms}
             bathRooms={val.bathrooms}
             area={val.area}

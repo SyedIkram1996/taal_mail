@@ -15,7 +15,7 @@ const MyBid = ({ val }: Props) => {
   return (
     <PropertyCard
       id={val.id}
-      title={val.description}
+      name={val.description}
       bedRooms={val.bedrooms}
       bathRooms={val.bathrooms}
       area={val.area}
