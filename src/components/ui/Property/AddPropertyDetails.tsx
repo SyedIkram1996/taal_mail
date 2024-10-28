@@ -93,7 +93,7 @@ const AddPropertyDetails = ({ token, data }: Props) => {
       return addProperty(formikValues, token);
     },
     onSuccess: (data) => {
-      router.refresh();
+      // router.refresh();
       setOpenPropertyAdded(true);
     },
     onError: (error) => {},
