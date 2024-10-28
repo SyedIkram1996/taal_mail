@@ -1,3 +1,4 @@
+import { EMAIL_TEMPLATE_LOGO } from "@/constants/environment";
 import {
   Body,
   Button,
@@ -22,15 +23,13 @@ export const VerifyEmailTemplate = ({ link }: Props) => (
     <Body style={main}>
       <Container style={container}>
         <Section style={box}>
-          <Img
-            src={`https://res.cloudinary.com/hrpayroll/image/upload/v1696017067/hr_payroll/logo/e21y7dkeq9xti2gvzj9w.png`}
-            width="49"
-            alt="Stripe"
-          />
+          <Img src={EMAIL_TEMPLATE_LOGO} height="50px" alt="Stripe" />
           <Hr style={hr} />
+        </Section>
+        <Section style={{ textAlign: "center" }}>
           <Text style={paragraph}>Welcome to TaalMail</Text>
           <Button style={button} href={link}>
-            Verify
+            Verify your account
           </Button>
           <Hr style={hr} />
         </Section>
@@ -64,33 +63,18 @@ const hr = {
 };
 
 const paragraph = {
-  color: "#525f7f",
-
-  fontSize: "16px",
+  fontSize: "20px",
   lineHeight: "24px",
-  textAlign: "left" as const,
-};
-
-const anchor = {
-  color: "#556cd6",
+  fontWeight: "500",
 };
 
 const button = {
   backgroundColor: "#0ec648",
   borderRadius: "5px",
   color: "#fff",
-  fontSize: "24px",
-  fontWeight: "bold",
+  fontSize: "16px",
+  fontWeight: "500",
   textDecoration: "none",
   textAlign: "center" as const,
-  display: "block",
-  width: "100%",
-  letterSpacing: "50px",
-  paddingLeft: "50px",
-};
-
-const footer = {
-  color: "#8898aa",
-  fontSize: "12px",
-  lineHeight: "16px",
+  padding: "0.5rem 1rem",
 };

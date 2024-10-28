@@ -3,3 +3,5 @@ export const TOKEN_SECRET = process.env.TOKEN_SECRET;
 export const MONGODB_URI = process.env.MONGODB_URI;
 export const EMAIL = process.env.EMAIL;
 export const EMAIL_PASS = process.env.EMAIL_PASS;
+
+export const EMAIL_TEMPLATE_LOGO = process.env.EMAIL_TEMPLATE_LOGO;

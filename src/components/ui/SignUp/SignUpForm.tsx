@@ -71,7 +71,7 @@ const SignUpForm = () => {
           },
           margin: { xs: "1rem", md: "3rem" },
           boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
-          height: { md: "51.4375rem" },
+          height: { md: "54.75rem" },
           padding: { xs: "1rem", md: "3rem 4rem" },
           boxSizing: "border-box",
         }}
