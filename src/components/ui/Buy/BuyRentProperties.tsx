@@ -25,15 +25,7 @@ const BuyRentProperties = ({ data }: Props) => {
           key={index}
           sx={{ display: "flex", justifyContent: "center" }}
         >
-          <PropertyCard
-            id={val.id}
-            name={val.name}
-            bedRooms={val.bedrooms}
-            bathRooms={val.bathrooms}
-            area={val.area}
-            type={val.type}
-            location={val.location}
-          />
+          <PropertyCard property={val} />
         </Grid2>
       ))}
     </Grid2>

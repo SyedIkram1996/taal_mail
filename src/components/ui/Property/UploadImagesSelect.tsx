@@ -10,6 +10,7 @@ interface Props {
   images: {
     public_id: string;
     url: string;
+    delete?: boolean;
   }[];
   error: string;
 }
@@ -39,52 +40,56 @@ const UploadImagesSelect = ({
           paddingY: { xs: "2rem", md: "3.44rem" },
         }}
       >
-        {images.map((val, index) => (
-          <Grid2
-            key={index}
-            size={{ xs: 12, md: 4, lg: 3 }}
-            sx={{ display: "flex", justifyContent: "center" }}
-          >
-            <Stack
-              sx={{
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "#EAE8E8",
-                width: "fit-content",
-                position: "relative",
-                ".propertyImg": {
-                  objectFit: "cover",
-                  width: { xs: "300px", md: "184px" },
-                  height: { xs: "100%", md: "165px" },
-                },
-                ".closeIcon": {
-                  position: "absolute",
-                  top: { xs: "-10px", md: "-20px" },
-                  right: { xs: "-15px", md: "-25px" },
-                  cursor: "pointer",
-                  width: { xs: "40px", md: "60px" },
-                  height: { xs: "40px", md: "60px" },
-                },
-              }}
+        {images.map((val, index) =>
+          !val.delete ? (
+            <Grid2
+              key={index}
+              size={{ xs: 12, md: 4, lg: 3 }}
+              sx={{ display: "flex", justifyContent: "center" }}
             >
-              <Image
-                className="propertyImg"
-                src={val.url}
-                alt="property image"
-                width={184}
-                height={165}
-              />
-              <Image
-                onClick={() => handleDeleteImage(index)}
-                className="closeIcon"
-                src={CloseRoundedIcon}
-                alt="close icon"
-                width={60}
-                height={60}
-              />
-            </Stack>
-          </Grid2>
-        ))}
+              <Stack
+                sx={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "#EAE8E8",
+                  width: "fit-content",
+                  position: "relative",
+                  ".propertyImg": {
+                    objectFit: "cover",
+                    width: { xs: "300px", md: "184px" },
+                    height: { xs: "100%", md: "165px" },
+                  },
+                  ".closeIcon": {
+                    position: "absolute",
+                    top: { xs: "-10px", md: "-20px" },
+                    right: { xs: "-15px", md: "-25px" },
+                    cursor: "pointer",
+                    width: { xs: "40px", md: "60px" },
+                    height: { xs: "40px", md: "60px" },
+                  },
+                }}
+              >
+                <Image
+                  className="propertyImg"
+                  src={val.url}
+                  alt="property image"
+                  width={184}
+                  height={165}
+                />
+                <Image
+                  onClick={() => handleDeleteImage(index)}
+                  className="closeIcon"
+                  src={CloseRoundedIcon}
+                  alt="close icon"
+                  width={60}
+                  height={60}
+                />
+              </Stack>
+            </Grid2>
+          ) : (
+            <></>
+          ),
+        )}
 
         <Grid2
           size={{ xs: 6, md: 4, lg: 3 }}

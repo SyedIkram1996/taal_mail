@@ -13,15 +13,7 @@ interface Props {
 
 const MyBid = ({ val }: Props) => {
   return (
-    <PropertyCard
-      id={val.id}
-      name={val.description}
-      bedRooms={val.bedrooms}
-      bathRooms={val.bathrooms}
-      area={val.area}
-      type={val.type}
-      location={val.location}
-    >
+    <PropertyCard property={val}>
       <TextMd
         text={`Bid: PKR 1.9 Crore`}
         sx={{

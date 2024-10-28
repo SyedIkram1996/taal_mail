@@ -8,6 +8,7 @@ import {
   LocationIcon,
 } from "@/constants/images.routes";
 import { PROPERTY } from "@/constants/page.routes";
+import { IProperty } from "@/interfaces/IProperty";
 import { Box, Stack, SxProps } from "@mui/material";
 import Image from "next/image";
 import { ReactNode } from "react";
@@ -16,28 +17,31 @@ import MUILink from "../MUILink/MUILink";
 import TextMd from "../Text/TextMd";
 
 interface Props {
-  id?: string;
-  name: string;
-  bedRooms: string;
-  bathRooms: string;
-  area: { totalArea: string; type: string };
-  type: string;
-  location: string;
+  property: IProperty;
   children?: ReactNode;
   sx?: SxProps;
 }
 
-const PropertyCard = ({
-  id,
-  name,
-  bedRooms,
-  bathRooms,
-  area,
-  type,
-  location,
-  children,
-  sx,
-}: Props) => {
+const PropertyCard = ({ property, children, sx }: Props) => {
+  const {
+    id,
+    purpose,
+    classification,
+    type,
+    duesCleared,
+    status,
+    city,
+    location,
+    area,
+    price,
+    bedrooms,
+    bathrooms,
+    features,
+    name,
+    description,
+    images,
+    allotmentLetter,
+  } = property;
   return (
     <Stack
       sx={{
@@ -65,7 +69,7 @@ const PropertyCard = ({
           >
             <Image
               priority
-              src={BannerImage}
+              src={images.length ? images[0].url : BannerImage}
               alt="Property"
               fill
               style={{ objectFit: "cover" }}
@@ -79,13 +83,13 @@ const PropertyCard = ({
                 icon={BedroomIcon}
                 iconWidth={20}
                 iconHeight={20}
-                text={bedRooms}
+                text={bedrooms}
               />
               <IconText
                 icon={BathroomIcon}
                 iconWidth={20}
                 iconHeight={20}
-                text={bathRooms}
+                text={bathrooms}
               />
               <IconText
                 icon={AreaIcon}

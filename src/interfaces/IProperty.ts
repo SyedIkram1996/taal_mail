@@ -40,6 +40,7 @@ export interface IProperty
     | {
         public_id: string;
         url: string;
+        delete?: boolean;
       }[]
     | [];
   features: IPropertyFeatures;

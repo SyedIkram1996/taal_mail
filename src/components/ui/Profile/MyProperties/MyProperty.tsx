@@ -41,16 +41,7 @@ const MyProperty = ({ val, token }: Props) => {
         position: "relative",
       }}
     >
-      <PropertyCard
-        id={val.id}
-        name={val.description}
-        bedRooms={val.bedrooms}
-        bathRooms={val.bathrooms}
-        area={val.area}
-        type={val.type}
-        location={val.location}
-        sx={{ pb: "5rem" }}
-      />
+      <PropertyCard property={val} sx={{ pb: "5rem" }} />
 
       <Stack
         direction={"row"}

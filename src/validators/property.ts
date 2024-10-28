@@ -1,4 +1,4 @@
-import { array, number, object, string } from "zod";
+import { array, boolean, number, object, string } from "zod";
 
 export const propertySchema = object({
   id: string().optional(),
@@ -45,6 +45,7 @@ export const propertySchema = object({
     object({
       public_id: string().optional(),
       url: string(),
+      delete: boolean().optional(),
     }),
   ).nonempty("Required"),
   allotmentLetter: object({

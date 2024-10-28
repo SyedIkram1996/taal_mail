@@ -11,6 +11,7 @@ import { Dialog, Stack } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import AreaField from "./AreaField";
@@ -37,8 +38,8 @@ interface Props {
 }
 
 const AddPropertyDetails = ({ token, data }: Props) => {
-  console.log(data);
   const [openPropertyAdded, setOpenPropertyAdded] = useState(false);
+  const router = useRouter();
   const formik = useFormik<IProperty>({
     initialValues: {
       createdBy: data ? data.createdBy : "",
@@ -92,6 +93,7 @@ const AddPropertyDetails = ({ token, data }: Props) => {
       return addProperty(formikValues, token);
     },
     onSuccess: (data) => {
+      router.refresh();
       setOpenPropertyAdded(true);
     },
     onError: (error) => {},
@@ -179,6 +181,7 @@ const AddPropertyDetails = ({ token, data }: Props) => {
             oldImages.push({
               public_id: "",
               url: reader.result as string,
+              delete: false,
             });
             formik.setFieldValue("images", oldImages);
           }
@@ -191,7 +194,11 @@ const AddPropertyDetails = ({ token, data }: Props) => {
   const handleDeleteImage = useCallback(
     (index: number) => {
       let oldImages = [...formikValues.images];
-      oldImages.splice(index, 1);
+      if (oldImages[index].public_id) {
+        oldImages[index].delete = true;
+      } else {
+        oldImages.splice(index, 1);
+      }
 
       formik.setFieldValue("images", oldImages);
     },
@@ -218,6 +225,8 @@ const AddPropertyDetails = ({ token, data }: Props) => {
     },
     [formikValues.allotmentLetter],
   );
+
+  console.log(formikValues.images);
 
   return (
     <Stack
