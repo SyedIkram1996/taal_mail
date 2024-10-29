@@ -11,6 +11,8 @@ export const PROPERTY = "/property";
 export const INVESTMENT = "/investment";
 
 export const LOGIN = "/login";
+export const ACCOUNT_MANAGEMENT = "/acctmgmt";
+export const SIGN_UP = "/sign-up";
 export const PROFILE = "/profile";
 export const MY_BIDS = `${PROFILE}/my-bids`;
 export const MY_INFO = `${PROFILE}/my-info`;

@@ -1,21 +1,89 @@
 "use client";
 
+import { auth } from "@/../firebase";
 import { loginAction } from "@/app/actions";
 import FilledButton from "@/components/common/Button/FilledButton";
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
+import MUILink from "@/components/common/MUILink/MUILink";
 import TextXl from "@/components/common/Text/TextXl";
 import TextXs from "@/components/common/Text/TextXs";
 import { GoogleColorIcon } from "@/constants/images.routes";
+import { SIGN_UP } from "@/constants/page.routes";
+import { ILogin } from "@/interfaces/api";
+import { login } from "@/services/auth.services";
+import { toastError } from "@/utils/toaster";
+import { loginInSchema } from "@/validators/auth";
 import { Box, Stack, Typography } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
+import { useFormik } from "formik";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { toFormikValidationSchema } from "zod-formik-adapter";
 
 const LoginForm = () => {
-  const [email, setEmail] = useState("");
-  const [Password, setPassword] = useState("");
   const searchParams = useSearchParams();
+  const [loginError, setLoginError] = useState("");
   const redirectLink = searchParams.get("redirect");
+
+  const formik = useFormik<ILogin>({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: ({ email }) => {
+      setLoginError("");
+      mutation.mutate();
+    },
+    validationSchema: toFormikValidationSchema(loginInSchema),
+  });
+
+  const mutation = useMutation({
+    mutationFn: async () => {
+      const { email, password } = formik.values;
+
+      try {
+        const userCredential = await auth.signInWithEmailAndPassword(
+          email,
+          password,
+        );
+
+        const user = userCredential.user;
+
+        if (!user?.emailVerified) {
+          toastError("Email is not verified");
+          setLoginError("Email is not verified");
+          return auth.signOut();
+        }
+
+        if (userCredential.user) {
+          const idToken = await userCredential.user.getIdToken();
+          const uid = userCredential.user.uid;
+          return login({ email, idToken, uid });
+        }
+      } catch (error: any) {
+        let message = "Something went wrong";
+        switch (error.code) {
+          case "auth/invalid-credential":
+            message = "Invalid Credentials";
+            break;
+
+          default:
+            break;
+        }
+
+        throw Error(message);
+      }
+    },
+    onSuccess: (data: any) => {
+      if (data && data.data) {
+        loginAction({ token: data.data.token, redirectLink });
+      }
+    },
+    onError: (error) => {
+      setLoginError(error.message);
+    },
+  });
 
   return (
     <Stack
@@ -24,6 +92,8 @@ const LoginForm = () => {
       }}
     >
       <Stack
+        onSubmit={formik.handleSubmit}
+        component={"form"}
         sx={{
           backgroundColor: "white",
           borderRadius: "1.875rem",
@@ -52,13 +122,17 @@ const LoginForm = () => {
         <LabelTopTextField
           placeholder="Email"
           sx={{
-            pb: "2.75rem",
+            minHeight: "5.38rem",
             ".MuiOutlinedInput-root": {
+              height: "3rem",
               backgroundColor: "var(--anti-flash-white)",
               borderRadius: "0.3125rem",
               fieldset: {
                 border: "none",
                 borderRadius: "0.3125rem",
+              },
+              input: {
+                height: "1.9rem",
               },
               "input::placeholder": {
                 fontSize: "1rem",
@@ -67,18 +141,34 @@ const LoginForm = () => {
               },
             },
           }}
+          error={Boolean(formik.errors.email && formik.touched.email)}
+          helperText={
+            formik.errors.email && formik.touched.email
+              ? formik.errors.email
+              : ""
+          }
+          {...formik.getFieldProps("email")}
+          onChange={(e) => {
+            formik.setFieldTouched("email", false);
+            formik.handleChange(e);
+          }}
         />
+
         <LabelTopTextField
           type="password"
           placeholder="Password"
           sx={{
-            pb: "0.56rem",
+            minHeight: "5.38rem",
             ".MuiOutlinedInput-root": {
+              height: "3rem",
               backgroundColor: "var(--anti-flash-white)",
               borderRadius: "0.3125rem",
               fieldset: {
                 border: "none",
                 borderRadius: "0.3125rem",
+              },
+              input: {
+                height: "1.9rem",
               },
               "input::placeholder": {
                 fontSize: "1rem",
@@ -86,6 +176,17 @@ const LoginForm = () => {
                 opacity: "1",
               },
             },
+          }}
+          error={Boolean(formik.errors.password && formik.touched.password)}
+          helperText={
+            formik.errors.password && formik.touched.password
+              ? formik.errors.password
+              : ""
+          }
+          {...formik.getFieldProps("password")}
+          onChange={(e) => {
+            formik.setFieldTouched("password", false);
+            formik.handleChange(e);
           }}
         />
 
@@ -102,7 +203,9 @@ const LoginForm = () => {
 
         <FilledButton
           text="Login"
-          onClick={() => loginAction({ redirectLink })}
+          type="submit"
+          loading={mutation.isPending}
+          // onClick={() => loginAction({ redirectLink })}
           sx={{
             height: "3.0625rem",
             fontSize: "1rem",
@@ -115,6 +218,13 @@ const LoginForm = () => {
             },
           }}
         />
+
+        {loginError && (
+          <TextXs
+            text={loginError}
+            sx={{ color: "var(--error)", textAlign: "center", mt: "0.5rem" }}
+          />
+        )}
 
         <Stack
           direction={"row"}
@@ -174,14 +284,21 @@ const LoginForm = () => {
             color: "var(--spanish-gray)",
             textAlign: "center",
             fontWeight: "600",
-            span: {
-              cursor: "pointer",
-              color: "var(--text-secondary)",
-            },
           }}
         >
           Don’t have an account?
-          <span> Signup</span>
+          <MUILink
+            href={SIGN_UP}
+            sx={{
+              cursor: "pointer",
+              color: "var(--text-secondary) !important",
+              fontSize: "0.75rem",
+              fontWeight: "600",
+            }}
+          >
+            {" "}
+            Signup
+          </MUILink>
         </Typography>
       </Stack>
     </Stack>

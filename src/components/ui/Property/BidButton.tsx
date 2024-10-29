@@ -1,10 +1,10 @@
 "use client";
 
 import FilledButton from "@/components/common/Button/FilledButton";
+import DialogHeader from "@/components/common/Dialog/DialogHeader";
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import TextMd from "@/components/common/Text/TextMd";
-import TextXl from "@/components/common/Text/TextXl";
-import { BidIcon, CloseIcon } from "@/constants/images.routes";
+import { BidIcon } from "@/constants/images.routes";
 import { Dialog, Stack } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
@@ -58,31 +58,9 @@ const BidButton = ({ user }: Props) => {
               padding: "2.81rem 3.12rem 2.34rem 3.12rem",
               gap: "1.87rem",
               position: "relative",
-              ".closeImg": {
-                position: "absolute",
-                top: "1.87rem",
-                right: "1rem",
-                cursor: "pointer",
-              },
             }}
           >
-            <Image
-              onClick={() => setOpenBid(false)}
-              className="closeImg"
-              src={CloseIcon}
-              alt="close"
-              width={60}
-              height={60}
-            />
-            <TextXl
-              text="Add Bid"
-              sx={{
-                alignSelf: "center",
-                fontSize: "2rem",
-                fontWeight: "700",
-                color: "var(--text-black)",
-              }}
-            />
+            <DialogHeader title={"Add Bid"} setOpen={setOpenBid} />
 
             <Stack sx={{ gap: "1.5rem" }}>
               <TextMd

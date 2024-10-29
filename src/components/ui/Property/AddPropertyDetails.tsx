@@ -1,791 +1,402 @@
 "use client";
 
 import FilledButton from "@/components/common/Button/FilledButton";
-import MenuCard from "@/components/common/Card/MenuCard";
-import IconText from "@/components/common/IconText";
-import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
-import SelectField from "@/components/common/Input/SelectField";
-import TextLg from "@/components/common/Text/TextLg";
+
 import TextMd from "@/components/common/Text/TextMd";
-import TextSm from "@/components/common/Text/TextSm";
-import {
-  areas,
-  baths,
-  beds,
-  propertyTypes,
-  rentSell,
-} from "@/constants/filters";
-import {
-  BannerImage,
-  CloseGreyIcon,
-  CloseRoundedIcon,
-  FlameGreyIcon,
-  PlusGreyIcon,
-  PlusIcon,
-  Property1Image,
-  Property2Image,
-  UploadImageIcon,
-} from "@/constants/images.routes";
-import { dues, status } from "@/constants/property";
-import { Box, Grid2, Stack, Tab, Tabs } from "@mui/material";
-import Image from "next/image";
-import { useState } from "react";
+import { EPropertyClassification } from "@/enums/enums";
+import { IProperty } from "@/interfaces/IProperty";
+import { addProperty, updateProperty } from "@/services/property.services";
+import { propertySchema } from "@/validators/property";
+import { Dialog, Stack } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
+import { useFormik } from "formik";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
+import { toFormikValidationSchema } from "zod-formik-adapter";
+import AreaField from "./AreaField";
+import BathroomsSelect from "./BathroomsSelect";
+import BedroomsSelect from "./BedroomsSelect";
+import CityField from "./CityField";
+import DescriptionField from "./DescriptionField";
+import DuesSelect from "./DuesSelect";
+import FeaturesSelect from "./FeaturesSelect";
+import LocationField from "./LocationField";
+import NameField from "./NameField";
+import PriceField from "./PriceField";
+import PurposeSelect from "./PurposeSelect";
+import StatusSelect from "./StatusSelect";
+import TypeSelect from "./TypeSelect";
+import UploadAllotmentSelect from "./UploadAllotmentSelect";
+import UploadImagesSelect from "./UploadImagesSelect";
+
+const { RESIDENTIAL_VALUE } = EPropertyClassification;
 
 interface Props {
-  title: string;
-  desc: string;
+  token?: RequestCookie;
+  data?: IProperty;
 }
 
-const TitleDesc = ({ title, desc }: Props) => {
-  return (
-    <Stack
-      direction={{ xs: "column", md: "row" }}
-      sx={{ alignItems: "center", gap: "0.62rem" }}
-    >
-      <TextLg
-        text={title}
-        sx={{ fontWeight: "400", color: "var(--text-black)" }}
-      />
-      <TextSm
-        text={desc}
-        sx={{ fontWeight: "400", color: "var(--spanish-gray)" }}
-      />
-    </Stack>
-  );
-};
-
-const AddPropertyDetails = () => {
-  const [propertyPurpose, setPropertyPurpose] = useState("");
-  const [tabValue, setTabValue] = useState(0);
-  const [propertyTypeValue, setPropertyTypeValue] = useState<{
-    type: string;
-    category: string;
-  }>({ type: "Residential", category: "" });
-  const [duesValue, setDuesValues] = useState({ title: "Dues", value: "" });
-  const [statusValue, setStatusValue] = useState({
-    title: "Status",
-    value: "",
+const AddPropertyDetails = ({ token, data }: Props) => {
+  const [openPropertyAdded, setOpenPropertyAdded] = useState(false);
+  const router = useRouter();
+  const formik = useFormik<IProperty>({
+    initialValues: {
+      createdBy: data ? data.createdBy : "",
+      id: data ? data.id : "",
+      purpose: data ? data.purpose : "",
+      classification: data ? data.classification : RESIDENTIAL_VALUE,
+      type: data ? data.type : "",
+      duesCleared: data ? data.duesCleared : "",
+      status: data ? data.status : "",
+      city: data ? data.city : "",
+      location: data ? data.location : "",
+      area: {
+        type: data ? data.area.type : "sqft",
+        totalArea: data ? data.area.totalArea : "",
+      },
+      price: {
+        askingPrice: data ? data.price.askingPrice : "",
+        currency: data ? data.price.currency : "PKR",
+      },
+      bedrooms: data ? data.bedrooms : "",
+      bathrooms: data ? data.bathrooms : "",
+      features: {
+        basicFeatures: data ? data.features.basicFeatures : [],
+        facilities: data ? data.features.facilities : [],
+        nearbyPlaces: data ? data.features.nearbyPlaces : [],
+        secondaryFeatures: data ? data.features.secondaryFeatures : [],
+      },
+      name: data ? data.name : "",
+      description: data ? data.description : "",
+      images: data ? data.images : [],
+      allotmentLetter: {
+        public_id: data ? data.allotmentLetter.public_id : "",
+        url: data ? data.allotmentLetter.url : "",
+      },
+    },
+    onSubmit: (values) => {
+      mutation.mutate();
+    },
+    validationSchema: toFormikValidationSchema(propertySchema),
   });
-  const [areaValue, setAreaValue] = useState<{
-    title: string;
-    value: string;
-  }>({ title: "Marla", value: "marla" });
-  const [bathsValue, setBathsValue] = useState<string>("2");
 
-  const [bedsValue, setBedsValue] = useState<string>("1");
-  const [openFeatures, setOpenFeatures] = useState(false);
+  const formikValues = formik.values;
+  const formikErrors = formik.errors;
 
-  const handleChangeTabs = (event: React.SyntheticEvent, newValue: number) => {
-    setTabValue(newValue);
-  };
+  const mutation = useMutation({
+    mutationFn: async () => {
+      if (formikValues.id) {
+        return updateProperty(formikValues, token);
+      }
+
+      return addProperty(formikValues, token);
+    },
+    onSuccess: (data) => {
+      router.refresh();
+      setOpenPropertyAdded(true);
+    },
+    onError: (error) => {},
+  });
+
+  // console.log(
+  //   `Values : ${JSON.stringify(formik.values)}\n\nerrors : ${JSON.stringify(
+  //     formik.errors
+  //   )}\n\n`
+  // );
+
+  const handleChangePurpose = useCallback((value: any) => {
+    formik.setFieldValue("purpose", value);
+  }, []);
+
+  const handleChangeClassification = useCallback((value: any) => {
+    formik.setFieldValue("classification", value);
+  }, []);
+
+  const handleChangeType = useCallback((value: any) => {
+    formik.setFieldValue("type", value);
+  }, []);
+
+  const handleChangeDues = useCallback((value: any) => {
+    formik.setFieldValue("duesCleared", value);
+  }, []);
+
+  const handleChangeStatus = useCallback((value: any) => {
+    formik.setFieldValue("status", value);
+  }, []);
+
+  const handleChangeLocation = useCallback((e: any) => {
+    formik.setFieldTouched("location", false);
+    formik.handleChange(e);
+  }, []);
+
+  const handleChangeCity = useCallback((e: any) => {
+    formik.setFieldTouched("city", false);
+    formik.handleChange(e);
+  }, []);
+
+  const handleChangeTotalArea = useCallback((e: any) => {
+    formik.setFieldTouched("area.totalArea", false);
+    formik.setFieldValue("area.totalArea", e.target.value);
+  }, []);
+
+  const handleChangeAreaType = useCallback((value: any) => {
+    formik.setFieldValue("area.type", value);
+  }, []);
+
+  const handleChangePrice = useCallback((e: any) => {
+    formik.setFieldTouched("price.askingPrice", false);
+    formik.setFieldValue("price.askingPrice", e.target.value);
+  }, []);
+
+  const handleChangeBedrooms = useCallback((value: any) => {
+    formik.setFieldValue("bedrooms", value);
+  }, []);
+
+  const handleChangeBathrooms = useCallback((value: any) => {
+    formik.setFieldValue("bathrooms", value);
+  }, []);
+
+  const handleChangeName = useCallback((e: any) => {
+    formik.setFieldTouched("name", false);
+    formik.handleChange(e);
+  }, []);
+
+  const handleChangeDescription = useCallback((e: any) => {
+    formik.setFieldTouched("description", false);
+    formik.handleChange(e);
+  }, []);
+
+  const handleChangeAddImages = useCallback(
+    (e: any) => {
+      const files = Array.from(e.target.files);
+      let oldImages = [...formikValues.images];
+
+      files.forEach((file: any, index) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.onload = () => {
+          if (reader.readyState === 2) {
+            oldImages.push({
+              public_id: "",
+              url: reader.result as string,
+              delete: false,
+            });
+            formik.setFieldValue("images", oldImages);
+          }
+        };
+      });
+    },
+    [formikValues.images],
+  );
+
+  const handleDeleteImage = useCallback(
+    (index: number) => {
+      let oldImages = [...formikValues.images];
+      if (oldImages[index].public_id) {
+        oldImages[index].delete = true;
+      } else {
+        oldImages.splice(index, 1);
+      }
+
+      formik.setFieldValue("images", oldImages);
+    },
+    [formikValues.images],
+  );
+
+  const handleChangeAllotmentLetter = useCallback(
+    (e: any) => {
+      const files = Array.from(e.target.files);
+
+      files.forEach((file: any, index) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.onload = () => {
+          if (reader.readyState === 2) {
+            formik.setFieldValue("allotmentLetter", {
+              public_id: "",
+              url: reader.result as string,
+            });
+          }
+        };
+      });
+    },
+    [formikValues.allotmentLetter],
+  );
+
+  console.log(formikValues.images);
 
   return (
     <Stack
+      component={"form"}
+      onSubmit={formik.handleSubmit}
       sx={{
         pt: "2.38rem",
         px: { xs: "1rem", md: "2rem", lg: "8.81rem" },
         maxWidth: "xl",
       }}
     >
-      <TitleDesc
-        title="Purpose:"
-        desc="What do you do to with your property?"
+      <PurposeSelect
+        handleChange={handleChangePurpose}
+        value={formikValues.purpose}
+        error={
+          formikErrors.purpose && formik.touched.purpose
+            ? formikErrors.purpose
+            : ""
+        }
       />
 
-      <Stack
-        direction={"row"}
-        sx={{
-          flexWrap: "wrap",
-          gap: "2.69rem",
-          mt: "3.13rem",
-          justifyContent: { xs: "center", md: "flex-start" },
-        }}
-      >
-        {rentSell.map((val) => (
-          <IconText
-            onClick={() => setPropertyPurpose(val.value)}
-            text={val.title}
-            icon={val.icon}
-            iconWidth={30}
-            iconHeight={30}
-            sxRow={{
-              cursor: "pointer",
-              gap: "0.63rem",
-              borderRadius: "0.9375rem",
-              padding: "0.75rem 1.69rem",
-              boxShadow:
-                propertyPurpose === val.value
-                  ? "0px 0px 0px 4px var(--text-primary) inset"
-                  : "0px 0px 0px 1px var(--spanish-gray) inset",
-            }}
-            sxText={{
-              fontSize: "1.25rem",
-              color: "var(--text-primary)",
-            }}
-          />
-        ))}
-      </Stack>
-
       <Stack sx={{ gap: "6.25rem", mt: "6.25rem" }}>
-        <Stack
-          sx={{
-            width: { xs: "100%", md: "46.50206rem" },
-            alignItems: { xs: "center", md: "inherit" },
-          }}
-        >
-          <TitleDesc title="Property Type:" desc="Choose you property type." />
-          <Box
-            sx={{
-              borderBottom: "1px solid var(--platinum)",
-              mt: "3.12rem",
-              // maxWidth: { xs: 350, md: "initial" },
-            }}
-          >
-            <Tabs
-              value={tabValue}
-              onChange={handleChangeTabs}
-              // variant="scrollable"
-              // allowScrollButtonsMobile
-              sx={{
-                ".MuiTabs-flexContainer": {
-                  gap: { xs: "1rem", md: "4rem" },
-                },
+        <TypeSelect
+          handleChangeClassification={handleChangeClassification}
+          handleChangeType={handleChangeType}
+          classification={formikValues.classification}
+          type={formikValues.type}
+          error={
+            formikErrors.type && formik.touched.type ? formikErrors.type : ""
+          }
+        />
 
-                button: {
-                  fontSize: "1.25rem",
-                  color: "var(--text-black)",
-                  paddingX: { xs: "0", md: "1rem" },
-                },
-                ".Mui-selected": {
-                  color: "var(--text-black)  !important",
-                },
-              }}
-              TabIndicatorProps={{
-                sx: {
-                  backgroundColor: "var(--myrtle-green)",
-                  height: "0.25rem",
-                },
-              }}
-            >
-              {propertyTypes.map((val, index) => (
-                <Tab key={val.type} disableRipple label={val.type} />
-              ))}
-            </Tabs>
-          </Box>
+        <DuesSelect
+          handleChange={handleChangeDues}
+          value={formikValues.duesCleared}
+          error={
+            formikErrors.duesCleared && formik.touched.duesCleared
+              ? formikErrors.duesCleared
+              : ""
+          }
+        />
 
-          {propertyTypes.map(
-            ({ index, items, type }) =>
-              tabValue === index && (
-                <Stack
-                  key={index}
-                  direction={"row"}
-                  sx={{
-                    flexWrap: "wrap",
-                    gap: "1.62rem",
-                    padding: { xs: "2rem 0", md: "3.32rem 1.38rem 1rem 0" },
-                  }}
-                >
-                  {items.map((val) => (
-                    <IconText
-                      onClick={() =>
-                        setPropertyTypeValue({ type, category: val.text })
-                      }
-                      text={val.text}
-                      icon={val.icon}
-                      iconWidth={30}
-                      iconHeight={30}
-                      sxRow={{
-                        cursor: "pointer",
-                        gap: "0.63rem",
-                        borderRadius: "0.9375rem",
-                        padding: "0.75rem 1.69rem",
-                        boxShadow:
-                          propertyTypeValue.category === val.text
-                            ? "0px 0px 0px 4px var(--text-primary) inset"
-                            : "0px 0px 0px 1px var(--spanish-gray) inset",
-                      }}
-                      sxText={{
-                        fontSize: "1.25rem",
-                        color: "var(--text-primary)",
-                      }}
-                    />
-                  ))}
-                </Stack>
-              ),
-          )}
-        </Stack>
+        <StatusSelect
+          handleChange={handleChangeStatus}
+          value={formikValues.status}
+          error={
+            formikErrors.status && formik.touched.status
+              ? formikErrors.status
+              : ""
+          }
+        />
 
-        <Stack>
-          <TitleDesc title="Dues:" desc="Are all your dues cleared?" />
-          <SelectField
-            iconWidth={30}
-            iconHeight={30}
-            text={duesValue.title}
-            sx={{
-              mt: "3.12rem",
-              minWidth: "10.9375rem",
-              width: { md: "fit-content" },
-              border: "1px solid var(--platinum)",
-              borderRadius: "0.3125rem",
-              ">p": {
-                fontSize: "1.25rem",
-                color: "var(--text-primary)",
-              },
-            }}
-          >
-            <MenuCard
-              sx={{
-                top: "3.8rem",
-                width: "100%",
-                borderRadius: "0rem 0rem 0.3125rem 0.3125rem",
-              }}
-            >
-              {dues.map((val, index) => (
-                <TextLg
-                  text={val.title}
-                  onClick={() => setDuesValues(val)}
-                  sx={{
-                    fontSize: "1.25rem",
-                    fontWeight: "400",
-                    padding: "0.5rem",
-                    borderBottom:
-                      index !== dues.length - 1
-                        ? "1px solid var(--platinum)"
-                        : "none",
-                  }}
-                />
-              ))}
-            </MenuCard>
-          </SelectField>
-        </Stack>
+        <CityField
+          handleChange={handleChangeCity}
+          value={formikValues.city}
+          error={
+            formikErrors.city && formik.touched.city ? formikErrors.city : ""
+          }
+        />
 
-        <Stack>
-          <TitleDesc
-            title="Status:"
-            desc="What is the status of your property?"
-          />
-          <SelectField
-            iconWidth={30}
-            iconHeight={30}
-            text={statusValue.title}
-            sx={{
-              mt: "3.12rem",
-              minWidth: "10.9375rem",
-              width: { md: "fit-content" },
-              border: "1px solid var(--platinum)",
-              borderRadius: "0.3125rem",
-              ">p": {
-                fontSize: "1.25rem",
-                color: "var(--text-primary)",
-              },
-            }}
-          >
-            <MenuCard
-              sx={{
-                top: "3.8rem",
-                width: "100%",
-                borderRadius: "0rem 0rem 0.3125rem 0.3125rem",
-              }}
-            >
-              {status.map((val, index) => (
-                <TextLg
-                  text={val.title}
-                  onClick={() => setStatusValue(val)}
-                  sx={{
-                    fontSize: "1.25rem",
-                    fontWeight: "400",
-                    padding: "0.5rem",
-                    borderBottom:
-                      index !== status.length - 1
-                        ? "1px solid var(--platinum)"
-                        : "none",
-                  }}
-                />
-              ))}
-            </MenuCard>
-          </SelectField>
-        </Stack>
+        <LocationField
+          handleChange={handleChangeLocation}
+          value={formikValues.location}
+          error={
+            formikErrors.location && formik.touched.location
+              ? formikErrors.location
+              : ""
+          }
+        />
+        <AreaField
+          handleChangeTotalArea={handleChangeTotalArea}
+          handleChangeType={handleChangeAreaType}
+          totalAreaValue={formikValues.area.totalArea}
+          areaTypeValue={formikValues.area.type}
+          error={
+            formikErrors.area?.totalArea && formik.touched.area?.totalArea
+              ? formikErrors.area?.totalArea
+              : ""
+          }
+        />
 
-        <Stack>
-          <TitleDesc
-            title="City:"
-            desc="Which city is your property located in?"
-          />
-          <LabelTopTextField
-            placeholder="City"
-            sx={{
-              mt: "3.13rem",
-              maxWidth: "41rem",
-              ".MuiOutlinedInput-root": {
-                height: "3rem",
-                "input::placeholder": {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                },
-              },
+        <PriceField
+          handleChange={handleChangePrice}
+          value={formikValues.price.askingPrice}
+          currency={formikValues.price.currency}
+          error={
+            formikErrors.price?.askingPrice && formik.touched.price?.askingPrice
+              ? formikErrors.price?.askingPrice
+              : ""
+          }
+        />
 
-              ".MuiInputBase-root": {
-                input: {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                  px: { xs: "1rem", md: "2.31rem" },
-                },
-              },
-            }}
-          />
-        </Stack>
+        <BedroomsSelect
+          handleChange={handleChangeBedrooms}
+          value={formikValues.bedrooms}
+          error={
+            formikErrors.bedrooms && formik.touched.bedrooms
+              ? formikErrors.bedrooms
+              : ""
+          }
+        />
 
-        <Stack>
-          <TitleDesc
-            title="Location:"
-            desc="What is the location of your property?"
-          />
-          <LabelTopTextField
-            placeholder="Location"
-            sx={{
-              mt: "3.13rem",
-              maxWidth: "53.375rem",
-              ".MuiOutlinedInput-root": {
-                height: "3rem",
-                "input::placeholder": {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                },
-              },
+        <BathroomsSelect
+          handleChange={handleChangeBathrooms}
+          value={formikValues.bathrooms}
+          error={
+            formikErrors.bathrooms && formik.touched.bathrooms
+              ? formikErrors.bathrooms
+              : ""
+          }
+        />
 
-              ".MuiInputBase-root": {
-                input: {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                  px: { xs: "1rem", md: "2.31rem" },
-                },
-              },
-            }}
-          />
-        </Stack>
+        <FeaturesSelect
+          value={formikValues.features}
+          formik={formik}
+          error={
+            formikErrors.features && formik.touched.features
+              ? `${formikErrors.features}`
+              : ""
+          }
+        />
 
-        <Stack>
-          <TitleDesc title="Area:" desc="What is the size of your property?" />
-          <LabelTopTextField
-            placeholder="Area"
-            endIcon={
-              <SelectField
-                iconWidth={30}
-                iconHeight={30}
-                text={areaValue.title ? areaValue.title : "Area"}
-                sx={{
-                  width: "8.9375rem",
-                  ">p": {
-                    fontSize: "1.25rem",
-                    color: "var(--text-primary)",
-                  },
-                }}
-              >
-                <MenuCard
-                  sx={{
-                    top: "3.8rem",
-                    width: "100%",
-                    borderRadius: "0rem 0rem 0.3125rem 0.3125rem",
-                  }}
-                >
-                  {areas.map((val, index) => (
-                    <TextLg
-                      text={val.title}
-                      onClick={() => setAreaValue(val)}
-                      sx={{
-                        fontSize: "1.25rem",
-                        fontWeight: "400",
-                        padding: "0.5rem",
-                        borderBottom:
-                          index !== areas.length - 1
-                            ? "1px solid var(--platinum)"
-                            : "none",
-                      }}
-                    />
-                  ))}
-                </MenuCard>
-              </SelectField>
-            }
-            sx={{
-              mt: "3.13rem",
-              maxWidth: "50.375rem",
-              ".MuiOutlinedInput-root": {
-                height: "3rem",
-                "input::placeholder": {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                },
-              },
+        <NameField
+          handleChange={handleChangeName}
+          value={formikValues.name}
+          error={
+            formikErrors.name && formik.touched.name ? formikErrors.name : ""
+          }
+        />
 
-              ".MuiInputBase-root": {
-                input: {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                  px: { xs: "1rem", md: "2.31rem" },
-                },
-              },
-            }}
-          />
-        </Stack>
+        <DescriptionField
+          handleChange={handleChangeDescription}
+          value={formikValues.description}
+          error={
+            formikErrors.description && formik.touched.description
+              ? formikErrors.description
+              : ""
+          }
+        />
 
-        <Stack>
-          <TitleDesc
-            title="Asking Price:"
-            desc="How much do you want for your property?"
-          />
+        <UploadImagesSelect
+          handleChange={handleChangeAddImages}
+          handleDeleteImage={handleDeleteImage}
+          images={formikValues.images}
+          error={
+            formikErrors.images && formik.touched.images
+              ? `${formikErrors.images}`
+              : ""
+          }
+        />
 
-          <LabelTopTextField
-            placeholder="Price"
-            endIcon={<TextMd text={"PKR"} sx={{ fontWeight: "400" }} />}
-            sx={{
-              mt: "3.13rem",
-              maxWidth: "52.375rem",
-              ".MuiOutlinedInput-root": {
-                height: "3",
-                "input::placeholder": {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                },
-              },
-
-              ".MuiInputBase-root": {
-                input: {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                  px: { xs: "1rem", md: "2.31rem" },
-                },
-              },
-            }}
-          />
-
-          <TextMd
-            text={"i.e 2 Lac"}
-            sx={{ fontWeight: "400", pl: "2.31rem" }}
-          />
-        </Stack>
-
-        <Stack>
-          <TitleDesc
-            title="No. of Bedrooms:"
-            desc="How many bed rooms does your property have?"
-          />
-
-          <Stack
-            direction={"row"}
-            sx={{ gap: "1.44rem", mt: "3.11rem", flexWrap: "wrap" }}
-          >
-            {beds.map((val, index) => (
-              <TextLg
-                key={index}
-                text={val}
-                onClick={() => setBathsValue(val)}
-                sx={{
-                  fontSize: "1.25rem",
-                  fontWeight: "400",
-                  cursor: "pointer",
-                  borderRadius: "0.9375rem",
-                  padding: "0.75rem 1.69rem",
-                  boxShadow:
-                    bathsValue === val
-                      ? "0px 0px 0px 4px var(--text-primary) inset"
-                      : "0px 0px 0px 1px var(--spanish-gray) inset",
-                }}
-              />
-            ))}
-          </Stack>
-        </Stack>
-
-        <Stack>
-          <TitleDesc
-            title="No. of Bathrooms:"
-            desc="How many bathrooms does your property have?"
-          />
-
-          <Stack
-            direction={"row"}
-            sx={{ gap: "1.44rem", mt: "3.11rem", flexWrap: "wrap" }}
-          >
-            {baths.map((val, index) => (
-              <TextLg
-                key={index}
-                text={val}
-                onClick={() => setBedsValue(val)}
-                sx={{
-                  fontSize: "1.25rem",
-                  fontWeight: "400",
-                  cursor: "pointer",
-                  borderRadius: "0.9375rem",
-                  padding: "0.75rem 1.69rem",
-                  boxShadow:
-                    bedsValue === val
-                      ? "0px 0px 0px 4px var(--text-primary) inset"
-                      : "0px 0px 0px 1px var(--spanish-gray) inset",
-                }}
-              />
-            ))}
-          </Stack>
-        </Stack>
-
-        <Stack>
-          <TitleDesc
-            title="Features:"
-            desc="what features does yor property have?"
-          />
-
-          <FilledButton
-            text="Add Features"
-            onClick={() => setOpenFeatures(true)}
-            startIcon={
-              <Image
-                priority
-                src={PlusIcon}
-                alt={"PlusIcon"}
-                width={30}
-                height={30}
-              />
-            }
-            sx={{
-              mt: "3.12rem",
-              padding: "0",
-              fontSize: "1.25rem",
-              fontWeight: "400",
-              gap: "0.62rem",
-              width: "13rem",
-              height: "3rem",
-              boxShadow: "none",
-              ":hover": {
-                boxShadow: "none",
-              },
-            }}
-          />
-
-          <Stack direction={"row"} sx={{ mt: "1.42rem" }}>
-            <Stack
-              direction={"row"}
-              sx={{
-                gap: "1.88rem",
-                backgroundColor: "rgba(227, 227, 227, 0.48)",
-                padding: "0.56rem 1.37rem",
-                borderRadius: "0.625rem",
-                alignItems: "center",
-                ".closeIcon": {
-                  cursor: "pointer",
-                },
-              }}
-            >
-              <IconText
-                icon={FlameGreyIcon}
-                iconWidth={30}
-                iconHeight={30}
-                text="Gas"
-                sxText={{ fontSize: "1.25rem", color: "var(--spanish-gray)" }}
-              />
-
-              <Image
-                className="closeIcon"
-                src={CloseGreyIcon}
-                alt="close icon"
-                width={30}
-                height={30}
-              />
-            </Stack>
-          </Stack>
-        </Stack>
-
-        <Stack>
-          <TitleDesc
-            title="Name of Property:"
-            desc="Add the Title of your post."
-          />
-
-          <LabelTopTextField
-            placeholder="Name of Property"
-            sx={{
-              mt: "3.13rem",
-              maxWidth: "53.375rem",
-              ".MuiOutlinedInput-root": {
-                height: "3rem",
-                "input::placeholder": {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                },
-              },
-
-              ".MuiInputBase-root": {
-                input: {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                  px: { xs: "1rem", md: "2.31rem" },
-                },
-              },
-            }}
-          />
-        </Stack>
-
-        <Stack>
-          <TitleDesc
-            title="Description:"
-            desc="Add any description required."
-          />
-
-          <LabelTopTextField
-            placeholder="Description"
-            multiline
-            rows={10}
-            sx={{
-              mt: "3.13rem",
-              maxWidth: { md: "31.125rem" },
-              ".MuiOutlinedInput-root": {
-                "textArea::placeholder": {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                  opacity: 1,
-                },
-              },
-
-              ".MuiInputBase-root": {
-                textArea: {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                  px: { xs: "0.25rem", md: "1.37rem" },
-                },
-              },
-            }}
-          />
-        </Stack>
-
-        <Stack>
-          <TitleDesc
-            title="Upload Images:"
-            desc="what features does yor property have?"
-          />
-
-          <Grid2
-            container
-            spacing={4}
-            sx={{
-              mt: "2.3rem",
-              border: "1px solid var(--spanish-gray)",
-              borderRadius: "0.9375rem",
-              paddingX: { xs: "1rem", md: "2.87rem" },
-              paddingY: { xs: "2rem", md: "3.44rem" },
-            }}
-          >
-            {[
-              BannerImage,
-              Property1Image,
-              Property2Image,
-              BannerImage,
-              Property1Image,
-              Property2Image,
-            ].map((val) => (
-              <Grid2
-                size={{ xs: 12, md: 4, lg: 3 }}
-                sx={{ display: "flex", justifyContent: "center" }}
-              >
-                <Stack
-                  sx={{
-                    justifyContent: "center",
-                    alignItems: "center",
-                    backgroundColor: "#EAE8E8",
-                    width: "fit-content",
-                    position: "relative",
-                    ".propertyImg": {
-                      objectFit: "cover",
-                      width: { xs: "300px", md: "184px" },
-                      height: { xs: "100%", md: "165px" },
-                    },
-                    ".closeIcon": {
-                      position: "absolute",
-                      top: { xs: "-10px", md: "-20px" },
-                      right: { xs: "-15px", md: "-25px" },
-                      cursor: "pointer",
-                      width: { xs: "40px", md: "60px" },
-                      height: { xs: "40px", md: "60px" },
-                    },
-                  }}
-                >
-                  <Image
-                    className="propertyImg"
-                    src={val}
-                    alt="property image"
-                    width={184}
-                    height={165}
-                  />
-                  <Image
-                    className="closeIcon"
-                    src={CloseRoundedIcon}
-                    alt="close icon"
-                    width={60}
-                    height={60}
-                  />
-                </Stack>
-              </Grid2>
-            ))}
-
-            <Grid2
-              size={{ xs: 6, md: 4, lg: 3 }}
-              sx={{ display: "flex", justifyContent: "center", width: "100%" }}
-            >
-              <Stack
-                sx={{
-                  justifyContent: "center",
-                  alignItems: "center",
-                  backgroundColor: "#EAE8E8",
-                  padding: "2.69rem 3.25rem",
-                  width: "11.5rem",
-                  cursor: "pointer",
-                }}
-              >
-                <Image
-                  src={PlusGreyIcon}
-                  alt="property image"
-                  width={80}
-                  height={80}
-                />
-              </Stack>
-            </Grid2>
-          </Grid2>
-        </Stack>
-
-        <Stack>
-          <TitleDesc title="Upload Allotment Letter:" desc="" />
-          <TextLg
-            text={"(Optional)"}
-            sx={{
-              fontWeight: "400",
-              color: "var(--text-black)",
-              textAlign: "center",
-            }}
-          />
-
-          <Stack
-            sx={{
-              mt: "2.5rem",
-              border: "1px solid var(--spanish-gray)",
-              borderRadius: "0.9375rem",
-              justifyContent: "center",
-              alignItems: "center",
-              paddingY: "3.14rem",
-            }}
-          >
-            <Stack sx={{ alignItems: "center" }}>
-              <Image
-                src={UploadImageIcon}
-                alt="upload image"
-                width={100}
-                height={100}
-              />
-              <TextMd
-                text="Click here to upload images"
-                sx={{ fontWeight: "400" }}
-              />
-            </Stack>
-          </Stack>
-        </Stack>
+        <UploadAllotmentSelect
+          handleChange={handleChangeAllotmentLetter}
+          allotmentLetter={formikValues.allotmentLetter}
+        />
 
         <FilledButton
-          text="Add Property"
+          text={formikValues.id ? "Update Property" : "Add Property"}
+          type="submit"
+          loading={mutation.isPending}
+          disabled={mutation.isPending}
+          onClick={() => {
+            const errorsKeys = Object.keys(formikErrors);
+            if (errorsKeys.length) {
+              const element = document.getElementById(errorsKeys[0]);
+              if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+              }
+            }
+          }}
           sx={{
             mb: "6.21rem",
             alignSelf: "center",
@@ -801,6 +412,52 @@ const AddPropertyDetails = () => {
           }}
         />
       </Stack>
+
+      <Dialog
+        open={openPropertyAdded}
+        PaperProps={{
+          sx: {
+            width: "11.0625rem",
+            textAlign: "center",
+            borderRadius: "1.875rem",
+          },
+        }}
+      >
+        <Stack
+          sx={{
+            padding: "1.88rem 0.81rem 1.87rem 0.81rem",
+            alignItems: "center",
+            gap: "1.87rem",
+          }}
+        >
+          <TextMd
+            text={formikValues.id ? "Property Updated" : "Property Added!"}
+            sx={{
+              width: "8.43rem",
+              fontSize: "1.125rem",
+              fontWeight: "400",
+              color: "var(--text-black)",
+              lineHeight: "normal",
+              textAlign: "center",
+            }}
+          />
+
+          <FilledButton
+            text="Ok"
+            onClick={() => {
+              setOpenPropertyAdded(false);
+            }}
+            sx={{
+              width: "4.125rem",
+              height: "2rem",
+              fontSize: "1rem",
+              fontWeight: "400",
+              borderRadius: "0.9375rem",
+              padding: "0.31rem 1.44rem",
+            }}
+          />
+        </Stack>
+      </Dialog>
     </Stack>
   );
 };

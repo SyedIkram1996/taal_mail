@@ -72,6 +72,12 @@ export const TrashRedIcon = `${basePublicUrl}trashRed.svg`;
 export const ProfileIcon = `${basePublicUrl}profile.svg`;
 export const CrossWhiteIcon = `${basePublicUrl}crossWhite.svg`;
 export const TickWhiteIcon = `${basePublicUrl}tickWhite.svg`;
+export const Loading = `${basePublicUrl}loading.svg`;
+export const CrossRed = `${basePublicUrl}crossRed.svg`;
+export const TickCheckboxGreen = `${basePublicUrl}tickCheckboxGreen.svg`;
+export const LoadingDarkIcon = `${basePublicUrl}loadingDark.svg`;
+export const CircleCheckboxOutlinedIcon = `${basePublicUrl}circleCheckboxOutlined.svg`;
+export const CircleCheckboxFilledIcon = `${basePublicUrl}circleCheckboxFilled.svg`;
 
 export const BannerImage = `${basePublicUrl}banner.png`;
 export const Property1Image = `${basePublicUrl}property1.png`;

@@ -1,35 +1,36 @@
 import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
-import { IBuyRentProperty } from "@/interfaces/IBuyRent";
-import { Grid2, Stack } from "@mui/material";
+import { PROPERTIES } from "@/constants/api.routes";
+import { IProperty } from "@/interfaces/IProperty";
+import { Grid2 } from "@mui/material";
 
-interface Props {
-  data: IBuyRentProperty[];
-}
+const BuyRentProperties = async () => {
+  const response = await fetch(PROPERTIES, { cache: "no-store" });
+  const data: { error: boolean; properties: IProperty[] } =
+    await response.json();
 
-const BuyRentProperties = ({ data }: Props) => {
+  if (data.error) {
+    return <></>;
+  }
+
   return (
     <Grid2
       maxWidth={"lg"}
       container
       spacing={4}
       rowSpacing={12}
-      sx={{ padding: "2rem", py: "6.25rem" }}
+      sx={{
+        padding: "2rem",
+        py: "6.25rem",
+        width: "100%",
+      }}
     >
-      {data.map((val, index) => (
+      {data.properties.map((val, index) => (
         <Grid2
           size={{ xs: 12, sm: 6, md: 4 }}
           key={index}
           sx={{ display: "flex", justifyContent: "center" }}
         >
-          <PropertyCard
-            id={val.id}
-            title={val.title}
-            bedRooms={val.bedRooms}
-            bathRooms={val.bathRooms}
-            area={val.area}
-            type={val.type}
-            location={val.location}
-          />
+          <PropertyCard property={val} />
         </Grid2>
       ))}
     </Grid2>

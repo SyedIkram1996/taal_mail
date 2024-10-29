@@ -83,15 +83,7 @@ const FeaturedListing = () => {
               key={index}
               style={{ width: "311px", marginRight: "50px" }}
             >
-              <PropertyCard
-                id={val.id}
-                title={val.title}
-                bedRooms={val.bedRooms}
-                bathRooms={val.bathRooms}
-                area={val.area}
-                type={val.type}
-                location={val.location}
-              />
+              <PropertyCard property={val} />
             </SwiperSlide>
           ))}
         </Swiper>

@@ -89,6 +89,7 @@ const Filters = () => {
           <MenuCard sx={{ top: "3.8rem", width: "100%" }}>
             {rentBuy.map((val, index) => (
               <TextLg
+                key={val.title}
                 text={val.title}
                 onClick={() => setRentBuyValue(val)}
                 sx={{
@@ -158,6 +159,7 @@ const Filters = () => {
               },
             ].map((val, index) => (
               <Stack
+                key={val.title}
                 sx={{
                   pt: index === 1 ? "1.87rem" : "0",
                   pb: index === 1 ? "0.44rem" : "0",
@@ -296,6 +298,7 @@ const Filters = () => {
                   >
                     {items.map((val) => (
                       <IconText
+                        key={val.text}
                         onClick={() =>
                           setPropertyTypeValue({ type, category: val.text })
                         }
@@ -359,6 +362,7 @@ const Filters = () => {
           <MenuCard sx={{ top: "3.8rem", width: "100%", textAlign: "center" }}>
             {baths.map((val, index) => (
               <TextLg
+                key={val}
                 text={val}
                 onClick={() => setBathsValue(val)}
                 sx={{
@@ -382,6 +386,7 @@ const Filters = () => {
           <MenuCard sx={{ top: "3.8rem", width: "100%", textAlign: "center" }}>
             {beds.map((val, index) => (
               <TextLg
+                key={val}
                 text={val}
                 onClick={() => setBedsValue(val)}
                 sx={{

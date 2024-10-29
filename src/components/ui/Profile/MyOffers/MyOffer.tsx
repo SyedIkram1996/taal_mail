@@ -6,13 +6,13 @@ import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
 import TextMd from "@/components/common/Text/TextMd";
 import TextXl from "@/components/common/Text/TextXl";
 import { CloseIcon, TickWhiteIcon } from "@/constants/images.routes";
-import { IBuyRentProperty } from "@/interfaces/IBuyRent";
+import { IProperty } from "@/interfaces/IProperty";
 import { Dialog, Stack } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
 
 interface Props {
-  val: IBuyRentProperty;
+  val: IProperty;
 }
 
 const MyOffer = ({ val }: Props) => {
@@ -23,15 +23,7 @@ const MyOffer = ({ val }: Props) => {
 
   return (
     <>
-      <PropertyCard
-        id={val.id}
-        title={val.title}
-        bedRooms={val.bedRooms}
-        bathRooms={val.bathRooms}
-        area={val.area}
-        type={val.type}
-        location={val.location}
-      >
+      <PropertyCard property={val}>
         <TextMd
           text={`Title: Deal Closed.`}
           sx={{

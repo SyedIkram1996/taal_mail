@@ -14,8 +14,6 @@ interface Params {
 }
 
 export default function PlotHouseDetails({ params }: Params) {
-  console.log(params);
-
   const data = buyRentProperties.find((val) => val.id === params.id);
 
   if (!data) {

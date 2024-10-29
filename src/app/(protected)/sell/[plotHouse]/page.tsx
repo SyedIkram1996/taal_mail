@@ -1,6 +1,6 @@
 import AddPropertyBanner from "@/components/ui/Property/AddPropertyBanner";
 import AddPropertyDetails from "@/components/ui/Property/AddPropertyDetails";
-import { LOGIN, SELL_PLOT } from "@/constants/page.routes";
+import { SELL_PLOT } from "@/constants/page.routes";
 import { EPropertyType } from "@/enums/enums";
 import { Stack } from "@mui/material";
 import { Metadata } from "next";
@@ -18,11 +18,6 @@ interface Params {
 }
 
 export default function SellPage({ params, searchParams }: Params) {
-  const user = cookies().get("user");
-  if (!user) {
-    redirect(LOGIN);
-  }
-
   if (
     params.plotHouse.toLowerCase() === PLOT ||
     params.plotHouse.toLowerCase() === HOUSE
@@ -30,6 +25,8 @@ export default function SellPage({ params, searchParams }: Params) {
   } else {
     redirect(SELL_PLOT);
   }
+
+  const token = cookies().get("token");
 
   return (
     <Stack
@@ -39,7 +36,7 @@ export default function SellPage({ params, searchParams }: Params) {
       }}
     >
       <AddPropertyBanner />
-      <AddPropertyDetails />
+      <AddPropertyDetails token={token} />
     </Stack>
   );
 }

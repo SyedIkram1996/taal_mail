@@ -16,7 +16,7 @@ import {
   nearbyPlaces,
   propertyStatus,
 } from "@/constants/property";
-import { IBuyRentProperty } from "@/interfaces/IBuyRent";
+import { IProperty } from "@/interfaces/IProperty";
 import { Grid2, Stack } from "@mui/material";
 import { cookies } from "next/headers";
 import Image from "next/image";
@@ -25,7 +25,7 @@ import PropertiesImages from "./PropertiesImages";
 
 interface FeaturesFacilitiesNearbyProps {
   heading: string;
-  array: { title: string; icon: string }[];
+  array: { title: string; icon: any }[];
 }
 
 const FeaturesFacilitiesNearby = ({
@@ -75,28 +75,24 @@ const FeaturesFacilitiesNearby = ({
 };
 
 interface Props {
-  data: IBuyRentProperty;
+  data: IProperty;
 }
 
 const PropertyDetails = ({ data }: Props) => {
-  const user = cookies().get("user");
+  const user = cookies().get("token");
 
   const descIcon = [
     {
       icon: BedroomIcon,
-      text: data.bedRooms,
+      text: data.bedrooms,
     },
     {
       icon: BathroomIcon,
-      text: data.bathRooms,
-    },
-    {
-      icon: BedroomIcon,
-      text: data.bedRooms,
+      text: data.bathrooms,
     },
     {
       icon: AreaIcon,
-      text: data.area,
+      text: `${data.area.totalArea} ${data.area.type}`,
     },
     {
       icon: HouseIcon,
@@ -126,6 +122,7 @@ const PropertyDetails = ({ data }: Props) => {
               >
                 {descIcon.map(({ icon, text }, index) => (
                   <IconText
+                    key={text}
                     icon={icon}
                     text={text}
                     iconWidth={30}
@@ -140,7 +137,7 @@ const PropertyDetails = ({ data }: Props) => {
           <Grid2 size={{ xs: 12, md: 2 }}>
             <Stack sx={{ gap: "2.13rem", alignItems: "center" }}>
               <TextLg
-                text={data.title}
+                text={data.description}
                 sx={{
                   pt: "1.5rem",
                   fontSize: "1.875rem",

@@ -1,4 +1,8 @@
 import {
+  EPropertyClassification,
+  EPropertyClassificationType,
+} from "@/enums/enums";
+import {
   AgriculturalLandIcon,
   ApartmentIcon,
   BuildingIcon,
@@ -21,6 +25,37 @@ import {
   ShopIcon,
   UpperPortionIcon,
 } from "./images.routes";
+
+const {
+  RESIDENTIAL,
+  PLOT,
+  COMMERCIAL,
+  RESIDENTIAL_VALUE,
+  PLOT_VALUE,
+  COMMERCIAL_VALUE,
+} = EPropertyClassification;
+
+const {
+  HOUSE,
+  APARTMENT,
+  UPPER_PORTION,
+  LOWER_PORTION,
+  HOTEL_SUITE,
+  FARMHOUSE,
+  ROOM,
+  GUEST_HOUSE,
+  RESIDENTIAL_PLOT,
+  COMMERCIAL_PLOT,
+  AGRICULTURAL_LAND,
+  FARMHOUSE_PLOT,
+  INDUSTRIAL_PLOT,
+  OFFICE,
+  BUILDING,
+  SHOP,
+  HALL,
+  GYM,
+  FACTORY,
+} = EPropertyClassificationType;
 
 export const rentBuy = [
   {
@@ -76,39 +111,42 @@ export const beds = ["Studio", "2", "3", "4", "5", "6", "7", "8", "9", "10+"];
 export const propertyTypes = [
   {
     index: 0,
-    type: "Residential",
+    type: RESIDENTIAL,
+    value: RESIDENTIAL_VALUE,
     items: [
-      { icon: HouseIcon, text: "House" },
-      { icon: ApartmentIcon, text: "Apartment" },
-      { icon: UpperPortionIcon, text: "Upper Portion" },
-      { icon: LowerPortionIcon, text: "Lower Portion" },
-      { icon: HotelSuiteIcon, text: "Hotel Suite" },
-      { icon: FarmhouseIcon, text: "Farmhouse" },
-      { icon: RoomIcon, text: "Room" },
-      { icon: GuestHouseIcon, text: "Guest House" },
+      { icon: HouseIcon, text: HOUSE },
+      { icon: ApartmentIcon, text: APARTMENT },
+      { icon: UpperPortionIcon, text: UPPER_PORTION },
+      { icon: LowerPortionIcon, text: LOWER_PORTION },
+      { icon: HotelSuiteIcon, text: HOTEL_SUITE },
+      { icon: FarmhouseIcon, text: FARMHOUSE },
+      { icon: RoomIcon, text: ROOM },
+      { icon: GuestHouseIcon, text: GUEST_HOUSE },
     ],
   },
   {
     index: 1,
-    type: "Plot",
+    type: PLOT,
+    value: PLOT_VALUE,
     items: [
-      { icon: ResidentialPlotIcon, text: "Residential Plot" },
-      { icon: CommercialPlotIcon, text: "Commercial Plot" },
-      { icon: AgriculturalLandIcon, text: "Agricultural Land" },
-      { icon: FarmhousePlotIcon, text: "Farmhouse Plot" },
-      { icon: IndustrialPlotIcon, text: "Industrial Plot" },
+      { icon: ResidentialPlotIcon, text: RESIDENTIAL_PLOT },
+      { icon: CommercialPlotIcon, text: COMMERCIAL_PLOT },
+      { icon: AgriculturalLandIcon, text: AGRICULTURAL_LAND },
+      { icon: FarmhousePlotIcon, text: FARMHOUSE_PLOT },
+      { icon: IndustrialPlotIcon, text: INDUSTRIAL_PLOT },
     ],
   },
   {
     index: 2,
-    type: "Commercial",
+    type: COMMERCIAL,
+    value: COMMERCIAL_VALUE,
     items: [
-      { icon: OfficeIcon, text: "Office" },
-      { icon: BuildingIcon, text: "Building" },
-      { icon: ShopIcon, text: "Shop" },
-      { icon: HallIcon, text: "Hall" },
-      { icon: GymIcon, text: "Gym" },
-      { icon: FactoryIcon, text: "Factory" },
+      { icon: OfficeIcon, text: OFFICE },
+      { icon: BuildingIcon, text: BUILDING },
+      { icon: ShopIcon, text: SHOP },
+      { icon: HallIcon, text: HALL },
+      { icon: GymIcon, text: GYM },
+      { icon: FactoryIcon, text: FACTORY },
     ],
   },
 ];

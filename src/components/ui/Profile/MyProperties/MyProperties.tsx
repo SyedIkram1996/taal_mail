@@ -1,16 +1,18 @@
 "use client";
 
 import { propertyTypes } from "@/constants/filters";
-import { IBuyRentProperty } from "@/interfaces/IBuyRent";
+import { IProperty } from "@/interfaces/IProperty";
 import { Box, Grid2, Stack, Tab, Tabs } from "@mui/material";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { useState } from "react";
 import MyProperty from "./MyProperty";
 
 interface Props {
-  data: IBuyRentProperty[];
+  data: IProperty[];
+  token?: RequestCookie;
 }
 
-const MyProperties = ({ data }: Props) => {
+const MyProperties = ({ data, token }: Props) => {
   const [tabValue, setTabValue] = useState(0);
 
   const handleChangeTabs = (event: React.SyntheticEvent, newValue: number) => {
@@ -18,7 +20,7 @@ const MyProperties = ({ data }: Props) => {
   };
 
   return (
-    <Stack sx={{ alignItems: "center" }}>
+    <Stack sx={{ alignItems: "center", width: "100%" }}>
       <Box
         sx={{
           borderBottom: "1px solid var(--platinum)",
@@ -61,7 +63,7 @@ const MyProperties = ({ data }: Props) => {
         container
         spacing={4}
         rowSpacing={12}
-        sx={{ padding: "2rem", py: "6.25rem" }}
+        sx={{ padding: "2rem", py: "6.25rem", width: "100%" }}
       >
         {data.map((val, index) => (
           <Grid2
@@ -69,7 +71,7 @@ const MyProperties = ({ data }: Props) => {
             sx={{ display: "flex", justifyContent: "center" }}
             key={index}
           >
-            <MyProperty val={val} />
+            <MyProperty val={val} token={token} />
           </Grid2>
         ))}
       </Grid2>

@@ -1,5 +1,6 @@
 "use client";
 
+import { auth } from "@/../firebase";
 import { logoutAction } from "@/app/actions";
 import {
   ChevronDownGreyIcon,
@@ -8,13 +9,17 @@ import {
 } from "@/constants/images.routes";
 import { navbarPages } from "@/constants/navbar";
 import {
+  ACCOUNT_MANAGEMENT,
   HOME,
   LOGIN,
   MY_BIDS,
   MY_INFO,
   MY_OFFERS,
   MY_PROPERTY,
+  SIGN_UP,
 } from "@/constants/page.routes";
+import { useUserContext } from "@/context/userContext";
+import { IUser } from "@/interfaces/IUser";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
   ClickAwayListener,
@@ -27,6 +32,7 @@ import {
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
@@ -61,14 +67,11 @@ const CustomMenu = ({
         top: "3.38rem",
         width: "8.75rem",
         backgroundColor: "white",
-        gap: "0.625rem",
-        padding: "0.625rem",
         zIndex: 1,
         ...sx,
       }}
     >
-      {" "}
-      {menu.map(({ title, link, authReq }) => (
+      {menu.map(({ title, link, authReq }, index) => (
         <MUILink
           key={title}
           href={authReq && !user ? `${LOGIN}?redirect=${link}` : link}
@@ -76,6 +79,10 @@ const CustomMenu = ({
             if (handleProfileMenu) {
               handleProfileMenu(false);
             }
+          }}
+          sx={{
+            padding: "0.625rem",
+            pb: index !== menu.length - 1 ? "0" : "0.625rem",
           }}
         >
           <TextSm
@@ -93,13 +100,23 @@ const CustomMenu = ({
 };
 
 interface Props {
-  user: any;
+  userSession: RequestCookie | undefined;
+  userData: IUser | null;
 }
-function ResponsiveAppBar({ user }: Props) {
+function ResponsiveAppBar({ userSession, userData }: Props) {
   const pathname = usePathname();
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openMenu, setOpenMenu] = useState("");
   const [expandMenu, setExpandMenu] = useState<string[]>([]);
+
+  const { setUser } = useUserContext();
+
+  //Fetch data using react query and setUser
+  // useEffect(() => {
+  //   if (userData) {
+  //     setUser(userData);
+  //   }
+  // }, [userData]);
 
   const profilePages = [
     {
@@ -130,22 +147,6 @@ function ResponsiveAppBar({ user }: Props) {
     setOpenProfileMenu(value);
   };
 
-  const handleClickAction = async (action: any) => {
-    // switch (action) {
-    //   case EPROFILE:
-    //     navigate(PROFILE);
-    //     break;
-    //   case LOGOUT:
-    //     await logout();
-    //     setUser(null);
-    //     navigate(SIGN_IN);
-    //     break;
-    //   default:
-    //     break;
-    // }
-    // handleProfileMenu();
-  };
-
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 900 && openDrawer) {
@@ -164,7 +165,11 @@ function ResponsiveAppBar({ user }: Props) {
     return <Image src={LogoIcon} priority alt="Logo" width={257} height={85} />;
   };
 
-  if (pathname === LOGIN) {
+  if (
+    pathname === LOGIN ||
+    pathname === SIGN_UP ||
+    pathname === ACCOUNT_MANAGEMENT
+  ) {
     return <></>;
   }
 
@@ -222,6 +227,7 @@ function ResponsiveAppBar({ user }: Props) {
               />
               {navbarPages.map(({ title, link, menu }, idx) => (
                 <Stack
+                  key={title}
                   onClick={() => {
                     if (expandMenu.includes(title)) {
                       setExpandMenu(expandMenu.filter((val) => val != title));
@@ -230,7 +236,6 @@ function ResponsiveAppBar({ user }: Props) {
                       tempMenus.push(title);
                       setExpandMenu(tempMenus);
                     }
-                    // setOpenMenu(openMenu === title ? "" : title);
                   }}
                   sx={{
                     backgroundColor: expandMenu.includes(title)
@@ -301,7 +306,7 @@ function ResponsiveAppBar({ user }: Props) {
                   borderRadius: "0.5rem",
                 }}
               >
-                {user ? (
+                {userSession ? (
                   <Stack
                     onClick={() => handleProfileMenu(!openProfileMenu)}
                     direction={"row"}
@@ -330,7 +335,7 @@ function ResponsiveAppBar({ user }: Props) {
                     <MUILink
                       onClick={() => setOpenDrawer(false)}
                       key={title}
-                      href={!user ? `${LOGIN}?redirect=${link}` : link}
+                      href={!userSession ? `${LOGIN}?redirect=${link}` : link}
                     >
                       <TextMd
                         text={title}
@@ -344,6 +349,7 @@ function ResponsiveAppBar({ user }: Props) {
                   ))}
                   <TextMd
                     onClick={() => {
+                      auth.signOut();
                       logoutAction();
                       handleProfileMenu(false);
                     }}
@@ -411,7 +417,7 @@ function ResponsiveAppBar({ user }: Props) {
                     <CustomMenu
                       menu={menu}
                       sx={{ width: "12rem" }}
-                      user={user}
+                      user={userSession}
                     />
                   )}
                 </Box>
@@ -428,7 +434,7 @@ function ResponsiveAppBar({ user }: Props) {
           }}
         >
           <Box className="largeScreen" sx={{ position: "relative" }}>
-            {user ? (
+            {userSession ? (
               <TextMd
                 onClick={() => handleProfileMenu(!openProfileMenu)}
                 text={"My Profile"}
@@ -454,12 +460,13 @@ function ResponsiveAppBar({ user }: Props) {
             {openProfileMenu && (
               <CustomMenu
                 menu={profilePages}
-                user={user}
+                user={userSession}
                 sx={{ width: "7.75rem" }}
                 handleProfileMenu={handleProfileMenu}
               >
                 <TextSm
                   onClick={() => {
+                    auth.signOut();
                     logoutAction();
                     handleProfileMenu(false);
                   }}
@@ -468,6 +475,8 @@ function ResponsiveAppBar({ user }: Props) {
                     cursor: "pointer",
                     color: "var(--text-secondary)",
                     fontWeight: "600",
+                    padding: "0.625rem",
+                    pt: "0",
                   }}
                 />
               </CustomMenu>

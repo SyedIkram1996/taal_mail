@@ -1,11 +1,12 @@
+import PropertiesSkeleton from "@/components/common/Skeletons/PropertiesSkeleton";
 import BuyRentProperties from "@/components/ui/Buy/BuyRentProperties";
 import Filters from "@/components/ui/Buy/Filters";
-import { buyRentProperties } from "@/constants/buyRent";
 import { BUY_PLOT } from "@/constants/page.routes";
 import { EPropertyType } from "@/enums/enums";
 import { Stack } from "@mui/material";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 const { PLOT, HOUSE, APARTMENT } = EPropertyType;
 
 export const metadata: Metadata = {
@@ -27,8 +28,6 @@ export default function Buy({ params, searchParams }: Params) {
     redirect(BUY_PLOT);
   }
 
-  const data = buyRentProperties;
-
   return (
     <Stack
       sx={{
@@ -37,7 +36,9 @@ export default function Buy({ params, searchParams }: Params) {
       }}
     >
       <Filters />
-      <BuyRentProperties data={data} />
+      <Suspense fallback={<PropertiesSkeleton />}>
+        <BuyRentProperties />
+      </Suspense>
     </Stack>
   );
 }

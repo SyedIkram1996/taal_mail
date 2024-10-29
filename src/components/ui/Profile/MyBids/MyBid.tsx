@@ -4,25 +4,16 @@ import FilledButton from "@/components/common/Button/FilledButton";
 import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
 import TextMd from "@/components/common/Text/TextMd";
 import { CrossWhiteIcon } from "@/constants/images.routes";
-import { IBuyRentProperty } from "@/interfaces/IBuyRent";
-import { Stack } from "@mui/material";
+import { IProperty } from "@/interfaces/IProperty";
 import Image from "next/image";
 
 interface Props {
-  val: IBuyRentProperty;
+  val: IProperty;
 }
 
 const MyBid = ({ val }: Props) => {
   return (
-    <PropertyCard
-      id={val.id}
-      title={val.title}
-      bedRooms={val.bedRooms}
-      bathRooms={val.bathRooms}
-      area={val.area}
-      type={val.type}
-      location={val.location}
-    >
+    <PropertyCard property={val}>
       <TextMd
         text={`Bid: PKR 1.9 Crore`}
         sx={{
