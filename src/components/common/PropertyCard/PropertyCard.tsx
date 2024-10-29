@@ -42,6 +42,7 @@ const PropertyCard = ({ property, children, sx }: Props) => {
     images,
     allotmentLetter,
   } = property;
+
   return (
     <Stack
       sx={{

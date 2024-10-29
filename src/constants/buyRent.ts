@@ -1,4 +1,5 @@
 import { IProperty } from "@/interfaces/IProperty";
+import { BannerImage } from "./images.routes";
 
 export const buyRentProperties: IProperty[] = [
   {
@@ -21,7 +22,7 @@ export const buyRentProperties: IProperty[] = [
     images: [
       {
         public_id: "",
-        url: "",
+        url: BannerImage,
       },
     ],
     allotmentLetter: {
@@ -53,7 +54,7 @@ export const buyRentProperties: IProperty[] = [
     images: [
       {
         public_id: "",
-        url: "",
+        url: BannerImage,
       },
     ],
     allotmentLetter: {
@@ -85,7 +86,7 @@ export const buyRentProperties: IProperty[] = [
     images: [
       {
         public_id: "",
-        url: "",
+        url: BannerImage,
       },
     ],
     allotmentLetter: {
@@ -117,7 +118,7 @@ export const buyRentProperties: IProperty[] = [
     images: [
       {
         public_id: "",
-        url: "",
+        url: BannerImage,
       },
     ],
     allotmentLetter: {
@@ -149,7 +150,7 @@ export const buyRentProperties: IProperty[] = [
     images: [
       {
         public_id: "",
-        url: "",
+        url: BannerImage,
       },
     ],
     allotmentLetter: {
@@ -181,7 +182,7 @@ export const buyRentProperties: IProperty[] = [
     images: [
       {
         public_id: "",
-        url: "",
+        url: BannerImage,
       },
     ],
     allotmentLetter: {
@@ -213,7 +214,7 @@ export const buyRentProperties: IProperty[] = [
     images: [
       {
         public_id: "",
-        url: "",
+        url: BannerImage,
       },
     ],
     allotmentLetter: {
@@ -245,7 +246,7 @@ export const buyRentProperties: IProperty[] = [
     images: [
       {
         public_id: "",
-        url: "",
+        url: BannerImage,
       },
     ],
     allotmentLetter: {
@@ -277,7 +278,7 @@ export const buyRentProperties: IProperty[] = [
     images: [
       {
         public_id: "",
-        url: "",
+        url: BannerImage,
       },
     ],
     allotmentLetter: {
@@ -309,7 +310,7 @@ export const buyRentProperties: IProperty[] = [
     images: [
       {
         public_id: "",
-        url: "",
+        url: BannerImage,
       },
     ],
     allotmentLetter: {
@@ -344,7 +345,7 @@ export const featuredListing: IProperty[] = [
     images: [
       {
         public_id: "",
-        url: "",
+        url: BannerImage,
       },
     ],
     allotmentLetter: {
@@ -376,7 +377,7 @@ export const featuredListing: IProperty[] = [
     images: [
       {
         public_id: "",
-        url: "",
+        url: BannerImage,
       },
     ],
     allotmentLetter: {
@@ -408,7 +409,7 @@ export const featuredListing: IProperty[] = [
     images: [
       {
         public_id: "",
-        url: "",
+        url: BannerImage,
       },
     ],
     allotmentLetter: {
@@ -440,7 +441,7 @@ export const featuredListing: IProperty[] = [
     images: [
       {
         public_id: "",
-        url: "",
+        url: BannerImage,
       },
     ],
     allotmentLetter: {
@@ -472,7 +473,7 @@ export const featuredListing: IProperty[] = [
     images: [
       {
         public_id: "",
-        url: "",
+        url: BannerImage,
       },
     ],
     allotmentLetter: {

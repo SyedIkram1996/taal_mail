@@ -1,12 +1,17 @@
 import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
+import { PROPERTIES } from "@/constants/api.routes";
 import { IProperty } from "@/interfaces/IProperty";
 import { Grid2 } from "@mui/material";
 
-interface Props {
-  data: IProperty[];
-}
+const BuyRentProperties = async () => {
+  const response = await fetch(PROPERTIES, { cache: "no-store" });
+  const data: { error: boolean; properties: IProperty[] } =
+    await response.json();
 
-const BuyRentProperties = ({ data }: Props) => {
+  if (data.error) {
+    return <></>;
+  }
+
   return (
     <Grid2
       maxWidth={"lg"}
@@ -19,7 +24,7 @@ const BuyRentProperties = ({ data }: Props) => {
         width: "100%",
       }}
     >
-      {data.map((val, index) => (
+      {data.properties.map((val, index) => (
         <Grid2
           size={{ xs: 12, sm: 6, md: 4 }}
           key={index}
