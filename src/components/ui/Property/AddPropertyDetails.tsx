@@ -11,6 +11,7 @@ import { Dialog, Stack } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import AreaField from "./AreaField";
@@ -38,7 +39,7 @@ interface Props {
 
 const AddPropertyDetails = ({ token, data }: Props) => {
   const [openPropertyAdded, setOpenPropertyAdded] = useState(false);
-
+  const router = useRouter();
   const formik = useFormik<IProperty>({
     initialValues: {
       createdBy: data ? data.createdBy : "",
@@ -92,6 +93,7 @@ const AddPropertyDetails = ({ token, data }: Props) => {
       return addProperty(formikValues, token);
     },
     onSuccess: (data) => {
+      router.refresh();
       setOpenPropertyAdded(true);
     },
     onError: (error) => {},
