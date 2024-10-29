@@ -12,6 +12,8 @@ export interface IPropertyFeature {
   count: number;
   icon: any;
   tab: string;
+  pathFill?: boolean;
+  time: number;
 }
 
 export interface IProperty

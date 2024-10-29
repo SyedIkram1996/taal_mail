@@ -5,7 +5,12 @@ export const signUpSchema = object({
     .min(2, "Username must be at least 2 characters")
     .max(20, "Username must be no more than 20 characters"),
   email: string().email("Invalid email address"),
-  password: string().min(6, "Password must be at least 6 characters"),
+  password: string()
+    .min(6, "Password must be at least 6 characters")
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!]).*$/, {
+      message:
+        "Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character",
+    }),
   confirmPassword: string().min(6, "Password must be at least 6 characters"),
   phoneNo: string(),
 }).refine((data) => data.password === data.confirmPassword, {

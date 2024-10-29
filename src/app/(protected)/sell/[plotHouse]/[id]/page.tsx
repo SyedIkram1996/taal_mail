@@ -1,6 +1,7 @@
+import TextLg from "@/components/common/Text/TextLg";
 import AddPropertyBanner from "@/components/ui/Property/AddPropertyBanner";
 import AddPropertyDetails from "@/components/ui/Property/AddPropertyDetails";
-import { PROPERTY } from "@/constants/api.routes";
+import { MY_PROPERTY } from "@/constants/api.routes";
 import { SELL_PLOT } from "@/constants/page.routes";
 import { EPropertyType } from "@/enums/enums";
 import { Stack } from "@mui/material";
@@ -30,13 +31,14 @@ export default async function SellEditPage({ params, searchParams }: Params) {
   const token = cookies().get("token");
   const id = params.id;
 
-  const response = await fetch(`${PROPERTY}?id=${id}`, {
+  const response = await fetch(`${MY_PROPERTY}?id=${id}`, {
     cache: "no-store",
     headers: {
       Authorization: token ? `Bearer ${token.value}` : "",
       "Content-Type": "application/json",
     },
   });
+
   const data = await response.json();
 
   return (
@@ -44,10 +46,17 @@ export default async function SellEditPage({ params, searchParams }: Params) {
       sx={{
         alignItems: "center",
         mt: { md: "6.5rem" },
+        minHeight: "100vh",
       }}
     >
-      <AddPropertyBanner id={params.id} />
-      <AddPropertyDetails token={token} data={data.property} />
+      {data && !data.error ? (
+        <>
+          <AddPropertyBanner id={params.id} />
+          <AddPropertyDetails token={token} data={data.property} />
+        </>
+      ) : (
+        <TextLg text={data.message} sx={{ mt: "3rem" }} />
+      )}
     </Stack>
   );
 }
