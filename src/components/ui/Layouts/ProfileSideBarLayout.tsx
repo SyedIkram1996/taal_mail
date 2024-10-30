@@ -12,7 +12,7 @@ import {
   MY_BIDS,
   MY_INFO,
   MY_OFFERS,
-  MY_PROPERTY,
+  MY_PROPERTIES_PAGE,
 } from "@/constants/page.routes";
 import {
   BottomNavigation,
@@ -30,6 +30,7 @@ import { useState } from "react";
 const ProfileSideBarLayout = () => {
   const [value, setValue] = useState(0);
   const pathname = usePathname();
+
   const items = [
     {
       title: "My Info",
@@ -38,7 +39,7 @@ const ProfileSideBarLayout = () => {
     },
     {
       title: "My Properties",
-      link: MY_PROPERTY,
+      link: MY_PROPERTIES_PAGE(),
       icon: PropertyManagerIcon,
     },
     {
@@ -78,13 +79,14 @@ const ProfileSideBarLayout = () => {
                   cursor: "pointer",
                   borderRadius: "0.35rem",
                   padding: "0.72rem 0.5rem",
-                  backgroundColor:
-                    pathname === link ? "var(--alice-blue)" : "transparent",
+                  backgroundColor: link.includes(pathname)
+                    ? "var(--alice-blue)"
+                    : "transparent",
                 }}
                 sxText={{
                   fontSize: "1rem",
                   color: "var(--text-secondary)",
-                  fontWeight: pathname === link ? "700" : "400",
+                  fontWeight: link.includes(pathname) ? "700" : "400",
                 }}
                 icon={icon}
                 iconWidth={30}
@@ -121,10 +123,9 @@ const ProfileSideBarLayout = () => {
             <BottomNavigationAction
               key={item.link}
               sx={{
-                bgcolor:
-                  item.link === pathname
-                    ? "var(--anti-flash-white)"
-                    : "transparent",
+                bgcolor: item.link.includes(pathname)
+                  ? "var(--anti-flash-white)"
+                  : "transparent",
               }}
               label={
                 <TextMd

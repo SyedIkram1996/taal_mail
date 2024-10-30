@@ -14,10 +14,9 @@ export const metadata: Metadata = {
 
 interface Params {
   params: { plotHouse: string };
-  searchParams: { query?: string; page?: string };
 }
 
-export default function SellPage({ params, searchParams }: Params) {
+export default function SellPage({ params }: Params) {
   if (
     params.plotHouse.toLowerCase() === PLOT ||
     params.plotHouse.toLowerCase() === HOUSE

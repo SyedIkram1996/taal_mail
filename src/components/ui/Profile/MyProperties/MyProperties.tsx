@@ -1,11 +1,16 @@
 "use client";
 
+import MUILink from "@/components/common/MUILink/MUILink";
 import { propertyTypes } from "@/constants/filters";
+import { MY_PROPERTIES_PAGE } from "@/constants/page.routes";
+import { EPropertyClassification } from "@/enums/enums";
 import { IProperty } from "@/interfaces/IProperty";
 import { Box, Grid2, Stack, Tab, Tabs } from "@mui/material";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import MyProperty from "./MyProperty";
+const { RESIDENTIAL_VALUE } = EPropertyClassification;
 
 interface Props {
   data: IProperty[];
@@ -13,9 +18,12 @@ interface Props {
 }
 
 const MyProperties = ({ data, token }: Props) => {
-  const [tabValue, setTabValue] = useState(0);
+  const searchParams = useSearchParams();
+  const [tabValue, setTabValue] = useState(
+    searchParams.get("classification") ?? RESIDENTIAL_VALUE,
+  );
 
-  const handleChangeTabs = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChangeTabs = (newValue: string) => {
     setTabValue(newValue);
   };
 
@@ -30,13 +38,12 @@ const MyProperties = ({ data, token }: Props) => {
       >
         <Tabs
           value={tabValue}
-          onChange={handleChangeTabs}
           sx={{
             ".MuiTabs-flexContainer": {
               gap: { xs: "1rem", md: "4rem" },
             },
 
-            button: {
+            a: {
               fontSize: "1.25rem",
               color: "var(--text-black)",
               paddingX: { xs: "0", md: "1rem" },
@@ -53,7 +60,15 @@ const MyProperties = ({ data, token }: Props) => {
           }}
         >
           {propertyTypes.map((val, index) => (
-            <Tab key={val.type} disableRipple label={val.type} />
+            <Tab
+              key={val.value}
+              value={val.value}
+              disableRipple
+              label={val.type}
+              LinkComponent={MUILink}
+              href={MY_PROPERTIES_PAGE(val.value)}
+              onClick={() => handleChangeTabs(val.value)}
+            />
           ))}
         </Tabs>
       </Box>

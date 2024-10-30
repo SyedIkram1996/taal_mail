@@ -2,10 +2,15 @@
 
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import { ProfileIcon } from "@/constants/images.routes";
+import { IUser } from "@/interfaces/IUser";
 import { Stack } from "@mui/material";
 import Image from "next/image";
 
-const MyInfo = () => {
+interface Props {
+  user: IUser;
+}
+
+const MyInfo = ({ user }: Props) => {
   return (
     <>
       <Stack
@@ -43,8 +48,10 @@ const MyInfo = () => {
         }}
       >
         <LabelTopTextField
+          disabled
           placeholder="John Doe"
           label="Name:"
+          value={user.name}
           sxLabel={{
             fontSize: "1.125rem",
             color: "var(--old-silver)",
@@ -69,13 +76,18 @@ const MyInfo = () => {
               input: {
                 px: { xs: "1rem", md: "2.31rem" },
               },
+              ".Mui-disabled": {
+                WebkitTextFillColor: "var(--old-silver)",
+              },
             },
           }}
         />
 
         <LabelTopTextField
+          disabled
           placeholder="John Doe.@gmail.com"
           label="Email:"
+          value={user.email}
           sxLabel={{
             fontSize: "1.125rem",
             color: "var(--old-silver)",
@@ -99,14 +111,19 @@ const MyInfo = () => {
             ".MuiInputBase-root": {
               input: {
                 px: { xs: "1rem", md: "2.31rem" },
+              },
+              ".Mui-disabled": {
+                WebkitTextFillColor: "var(--old-silver)",
               },
             },
           }}
         />
 
         <LabelTopTextField
+          disabled
           placeholder="+92 3456789012"
           label="Phone Number:"
+          value={user.phoneNo}
           sxLabel={{
             fontSize: "1.125rem",
             color: "var(--old-silver)",
@@ -130,6 +147,10 @@ const MyInfo = () => {
             ".MuiInputBase-root": {
               input: {
                 px: { xs: "1rem", md: "2.31rem" },
+              },
+
+              ".Mui-disabled": {
+                WebkitTextFillColor: "var(--old-silver)",
               },
             },
           }}

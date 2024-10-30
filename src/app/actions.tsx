@@ -1,6 +1,6 @@
 "use server";
 
-import { HOME, MY_PROPERTY } from "@/constants/page.routes";
+import { HOME, MY_PROPERTIES_PAGE } from "@/constants/page.routes";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -19,7 +19,7 @@ export const loginAction = ({
     // path: "/",
   };
   cookies().set("token", token, options);
-  redirect(redirectLink ? redirectLink : MY_PROPERTY);
+  redirect(redirectLink ? redirectLink : MY_PROPERTIES_PAGE());
 };
 
 export const logoutAction = () => {
