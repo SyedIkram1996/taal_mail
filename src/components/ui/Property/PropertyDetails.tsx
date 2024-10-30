@@ -159,7 +159,7 @@ const PropertyDetails = ({ property }: Props) => {
           <Grid2 size={{ xs: 12, md: 10 }}>
             <Stack sx={{ gap: "2rem" }}>
               <TextLg
-                text={"10 Marla Villa with a swimming pool"}
+                text={name}
                 sx={{
                   pt: "1.5rem",
                   fontSize: { xs: "1.5rem", md: "1.875rem" },

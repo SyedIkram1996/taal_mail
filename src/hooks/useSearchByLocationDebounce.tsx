@@ -1,3 +1,4 @@
+import { searchPropertiesByLocation } from "@/services/property.services";
 import { useDebouncedCallback } from "use-debounce";
 
 const useSearchByLocationDebounce = (
@@ -6,14 +7,16 @@ const useSearchByLocationDebounce = (
   setSearchResult: (searchResult: any[]) => void,
 ) => {
   const handleSearching = useDebouncedCallback(async () => {
-    // TODO: fetch data and update result
-    // const { data } = await searchByLocation(searchValue);
+    //@ts-ignore
+    const { data } = await searchPropertiesByLocation(searchValue);
 
     setIsTyping(false);
 
-    // if (data) {
-    //   setSearchResult(data.data);
-    // }
+    //@ts-ignore
+    if (data && data.data) {
+      //@ts-ignore
+      setSearchResult(data.data.properties);
+    }
   }, 500);
 
   return { handleSearching };
