@@ -1,8 +1,12 @@
 "use client";
 
 import SearchResultTextField from "@/components/common/Input/SearchResultTextField";
+import MUILink from "@/components/common/MUILink/MUILink";
+import TextMd from "@/components/common/Text/TextMd";
+import TextSm from "@/components/common/Text/TextSm";
 import TextXs from "@/components/common/Text/TextXs";
 import { SearchBlueBgIcon } from "@/constants/images.routes";
+import { PROPERTY } from "@/constants/page.routes";
 import useSearchByLocationDebounce from "@/hooks/useSearchByLocationDebounce";
 import { Stack } from "@mui/material";
 import Image from "next/image";
@@ -55,14 +59,33 @@ const SearchByLocation = () => {
       {isTyping ? (
         <TextXs
           text="Searching..."
-          sx={{ p: "0.5rem 0.75rem", mt: "0.25rem" }}
+          sx={{
+            p: "0.5rem 0.75rem",
+            mt: "0.25rem",
+            color: "var(--text-black)",
+            fontSize: "1rem",
+          }}
         />
       ) : searchResult.length > 0 ? (
-        searchResult.map((result, index: number) => (
-          <Stack key={result}>
-            <TextXs text={result} />
-          </Stack>
-        ))
+        <Stack>
+          {searchResult.map((result, index: number) => (
+            <Stack
+              component={MUILink}
+              href={`${PROPERTY}/${result.id}`}
+              key={result.id}
+              direction={"row"}
+              sx={{
+                alignItems: "center",
+                justifyContent: "space-between",
+                p: "0.5rem 0.75rem",
+                ":hover": { backgroundColor: "var(--anti-flash-white)" },
+              }}
+            >
+              <TextSm text={result.name} sx={{ color: "var(--text-black)" }} />
+              <TextMd text={result.location} />
+            </Stack>
+          ))}
+        </Stack>
       ) : (
         <TextXs
           text="Not Result Found"

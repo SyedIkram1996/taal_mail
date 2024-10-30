@@ -15,7 +15,7 @@ import {
   MY_BIDS,
   MY_INFO,
   MY_OFFERS,
-  MY_PROPERTY,
+  MY_PROPERTIES_PAGE,
   SIGN_UP,
 } from "@/constants/page.routes";
 import { useUserContext } from "@/context/userContext";
@@ -129,7 +129,7 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
     },
     {
       title: "My Property",
-      link: MY_PROPERTY,
+      link: MY_PROPERTIES_PAGE(),
     },
     {
       title: "My Offers",

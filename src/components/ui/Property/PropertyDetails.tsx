@@ -12,11 +12,13 @@ import {
 } from "@/constants/images.routes";
 import {
   basicFeatures,
+  dues,
   facilities,
   nearbyPlaces,
-  propertyStatus,
+  secondaryFeatures,
+  status as statusArray,
 } from "@/constants/property";
-import { IProperty } from "@/interfaces/IProperty";
+import { IProperty, IPropertyFeature } from "@/interfaces/IProperty";
 import { Grid2, Stack } from "@mui/material";
 import { cookies } from "next/headers";
 import Image from "next/image";
@@ -25,12 +27,14 @@ import PropertiesImages from "./PropertiesImages";
 
 interface FeaturesFacilitiesNearbyProps {
   heading: string;
-  array: { title: string; icon: any }[];
+  array: IPropertyFeature[];
+  constantsArray: any[];
 }
 
 const FeaturesFacilitiesNearby = ({
   heading,
   array,
+  constantsArray,
 }: FeaturesFacilitiesNearbyProps) => {
   return (
     <ShadowCard
@@ -45,63 +49,109 @@ const FeaturesFacilitiesNearby = ({
       />
 
       <Grid2 container spacing={8} sx={{ pt: "3.13rem", pl: { md: "2rem" } }}>
-        {array.map(({ title, icon }, index) => (
-          <Grid2 size={{ xs: 6, md: 2 }} key={title}>
-            <Stack
-              sx={{
-                gap: { xs: "0.25rem", md: "0.63rem" },
-                alignItems: "center",
-                img: {
-                  width: { xs: "45px", md: "90px" },
-                  height: { xs: "45px", md: "90px" },
-                },
-              }}
-            >
-              <Image priority src={icon} alt={"icon"} width={90} height={60} />
-              <TextMd
-                text={title}
+        {array.map(({ title }, index) => {
+          const Icon = constantsArray.find(
+            (feature) => feature.title === title,
+          )?.icon;
+          return (
+            <Grid2 size={{ xs: 6, md: 2 }} key={title}>
+              <Stack
                 sx={{
-                  fontWeight: "400",
-                  color: "var(--text-black)",
-                  textAlign: "center",
+                  gap: { xs: "0.25rem", md: "0.63rem" },
+                  alignItems: "center",
+                  img: {
+                    width: { xs: "45px", md: "90px" },
+                    height: { xs: "45px", md: "90px" },
+                  },
                 }}
-              />
-            </Stack>
-          </Grid2>
-        ))}
+              >
+                <Icon sx={{ width: "90px", height: "60px" }} />
+                <TextMd
+                  text={title}
+                  sx={{
+                    fontWeight: "400",
+                    color: "var(--text-black)",
+                    textAlign: "center",
+                  }}
+                />
+              </Stack>
+            </Grid2>
+          );
+        })}
       </Grid2>
     </ShadowCard>
   );
 };
 
 interface Props {
-  data: IProperty;
+  property: IProperty;
 }
 
-const PropertyDetails = ({ data }: Props) => {
+const PropertyDetails = ({ property }: Props) => {
+  const {
+    id,
+    purpose,
+    classification,
+    type,
+    duesCleared,
+    status,
+    city,
+    location,
+    area,
+    price,
+    bedrooms,
+    bathrooms,
+    features,
+    name,
+    description,
+    images,
+    allotmentLetter,
+  } = property;
+
   const user = cookies().get("token");
 
   const descIcon = [
     {
       icon: BedroomIcon,
-      text: data.bedrooms,
+      text: bedrooms,
     },
     {
       icon: BathroomIcon,
-      text: data.bathrooms,
+      text: bathrooms,
     },
     {
       icon: AreaIcon,
-      text: `${data.area.totalArea} ${data.area.type}`,
+      text: `${area.totalArea} ${area.type}`,
     },
     {
       icon: HouseIcon,
-      text: data.type,
+      text: type,
     },
   ];
+
+  const propertyStatus = [
+    {
+      title: "Status:",
+      value: statusArray.find((val) => val.value === status)?.title,
+    },
+    {
+      title: "Ownership:",
+      value: "Owner Name",
+    },
+    {
+      title: "Dues:",
+      value: dues.find((val) => val.value === duesCleared)?.title,
+    },
+    {
+      title: "Location:",
+      value: location,
+    },
+  ];
+
+  console.log(features);
   return (
     <>
-      <PropertiesImages />
+      <PropertiesImages images={images} />
       <Stack
         sx={{ padding: { xs: "1rem", md: "2rem" }, paddingBottom: "4.69rem" }}
       >
@@ -109,7 +159,7 @@ const PropertyDetails = ({ data }: Props) => {
           <Grid2 size={{ xs: 12, md: 10 }}>
             <Stack sx={{ gap: "2rem" }}>
               <TextLg
-                text={"10 Marla Villa with a swimming pool"}
+                text={name}
                 sx={{
                   pt: "1.5rem",
                   fontSize: { xs: "1.5rem", md: "1.875rem" },
@@ -137,7 +187,7 @@ const PropertyDetails = ({ data }: Props) => {
           <Grid2 size={{ xs: 12, md: 2 }}>
             <Stack sx={{ gap: "2.13rem", alignItems: "center" }}>
               <TextLg
-                text={data.description}
+                text={description}
                 sx={{
                   pt: "1.5rem",
                   fontSize: "1.875rem",
@@ -167,7 +217,7 @@ const PropertyDetails = ({ data }: Props) => {
                     sx={{ color: "var(--text-secondary)" }}
                   />
                   <TextLg
-                    text={value}
+                    text={`${value}`}
                     sx={{ fontWeight: 400, color: "var(--text-black)" }}
                   />
                 </Stack>
@@ -176,44 +226,66 @@ const PropertyDetails = ({ data }: Props) => {
           </Grid2>
         </ShadowCard>
 
-        <FeaturesFacilitiesNearby
-          heading="Basic Features"
-          array={basicFeatures}
-        />
+        {features.basicFeatures.length > 0 && (
+          <FeaturesFacilitiesNearby
+            heading="Basic Features"
+            array={features.basicFeatures}
+            constantsArray={basicFeatures}
+          />
+        )}
 
-        <FeaturesFacilitiesNearby heading="Facilities" array={facilities} />
+        {features.facilities.length > 0 && (
+          <FeaturesFacilitiesNearby
+            heading="Facilities"
+            array={features.facilities}
+            constantsArray={facilities}
+          />
+        )}
 
-        <FeaturesFacilitiesNearby
-          heading="Nearby Places"
-          array={nearbyPlaces}
-        />
+        {features.nearbyPlaces.length > 0 && (
+          <FeaturesFacilitiesNearby
+            heading="Nearby Places"
+            array={features.nearbyPlaces}
+            constantsArray={nearbyPlaces}
+          />
+        )}
 
-        <Stack
-          sx={{
-            img: {
-              alignSelf: "center",
-              width: { xs: "100%", md: "990px" },
-              height: { xs: "100%", md: "1276px" },
-            },
-          }}
-        >
-          <TextXl
-            text={"Allotment Letter"}
+        {features.secondaryFeatures.length > 0 && (
+          <FeaturesFacilitiesNearby
+            heading="Secondary Features"
+            array={features.secondaryFeatures}
+            constantsArray={secondaryFeatures}
+          />
+        )}
+
+        {allotmentLetter && allotmentLetter.public_id && (
+          <Stack
             sx={{
-              fontSize: "2rem",
-              py: "4.69rem",
-              textAlign: { xs: "center", md: "start" },
+              img: {
+                alignSelf: "center",
+                width: { xs: "100%", md: "990px" },
+                height: { xs: "100%", md: "1276px" },
+              },
             }}
-          />
+          >
+            <TextXl
+              text={"Allotment Letter"}
+              sx={{
+                fontSize: "2rem",
+                py: "4.69rem",
+                textAlign: { xs: "center", md: "start" },
+              }}
+            />
 
-          <Image
-            priority
-            src={AllotmentLetterImage}
-            alt={"allotment letter"}
-            width={990}
-            height={1276}
-          />
-        </Stack>
+            <Image
+              priority
+              src={AllotmentLetterImage}
+              alt={"allotment letter"}
+              width={990}
+              height={1276}
+            />
+          </Stack>
+        )}
       </Stack>
     </>
   );

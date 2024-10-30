@@ -226,8 +226,6 @@ const AddPropertyDetails = ({ token, data }: Props) => {
     [formikValues.allotmentLetter],
   );
 
-  console.log(formikValues.images);
-
   return (
     <Stack
       component={"form"}

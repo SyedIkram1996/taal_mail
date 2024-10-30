@@ -1,9 +1,8 @@
+import TextLg from "@/components/common/Text/TextLg";
 import PropertyDetails from "@/components/ui/Property/PropertyDetails";
-import { buyRentProperties } from "@/constants/buyRent";
-import { HOME } from "@/constants/page.routes";
+import { PROPERTY } from "@/constants/api.routes";
 import { Stack } from "@mui/material";
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Property | Taal Mail",
@@ -13,12 +12,14 @@ interface Params {
   params: { id: string };
 }
 
-export default function PlotHouseDetails({ params }: Params) {
-  const data = buyRentProperties.find((val) => val.id === params.id);
+export default async function PropertyDetailsPage({ params }: Params) {
+  const id = params.id;
 
-  if (!data) {
-    redirect(HOME);
-  }
+  const response = await fetch(`${PROPERTY}?id=${id}`, {
+    cache: "no-store",
+  });
+
+  const data = await response.json();
 
   return (
     <Stack
@@ -27,7 +28,11 @@ export default function PlotHouseDetails({ params }: Params) {
         overflow: "hidden",
       }}
     >
-      <PropertyDetails data={data} />
+      {data && !data.error ? (
+        <PropertyDetails property={data.property} />
+      ) : (
+        <TextLg text={data.message} sx={{ mt: "3rem" }} />
+      )}
     </Stack>
   );
 }

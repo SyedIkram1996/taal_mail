@@ -153,21 +153,25 @@ export const basicFeatures = [
     title: DRAWING_ROOM,
     icon: DrawingRoomIcon,
     type: MULTIPLE,
+    pathFill: true,
   },
   {
     title: STORE_ROOM,
     icon: StoreRoomIcon,
     type: MULTIPLE,
+    pathFill: true,
   },
   {
     title: LAUNDRY_ROOM,
     icon: LaundryRoomIcon,
     type: MULTIPLE,
+    pathFill: true,
   },
   {
     title: POWDER_ROOM,
     icon: PowderRoomIcon,
     type: MULTIPLE,
+    pathFill: true,
   },
   {
     title: STUDY_ROOM,
@@ -183,6 +187,7 @@ export const basicFeatures = [
     title: SERVANT_QUARTER,
     icon: ServantQuarterIcon,
     type: MULTIPLE,
+    pathFill: true,
   },
   {
     title: KITCHEN,
@@ -193,6 +198,7 @@ export const basicFeatures = [
     title: BALCONY,
     icon: BalconyIcon,
     type: MULTIPLE,
+    pathFill: true,
   },
   {
     title: FURNISHED,
@@ -221,6 +227,7 @@ export const facilities = [
     title: SEWERAGE,
     icon: SewerageIcon,
     type: SINGLE,
+    pathFill: true,
   },
   {
     title: SECURITY,
@@ -241,6 +248,7 @@ export const facilities = [
     title: MAINTENANCE,
     icon: MaintenanceIcon,
     type: SINGLE,
+    pathFill: true,
   },
 ];
 
@@ -254,6 +262,7 @@ export const nearbyPlaces = [
     title: MOSQUE,
     icon: MosqueIcon,
     type: SINGLE,
+    pathFill: true,
   },
   {
     title: HOSPITAL,
@@ -264,6 +273,7 @@ export const nearbyPlaces = [
     title: RESTAURANT,
     icon: RestaurantIcon,
     type: SINGLE,
+    pathFill: true,
   },
   {
     title: PETROL_PUMP,
@@ -282,6 +292,7 @@ export const secondaryFeatures = [
     title: LAWN,
     icon: LawnIcon,
     type: MULTIPLE,
+    pathFill: true,
   },
   {
     title: SWIMMING_POOL,

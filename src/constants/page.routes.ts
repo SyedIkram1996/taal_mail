@@ -1,3 +1,5 @@
+import { EPropertyClassification } from "@/enums/enums";
+const { RESIDENTIAL_VALUE } = EPropertyClassification;
 export const HOME = "/";
 export const SELL_PLOT = "/sell/plot";
 export const SELL_HOUSE = "/sell/house";
@@ -16,5 +18,13 @@ export const SIGN_UP = "/sign-up";
 export const PROFILE = "/profile";
 export const MY_BIDS = `${PROFILE}/my-bids`;
 export const MY_INFO = `${PROFILE}/my-info`;
-export const MY_PROPERTY = `${PROFILE}/my-properties`;
+export const MY_PROPERTIES_PAGE = (
+  classification?: EPropertyClassification,
+) => {
+  if (classification) {
+    return `${PROFILE}/my-properties?classification=${classification}`;
+  }
+
+  return `${PROFILE}/my-properties?classification=${RESIDENTIAL_VALUE}`;
+};
 export const MY_OFFERS = `${PROFILE}/my-offers`;

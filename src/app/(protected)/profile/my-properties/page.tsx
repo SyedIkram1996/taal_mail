@@ -8,9 +8,15 @@ export const metadata: Metadata = {
   title: "My Properties | Taal Mail",
 };
 
-export default async function MyPropertiesPage() {
+interface Params {
+  searchParams: { classification: string };
+}
+
+export default async function MyPropertiesPage({ searchParams }: Params) {
+  const { classification } = searchParams;
   const token = cookies().get("token");
-  const response = await fetch(MY_PROPERTIES, {
+
+  const response = await fetch(MY_PROPERTIES(classification), {
     cache: "no-store",
     headers: {
       Authorization: token ? `Bearer ${token.value}` : "",

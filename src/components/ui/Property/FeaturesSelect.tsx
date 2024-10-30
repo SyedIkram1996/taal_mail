@@ -2,13 +2,7 @@ import FilledButton from "@/components/common/Button/FilledButton";
 import DialogHeader from "@/components/common/Dialog/DialogHeader";
 import FieldTitleDesc from "@/components/common/Input/FieldTitleDesc";
 import SvgIconText from "@/components/common/SvgIconText";
-import TextXs from "@/components/common/Text/TextXs";
-import {
-  CircleCheckboxFilledIcon,
-  CircleCheckboxOutlinedIcon,
-  CloseGreyIcon,
-  PlusIcon,
-} from "@/constants/images.routes";
+import { CloseGreyIcon, PlusIcon } from "@/constants/images.routes";
 import {
   basicFeatures,
   facilities,
@@ -16,13 +10,13 @@ import {
   nearbyPlaces,
   secondaryFeatures,
 } from "@/constants/property";
-import { EPropertyFeatures, EPropertyFeaturesType } from "@/enums/enums";
+import { EPropertyFeatures } from "@/enums/enums";
 import { IPropertyFeature, IPropertyFeatures } from "@/interfaces/IProperty";
-import { arrayContainObject } from "@/utils/helperFunctions";
 import { Box, Dialog, Grid2, Stack, Tab, Tabs } from "@mui/material";
 import Image from "next/image";
 import { clone } from "ramda";
 import { useMemo, useState } from "react";
+import FeatureItem from "./FeatureItem";
 
 const {
   BASIC_FEATURES_VALUE,
@@ -30,12 +24,13 @@ const {
   NEARBY_PLACES_VALUE,
   SECONDARY_FEATURES_VALUE,
 } = EPropertyFeatures;
-const { MULTIPLE, SINGLE } = EPropertyFeaturesType;
 
 interface SelectedFeatureProps {
   icon: any;
   title: string;
   tab: string;
+  count: number;
+  pathFill?: boolean;
   handleRemoveFeature: (tab: string, title: string) => void;
 }
 
@@ -43,6 +38,8 @@ const SelectedFeature = ({
   icon: Icon,
   title,
   tab,
+  count,
+  pathFill,
   handleRemoveFeature,
 }: SelectedFeatureProps) => {
   return (
@@ -60,11 +57,14 @@ const SelectedFeature = ({
       }}
     >
       <SvgIconText
-        text={title}
+        text={`${title}${count > 1 ? ` (${count})` : ""}`}
         icon={
           <Icon
             sx={{
-              path: { stroke: "grey", fill: "grey" },
+              path: {
+                stroke: "var(--spanish-gray)",
+                fill: pathFill ? "var(--spanish-gray)" : "none",
+              },
             }}
           />
         }
@@ -74,7 +74,7 @@ const SelectedFeature = ({
         }}
         sxText={{
           fontSize: "1.25rem",
-          color: "var(--text-primary)",
+          color: "var(--spanish-gray)",
         }}
       />
 
@@ -106,6 +106,8 @@ const getFeatureTabAndIcon = (
       ...val,
       tab,
       icon: constantsArray.find((feature) => feature.title === val.title)?.icon,
+      pathFill: constantsArray.find((feature) => feature.title === val.title)
+        ?.pathFill,
     };
   });
 };
@@ -119,9 +121,45 @@ const FeaturesSelect = ({ value, formik, error }: Props) => {
     setTabValue(val);
   };
 
-  const handleClickCheckBox = (title: string, icon: any) => {
+  const handleIncrement = (title: string) => {
     let temp = clone(tempValues);
-    temp[tabValue].push({ title, count: 1 });
+    const featureIndex = temp[tabValue]
+      .map((val: any) => val.title)
+      .indexOf(title);
+
+    if (featureIndex !== -1) {
+      temp[tabValue][featureIndex].count =
+        temp[tabValue][featureIndex].count + 1;
+    } else {
+      temp[tabValue].push({ title, count: 1, time: Date.now() });
+    }
+
+    setTempValues(temp);
+  };
+
+  const handleDecrement = (title: string) => {
+    let temp = clone(tempValues);
+    const featureIndex = temp[tabValue]
+      .map((val: any) => val.title)
+      .indexOf(title);
+
+    if (featureIndex === -1) {
+      return;
+    }
+
+    if (temp[tabValue][featureIndex].count !== 0) {
+      temp[tabValue][featureIndex].count =
+        temp[tabValue][featureIndex].count - 1;
+    } else {
+      temp[tabValue].splice(featureIndex, 1);
+    }
+
+    setTempValues(temp);
+  };
+
+  const handleClickCheckBox = (title: string) => {
+    let temp = clone(tempValues);
+    temp[tabValue].push({ title, count: 1, time: Date.now() });
     setTempValues(temp);
   };
 
@@ -153,24 +191,25 @@ const FeaturesSelect = ({ value, formik, error }: Props) => {
   const currentArray = tempValues[tabValue];
 
   const selectedFeatures = useMemo(
-    () => [
-      ...getFeatureTabAndIcon(
-        BASIC_FEATURES_VALUE,
-        value.basicFeatures,
-        basicFeatures,
-      ),
-      ...getFeatureTabAndIcon(FACILITIES_VALUE, value.facilities, facilities),
-      ...getFeatureTabAndIcon(
-        NEARBY_PLACES_VALUE,
-        value.nearbyPlaces,
-        nearbyPlaces,
-      ),
-      ...getFeatureTabAndIcon(
-        SECONDARY_FEATURES_VALUE,
-        value.secondaryFeatures,
-        secondaryFeatures,
-      ),
-    ],
+    () =>
+      [
+        ...getFeatureTabAndIcon(
+          BASIC_FEATURES_VALUE,
+          value.basicFeatures,
+          basicFeatures,
+        ),
+        ...getFeatureTabAndIcon(FACILITIES_VALUE, value.facilities, facilities),
+        ...getFeatureTabAndIcon(
+          NEARBY_PLACES_VALUE,
+          value.nearbyPlaces,
+          nearbyPlaces,
+        ),
+        ...getFeatureTabAndIcon(
+          SECONDARY_FEATURES_VALUE,
+          value.secondaryFeatures,
+          secondaryFeatures,
+        ),
+      ].sort((a, b) => a.time - b.time),
     [value],
   );
 
@@ -211,7 +250,12 @@ const FeaturesSelect = ({ value, formik, error }: Props) => {
 
       <Stack
         direction={"row"}
-        sx={{ mt: "1.42rem", gap: "1rem", flexWrap: "wrap" }}
+        sx={{
+          mt: "1.42rem",
+          gap: "1rem",
+          flexWrap: "wrap",
+          maxWidth: "53.375rem",
+        }}
       >
         {selectedFeatures.map((val, index) => (
           <SelectedFeature
@@ -219,6 +263,8 @@ const FeaturesSelect = ({ value, formik, error }: Props) => {
             icon={val.icon}
             title={val.title}
             tab={val.tab}
+            count={val.count}
+            pathFill={val.pathFill}
             handleRemoveFeature={handleRemoveFeature}
           />
         ))}
@@ -227,7 +273,6 @@ const FeaturesSelect = ({ value, formik, error }: Props) => {
       <Dialog
         scroll="body"
         open={openFeatures}
-        onClose={handleClickClose}
         maxWidth="md"
         PaperProps={{
           sx: {
@@ -316,88 +361,17 @@ const FeaturesSelect = ({ value, formik, error }: Props) => {
                     }
                   >
                     {items.map(({ icon: Icon, ...val }) => (
-                      <Grid2
-                        size={{ xs: 12, md: 6 }}
-                        sx={{
-                          border: "1px solid var(--spanish-gray)",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "space-between",
-                          borderRadius: "0.9375rem",
-                          padding: "0.75rem 1.69rem",
-                          height: "fit-content",
-                          ".checkBox": {
-                            cursor: "pointer",
-                          },
-                        }}
-                      >
-                        <SvgIconText
-                          text={val.title}
-                          icon={<Icon />}
-                          sxRow={{
-                            cursor: "pointer",
-                            gap: "0.63rem",
-                          }}
-                          sxText={{
-                            fontSize: "1.25rem",
-                            color: "var(--text-primary)",
-                          }}
-                        />
-
-                        {val.type === MULTIPLE ? (
-                          <Stack
-                            direction={"row"}
-                            sx={{
-                              gap: "0.76rem",
-                              button: {
-                                width: "1.36rem",
-                                height: "1.36rem",
-                                padding: "0",
-                                minWidth: "1rem",
-                                borderRadius: "0.375rem",
-                                backgroundColor: "var(--text-secondary)",
-                                ":hover": {
-                                  backgroundColor: "var(--text-secondary)",
-                                },
-                              },
-                            }}
-                          >
-                            <FilledButton disableRipple text="-" />
-                            <TextXs
-                              text="0"
-                              sx={{ color: "var(--text-black)" }}
-                            />
-                            <FilledButton disableRipple text="+" />
-                          </Stack>
-                        ) : arrayContainObject(
-                            currentArray,
-                            {
-                              title: val.title,
-                              count: 1,
-                              tabValue,
-                              icon: Icon,
-                            },
-                            "title",
-                          ) ? (
-                          <Image
-                            className="checkBox"
-                            onClick={() => handleClickUnCheckBox(val.title)}
-                            alt="tick"
-                            src={CircleCheckboxFilledIcon}
-                            width={26}
-                            height={26}
-                          />
-                        ) : (
-                          <Image
-                            className="checkBox"
-                            onClick={() => handleClickCheckBox(val.title, Icon)}
-                            alt="tick"
-                            src={CircleCheckboxOutlinedIcon}
-                            width={26}
-                            height={26}
-                          />
-                        )}
-                      </Grid2>
+                      <FeatureItem
+                        key={val.title}
+                        currentArray={currentArray}
+                        val={val}
+                        Icon={Icon}
+                        tabValue={tabValue}
+                        handleClickCheckBox={handleClickCheckBox}
+                        handleClickUnCheckBox={handleClickUnCheckBox}
+                        handleIncrement={handleIncrement}
+                        handleDecrement={handleDecrement}
+                      />
                     ))}
                   </Grid2>
                 ),
