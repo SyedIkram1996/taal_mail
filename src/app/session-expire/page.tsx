@@ -1,20 +1,21 @@
-import SignUp from "@/components/ui/SignUp/SignUp";
+import SessionExpire from "@/components/ui/SessionExpire/SessionExpire";
 import { Stack } from "@mui/material";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "SignUp | Taal Mail",
+  title: "Session | Taal Mail",
 };
 
-export default function LoginPage() {
+export default function SessionExpirePage() {
   return (
     <Stack
       sx={{
         alignItems: "center",
+        justifyContent: "center",
         minHeight: "100vh",
       }}
     >
-      <SignUp />
+      <SessionExpire />
     </Stack>
   );
 }
