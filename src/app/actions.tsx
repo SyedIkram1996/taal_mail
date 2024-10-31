@@ -26,3 +26,7 @@ export const logoutAction = () => {
   cookies().delete("token");
   redirect(HOME);
 };
+
+export const deleteCookie = () => {
+  cookies().delete("token");
+};

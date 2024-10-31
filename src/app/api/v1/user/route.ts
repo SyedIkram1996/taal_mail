@@ -1,17 +1,20 @@
+import { OK } from "@/constants/statusCodes";
 import dbConnect from "@/lib/db/dbConnect";
+import UserModel from "@/lib/models/userModel";
+import { verifyJwtToken } from "@/lib/utils/verifyJwtToken";
 import { NextRequest } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request: NextRequest) {
-  await dbConnect();
-  // const token = request.headers.get("authorization");
+  const decodedToken = verifyJwtToken(request);
 
-  // const user: IUser = {
-  //   id: "1",
-  //   name: "Ikram",
-  //   age: "27",
-  //   email: "ikram96211@gmail.com",
-  //   role: "user",
-  // };
-
-  return Response.json({ name: "Hello" });
+  if (!decodedToken.error) {
+    await dbConnect();
+    const user = await UserModel.findById(decodedToken.userId);
+    return Response.json({ user, error: false }, { status: OK });
+  }
+  {
+    return decodedToken.response;
+  }
 }

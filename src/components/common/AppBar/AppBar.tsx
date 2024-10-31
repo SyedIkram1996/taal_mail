@@ -1,7 +1,8 @@
 "use client";
 
 import { auth } from "@/../firebase";
-import { logoutAction } from "@/app/actions";
+import { deleteCookie, logoutAction } from "@/app/actions";
+import SessionExpire from "@/components/ui/SessionExpire/SessionExpire";
 import {
   ChevronDownGreyIcon,
   CloseGreyIcon,
@@ -16,6 +17,7 @@ import {
   MY_INFO,
   MY_OFFERS,
   MY_PROPERTIES_PAGE,
+  SESSION_EXPIRE,
   SIGN_UP,
 } from "@/constants/page.routes";
 import { useUserContext } from "@/context/userContext";
@@ -34,7 +36,7 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
 import TextMd from "../../common/Text/TextMd";
 import MUILink from "../MUILink/MUILink";
@@ -108,6 +110,8 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
   const [openDrawer, setOpenDrawer] = useState(false);
   const [openMenu, setOpenMenu] = useState("");
   const [expandMenu, setExpandMenu] = useState<string[]>([]);
+  const [openSessionExpired, setOpenSessionExpired] = useState(false);
+  const router = useRouter();
 
   const { setUser } = useUserContext();
 
@@ -117,6 +121,12 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
   //     setUser(userData);
   //   }
   // }, [userData]);
+
+  // useEffect(() => {
+  //   if (!userData && userSession && pathname !== SESSION_EXPIRE) {
+  //     redirect(SESSION_EXPIRE);
+  //   }
+  // }, []);
 
   const profilePages = [
     {
@@ -168,7 +178,8 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
   if (
     pathname === LOGIN ||
     pathname === SIGN_UP ||
-    pathname === ACCOUNT_MANAGEMENT
+    pathname === ACCOUNT_MANAGEMENT ||
+    pathname === SESSION_EXPIRE
   ) {
     return <></>;
   }
@@ -402,7 +413,15 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
                     padding: "1rem",
                     cursor: "pointer",
                   }}
-                  onClick={() => setOpenMenu(openMenu === title ? "" : title)}
+                  onClick={() => {
+                    if (title === "Sell" && !userData && userSession) {
+                      deleteCookie();
+                      router.replace(pathname);
+                      setOpenSessionExpired(true);
+                    } else {
+                      setOpenMenu(openMenu === title ? "" : title);
+                    }
+                  }}
                 >
                   <MUILink href={link}>
                     <TextMd
@@ -436,7 +455,15 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
           <Box className="largeScreen" sx={{ position: "relative" }}>
             {userSession ? (
               <TextMd
-                onClick={() => handleProfileMenu(!openProfileMenu)}
+                onClick={() => {
+                  if (!userData && userSession) {
+                    deleteCookie();
+                    router.replace(pathname);
+                    setOpenSessionExpired(true);
+                  } else {
+                    handleProfileMenu(!openProfileMenu);
+                  }
+                }}
                 text={"My Profile"}
                 sx={{
                   color: "var(--text-secondary)",
@@ -484,6 +511,10 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
           </Box>
         </ClickAwayListener>
       </Toolbar>
+
+      {openSessionExpired && (
+        <SessionExpire setOpenSessionExpired={setOpenSessionExpired} />
+      )}
     </AppBar>
   );
 }

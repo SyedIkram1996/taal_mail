@@ -205,6 +205,7 @@ const LoginForm = () => {
           text="Login"
           type="submit"
           loading={mutation.isPending}
+          disabled={mutation.isPending}
           // onClick={() => loginAction({ redirectLink })}
           sx={{
             height: "3.0625rem",

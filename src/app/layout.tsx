@@ -19,8 +19,8 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
-  const session = cookies().get("token");
-  const { data } = await useGetUserServer(session);
+  const token = cookies().get("token");
+  const { data } = await useGetUserServer(token);
 
   return (
     <html lang="en">
@@ -31,7 +31,11 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             <CssBaseline />
             <ReactHotToaster />
             <UserState>
-              <ResponsiveAppBar userSession={session} userData={data} />
+              <ResponsiveAppBar
+                userSession={token}
+                //   @ts-ignore
+                userData={data ? data.user : null}
+              />
             </UserState>
             <Providers>
               <>{props.children}</>
