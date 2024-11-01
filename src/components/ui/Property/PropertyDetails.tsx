@@ -19,6 +19,7 @@ import {
   status as statusArray,
 } from "@/constants/property";
 import { IProperty, IPropertyFeature } from "@/interfaces/IProperty";
+import { formatAmountToPKR } from "@/utils/maths";
 import { Grid2, Stack } from "@mui/material";
 import { cookies } from "next/headers";
 import Image from "next/image";
@@ -187,7 +188,7 @@ const PropertyDetails = ({ property }: Props) => {
           <Grid2 size={{ xs: 12, md: 2 }}>
             <Stack sx={{ gap: "2.13rem", alignItems: "center" }}>
               <TextLg
-                text={description}
+                text={`${price.currency} ${formatAmountToPKR(Number(price.askingPrice))}`}
                 sx={{
                   pt: "1.5rem",
                   fontSize: "1.875rem",

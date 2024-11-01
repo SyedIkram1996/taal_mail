@@ -9,6 +9,7 @@ import {
 } from "@/constants/images.routes";
 import { PROPERTY } from "@/constants/page.routes";
 import { IProperty } from "@/interfaces/IProperty";
+import { formatAmountToPKR } from "@/utils/maths";
 import { Box, Stack, SxProps } from "@mui/material";
 import Image from "next/image";
 import { ReactNode } from "react";
@@ -78,7 +79,11 @@ const PropertyCard = ({ property, children, sx }: Props) => {
           </Box>
 
           <Stack sx={{ padding: "0.94rem 1.94rem", gap: "1.19rem" }}>
-            <TextMd noWrap text={name} sx={{ color: "var(--text-black)" }} />
+            <TextMd
+              noWrap
+              text={`${price.currency} ${formatAmountToPKR(Number(price.askingPrice))}`}
+              sx={{ color: "var(--text-black)" }}
+            />
             <Stack direction={"row"} sx={{ justifyContent: "space-between" }}>
               <IconText
                 icon={BedroomIcon}
