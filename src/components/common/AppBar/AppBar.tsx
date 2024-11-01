@@ -13,7 +13,7 @@ import {
   ACCOUNT_MANAGEMENT,
   HOME,
   LOGIN,
-  MY_BIDS,
+  MY_BIDS_PAGE,
   MY_INFO,
   MY_OFFERS,
   MY_PROPERTIES_PAGE,
@@ -133,7 +133,7 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
   const profilePages = [
     {
       title: "My Bids",
-      link: MY_BIDS,
+      link: MY_BIDS_PAGE,
     },
     {
       title: "My Info",

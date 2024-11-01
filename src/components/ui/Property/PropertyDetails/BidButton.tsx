@@ -1,17 +1,25 @@
 "use client";
 
-import { deleteCookie } from "@/app/actions";
+import { deleteCookie, revalidatePage } from "@/app/actions";
 import FilledButton from "@/components/common/Button/FilledButton";
 import DialogHeader from "@/components/common/Dialog/DialogHeader";
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import TextMd from "@/components/common/Text/TextMd";
 import { BidIcon } from "@/constants/images.routes";
+import { MY_BIDS_PAGE } from "@/constants/page.routes";
 import { useUserContext } from "@/context/userContext";
+import { IBid } from "@/interfaces/IBid";
+import { addBid } from "@/services/bid.services";
+import { formatAmountToPKR } from "@/utils/maths";
+import { bidSchema } from "@/validators/bid";
 import { Dialog, Stack } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
+import { useFormik } from "formik";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
-import SessionExpire from "../SessionExpire/SessionExpire";
+import { toFormikValidationSchema } from "zod-formik-adapter";
+import SessionExpire from "../../SessionExpire/SessionExpire";
 
 interface Props {
   userSession: any;
@@ -24,6 +32,34 @@ const BidButton = ({ userSession }: Props) => {
   const [openSessionExpired, setOpenSessionExpired] = useState(false);
   const { user: UserData } = useUserContext();
   const router = useRouter();
+
+  const formik = useFormik<Pick<IBid, "title" | "bidderBid" | "description">>({
+    initialValues: {
+      title: "",
+      bidderBid: { price: "", currency: "PKR" },
+      description: "",
+    },
+    onSubmit: (values) => {
+      mutation.mutate();
+    },
+    validationSchema: toFormikValidationSchema(bidSchema),
+  });
+
+  const formikValues = formik.values;
+  const formikErrors = formik.errors;
+
+  console.log(formikErrors);
+
+  const mutation = useMutation({
+    mutationFn: async () => addBid(formikValues, userSession),
+    onSuccess: (data) => {
+      // router.refresh();
+      revalidatePage(MY_BIDS_PAGE);
+      setBidAdded(true);
+      setOpenBid(false);
+    },
+    onError: (error) => {},
+  });
 
   return (
     <>
@@ -70,6 +106,8 @@ const BidButton = ({ userSession }: Props) => {
           }}
         >
           <Stack
+            component={"form"}
+            onSubmit={formik.handleSubmit}
             sx={{
               padding: "2.81rem 3.12rem 2.34rem 3.12rem",
               gap: "1.87rem",
@@ -84,6 +122,8 @@ const BidButton = ({ userSession }: Props) => {
                 sx={{ fontWeight: "700", color: "var(--text-black)" }}
               />
               <LabelTopTextField
+                value={formikValues.title}
+                onChange={(e) => formik.setFieldValue("title", e.target.value)}
                 sx={{
                   ".MuiInputBase-root": {
                     input: {
@@ -103,7 +143,17 @@ const BidButton = ({ userSession }: Props) => {
               />
               <Stack sx={{ gap: "0.35rem" }}>
                 <LabelTopTextField
-                  endIcon={<TextMd text={"PKR"} sx={{ fontWeight: "700" }} />}
+                  type="number"
+                  value={formikValues.bidderBid.price}
+                  onChange={(e) =>
+                    formik.setFieldValue("bidderBid.price", e.target.value)
+                  }
+                  endIcon={
+                    <TextMd
+                      text={formikValues.bidderBid.currency}
+                      sx={{ fontWeight: "700" }}
+                    />
+                  }
                   sx={{
                     ".MuiInputBase-root": {
                       input: {
@@ -115,7 +165,7 @@ const BidButton = ({ userSession }: Props) => {
                   }}
                 />
                 <TextMd
-                  text={"i.e 2 Lac"}
+                  text={`i.e ${formatAmountToPKR(Number(formikValues.bidderBid.price))}`}
                   sx={{ fontWeight: "700", pl: "2.31rem" }}
                 />
               </Stack>
@@ -127,6 +177,10 @@ const BidButton = ({ userSession }: Props) => {
                 sx={{ fontWeight: "700", color: "var(--text-black)" }}
               />
               <LabelTopTextField
+                value={formikValues.description}
+                onChange={(e) =>
+                  formik.setFieldValue("description", e.target.value)
+                }
                 sx={{
                   ".MuiInputBase-root": {
                     input: {
@@ -140,11 +194,8 @@ const BidButton = ({ userSession }: Props) => {
             </Stack>
 
             <FilledButton
+              type="submit"
               text="Bid"
-              onClick={() => {
-                setBidAdded(true);
-                setOpenBid(false);
-              }}
               sx={{
                 width: "12.1875rem",
                 height: "3.4375rem",

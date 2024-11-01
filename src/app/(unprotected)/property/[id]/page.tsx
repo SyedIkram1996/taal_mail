@@ -1,5 +1,5 @@
 import TextLg from "@/components/common/Text/TextLg";
-import PropertyDetails from "@/components/ui/Property/PropertyDetails";
+import PropertyDetails from "@/components/ui/Property/PropertyDetails/PropertyDetails";
 import { PROPERTY } from "@/constants/api.routes";
 import { Stack } from "@mui/material";
 import { Metadata } from "next";
