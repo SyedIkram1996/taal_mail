@@ -51,6 +51,14 @@ const userSchema: Schema<IUserSchema> = new Schema({
   },
 });
 
+userSchema.set("toJSON", {
+  virtuals: true,
+  versionKey: false,
+  transform: function (doc, ret) {
+    delete ret._id;
+  },
+});
+
 const UserModel =
   (models.User as Model<IUserSchema>) || model("User", userSchema);
 

@@ -1,6 +1,6 @@
+import TextXl from "@/components/common/Text/TextXl";
 import { IProperty } from "@/interfaces/IProperty";
 import { Grid2 } from "@mui/material";
-import MyOffer from "./MyOffer";
 
 interface Props {
   data: IProperty[];
@@ -15,7 +15,7 @@ const MyOffers = ({ data }: Props) => {
       rowSpacing={12}
       sx={{ padding: "2rem", py: "6.25rem" }}
     >
-      {data.map((val, index) => (
+      {/* {data.map((val, index) => (
         <Grid2
           size={{ xs: 12, sm: 6, lg: 4 }}
           sx={{ display: "flex", justifyContent: "center" }}
@@ -23,7 +23,8 @@ const MyOffers = ({ data }: Props) => {
         >
           <MyOffer val={val} />
         </Grid2>
-      ))}
+      ))} */}
+      <TextXl text="No Offers Added" />
     </Grid2>
   );
 };

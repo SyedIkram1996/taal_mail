@@ -3,6 +3,7 @@
 import { deleteCookie, revalidatePage } from "@/app/actions";
 import FilledButton from "@/components/common/Button/FilledButton";
 import DialogHeader from "@/components/common/Dialog/DialogHeader";
+import FieldTitle from "@/components/common/Input/FieldTitle";
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import TextMd from "@/components/common/Text/TextMd";
 import { BidIcon } from "@/constants/images.routes";
@@ -16,7 +17,7 @@ import { Dialog, Stack } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import SessionExpire from "../../SessionExpire/SessionExpire";
@@ -32,6 +33,7 @@ const BidButton = ({ userSession }: Props) => {
   const [openSessionExpired, setOpenSessionExpired] = useState(false);
   const { user: UserData } = useUserContext();
   const router = useRouter();
+  const { id } = useParams();
 
   const formik = useFormik<Pick<IBid, "title" | "bidderBid" | "description">>({
     initialValues: {
@@ -51,7 +53,8 @@ const BidButton = ({ userSession }: Props) => {
   console.log(formikErrors);
 
   const mutation = useMutation({
-    mutationFn: async () => addBid(formikValues, userSession),
+    mutationFn: async () =>
+      addBid({ ...formikValues, property: id }, userSession),
     onSuccess: (data) => {
       // router.refresh();
       revalidatePage(MY_BIDS_PAGE);
@@ -117,9 +120,13 @@ const BidButton = ({ userSession }: Props) => {
             <DialogHeader title={"Add Bid"} setOpen={setOpenBid} />
 
             <Stack sx={{ gap: "1.5rem" }}>
-              <TextMd
-                text="Title:"
-                sx={{ fontWeight: "700", color: "var(--text-black)" }}
+              <FieldTitle
+                title="Title:"
+                error={
+                  formikErrors.title && formik.touched.title
+                    ? formikErrors.title
+                    : ""
+                }
               />
               <LabelTopTextField
                 value={formikValues.title}
@@ -137,10 +144,16 @@ const BidButton = ({ userSession }: Props) => {
             </Stack>
 
             <Stack sx={{ gap: "1.5rem" }}>
-              <TextMd
-                text="Bidder’s Bid:"
-                sx={{ fontWeight: "700", color: "var(--text-black)" }}
+              <FieldTitle
+                title="Bidder’s Bid:"
+                error={
+                  formikErrors.bidderBid?.price &&
+                  formik.touched.bidderBid?.price
+                    ? formikErrors.bidderBid?.price
+                    : ""
+                }
               />
+
               <Stack sx={{ gap: "0.35rem" }}>
                 <LabelTopTextField
                   type="number"
@@ -172,18 +185,24 @@ const BidButton = ({ userSession }: Props) => {
             </Stack>
 
             <Stack sx={{ gap: "1.5rem" }}>
-              <TextMd
-                text="Description:"
-                sx={{ fontWeight: "700", color: "var(--text-black)" }}
+              <FieldTitle
+                title="Description:"
+                error={
+                  formikErrors.description && formik.touched.description
+                    ? formikErrors.description
+                    : ""
+                }
               />
+
               <LabelTopTextField
+                multiline
                 value={formikValues.description}
                 onChange={(e) =>
                   formik.setFieldValue("description", e.target.value)
                 }
                 sx={{
                   ".MuiInputBase-root": {
-                    input: {
+                    textArea: {
                       fontSize: "1.25rem",
                       color: "var(--text-primary)",
                       fontWeight: "700",
@@ -194,6 +213,8 @@ const BidButton = ({ userSession }: Props) => {
             </Stack>
 
             <FilledButton
+              loading={mutation.isPending}
+              disabled={mutation.isPending}
               type="submit"
               text="Bid"
               sx={{
