@@ -1,6 +1,7 @@
 "use server";
 
 import { HOME, MY_PROPERTIES_PAGE } from "@/constants/page.routes";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -29,4 +30,7 @@ export const logoutAction = () => {
 
 export const deleteCookie = () => {
   cookies().delete("token");
+};
+export const revalidatePage = (path: string) => {
+  revalidatePath(path, "page");
 };

@@ -109,7 +109,7 @@ const PropertyDetails = ({ property }: Props) => {
     allotmentLetter,
   } = property;
 
-  const user = cookies().get("token");
+  const userSession = cookies().get("token");
 
   const descIcon = [
     {
@@ -149,7 +149,6 @@ const PropertyDetails = ({ property }: Props) => {
     },
   ];
 
-  console.log(features);
   return (
     <>
       <PropertiesImages images={images} />
@@ -195,7 +194,7 @@ const PropertyDetails = ({ property }: Props) => {
                   color: "var(--text-black)",
                 }}
               />
-              <BidButton user={user} />
+              <BidButton userSession={userSession} />
             </Stack>
           </Grid2>
         </Grid2>

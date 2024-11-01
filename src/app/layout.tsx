@@ -31,15 +31,18 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             <CssBaseline />
             <ReactHotToaster />
             <UserState>
-              <ResponsiveAppBar
-                userSession={token}
-                //   @ts-ignore
-                userData={data ? data.user : null}
-              />
+              <>
+                <ResponsiveAppBar
+                  userSession={token}
+                  //   @ts-ignore
+                  userData={data ? data.user : null}
+                />
+
+                <Providers>
+                  <>{props.children}</>
+                </Providers>
+              </>
             </UserState>
-            <Providers>
-              <>{props.children}</>
-            </Providers>
 
             <Footer />
           </ThemeProvider>
