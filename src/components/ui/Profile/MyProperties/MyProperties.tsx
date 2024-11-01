@@ -1,6 +1,8 @@
 "use client";
 
 import MUILink from "@/components/common/MUILink/MUILink";
+import PropertiesSkeleton from "@/components/common/Skeletons/PropertiesSkeleton";
+import TextLg from "@/components/common/Text/TextLg";
 import { propertyTypes } from "@/constants/filters";
 import { MY_PROPERTIES_PAGE } from "@/constants/page.routes";
 import { EPropertyClassification } from "@/enums/enums";
@@ -8,7 +10,7 @@ import { IProperty } from "@/interfaces/IProperty";
 import { Box, Grid2, Stack, Tab, Tabs } from "@mui/material";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import MyProperty from "./MyProperty";
 const { RESIDENTIAL_VALUE } = EPropertyClassification;
 
@@ -22,9 +24,24 @@ const MyProperties = ({ data, token }: Props) => {
   const [tabValue, setTabValue] = useState(
     searchParams.get("classification") ?? RESIDENTIAL_VALUE,
   );
+  const [showMessage, setShowMessage] = useState(true);
+
+  const timeoutRef = useRef<any>(null);
+
+  const startTimeout = () => {
+    setShowMessage(false);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = setTimeout(() => {
+      setShowMessage(true);
+    }, 3000);
+  };
 
   const handleChangeTabs = (newValue: string) => {
     setTabValue(newValue);
+    startTimeout();
   };
 
   return (
@@ -73,23 +90,34 @@ const MyProperties = ({ data, token }: Props) => {
         </Tabs>
       </Box>
 
-      <Grid2
-        maxWidth={"lg"}
-        container
-        spacing={4}
-        rowSpacing={12}
-        sx={{ padding: "2rem", py: "6.25rem", width: "100%" }}
-      >
-        {data.map((val, index) => (
-          <Grid2
-            size={{ xs: 12, sm: 6, lg: 4 }}
-            sx={{ display: "flex", justifyContent: "center" }}
-            key={index}
-          >
-            <MyProperty val={val} token={token} />
-          </Grid2>
-        ))}
-      </Grid2>
+      {data.length ? (
+        <Grid2
+          maxWidth={"lg"}
+          container
+          spacing={4}
+          rowSpacing={12}
+          sx={{ padding: "2rem", py: "6.25rem", width: "100%" }}
+        >
+          {data.map((val, index) => (
+            <Grid2
+              size={{ xs: 12, sm: 6, lg: 4 }}
+              sx={{ display: "flex", justifyContent: "center" }}
+              key={index}
+            >
+              <MyProperty val={val} token={token} />
+            </Grid2>
+          ))}
+        </Grid2>
+      ) : !showMessage ? (
+        <PropertiesSkeleton />
+      ) : (
+        showMessage && (
+          <TextLg
+            text={`No ${tabValue} Property Added`}
+            sx={{ textAlign: "center", mt: "5rem" }}
+          />
+        )
+      )}
     </Stack>
   );
 };
