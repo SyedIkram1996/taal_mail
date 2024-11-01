@@ -113,14 +113,16 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
   const [openSessionExpired, setOpenSessionExpired] = useState(false);
   const router = useRouter();
 
-  const { setUser } = useUserContext();
+  const { user: UserDatas, setUser } = useUserContext();
+
+  // console.log(UserDatas);
 
   //Fetch data using react query and setUser
-  // useEffect(() => {
-  //   if (userData) {
-  //     setUser(userData);
-  //   }
-  // }, [userData]);
+  useEffect(() => {
+    if (userData) {
+      setUser(userData);
+    }
+  }, [userData]);
 
   // useEffect(() => {
   //   if (!userData && userSession && pathname !== SESSION_EXPIRE) {

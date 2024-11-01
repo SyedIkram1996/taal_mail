@@ -1,27 +1,43 @@
 "use client";
 
+import { deleteCookie } from "@/app/actions";
 import FilledButton from "@/components/common/Button/FilledButton";
 import DialogHeader from "@/components/common/Dialog/DialogHeader";
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import TextMd from "@/components/common/Text/TextMd";
 import { BidIcon } from "@/constants/images.routes";
+import { useUserContext } from "@/context/userContext";
 import { Dialog, Stack } from "@mui/material";
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import SessionExpire from "../SessionExpire/SessionExpire";
 
 interface Props {
-  user: any;
+  userSession: any;
 }
 
-const BidButton = ({ user }: Props) => {
+const BidButton = ({ userSession }: Props) => {
   const [openBid, setOpenBid] = useState(false);
   const [bidAdded, setBidAdded] = useState(false);
+  const pathname = usePathname();
+  const [openSessionExpired, setOpenSessionExpired] = useState(false);
+  const { user: UserData } = useUserContext();
+  const router = useRouter();
 
   return (
     <>
       <FilledButton
         text="Bid"
-        onClick={() => setOpenBid(true)}
+        onClick={() => {
+          if (!UserData && userSession) {
+            deleteCookie();
+            router.replace(pathname, { scroll: false });
+            setOpenSessionExpired(true);
+          } else {
+            setOpenBid(true);
+          }
+        }}
         startIcon={
           <Image
             priority
@@ -42,7 +58,7 @@ const BidButton = ({ user }: Props) => {
         }}
       />
 
-      {user && (
+      {userSession && (
         <Dialog
           scroll="body"
           open={openBid}
@@ -142,7 +158,7 @@ const BidButton = ({ user }: Props) => {
         </Dialog>
       )}
 
-      {(!user || bidAdded) && (
+      {(!userSession || bidAdded) && (
         <Dialog
           open={openBid || bidAdded}
           onClose={() => {
@@ -199,6 +215,10 @@ const BidButton = ({ user }: Props) => {
             />
           </Stack>
         </Dialog>
+      )}
+
+      {openSessionExpired && (
+        <SessionExpire setOpenSessionExpired={setOpenSessionExpired} />
       )}
     </>
   );

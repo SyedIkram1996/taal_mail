@@ -2,7 +2,9 @@
 
 import FilledButton from "@/components/common/Button/FilledButton";
 
+import { revalidatePage } from "@/app/actions";
 import TextMd from "@/components/common/Text/TextMd";
+import { MY_PROPERTIES_PAGE } from "@/constants/page.routes";
 import { EPropertyClassification } from "@/enums/enums";
 import { IProperty } from "@/interfaces/IProperty";
 import { addProperty, updateProperty } from "@/services/property.services";
@@ -93,7 +95,8 @@ const AddPropertyDetails = ({ token, data }: Props) => {
       return addProperty(formikValues, token);
     },
     onSuccess: (data) => {
-      router.refresh();
+      // router.refresh();
+      revalidatePage(MY_PROPERTIES_PAGE());
       setOpenPropertyAdded(true);
     },
     onError: (error) => {},
