@@ -1,6 +1,6 @@
 import TextLg from "@/components/common/Text/TextLg";
-import AddPropertyBanner from "@/components/ui/Property/AddPropertyBanner";
-import AddPropertyDetails from "@/components/ui/Property/AddPropertyDetails";
+import AddPropertyBanner from "@/components/ui/Property/Sell/AddPropertyBanner";
+import AddPropertyDetails from "@/components/ui/Property/Sell/AddPropertyDetails";
 import { MY_PROPERTY } from "@/constants/api.routes";
 import { SELL_PLOT } from "@/constants/page.routes";
 import { EPropertyType } from "@/enums/enums";

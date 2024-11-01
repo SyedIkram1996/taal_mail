@@ -1,5 +1,5 @@
-import AddPropertyBanner from "@/components/ui/Property/AddPropertyBanner";
-import AddPropertyDetails from "@/components/ui/Property/AddPropertyDetails";
+import AddPropertyBanner from "@/components/ui/Property/Sell/AddPropertyBanner";
+import AddPropertyDetails from "@/components/ui/Property/Sell/AddPropertyDetails";
 import { SELL_PLOT } from "@/constants/page.routes";
 import { EPropertyType } from "@/enums/enums";
 import { Stack } from "@mui/material";

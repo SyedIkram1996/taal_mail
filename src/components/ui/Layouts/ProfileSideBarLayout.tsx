@@ -9,7 +9,7 @@ import {
   PropertyManagerIcon,
 } from "@/constants/images.routes";
 import {
-  MY_BIDS,
+  MY_BIDS_PAGE,
   MY_INFO,
   MY_OFFERS,
   MY_PROPERTIES_PAGE,
@@ -44,7 +44,7 @@ const ProfileSideBarLayout = () => {
     },
     {
       title: "My Bids",
-      link: MY_BIDS,
+      link: MY_BIDS_PAGE,
       icon: BidBlueIcon,
     },
     {

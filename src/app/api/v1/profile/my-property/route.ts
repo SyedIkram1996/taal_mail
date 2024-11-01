@@ -135,14 +135,20 @@ export async function DELETE(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const id = searchParams.get("id");
 
-    const property = await PropertyModel.findById(id);
+    const property = await PropertyModel.findOne({
+      _id: id,
+      createdBy: decodedToken.userId,
+    });
     if (property) {
       for (let i = 0; i < property.images.length; i++) {
         await cloudinaryDestroy({ public_id: property.images[i].public_id });
       }
     }
 
-    await PropertyModel.findByIdAndDelete(id);
+    await PropertyModel.findOneAndDelete({
+      _id: id,
+      createdBy: decodedToken.userId,
+    });
 
     return Response.json({ error: false }, { status: CREATED });
   } else {

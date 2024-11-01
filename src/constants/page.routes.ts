@@ -17,7 +17,7 @@ export const LOGIN = "/login";
 export const ACCOUNT_MANAGEMENT = "/acctmgmt";
 export const SIGN_UP = "/sign-up";
 export const PROFILE = "/profile";
-export const MY_BIDS = `${PROFILE}/my-bids`;
+export const MY_BIDS_PAGE = `${PROFILE}/my-bids`;
 export const MY_INFO = `${PROFILE}/my-info`;
 export const MY_PROPERTIES_PAGE = (
   classification?: EPropertyClassification,

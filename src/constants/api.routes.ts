@@ -12,4 +12,8 @@ export const SEARCH_PROPERTIES_BY_LOCATION = `${BASE_URL}/properties/search-by-l
 export const MY_PROPERTIES = (classification: string) =>
   `${BASE_URL}/profile/my-properties?classification=${classification ?? RESIDENTIAL_VALUE}`;
 export const MY_PROPERTY = `${BASE_URL}/profile/my-property`;
+export const BID = `${BASE_URL}/property/bid`;
+export const MY_BIDS = `${BASE_URL}/profile/my-bids`;
+export const MY_OFFERS = `${BASE_URL}/profile/my-offers`;
+export const MY_BID = `${BASE_URL}/profile/my-bid`;
 export const MY_INFO = `${BASE_URL}/profile/my-info`;
