@@ -1,6 +1,7 @@
 import FieldTitleDesc from "@/components/common/Input/FieldTitleDesc";
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import TextMd from "@/components/common/Text/TextMd";
+import { formatAmountToPKR } from "@/utils/maths";
 import { Stack } from "@mui/material";
 import { memo } from "react";
 
@@ -51,7 +52,10 @@ const PriceField = ({ handleChange, currency, value, error }: Props) => {
         }}
       />
 
-      <TextMd text={"i.e 2 Lac"} sx={{ fontWeight: "400", pl: "2.31rem" }} />
+      <TextMd
+        text={`i.e ${formatAmountToPKR(Number(value))}`}
+        sx={{ fontWeight: "400", pl: "2.31rem" }}
+      />
     </Stack>
   );
 };

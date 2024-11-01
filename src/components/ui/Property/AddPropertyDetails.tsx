@@ -167,29 +167,26 @@ const AddPropertyDetails = ({ token, data }: Props) => {
     formik.handleChange(e);
   }, []);
 
-  const handleChangeAddImages = useCallback(
-    (e: any) => {
-      const files = Array.from(e.target.files);
-      let oldImages = [...formikValues.images];
+  const handleChangeAddImages = (e: any) => {
+    const files = Array.from(e.target.files);
+    let oldImages = [...formikValues.images];
 
-      files.forEach((file: any, index) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
+    files.forEach((file: any, index) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
 
-        reader.onload = () => {
-          if (reader.readyState === 2) {
-            oldImages.push({
-              public_id: "",
-              url: reader.result as string,
-              delete: false,
-            });
-            formik.setFieldValue("images", oldImages);
-          }
-        };
-      });
-    },
-    [formikValues.images],
-  );
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          oldImages.push({
+            public_id: "",
+            url: reader.result as string,
+            delete: false,
+          });
+          formik.setFieldValue("images", oldImages);
+        }
+      };
+    });
+  };
 
   const handleDeleteImage = useCallback(
     (index: number) => {

@@ -1,13 +1,16 @@
 import { SxProps, Typography } from "@mui/material";
+import { MouseEventHandler } from "react";
 
 interface Props {
   text: string;
   sx?: SxProps;
+  onClick?: MouseEventHandler<HTMLSpanElement>;
 }
 
-const TextXl = ({ text, sx }: Props) => {
+const TextXl = ({ text, sx, onClick }: Props) => {
   return (
     <Typography
+      onClick={onClick}
       sx={{
         fontSize: "2.5rem",
         fontWeight: "600",

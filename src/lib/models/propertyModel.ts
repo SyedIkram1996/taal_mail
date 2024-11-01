@@ -36,6 +36,7 @@ export interface IPropertySchema extends Document {
     public_id: string;
     url: string;
   };
+  createdAt: Date;
 }
 
 const propertySchema: Schema<IPropertySchema> = new Schema({
@@ -124,6 +125,10 @@ const propertySchema: Schema<IPropertySchema> = new Schema({
   allotmentLetter: {
     public_id: String,
     url: String,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
   },
 });
 
