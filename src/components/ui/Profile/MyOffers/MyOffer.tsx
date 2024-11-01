@@ -6,26 +6,25 @@ import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
 import TextMd from "@/components/common/Text/TextMd";
 import TextXl from "@/components/common/Text/TextXl";
 import { CloseIcon, TickWhiteIcon } from "@/constants/images.routes";
-import { IProperty } from "@/interfaces/IProperty";
+import { formatAmountToPKR } from "@/utils/maths";
 import { Dialog, Stack } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
 
 interface Props {
-  val: IProperty;
+  val: any;
 }
 
 const MyOffer = ({ val }: Props) => {
   const [openBidDetails, setOpenBidDetails] = useState(false);
   const [acceptOffer, setAcceptOffer] = useState(false);
-  const [bidValue, setBidValue] = useState("200000");
-  const [description, setDescription] = useState("Price is negotiable.");
 
   return (
     <>
-      <PropertyCard property={val}>
+      <PropertyCard property={val.property}>
         <TextMd
-          text={`Title: Deal Closed.`}
+          noWrap
+          text={`${val.title}`}
           sx={{
             paddingX: "1.94rem",
             color: "var(--text-black)",
@@ -34,7 +33,7 @@ const MyOffer = ({ val }: Props) => {
         />
 
         <TextMd
-          text={`Bid: PKR 1.9 Crore`}
+          text={`Bid: ${val.bidderBid.currency} ${formatAmountToPKR(Number(val.bidderBid.price))}`}
           sx={{
             paddingX: "1.94rem",
             color: "var(--text-black)",
@@ -91,7 +90,7 @@ const MyOffer = ({ val }: Props) => {
               height={60}
             />
             <TextXl
-              text="Deal Closed."
+              text={`${val.title}`}
               sx={{
                 alignSelf: "center",
                 fontSize: "2rem",
@@ -109,8 +108,7 @@ const MyOffer = ({ val }: Props) => {
                 <LabelTopTextField
                   type="number"
                   placeholder="Bid"
-                  value={`${bidValue}`}
-                  onChange={(e) => setBidValue(e.target.value)}
+                  value={val.bidderBid.price}
                   endIcon={<TextMd text={"PKR"} sx={{ fontWeight: "700" }} />}
                   sx={{
                     ".MuiInputBase-root": {
@@ -123,7 +121,7 @@ const MyOffer = ({ val }: Props) => {
                   }}
                 />
                 <TextMd
-                  text={"i.e 2 Lac"}
+                  text={`i.e ${formatAmountToPKR(Number(val.bidderBid.price))}`}
                   sx={{ fontWeight: "700", pl: "2.31rem" }}
                 />
               </Stack>
@@ -135,12 +133,12 @@ const MyOffer = ({ val }: Props) => {
                 sx={{ fontWeight: "700", color: "var(--text-black)" }}
               />
               <LabelTopTextField
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                value={val.description}
+                multiline
                 placeholder="Description"
                 sx={{
                   ".MuiInputBase-root": {
-                    input: {
+                    textArea: {
                       fontSize: "1.25rem",
                       color: "var(--text-primary)",
                       fontWeight: "700",

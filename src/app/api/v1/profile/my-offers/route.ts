@@ -21,12 +21,25 @@ export async function GET(request: NextRequest) {
           as: "property",
         },
       },
+
       {
         $unwind: "$property",
       },
       {
+        $addFields: {
+          "property.id": "$property._id",
+          id: "$_id",
+        },
+      },
+      {
         $match: {
           "property.createdBy": new Types.ObjectId(decodedToken.userId),
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          "property._id": 0,
         },
       },
     ]);
