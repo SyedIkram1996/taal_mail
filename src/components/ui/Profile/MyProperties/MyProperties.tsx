@@ -24,7 +24,7 @@ const MyProperties = ({ data, token }: Props) => {
   const [tabValue, setTabValue] = useState(
     searchParams.get("classification") ?? RESIDENTIAL_VALUE,
   );
-  const [showMessage, setShowMessage] = useState(false);
+  const [showMessage, setShowMessage] = useState(true);
 
   const timeoutRef = useRef<any>(null);
 
