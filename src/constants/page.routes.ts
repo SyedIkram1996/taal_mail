@@ -14,6 +14,7 @@ export const PROPERTY = "/property";
 export const INVESTMENT = "/investment";
 
 export const LOGIN = "/login";
+export const FORGOT_PASSWORD_PAGE = "/forgot-password";
 export const ACCOUNT_MANAGEMENT = "/acctmgmt";
 export const SIGN_UP = "/sign-up";
 export const PROFILE = "/profile";

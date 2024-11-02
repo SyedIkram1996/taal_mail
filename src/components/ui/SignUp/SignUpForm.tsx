@@ -22,6 +22,7 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 const SignUpForm = () => {
   const [signUpError, setSignUpError] = useState("");
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const formik = useFormik<ISignUp>({
     initialValues: {
@@ -32,6 +33,7 @@ const SignUpForm = () => {
       confirmPassword: "",
     },
     onSubmit: (values) => {
+      setIsLoading(true);
       setSignUpError("");
       router.prefetch(LOGIN);
       mutation.mutate();
@@ -47,6 +49,7 @@ const SignUpForm = () => {
       router.replace(LOGIN);
     },
     onError: (error) => {
+      setIsLoading(false);
       setSignUpError(error.message);
     },
   });
@@ -266,8 +269,8 @@ const SignUpForm = () => {
           text="Signup"
           type="submit"
           // onClick={() => loginAction({ redirectLink })}
-          loading={mutation.isPending}
-          disabled={mutation.isPending}
+          loading={isLoading}
+          disabled={isLoading}
           sx={{
             height: "3.0625rem",
             fontSize: "1rem",

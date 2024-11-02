@@ -1,6 +1,7 @@
 "use client";
 
 import { Stack } from "@mui/material";
+import ResetPassword from "../ResetPassword/ResetPassword";
 import EmailVerified from "./EmailVerified";
 
 interface Props {
@@ -15,6 +16,8 @@ const AcctMgmt = ({ searchParams: { mode, oobCode } }: Props) => {
     switch (mode) {
       case "verifyEmail":
         return <EmailVerified oobCode={oobCode} />;
+      case "resetPassword":
+        return <ResetPassword oobCode={oobCode} />;
 
       default:
         return <Stack></Stack>;

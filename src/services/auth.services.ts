@@ -1,4 +1,4 @@
-import { LOGIN, SIGN_UP } from "@/constants/api.routes";
+import { FORGOT_PASSWORD, LOGIN, SIGN_UP } from "@/constants/api.routes";
 import { ISignUp } from "@/interfaces/api";
 import { makeApiRequest } from "@/utils/servicesHelper";
 
@@ -19,5 +19,13 @@ export const login = (data: {
     method: "POST",
     url: LOGIN,
     data,
+  });
+};
+
+export const forgotPassword = (email: string) => {
+  return makeApiRequest({
+    method: "POST",
+    url: FORGOT_PASSWORD,
+    data: { email },
   });
 };
