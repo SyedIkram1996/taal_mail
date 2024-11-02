@@ -1,7 +1,6 @@
 "use client";
 
 import { auth } from "@/../firebase";
-import { deleteCookie } from "@/app/actions";
 import FilledButton from "@/components/common/Button/FilledButton";
 import ShadowCard from "@/components/common/Card/ShadowCard";
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
@@ -52,7 +51,6 @@ const ResetPassword = ({ oobCode }: Props) => {
     },
     onSuccess: (data) => {
       toastSuccess("Password reset successfully");
-      deleteCookie();
       router.replace(LOGIN);
     },
     onError: (error) => {
