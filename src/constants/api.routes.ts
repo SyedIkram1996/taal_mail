@@ -5,6 +5,7 @@ const { RESIDENTIAL_VALUE } = EPropertyClassification;
 
 export const SIGN_UP = `${BASE_URL}/sign-up`;
 export const LOGIN = `${BASE_URL}/login`;
+export const FORGOT_PASSWORD = `${BASE_URL}/forgot-password`;
 export const PROPERTY = `${BASE_URL}/property`;
 export const PROPERTIES = `${BASE_URL}/properties`;
 export const SEARCH_PROPERTIES_BY_LOCATION = `${BASE_URL}/properties/search-by-location`;

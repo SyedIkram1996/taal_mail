@@ -8,7 +8,7 @@ import MUILink from "@/components/common/MUILink/MUILink";
 import TextXl from "@/components/common/Text/TextXl";
 import TextXs from "@/components/common/Text/TextXs";
 import { GoogleColorIcon } from "@/constants/images.routes";
-import { SIGN_UP } from "@/constants/page.routes";
+import { FORGOT_PASSWORD_PAGE, SIGN_UP } from "@/constants/page.routes";
 import { ILogin } from "@/interfaces/api";
 import { login } from "@/services/auth.services";
 import { toastError } from "@/utils/toaster";
@@ -25,6 +25,7 @@ const LoginForm = () => {
   const searchParams = useSearchParams();
   const [loginError, setLoginError] = useState("");
   const redirectLink = searchParams.get("redirect");
+  const [isLoading, setIsLoading] = useState(false);
 
   const formik = useFormik<ILogin>({
     initialValues: {
@@ -32,6 +33,7 @@ const LoginForm = () => {
       password: "",
     },
     onSubmit: ({ email }) => {
+      setIsLoading(true);
       setLoginError("");
       mutation.mutate();
     },
@@ -82,6 +84,7 @@ const LoginForm = () => {
     },
     onError: (error) => {
       setLoginError(error.message);
+      setIsLoading(false);
     },
   });
 
@@ -190,22 +193,23 @@ const LoginForm = () => {
           }}
         />
 
-        <TextXs
-          text="Forgot Password"
-          sx={{
-            color: "var(--old-silver)",
-            alignSelf: "flex-end",
-            cursor: "pointer",
-            pb: "2.75rem",
-            textDecoration: "underLine",
-          }}
-        />
+        <MUILink href={FORGOT_PASSWORD_PAGE} sx={{ alignSelf: "flex-end" }}>
+          <TextXs
+            text="Forgot Password"
+            sx={{
+              color: "var(--old-silver)",
+              cursor: "pointer",
+              pb: "2.75rem",
+              textDecoration: "underLine",
+            }}
+          />
+        </MUILink>
 
         <FilledButton
           text="Login"
           type="submit"
-          loading={mutation.isPending}
-          disabled={mutation.isPending}
+          loading={isLoading}
+          disabled={isLoading}
           // onClick={() => loginAction({ redirectLink })}
           sx={{
             height: "3.0625rem",

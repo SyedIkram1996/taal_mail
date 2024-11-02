@@ -4,7 +4,7 @@ import FilledButton from "@/components/common/Button/FilledButton";
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import TextLg from "@/components/common/Text/TextLg";
 import TextMd from "@/components/common/Text/TextMd";
-import { Stack } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 
 const FeedbackForm = () => {
   return (
@@ -19,7 +19,7 @@ const FeedbackForm = () => {
         }}
       />
       <TextMd
-        text="Send us your queries and valuable feedback."
+        text="Send us your queries and valuable feedback"
         sx={{
           fontWeight: "400",
           color: "var(--text-black)",
@@ -27,6 +27,17 @@ const FeedbackForm = () => {
           textAlign: "center",
         }}
       />
+
+      <Typography
+        component={"a"}
+        sx={{
+          textAlign: "center",
+          a: { color: "var(--text-primary) !important" },
+        }}
+      >
+        <span> Email:</span>{" "}
+        <a href="mailto:taalmailpvt@gmail.com">taalmailpvt@gmail.com</a>
+      </Typography>
 
       <LabelTopTextField
         placeholder="Email"

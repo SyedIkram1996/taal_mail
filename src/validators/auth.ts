@@ -23,6 +23,23 @@ export const loginInSchema = object({
   password: string(),
 });
 
+export const forgotPasswordSchema = object({
+  email: string().email("Invalid email address"),
+});
+
+export const resetPasswordSchema = object({
+  password: string()
+    .min(6, "Password must be at least 6 characters")
+    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!]).*$/, {
+      message:
+        "Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character",
+    }),
+  confirmPassword: string().min(6, "Password must be at least 6 characters"),
+}).refine((data) => data.password === data.confirmPassword, {
+  path: ["confirmPassword"],
+  message: "Passwords do not match",
+});
+
 export const loginInIdTokenSchema = object({
   email: string().email("Invalid email address"),
   idToken: string(),

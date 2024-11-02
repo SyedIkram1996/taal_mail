@@ -3,7 +3,13 @@
 import { followUs } from "@/constants/footer";
 import { Logo2Icon } from "@/constants/images.routes";
 import { navbarPages } from "@/constants/navbar";
-import { ACCOUNT_MANAGEMENT, LOGIN, SIGN_UP } from "@/constants/page.routes";
+import {
+  ACCOUNT_MANAGEMENT,
+  FORGOT_PASSWORD_PAGE,
+  LOGIN,
+  SESSION_EXPIRE,
+  SIGN_UP,
+} from "@/constants/page.routes";
 import { montserrat } from "@/theme";
 import { Stack } from "@mui/material";
 import Image from "next/image";
@@ -18,7 +24,9 @@ const Footer = () => {
   if (
     pathname === LOGIN ||
     pathname === SIGN_UP ||
-    pathname === ACCOUNT_MANAGEMENT
+    pathname === ACCOUNT_MANAGEMENT ||
+    pathname === SESSION_EXPIRE ||
+    pathname === FORGOT_PASSWORD_PAGE
   ) {
     return <></>;
   }

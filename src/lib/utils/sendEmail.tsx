@@ -1,3 +1,4 @@
+import ResetPasswordEmailTemplate from "@/components/common/EmailTemplates/ResetPasswordEmailTemplate";
 import VerifyEmailTemplate from "@/components/common/EmailTemplates/VerifyEmailTemplate";
 import { EMAIL, EMAIL_PASS } from "@/constants/environment";
 import { ISendEmail } from "@/interfaces/api";
@@ -40,6 +41,22 @@ export const verifyEmail = async (email: string) => {
   await sendEmail({
     sentTo: email,
     subject: "Verify your Email Address",
+    body: html,
+  });
+
+  return;
+};
+
+export const resetPasswordEmail = async (email: string) => {
+  const emailLink = await admin.auth().generatePasswordResetLink(email);
+
+  const html = await render(<ResetPasswordEmailTemplate link={emailLink} />, {
+    pretty: true,
+  });
+
+  await sendEmail({
+    sentTo: email,
+    subject: "Reset your password",
     body: html,
   });
 

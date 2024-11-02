@@ -11,6 +11,7 @@ import {
 import { navbarPages } from "@/constants/navbar";
 import {
   ACCOUNT_MANAGEMENT,
+  FORGOT_PASSWORD_PAGE,
   HOME,
   LOGIN,
   MY_BIDS_PAGE,
@@ -181,7 +182,8 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
     pathname === LOGIN ||
     pathname === SIGN_UP ||
     pathname === ACCOUNT_MANAGEMENT ||
-    pathname === SESSION_EXPIRE
+    pathname === SESSION_EXPIRE ||
+    pathname === FORGOT_PASSWORD_PAGE
   ) {
     return <></>;
   }
