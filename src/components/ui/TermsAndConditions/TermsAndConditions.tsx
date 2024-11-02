@@ -1,5 +1,6 @@
 import TextLg from "@/components/common/Text/TextLg";
 import TextMd from "@/components/common/Text/TextMd";
+import CircleIcon from "@mui/icons-material/Circle";
 import { Stack } from "@mui/material";
 
 const TermsAndConditions = () => {
@@ -8,7 +9,7 @@ const TermsAndConditions = () => {
     "Only genuine customers are accommodated.",
     "No margin/top is allowed.",
     "If a customer is found guilty of having a margin/top, his deal would be canceled immediately.",
-    "1% commission would be charged from both Seller and Buyer.",
+    "One percent commission would be charged from both Seller and Buyer.",
     "Information provided by customers will not be disclosed and kept with in Admin.",
     "Only solid house/plot will be dealt with but no file.",
   ];
@@ -27,10 +28,8 @@ const TermsAndConditions = () => {
       <Stack sx={{ mb: "3.06rem", maxWidth: "47.625rem" }}>
         {conditions.map((val, index) => (
           <Stack key={val} direction={"row"}>
-            <TextMd
-              key={val}
-              text={`${index + 1}.`}
-              sx={{ fontWeight: "400", color: "var(--text-black)" }}
+            <CircleIcon
+              sx={{ fontSize: "0.5rem", mt: "0.7rem", mr: "0.5rem" }}
             />
             <TextMd
               key={val}
