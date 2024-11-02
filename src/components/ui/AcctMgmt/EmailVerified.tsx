@@ -1,4 +1,5 @@
 import { auth } from "@/../firebase";
+import { deleteCookie } from "@/app/actions";
 import FilledButton from "@/components/common/Button/FilledButton";
 import IconText from "@/components/common/IconText";
 import MUILink from "@/components/common/MUILink/MUILink";
@@ -69,7 +70,7 @@ const EmailVerified = ({ oobCode }: Props) => {
         sxText={{ fontSize: "2rem" }}
       />
       {!loading && (
-        <MUILink href={LOGIN}>
+        <MUILink onClick={() => deleteCookie()} href={LOGIN}>
           <FilledButton text="Continue" />
         </MUILink>
       )}
