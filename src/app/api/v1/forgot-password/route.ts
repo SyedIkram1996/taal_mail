@@ -1,5 +1,8 @@
-import { OK } from "@/constants/statusCodes";
+import { NOT_FOUND, OK } from "@/constants/statusCodes";
 import dbConnect from "@/lib/db/dbConnect";
+import UserModel from "@/lib/models/userModel";
+import { apiResponseError } from "@/lib/utils/apiResponseError";
+import "@/lib/utils/firebaseAdminInitialize";
 import { resetPasswordEmail } from "@/lib/utils/sendEmail";
 import { validateResultError } from "@/lib/utils/validateResultError";
 import { forgotPasswordSchema } from "@/validators/auth";
@@ -16,6 +19,15 @@ export async function POST(request: NextRequest) {
   }
 
   const { email } = validationResult.data;
+
+  const user = await UserModel.findOne({ email });
+
+  if (!user) {
+    return apiResponseError({
+      message: "User not found",
+      statusCode: NOT_FOUND,
+    });
+  }
 
   await resetPasswordEmail(email);
 

@@ -5,7 +5,7 @@ import ShadowCard from "@/components/common/Card/ShadowCard";
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import TextSm from "@/components/common/Text/TextSm";
 import { forgotPassword } from "@/services/auth.services";
-import { toastSuccess } from "@/utils/toaster";
+import { toastError, toastSuccess } from "@/utils/toaster";
 import { forgotPasswordSchema } from "@/validators/auth";
 import { Box } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
@@ -29,7 +29,9 @@ const ForgotPassword = () => {
       toastSuccess("Reset password link sent to your email");
       formik.resetForm();
     },
-    onError: (error) => {},
+    onError: (error) => {
+      toastError(error.message);
+    },
   });
 
   return (
