@@ -17,6 +17,7 @@ import { useFormik } from "formik";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { isValidPhoneNumber } from "react-phone-number-input";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
 const SignUpForm = () => {
@@ -24,7 +25,7 @@ const SignUpForm = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const formik = useFormik<ISignUp>({
+  const formik: any = useFormik<ISignUp>({
     initialValues: {
       name: "",
       email: "",
@@ -32,7 +33,18 @@ const SignUpForm = () => {
       password: "",
       confirmPassword: "",
     },
-    onSubmit: (values) => {
+    //@ts-ignore
+    onSubmit: ({ phoneNo }) => {
+      const isContainCountryCode = phoneNo.substring(0, 3);
+
+      if (
+        phoneNo &&
+        !isValidPhoneNumber(
+          isContainCountryCode === "+92" ? phoneNo : `+92${phoneNo}`,
+        )
+      ) {
+        return formik.setFieldError("phoneNo", "Invalid phone number.");
+      }
       setIsLoading(true);
       setSignUpError("");
       router.prefetch(LOGIN);
@@ -157,7 +169,18 @@ const SignUpForm = () => {
         />
 
         <LabelTopTextField
-          placeholder="+92 Phone Number"
+          placeholder="Phone Number"
+          startIcon={
+            <TextXs
+              text="+92"
+              sx={{
+                fontSize: "1rem",
+                color: "var(--old-silver)",
+                opacity: "1",
+                mr: "1rem",
+              }}
+            />
+          }
           sx={{
             minHeight: "5.38rem",
             ".MuiOutlinedInput-root": {
