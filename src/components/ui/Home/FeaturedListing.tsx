@@ -1,18 +1,14 @@
-"use client";
-import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
 import TextSm from "@/components/common/Text/TextSm";
-import { featuredListing } from "@/constants/buyRent";
-import {
-  CarousalChevronLeftIcon,
-  CarousalChevronRightIcon,
-} from "@/constants/images.routes";
-import { Box, Stack } from "@mui/material";
-import Image from "next/image";
-import { useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
+import TextXs from "@/components/common/Text/TextXs";
+import { FEATURED_PROPERTIES } from "@/constants/api.routes";
+import { IProperty } from "@/interfaces/IProperty";
+import { Stack } from "@mui/material";
+import FeaturedListingSwiper from "./FeaturedListingSwiper";
 
-const FeaturedListing = () => {
-  const [mySwiper, setMySwiper] = useState<any>({});
+const FeaturedListing = async () => {
+  const response = await fetch(FEATURED_PROPERTIES, { cache: "no-store" });
+  const data: { error: boolean; properties: IProperty[] } =
+    await response.json();
 
   return (
     <Stack
@@ -32,81 +28,11 @@ const FeaturedListing = () => {
           pb: "1.91rem",
         }}
       />
-
-      <Stack
-        direction={"row"}
-        sx={{
-          alignItems: "center",
-          position: "relative",
-        }}
-      >
-        <Box
-          onClick={() => {
-            mySwiper.slidePrev();
-          }}
-          sx={{
-            position: "absolute",
-            left: "0",
-            zIndex: 2,
-            cursor: "pointer",
-          }}
-        >
-          <Image
-            src={CarousalChevronLeftIcon}
-            alt="Chevron right"
-            width={50}
-            height={50}
-          />
-        </Box>
-
-        <Swiper
-          spaceBetween={50}
-          slidesPerView={1}
-          style={{ width: "100%", padding: "1rem" }}
-          breakpoints={{
-            420: {
-              slidesPerView: 1,
-            },
-            600: {
-              slidesPerView: 2,
-            },
-            900: {
-              slidesPerView: 3,
-            },
-          }}
-          onInit={(ev) => {
-            setMySwiper(ev);
-          }}
-        >
-          {featuredListing.map((val, index) => (
-            <SwiperSlide
-              key={index}
-              style={{ width: "311px", marginRight: "50px" }}
-            >
-              <PropertyCard property={val} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-
-        <Box
-          onClick={() => {
-            mySwiper.slideNext();
-          }}
-          sx={{
-            position: "absolute",
-            right: "0",
-            zIndex: 1,
-            cursor: "pointer",
-          }}
-        >
-          <Image
-            src={CarousalChevronRightIcon}
-            alt="Chevron right"
-            width={50}
-            height={50}
-          />
-        </Box>
-      </Stack>
+      {data.error ? (
+        <TextXs text="No featured listing" />
+      ) : (
+        <FeaturedListingSwiper featuredListing={data.properties} />
+      )}
     </Stack>
   );
 };

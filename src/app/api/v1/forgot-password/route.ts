@@ -8,7 +8,6 @@ import { NextRequest } from "next/server";
 export async function POST(request: NextRequest) {
   await dbConnect();
   const body = await request.json();
-  console.log(body);
 
   const validationResult = forgotPasswordSchema.safeParse(body);
 
