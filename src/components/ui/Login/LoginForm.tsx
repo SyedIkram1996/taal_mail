@@ -7,8 +7,8 @@ import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import MUILink from "@/components/common/MUILink/MUILink";
 import TextXl from "@/components/common/Text/TextXl";
 import TextXs from "@/components/common/Text/TextXs";
-import { GoogleColorIcon } from "@/constants/images.routes";
-import { FORGOT_PASSWORD_PAGE, SIGN_UP } from "@/constants/page.routes";
+import { GoogleColorIcon, LogoIcon } from "@/constants/images.routes";
+import { FORGOT_PASSWORD_PAGE, HOME, SIGN_UP } from "@/constants/page.routes";
 import { ILogin } from "@/interfaces/api";
 import { login } from "@/services/auth.services";
 import { toastError } from "@/utils/toaster";
@@ -113,6 +113,10 @@ const LoginForm = () => {
           boxSizing: "border-box",
         }}
       >
+        <MUILink href={HOME} sx={{ display: { md: "none" } }}>
+          <Image src={LogoIcon} priority alt="Logo" width={200} height={60} />
+        </MUILink>
+
         <TextXl
           text="Login"
           sx={{

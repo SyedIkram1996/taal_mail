@@ -88,7 +88,7 @@ const BidButton = ({ userSession }: Props) => {
         }
         sx={{
           gap: "0.62rem",
-          width: "11.875rem",
+          width: { xs: "100%", sm: "11.875rem" },
           height: "3.125rem",
           boxShadow: "none",
           ":hover": {

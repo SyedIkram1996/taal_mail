@@ -5,8 +5,8 @@ import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import MUILink from "@/components/common/MUILink/MUILink";
 import TextXl from "@/components/common/Text/TextXl";
 import TextXs from "@/components/common/Text/TextXs";
-import { GoogleColorIcon } from "@/constants/images.routes";
-import { LOGIN } from "@/constants/page.routes";
+import { GoogleColorIcon, LogoIcon } from "@/constants/images.routes";
+import { HOME, LOGIN } from "@/constants/page.routes";
 import { ISignUp } from "@/interfaces/api";
 import { signUp } from "@/services/auth.services";
 import { toastSuccess } from "@/utils/toaster";
@@ -91,6 +91,10 @@ const SignUpForm = () => {
           boxSizing: "border-box",
         }}
       >
+        <MUILink href={HOME} sx={{ display: { md: "none" } }}>
+          <Image src={LogoIcon} priority alt="Logo" width={200} height={60} />
+        </MUILink>
+
         <TextXl
           text="Signup"
           sx={{

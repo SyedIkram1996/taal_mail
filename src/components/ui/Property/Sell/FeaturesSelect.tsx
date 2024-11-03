@@ -277,14 +277,19 @@ const FeaturesSelect = ({ value, formik, error }: Props) => {
         PaperProps={{
           sx: {
             width: "55.625rem",
+            margin: { xs: "1rem", md: "2rem" },
+            maxWidth: {
+              xs: "calc(100% - 32px) !important",
+              md: "calc(100% - 64px) !important",
+            },
           },
         }}
       >
         <Stack
           sx={{
-            paddingTop: "2rem",
+            paddingTop: { xs: "1rem", md: "2rem" },
             position: "relative",
-            px: "2.31rem",
+            px: { xs: "0.5rem", md: "2.31rem" },
           }}
         >
           <DialogHeader
@@ -296,18 +301,20 @@ const FeaturesSelect = ({ value, formik, error }: Props) => {
           <Box
             sx={{
               borderBottom: "1px solid var(--platinum)",
-              mt: "2rem",
-              mx: "2.44rem",
+              mt: { xs: "1rem", md: "2rem" },
+              mx: { md: "2.44rem" },
               // maxWidth: { xs: 350, md: "initial" },
             }}
           >
             <Tabs
               value={tabValue}
-              // variant="scrollable"
-              // allowScrollButtonsMobile
+              variant="scrollable"
+              scrollButtons={false}
               sx={{
                 ".MuiTabs-flexContainer": {
-                  gap: { xs: "1rem", md: "2rem" },
+                  justifyContent: "space-between",
+                  gap: "1rem",
+                  // flexWrap: "wrap",
                 },
 
                 button: {
@@ -341,10 +348,10 @@ const FeaturesSelect = ({ value, formik, error }: Props) => {
           <Box
             sx={{
               paddingY: { xs: "2rem 0", md: "0" },
-              height: "280px",
+              height: { xs: "calc(100vh - 230px)", md: "280px" },
               overflow: "auto",
               pr: "0.38rem",
-              mt: "2.21rem",
+              mt: { xs: "1rem", md: "2.21rem" },
             }}
           >
             {features.map(
@@ -384,8 +391,8 @@ const FeaturesSelect = ({ value, formik, error }: Props) => {
               handleClickConfirm();
             }}
             sx={{
-              mt: "3.25rem",
-              mb: "2.31rem",
+              mt: { xs: "0.5rem", md: "3.25rem" },
+              mb: { xs: "0.5rem", md: "2.31rem" },
               width: "14.5rem",
               fontSize: "1.25rem",
               padding: "0",
