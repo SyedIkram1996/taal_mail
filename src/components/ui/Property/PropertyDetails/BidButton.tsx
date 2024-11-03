@@ -50,8 +50,6 @@ const BidButton = ({ userSession }: Props) => {
   const formikValues = formik.values;
   const formikErrors = formik.errors;
 
-  console.log(formikErrors);
-
   const mutation = useMutation({
     mutationFn: async () =>
       addBid({ ...formikValues, property: id }, userSession),
@@ -112,7 +110,7 @@ const BidButton = ({ userSession }: Props) => {
             component={"form"}
             onSubmit={formik.handleSubmit}
             sx={{
-              padding: "2.81rem 3.12rem 2.34rem 3.12rem",
+              padding: { xs: "1rem", md: "2.81rem 3.12rem 2.34rem 3.12rem" },
               gap: "1.87rem",
               position: "relative",
             }}

@@ -13,7 +13,6 @@ interface Props {
 }
 
 const PriceField = ({ handleChange, currency, value, error }: Props) => {
-  console.log("render price");
   return (
     <Stack id="price">
       <FieldTitleDesc

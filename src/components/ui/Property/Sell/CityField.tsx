@@ -10,7 +10,6 @@ interface Props {
 }
 
 const CityField = ({ handleChange, value, error }: Props) => {
-  console.log("rerender City");
   return (
     <Stack id="city">
       <FieldTitleDesc

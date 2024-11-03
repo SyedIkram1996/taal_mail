@@ -10,7 +10,7 @@ import {
 import { PROPERTY } from "@/constants/page.routes";
 import { IProperty } from "@/interfaces/IProperty";
 import { formatAmountToPKR } from "@/utils/maths";
-import { Box, Stack, SxProps } from "@mui/material";
+import { Box, Grid2, Stack, SxProps } from "@mui/material";
 import Image from "next/image";
 import { ReactNode } from "react";
 import IconText from "../IconText";
@@ -84,35 +84,46 @@ const PropertyCard = ({ property, children, sx }: Props) => {
               text={`${price.currency} ${formatAmountToPKR(Number(price.askingPrice))}`}
               sx={{ color: "var(--text-black)" }}
             />
-            <Stack direction={"row"} sx={{ justifyContent: "space-between" }}>
-              <IconText
-                icon={BedroomIcon}
-                iconWidth={20}
-                iconHeight={20}
-                text={bedrooms}
-              />
-              <IconText
-                icon={BathroomIcon}
-                iconWidth={20}
-                iconHeight={20}
-                text={bathrooms}
-              />
-              <IconText
-                icon={AreaIcon}
-                iconWidth={20}
-                iconHeight={20}
-                text={`${area.totalArea} ${area.type}`}
-              />
-            </Stack>
+            <Grid2 container>
+              <Grid2 size={4}>
+                <IconText
+                  noWrap
+                  icon={BedroomIcon}
+                  iconWidth={20}
+                  iconHeight={20}
+                  text={bedrooms}
+                />
+              </Grid2>
+              <Grid2 size={4}>
+                <IconText
+                  noWrap
+                  icon={BathroomIcon}
+                  iconWidth={20}
+                  iconHeight={20}
+                  text={bathrooms}
+                />
+              </Grid2>
+              <Grid2 size={4}>
+                <IconText
+                  noWrap
+                  icon={AreaIcon}
+                  iconWidth={20}
+                  iconHeight={20}
+                  text={`${area.totalArea} ${area.type}`}
+                />
+              </Grid2>
+            </Grid2>
 
             <Stack direction={"row"} sx={{ justifyContent: "space-between" }}>
               <IconText
+                noWrap
                 icon={BuyIcon}
                 iconWidth={30}
                 iconHeight={30}
                 text={"Buy"}
               />
               <IconText
+                noWrap
                 icon={HouseIcon}
                 iconWidth={20}
                 iconHeight={20}
@@ -121,6 +132,7 @@ const PropertyCard = ({ property, children, sx }: Props) => {
             </Stack>
 
             <IconText
+              noWrap
               icon={LocationIcon}
               iconWidth={20}
               iconHeight={20}

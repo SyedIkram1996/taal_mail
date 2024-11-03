@@ -13,6 +13,7 @@ interface Props {
   bg?: boolean;
   onClick?: MouseEventHandler<HTMLDivElement>;
   iconClassName?: string;
+  noWrap?: boolean;
 }
 
 const IconText = ({
@@ -25,6 +26,7 @@ const IconText = ({
   bg,
   onClick,
   iconClassName,
+  noWrap,
 }: Props) => {
   return (
     <Stack
@@ -58,6 +60,7 @@ const IconText = ({
         />
       )}
       <TextXs
+        noWrap={noWrap}
         text={text}
         sx={{
           fontWeight: "500",

@@ -70,7 +70,7 @@ const MyOffer = ({ val }: Props) => {
         >
           <Stack
             sx={{
-              padding: "2.81rem 3.12rem 2.34rem 3.12rem",
+              padding: { xs: "1rem", md: "2.81rem 3.12rem 2.34rem 3.12rem" },
               gap: "1.87rem",
               position: "relative",
               ".closeImg": {

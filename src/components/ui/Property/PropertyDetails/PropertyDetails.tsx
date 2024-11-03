@@ -226,7 +226,12 @@ const PropertyDetails = ({ property }: Props) => {
                   />
                   <TextLg
                     text={`${value}`}
-                    sx={{ fontWeight: 400, color: "var(--text-black)" }}
+                    sx={{
+                      fontWeight: 400,
+                      color: "var(--text-black)",
+                      wordBreak: "break-word",
+                      whiteSpace: "pre-line",
+                    }}
                   />
                 </Stack>
               </Grid2>

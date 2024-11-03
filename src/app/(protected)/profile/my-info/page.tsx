@@ -16,6 +16,7 @@ export default async function MyInfoPage() {
       Authorization: token ? `Bearer ${token.value}` : "",
       "Content-Type": "application/json",
     },
+    next: { tags: ["myInfo"] },
   });
 
   const data = await response.json();
@@ -28,7 +29,7 @@ export default async function MyInfoPage() {
         paddingX: "1rem",
       }}
     >
-      {data.user && <MyInfo user={data.user} />}
+      {data.user && <MyInfo user={data.user} token={token} />}
     </Stack>
   );
 }

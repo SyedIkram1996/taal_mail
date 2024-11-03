@@ -11,6 +11,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 import * as React from "react";
+import "react-advanced-cropper/dist/style.css";
 import "swiper/css";
 import Providers from "./providers";
 

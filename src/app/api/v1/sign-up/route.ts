@@ -33,14 +33,11 @@ export async function POST(request: NextRequest) {
 
     const uid = firebaseUser.uid;
 
-    const verifyCode = Math.floor(100000 + Math.random() * 900000);
-
     const user = await UserModel.create({
       name,
       email,
       phoneNo,
       uid,
-      verifyCode,
     });
 
     await verifyEmail(email);

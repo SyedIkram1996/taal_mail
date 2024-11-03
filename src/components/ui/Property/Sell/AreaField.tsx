@@ -22,7 +22,6 @@ const AreaField = ({
   areaTypeValue,
   error,
 }: Props) => {
-  console.log("render area");
   return (
     <Stack id="area">
       <FieldTitleDesc

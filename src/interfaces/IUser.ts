@@ -5,6 +5,6 @@ export type IUserContextType = {
   setUser: (value: IUser | null) => void;
 };
 
-export interface IUser extends Omit<IUserSchema, "verifyCode" | "isVerified"> {
+export interface IUser extends IUserSchema {
   id: string;
 }

@@ -102,12 +102,6 @@ const AddPropertyDetails = ({ token, data }: Props) => {
     onError: (error) => {},
   });
 
-  // console.log(
-  //   `Values : ${JSON.stringify(formik.values)}\n\nerrors : ${JSON.stringify(
-  //     formik.errors
-  //   )}\n\n`
-  // );
-
   const handleChangePurpose = useCallback((value: any) => {
     formik.setFieldValue("purpose", value);
   }, []);

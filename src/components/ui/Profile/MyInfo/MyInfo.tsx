@@ -1,19 +1,37 @@
 "use client";
 
+import ImageCropperDialog from "@/components/common/ImageCropperDialog/ImageCropperDialog";
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import { ProfileIcon } from "@/constants/images.routes";
 import { IUser } from "@/interfaces/IUser";
 import { Stack } from "@mui/material";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import Image from "next/image";
+import { ChangeEvent, useState } from "react";
 
 interface Props {
   user: IUser;
+  token?: RequestCookie;
 }
 
-const MyInfo = ({ user }: Props) => {
+const MyInfo = ({ user, token }: Props) => {
+  const [tempAvatar, setTempAvatar] = useState("");
+  const [openChangeImage, setOpenChangeImage] = useState(false);
+  const [avatar, setAvatar] = useState(user.avatar ? user.avatar.url : "");
+
+  const handleChangeImage = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      setTempAvatar(URL.createObjectURL(file));
+      setOpenChangeImage(true);
+    }
+    event.target.value = "";
+  };
+
   return (
     <>
       <Stack
+        component={"label"}
         sx={{
           mt: "2.69rem",
           mb: "4.69rem",
@@ -23,17 +41,40 @@ const MyInfo = ({ user }: Props) => {
           height: { xs: "10rem", md: "15.625rem" },
           backgroundColor: "var(--text-secondary)",
           borderRadius: "50%",
+          cursor: "pointer",
           ".profileImage": {
-            width: { xs: "100px", md: "150px" },
+            width: {
+              xs: avatar ? "100%" : "100px",
+              md: avatar ? "100%" : "150px",
+            },
+            height: avatar ? "100%" : "150px",
+            borderRadius: avatar ? "50%" : "0",
+          },
+          input: {
+            clip: "rect(0 0 0 0)",
+            clipPath: "inset(50%)",
+            height: 1,
+            overflow: "hidden",
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            whiteSpace: "nowrap",
+            width: 1,
           },
         }}
       >
         <Image
           className="profileImage"
-          src={ProfileIcon}
+          src={avatar ? avatar : ProfileIcon}
           alt="profile"
           width={150}
           height={150}
+        />
+        <input
+          type="file"
+          onChange={handleChangeImage}
+          multiple
+          accept="image/*"
         />
       </Stack>
 
@@ -156,6 +197,14 @@ const MyInfo = ({ user }: Props) => {
           }}
         />
       </Stack>
+
+      <ImageCropperDialog
+        openChangeImage={openChangeImage}
+        setOpenChangeImage={setOpenChangeImage}
+        setAvatar={setAvatar}
+        tempAvatar={tempAvatar}
+        token={token}
+      />
     </>
   );
 };
