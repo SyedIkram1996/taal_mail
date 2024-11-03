@@ -178,6 +178,7 @@ const AddPropertyDetails = ({ token, data }: Props) => {
             public_id: "",
             url: reader.result as string,
             delete: false,
+            coverImage: oldImages.find((val) => val.coverImage) ? false : true,
           });
           formik.setFieldValue("images", oldImages);
         }
@@ -194,6 +195,19 @@ const AddPropertyDetails = ({ token, data }: Props) => {
         oldImages.splice(index, 1);
       }
 
+      formik.setFieldValue("images", oldImages);
+    },
+    [formikValues.images],
+  );
+
+  const handleCoverImage = useCallback(
+    (index: number, oldCoverIndex: number) => {
+      console.log(oldCoverIndex);
+      let oldImages = [...formikValues.images];
+      oldImages[index].coverImage = true;
+      if (oldCoverIndex !== -1) {
+        oldImages[oldCoverIndex].coverImage = false;
+      }
       formik.setFieldValue("images", oldImages);
     },
     [formikValues.images],
@@ -362,6 +376,7 @@ const AddPropertyDetails = ({ token, data }: Props) => {
         <UploadImagesSelect
           handleChange={handleChangeAddImages}
           handleDeleteImage={handleDeleteImage}
+          handleCoverImage={handleCoverImage}
           images={formikValues.images}
           error={
             formikErrors.images && formik.touched.images

@@ -31,6 +31,7 @@ export interface IPropertySchema extends Document {
   images: {
     public_id: string;
     url: string;
+    coverImage: boolean;
   }[];
   allotmentLetter: {
     public_id: string;
@@ -121,6 +122,7 @@ const propertySchema: Schema<IPropertySchema> = new Schema({
   images: Array<{
     public_id: String;
     url: String;
+    coverImage: Boolean;
   }>,
   allotmentLetter: {
     public_id: String,

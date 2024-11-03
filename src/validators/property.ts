@@ -46,6 +46,7 @@ export const propertySchema = object({
       public_id: string().optional(),
       url: string(),
       delete: boolean().optional(),
+      coverImage: boolean().optional(),
     }),
   ).nonempty("Required"),
   allotmentLetter: object({

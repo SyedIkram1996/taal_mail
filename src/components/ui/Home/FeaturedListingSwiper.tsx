@@ -1,6 +1,5 @@
 "use client";
 import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
-// import { featuredListing } from "@/constants/buyRent";
 import {
   CarousalChevronLeftIcon,
   CarousalChevronRightIcon,
