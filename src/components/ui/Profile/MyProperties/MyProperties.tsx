@@ -36,7 +36,7 @@ const MyProperties = ({ data, token }: Props) => {
 
     timeoutRef.current = setTimeout(() => {
       setShowMessage(true);
-    }, 3000);
+    }, 1500);
   };
 
   const handleChangeTabs = (newValue: string) => {
