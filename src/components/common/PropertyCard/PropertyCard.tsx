@@ -44,6 +44,8 @@ const PropertyCard = ({ property, children, sx }: Props) => {
     allotmentLetter,
   } = property;
 
+  const coverImage = images.length ? images.find((val) => val.coverImage) : "";
+
   return (
     <Stack
       sx={{
@@ -71,7 +73,13 @@ const PropertyCard = ({ property, children, sx }: Props) => {
           >
             <Image
               priority
-              src={images.length ? images[0].url : BannerImage}
+              src={
+                coverImage
+                  ? coverImage.url
+                  : images.length
+                    ? images[0].url
+                    : BannerImage
+              }
               alt="Property"
               fill
               style={{ objectFit: "cover" }}

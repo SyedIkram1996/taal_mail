@@ -1,16 +1,19 @@
 import FieldTitleDesc from "@/components/common/Input/FieldTitleDesc";
+import TextXs from "@/components/common/Text/TextXs";
 import { CloseRoundedIcon, PlusGreyIcon } from "@/constants/images.routes";
 import { Grid2, Stack } from "@mui/material";
 import Image from "next/image";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 
 interface Props {
   handleChange: any;
   handleDeleteImage: any;
+  handleCoverImage: any;
   images: {
     public_id: string;
     url: string;
     delete?: boolean;
+    coverImage: boolean;
   }[];
   error: string;
 }
@@ -20,7 +23,14 @@ const UploadImagesSelect = ({
   handleDeleteImage,
   images,
   error,
+  handleCoverImage,
 }: Props) => {
+  const coverImageIndex = useMemo(
+    () => images.map((val) => val.coverImage).indexOf(true),
+    [images],
+  );
+
+  console.log("coverImageIndex", coverImageIndex);
   return (
     <Stack id="images">
       <FieldTitleDesc
@@ -70,6 +80,7 @@ const UploadImagesSelect = ({
                 }}
               >
                 <Image
+                  onClick={() => handleCoverImage(index, coverImageIndex)}
                   className="propertyImg"
                   src={val.url}
                   alt="property image"
@@ -84,6 +95,21 @@ const UploadImagesSelect = ({
                   width={60}
                   height={60}
                 />
+
+                {val.coverImage && (
+                  <TextXs
+                    text="Cover"
+                    sx={{
+                      padding: "0.25rem 0.5rem",
+                      borderRadius: "0.3rem",
+                      backgroundColor: "rgba(255,255,255,255.8)",
+                      position: "absolute",
+                      textAlign: "center",
+                      zIndex: "1",
+                      color: "var(--text-black)",
+                    }}
+                  />
+                )}
               </Stack>
             </Grid2>
           ) : (
@@ -127,6 +153,8 @@ const UploadImagesSelect = ({
 
             <input
               type="file"
+              //@ts-ignore
+              onClick={(e) => (e.target.value = null)}
               onChange={handleChange}
               multiple
               accept="image/*"

@@ -38,6 +38,7 @@ export async function POST(request: NextRequest) {
       images.push({
         public_id: uploadedImage.public_id,
         url: uploadedImage.secure_url,
+        coverImage: data.images[i].coverImage,
       });
     }
 
@@ -107,11 +108,13 @@ export async function PUT(request: NextRequest) {
         finalImages.push({
           public_id: uploadedImage.public_id,
           url: uploadedImage.secure_url,
+          coverImage: data.images[i].coverImage,
         });
       } else {
         finalImages.push({
           public_id: images[i].public_id,
           url: images[i].url,
+          coverImage: data.images[i].coverImage,
         });
       }
     }
