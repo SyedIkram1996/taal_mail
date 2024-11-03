@@ -39,15 +39,16 @@ const FeatureItem = ({
 
   return (
     <Grid2
-      size={{ xs: 12, md: 6 }}
+      size={6}
       sx={{
         border: "1px solid var(--spanish-gray)",
         display: "flex",
         alignItems: "center",
+        flexDirection: { xs: "column", md: "row" },
         justifyContent: "space-between",
         borderRadius: "0.9375rem",
         padding: "0.75rem 1.69rem",
-        height: "fit-content",
+        height: { xs: "auto", md: "fit-content" },
         ".checkBox": {
           cursor: "pointer",
         },
@@ -55,14 +56,16 @@ const FeatureItem = ({
     >
       <SvgIconText
         text={val.title}
-        icon={<Icon />}
+        icon={<Icon sx={{ width: "30px", height: "30px" }} />}
         sxRow={{
+          flexDirection: { xs: "column", md: "row" },
           cursor: "pointer",
           gap: "0.63rem",
         }}
         sxText={{
           fontSize: "1.25rem",
           color: "var(--text-primary)",
+          textAlign: { xs: "center", md: "start" },
         }}
       />
 

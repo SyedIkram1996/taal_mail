@@ -55,7 +55,7 @@ const PropertiesImages = ({ images }: Props) => {
                     </Box>
                     {index === 1 && (
                       <TextXl
-                        text="+3"
+                        text={`+${images.length - images.slice(1, 4).length}`}
                         sx={{
                           position: "absolute",
                           fontSize: "3.75rem",

@@ -42,7 +42,9 @@ const TypeSelect = ({
         <Tabs
           value={classification}
           // variant="scrollable"
-          // allowScrollButtonsMobile
+          // allowScrollButtonsMobile3
+          variant="scrollable"
+          scrollButtons={false}
           sx={{
             ".MuiTabs-flexContainer": {
               gap: { xs: "1rem", md: "4rem" },

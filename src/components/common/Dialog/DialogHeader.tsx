@@ -15,8 +15,8 @@ const DialogHeader = ({ setOpen, title, onClose }: Props) => {
       sx={{
         ".closeImg": {
           position: "absolute",
-          top: "1.87rem",
-          right: "1rem",
+          top: { xs: "0.5rem", md: "1.87rem" },
+          right: { xs: "0.5rem", md: "1rem" },
           cursor: "pointer",
         },
       }}
@@ -38,7 +38,7 @@ const DialogHeader = ({ setOpen, title, onClose }: Props) => {
         text={title}
         sx={{
           alignSelf: "center",
-          fontSize: "2rem",
+          fontSize: { xs: "1.5rem", md: "2rem" },
           fontWeight: "700",
           color: "var(--text-black)",
           textAlign: "center",

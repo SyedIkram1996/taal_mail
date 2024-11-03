@@ -1,15 +1,13 @@
 import ShadowCard from "@/components/common/Card/ShadowCard";
-import IconText from "@/components/common/IconText";
+import AreaIcon from "@/components/common/SvgIcons/AreaIcon";
+import BathroomIcon from "@/components/common/SvgIcons/BathroomIcon";
+import BedroomIcon from "@/components/common/SvgIcons/BedroomIcon";
+import HouseIcon from "@/components/common/SvgIcons/HouseIcon";
+import SvgIconText from "@/components/common/SvgIconText";
 import TextLg from "@/components/common/Text/TextLg";
 import TextMd from "@/components/common/Text/TextMd";
 import TextXl from "@/components/common/Text/TextXl";
-import {
-  AllotmentLetterImage,
-  AreaIcon,
-  BathroomIcon,
-  BedroomIcon,
-  HouseIcon,
-} from "@/constants/images.routes";
+import { AllotmentLetterImage } from "@/constants/images.routes";
 import {
   basicFeatures,
   dues,
@@ -170,13 +168,18 @@ const PropertyDetails = ({ property }: Props) => {
                 direction={"row"}
                 sx={{ gap: "2rem", flexWrap: { xs: "wrap", md: "initial" } }}
               >
-                {descIcon.map(({ icon, text }, index) => (
-                  <IconText
+                {descIcon.map(({ icon: Icon, text }, index) => (
+                  <SvgIconText
                     key={text}
-                    icon={icon}
+                    icon={
+                      <Icon
+                        sx={{
+                          width: { xs: "20px", sm: "30px" },
+                          height: { xs: "20px", sm: "30px" },
+                        }}
+                      />
+                    }
                     text={text}
-                    iconWidth={30}
-                    iconHeight={30}
                     sxText={{ fontSize: "1.5625rem", fontWeight: "300" }}
                   />
                 ))}
@@ -185,11 +188,16 @@ const PropertyDetails = ({ property }: Props) => {
           </Grid2>
 
           <Grid2 size={{ xs: 12, md: 2 }}>
-            <Stack sx={{ gap: "2.13rem", alignItems: "center" }}>
+            <Stack
+              sx={{
+                gap: { xs: "1rem", sm: "2.13rem" },
+                alignItems: { xs: "flex-start", sm: "center" },
+              }}
+            >
               <TextLg
                 text={`${price.currency} ${formatAmountToPKR(Number(price.askingPrice))}`}
                 sx={{
-                  pt: "1.5rem",
+                  pt: { xs: "3rem", sm: "1.5rem" },
                   fontSize: "1.875rem",
                   color: "var(--text-black)",
                 }}

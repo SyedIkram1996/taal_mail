@@ -1,4 +1,6 @@
-import { BasemapImage } from "@/constants/images.routes";
+import MUILink from "@/components/common/MUILink/MUILink";
+import { BasemapImage, LogoIcon } from "@/constants/images.routes";
+import { HOME } from "@/constants/page.routes";
 import { Grid2 } from "@mui/material";
 import Image from "next/image";
 import SignUpForm from "./SignUpForm";
@@ -11,8 +13,28 @@ const SignUp = () => {
     >
       <Grid2
         size={{ xs: 12, sm: 6 }}
-        sx={{ position: "relative", ".mapImage": { objectFit: "cover" } }}
+        sx={{
+          display: { xs: "none", md: "flex" },
+          flexDirection: "column",
+          position: "relative",
+          ".mapImage": { objectFit: "cover" },
+        }}
       >
+        <MUILink
+          href={HOME}
+          sx={{
+            zIndex: "1",
+            position: "absolute",
+            top: "1rem",
+            alignSelf: "center",
+            backgroundColor: "white",
+            borderRadius: "0.3rem",
+            pr: "1rem",
+          }}
+        >
+          <Image src={LogoIcon} priority alt="Logo" width={200} height={60} />
+        </MUILink>
+
         <Image
           className="mapImage"
           src={BasemapImage}
