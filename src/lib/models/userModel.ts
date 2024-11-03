@@ -10,8 +10,6 @@ export interface IUserSchema extends Document {
     url: string;
   };
   role: string;
-  verifyCode: string;
-  isVerified: boolean;
   createdAt: Date;
 }
 
@@ -43,8 +41,7 @@ const userSchema: Schema<IUserSchema> = new Schema({
     type: String,
     default: "User",
   },
-  verifyCode: { type: String, required: true },
-  isVerified: { type: Boolean, default: false },
+
   createdAt: {
     type: Date,
     default: Date.now,

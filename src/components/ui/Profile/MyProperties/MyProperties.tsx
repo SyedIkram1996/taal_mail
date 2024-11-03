@@ -55,6 +55,8 @@ const MyProperties = ({ data, token }: Props) => {
       >
         <Tabs
           value={tabValue}
+          variant="scrollable"
+          scrollButtons={false}
           sx={{
             ".MuiTabs-flexContainer": {
               gap: { xs: "1rem", md: "4rem" },

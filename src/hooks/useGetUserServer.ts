@@ -22,7 +22,7 @@ export const useGetUserServer = async (token: RequestCookie | undefined) => {
       if (data && !data.user) {
         const headersList = headers();
         const pathname = headersList.get("x-pathname") || "";
-        console.log(pathname);
+
         if (
           pathname &&
           pathname !== SESSION_EXPIRE &&

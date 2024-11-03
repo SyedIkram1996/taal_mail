@@ -50,8 +50,6 @@ const BidButton = ({ userSession }: Props) => {
   const formikValues = formik.values;
   const formikErrors = formik.errors;
 
-  console.log(formikErrors);
-
   const mutation = useMutation({
     mutationFn: async () =>
       addBid({ ...formikValues, property: id }, userSession),

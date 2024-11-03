@@ -84,9 +84,9 @@ const FilledButton = ({
               color: "white",
             }
           : {
-              borderColor: "var(--gray-200)",
-              backgroundColor: "white",
-              color: "var(--gray-300)",
+              borderColor: "var(--philippine-silver)",
+              backgroundColor: "var(--philippine-silver)",
+              color: "white",
             },
         ...sx,
       }}

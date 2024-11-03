@@ -19,3 +19,4 @@ export const MY_BIDS = `${BASE_URL}/profile/my-bids`;
 export const MY_OFFERS = `${BASE_URL}/profile/my-offers`;
 export const MY_BID = `${BASE_URL}/profile/my-bid`;
 export const MY_INFO = `${BASE_URL}/profile/my-info`;
+export const MY_INFO_AVATAR = `${BASE_URL}/profile/my-info/avatar`;
