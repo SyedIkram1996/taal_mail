@@ -30,7 +30,6 @@ const UploadImagesSelect = ({
     [images],
   );
 
-  console.log("coverImageIndex", coverImageIndex);
   return (
     <Stack id="images">
       <FieldTitleDesc

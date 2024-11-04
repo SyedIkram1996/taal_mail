@@ -1,11 +1,31 @@
 import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
 import TextLg from "@/components/common/Text/TextLg";
-import { PROPERTIES } from "@/constants/api.routes";
 import { IProperty } from "@/interfaces/IProperty";
+import { getBuyRentUrl } from "@/utils/helperFunctions";
 import { Grid2 } from "@mui/material";
+import { headers } from "next/headers";
 
-const BuyRentProperties = async () => {
-  const response = await fetch(PROPERTIES, { cache: "no-store" });
+interface Props {
+  searchParams?: {
+    location: string;
+    minPrice: string;
+    maxPrice: string;
+    totalArea: string;
+    areaType: string;
+    classification: string;
+    type: string;
+    keyword: string;
+    bedrooms: string;
+    bathrooms: string;
+    page: string;
+  };
+}
+
+const BuyRentProperties = async ({ searchParams }: Props) => {
+  const headersList = headers();
+  const url = getBuyRentUrl({ headersList, searchParams });
+
+  const response = await fetch(url, { cache: "no-store" });
   const data: { error: boolean; properties: IProperty[] } =
     await response.json();
 
@@ -23,6 +43,7 @@ const BuyRentProperties = async () => {
         padding: "2rem",
         py: "6.25rem",
         width: "100%",
+        position: "relative",
       }}
     >
       {data.properties.length ? (

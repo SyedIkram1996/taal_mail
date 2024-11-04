@@ -41,7 +41,11 @@ const AreaField = ({
           <SelectField
             iconWidth={30}
             iconHeight={30}
-            text={areaTypeValue ? areaTypeValue : "Area"}
+            text={
+              areaTypeValue
+                ? `${areas.find((val) => val.value === areaTypeValue)?.title}`
+                : "Area"
+            }
             sx={{
               width: "8.9375rem",
               ">p": {

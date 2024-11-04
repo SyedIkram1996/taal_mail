@@ -1,3 +1,4 @@
+import { areas } from "@/constants/filters";
 import {
   AreaIcon,
   BannerImage,
@@ -93,7 +94,7 @@ const PropertyCard = ({ property, children, sx }: Props) => {
               sx={{ color: "var(--text-black)" }}
             />
             <Grid2 container>
-              <Grid2 size={4}>
+              <Grid2 size={3.5}>
                 <IconText
                   noWrap
                   icon={BedroomIcon}
@@ -102,22 +103,24 @@ const PropertyCard = ({ property, children, sx }: Props) => {
                   text={bedrooms}
                 />
               </Grid2>
-              <Grid2 size={4}>
+              <Grid2 size={3.5}>
                 <IconText
                   noWrap
                   icon={BathroomIcon}
                   iconWidth={20}
                   iconHeight={20}
                   text={bathrooms}
+                  sxRow={{ justifyContent: "center" }}
                 />
               </Grid2>
-              <Grid2 size={4}>
+              <Grid2 size={5} sx={{}}>
                 <IconText
                   noWrap
                   icon={AreaIcon}
                   iconWidth={20}
                   iconHeight={20}
-                  text={`${area.totalArea} ${area.type}`}
+                  sxRow={{ justifyContent: "flex-end" }}
+                  text={`${area.totalArea} ${areas.find((val) => val.value === area.type)?.title}`}
                 />
               </Grid2>
             </Grid2>
