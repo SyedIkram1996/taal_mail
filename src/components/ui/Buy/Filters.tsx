@@ -58,8 +58,8 @@ const Filters = () => {
     maxPrice: string;
     currency: string;
   }>({
-    minPrice: "",
-    maxPrice: "",
+    minPrice: searchParams.get("minPrice") || "",
+    maxPrice: searchParams.get("maxPrice") || "",
     currency: "PKR",
   });
 
@@ -314,7 +314,7 @@ const Filters = () => {
 
                 <LabelTopTextField
                   type="number"
-                  defaultValue={searchParams.get(val.key) || ""}
+                  defaultValue={val.amount}
                   endIcon={
                     <TextMd
                       text={priceValue.currency}
@@ -338,7 +338,7 @@ const Filters = () => {
                   }}
                 />
                 <TextMd
-                  text={`i.e ${formatAmountToPKR(Number(searchParams.get(val.key) || val.amount))}`}
+                  text={`i.e ${formatAmountToPKR(Number(val.amount))}`}
                   sx={{ fontWeight: "400", pl: "2.31rem", pt: "0.35rem" }}
                 />
               </Stack>
