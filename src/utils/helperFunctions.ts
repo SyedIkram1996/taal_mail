@@ -16,3 +16,7 @@ export const arrayContainObject = (
     arr,
   );
 };
+
+export const queryKeyValue = (key: string, value: string) => {
+  return `${key}=${value}`;
+};

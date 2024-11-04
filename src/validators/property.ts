@@ -15,7 +15,7 @@ export const propertySchema = object({
     totalArea: string(),
   }),
   price: object({
-    askingPrice: string(),
+    askingPrice: number(),
     currency: string(),
   }),
   bedrooms: string(),
