@@ -202,7 +202,6 @@ const AddPropertyDetails = ({ token, data }: Props) => {
 
   const handleCoverImage = useCallback(
     (index: number, oldCoverIndex: number) => {
-      console.log(oldCoverIndex);
       let oldImages = [...formikValues.images];
       oldImages[index].coverImage = true;
       if (oldCoverIndex !== -1) {

@@ -15,7 +15,19 @@ export const metadata: Metadata = {
 
 interface Params {
   params: { plotHouse: string };
-  searchParams: { query?: string; page?: string };
+  searchParams?: {
+    location: string;
+    minPrice: string;
+    maxPrice: string;
+    totalArea: string;
+    areaType: string;
+    classification: string;
+    type: string;
+    keyword: string;
+    bedrooms: string;
+    bathrooms: string;
+    page: string;
+  };
 }
 
 export default async function Buy({ params, searchParams }: Params) {
@@ -36,7 +48,7 @@ export default async function Buy({ params, searchParams }: Params) {
     >
       <Filters />
       <Suspense fallback={<PropertiesSkeleton />}>
-        <BuyRentProperties />
+        <BuyRentProperties searchParams={searchParams} />
       </Suspense>
     </Stack>
   );

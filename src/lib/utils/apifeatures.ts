@@ -3,6 +3,7 @@
 import { Query } from "mongoose";
 
 interface QueryString {
+  purpose: string;
   location: string;
   minPrice: string;
   maxPrice: string;
@@ -11,8 +12,8 @@ interface QueryString {
   classification: string;
   type: string;
   keyword: string;
-  baths: string;
-  beds: string;
+  bedrooms: string;
+  bathrooms: string;
   page: string;
   [key: string]: any;
 }
@@ -28,6 +29,30 @@ class ApiFeatures<T> {
 
   //Search on the basis of name
   search() {
+    const searchValue = this.queryStr.location
+      ? {
+          $or: [
+            {
+              location: {
+                $regex: this.queryStr.location,
+                $options: "i",
+              },
+            },
+            {
+              city: {
+                $regex: this.queryStr.location,
+                $options: "i",
+              },
+            },
+          ],
+        }
+      : {};
+
+    this.query = this.query.find({ ...searchValue });
+    return this;
+  }
+
+  searchKeyword() {
     const searchValue = this.queryStr.keyword
       ? {
           $or: [
@@ -87,9 +112,9 @@ class ApiFeatures<T> {
       "keyword",
       "maxPrice",
       "minPrice",
+      "totalArea",
+      "areaType",
     ];
-
-    console.log(this.queryStr);
 
     removeFields.forEach((key) => delete queryCopy[key]);
 
@@ -110,6 +135,13 @@ class ApiFeatures<T> {
       this.query = this.query.find({
         "price.askingPrice": { $gte: this.queryStr.minPrice },
         "price.currency": "PKR",
+      });
+    }
+
+    if (this.queryStr.areaType && this.queryStr.totalArea) {
+      this.query = this.query.find({
+        "area.totalArea": this.queryStr.totalArea,
+        "area.type": this.queryStr.areaType,
       });
     }
 

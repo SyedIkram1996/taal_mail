@@ -5,6 +5,7 @@ import MenuCard from "@/components/common/Card/MenuCard";
 import IconText from "@/components/common/IconText";
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import SelectField from "@/components/common/Input/SelectField";
+import MUILink from "@/components/common/MUILink/MUILink";
 import TextLg from "@/components/common/Text/TextLg";
 import TextMd from "@/components/common/Text/TextMd";
 import {
@@ -14,41 +15,51 @@ import {
   propertyTypes,
   rentBuy,
 } from "@/constants/filters";
+import { BUY_HOUSE, RENT_HOUSE } from "@/constants/page.routes";
+import useTextFieldPropertyFiltersDebounce from "@/hooks/useTextFieldPropertyFiltersDebounce";
+import { formatAmountToPKR } from "@/utils/maths";
 import { Box, Stack, Tab, Tabs } from "@mui/material";
-import { useState } from "react";
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { ChangeEvent, useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
 
 const Filters = () => {
+  const searchParams = useSearchParams();
+  const { replace } = useRouter();
+  const pathname = usePathname();
+  const [areaType, setAreaType] = useState(
+    searchParams.get("areaType")
+      ? `${areas.find((val) => val.value === searchParams.get("areaType"))?.title}`
+      : "Sq.ft",
+  );
+
+  const { handleTextFieldChange } = useTextFieldPropertyFiltersDebounce({
+    searchParams,
+    replace,
+    pathname,
+  });
+
   const [rentBuyValue, setRentBuyValue] = useState<{
     title: string;
     value: string;
-  }>({ title: "Rent", value: "rent" });
-
-  const [location, setLocation] = useState("");
+  }>({ title: "", value: "" });
 
   const [areaValue, setAreaValue] = useState<{
     title: string;
     value: string;
   }>({ title: "", value: "" });
 
-  const [keyword, setKeyword] = useState("");
-
   const [bathsValue, setBathsValue] = useState<string>("");
 
   const [bedsValue, setBedsValue] = useState<string>("");
 
   const [priceValue, setPriceValue] = useState<{
-    minAmount: number;
-    maxAmount: number;
+    minPrice: string;
+    maxPrice: string;
     currency: string;
   }>({
-    minAmount: 200000,
-    maxAmount: 200000,
+    minPrice: "",
+    maxPrice: "",
     currency: "PKR",
   });
 
@@ -57,10 +68,133 @@ const Filters = () => {
     category: string;
   }>({ type: "Residential", category: "" });
 
-  const [tabValue, setTabValue] = useState(0);
+  const [tabValue, setTabValue] = useState(
+    searchParams.get("classification") || "",
+  );
 
-  const handleChangeTabs = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChangeTabs = (event: React.SyntheticEvent, newValue: string) => {
     setTabValue(newValue);
+  };
+
+  const handleFilterChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = event.target;
+
+    const params = new URLSearchParams(searchParams);
+    params.set("page", "1");
+    if (value) {
+      params.set(name, value);
+    } else {
+      params.delete(name);
+    }
+
+    replace(`${pathname}?${params.toString()}`);
+  };
+
+  const handlePriceFilter = () => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", "1");
+    if (priceValue.minPrice) {
+      params.set("minPrice", priceValue.minPrice);
+    } else {
+      params.delete("minPrice");
+    }
+
+    if (priceValue.maxPrice) {
+      params.set("maxPrice", priceValue.maxPrice);
+    } else {
+      params.delete("maxPrice");
+    }
+
+    replace(`${pathname}?${params.toString()}`);
+  };
+
+  const getPriceLink = () => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", "1");
+    if (priceValue.minPrice) {
+      params.set("minPrice", priceValue.minPrice);
+    } else {
+      params.delete("minPrice");
+    }
+
+    if (priceValue.maxPrice) {
+      params.set("maxPrice", priceValue.maxPrice);
+    } else {
+      params.delete("maxPrice");
+    }
+
+    return `${pathname}?${params.toString()}`;
+  };
+
+  const getClassificationTabsLink = (value: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", "1");
+    params.set("classification", value);
+    return `${pathname}?${params.toString()}`;
+  };
+
+  const getTypeLink = (value: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", "1");
+    params.set("type", value);
+    return `${pathname}?${params.toString()}`;
+  };
+
+  const getBedroomsLink = (value: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", "1");
+    params.set("bedrooms", value);
+    return `${pathname}?${params.toString()}`;
+  };
+
+  const getBathroomsLink = (value: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", "1");
+    params.set("bathrooms", value);
+    return `${pathname}?${params.toString()}`;
+  };
+
+  const getBuyRentLinkUrl = (val: any) => {
+    const params = new URLSearchParams(searchParams);
+    let newPathname = "";
+    if (pathname.includes("house") && val.value === "rent") {
+      newPathname = RENT_HOUSE;
+    } else if (pathname.includes("house") && val.value === "buy") {
+      newPathname = BUY_HOUSE;
+    } else {
+      newPathname = val.value === "rent" ? RENT_HOUSE : BUY_HOUSE;
+    }
+
+    return `${newPathname}?${params.toString()}`;
+  };
+
+  const handleAreaChange = useDebouncedCallback(
+    (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const { name, value } = event.target;
+      const params = new URLSearchParams(searchParams);
+      params.set("page", "1");
+      if (value) {
+        params.set("totalArea", value);
+        params.set(
+          "areaType",
+          areas.find((val) => val.title === areaType)?.value || "",
+        );
+      } else {
+        params.delete("totalArea");
+        params.delete("areaType");
+      }
+
+      replace(`${pathname}?${params.toString()}`);
+    },
+    500,
+  );
+
+  const handleAreaType = (value: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("areaType", value);
+    replace(`${pathname}?${params.toString()}`);
   };
 
   return (
@@ -83,34 +217,42 @@ const Filters = () => {
         }}
       >
         <SelectField
-          text={rentBuyValue?.title}
+          text={
+            rentBuyValue.title || pathname?.includes("/buy") ? "Buy" : "Rent"
+          }
           sx={{ width: { xs: "100%", md: "8.9375rem" } }}
         >
           <MenuCard sx={{ top: "3.8rem", width: "100%" }}>
-            {rentBuy.map((val, index) => (
-              <TextLg
-                key={val.title}
-                text={val.title}
-                onClick={() => setRentBuyValue(val)}
-                sx={{
-                  color: "var(--text-black)",
-                  fontWeight: "400",
-                  padding: "0.5rem",
-                  borderBottom:
-                    index !== rentBuy.length - 1
-                      ? "1px solid var(--platinum)"
-                      : "none",
-                }}
-              />
+            {rentBuy.map((val: any, index) => (
+              <MUILink key={val.title} href={getBuyRentLinkUrl(val)}>
+                <TextLg
+                  text={val.title}
+                  onClick={() => {
+                    setRentBuyValue(val);
+                  }}
+                  sx={{
+                    color: "var(--text-black)",
+                    fontWeight: "400",
+                    padding: "0.5rem",
+                    borderBottom:
+                      index !== rentBuy.length - 1
+                        ? "1px solid var(--platinum)"
+                        : "none",
+                  }}
+                />
+              </MUILink>
             ))}
           </MenuCard>
         </SelectField>
 
         <Stack sx={{ width: { xs: "100%", md: "23.6875rem" } }}>
           <LabelTopTextField
+            name={"location"}
             placeholder="Location"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
+            defaultValue={searchParams.get("location") || ""}
+            onChange={(e) => {
+              handleTextFieldChange(e);
+            }}
             sx={{
               width: "100%",
               ".MuiOutlinedInput-root": {
@@ -149,13 +291,13 @@ const Filters = () => {
             {[
               {
                 title: "Minimum Amount:",
-                amount: priceValue.minAmount,
-                key: "minAmount",
+                amount: priceValue.minPrice,
+                key: "minPrice",
               },
               {
                 title: "Maximum Amount:",
-                amount: priceValue.maxAmount,
-                key: "maxAmount",
+                amount: priceValue.maxPrice,
+                key: "maxPrice",
               },
             ].map((val, index) => (
               <Stack
@@ -172,7 +314,7 @@ const Filters = () => {
 
                 <LabelTopTextField
                   type="number"
-                  value={`${val.amount}`}
+                  defaultValue={searchParams.get(val.key) || ""}
                   endIcon={
                     <TextMd
                       text={priceValue.currency}
@@ -196,25 +338,41 @@ const Filters = () => {
                   }}
                 />
                 <TextMd
-                  text={"i.e 2 Lac"}
+                  text={`i.e ${formatAmountToPKR(Number(searchParams.get(val.key) || val.amount))}`}
                   sx={{ fontWeight: "400", pl: "2.31rem", pt: "0.35rem" }}
                 />
               </Stack>
             ))}
 
-            <FilledButton
-              text="Confirm"
-              sx={{ width: "11rem", alignSelf: "center" }}
-            />
+            <MUILink href={getPriceLink()} sx={{ alignSelf: "center" }}>
+              <FilledButton
+                text="Confirm"
+                sx={{ width: "11rem" }}
+                onClick={handlePriceFilter}
+              />
+            </MUILink>
           </MenuCard>
         </SelectField>
 
         <SelectField
           text={areaValue.title ? areaValue.title : "Area"}
-          sx={{ width: { xs: "100%", md: "8.9375rem" } }}
+          sx={{ width: { xs: "100%", md: "8.9375rem" }, position: "relative" }}
         >
-          <MenuCard sx={{ top: "3.8rem", width: "100%" }}>
-            {areas.map((val, index) => (
+          <Stack
+            sx={{
+              top: "3.8rem",
+              width: "18rem",
+              position: "absolute",
+              right: "0",
+              padding: "0.5rem 1.19rem",
+              backgroundColor: "white",
+              borderRadius: "0.9375rem",
+              zIndex: "1",
+              gap: "0.5rem",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* {areas.map((val, index) => (
               <TextLg
                 text={val.title}
                 onClick={() => setAreaValue(val)}
@@ -228,8 +386,84 @@ const Filters = () => {
                       : "none",
                 }}
               />
-            ))}
-          </MenuCard>
+            ))} */}
+            <TextLg
+              text={"Area:"}
+              sx={{ color: "var(--text-black)", fontWeight: "400", flex: 1 }}
+            />
+            <LabelTopTextField
+              type="number"
+              name="area"
+              placeholder="Area"
+              // value={totalAreaValue}
+              defaultValue={searchParams.get("totalArea") || ""}
+              onChange={(e) => {
+                handleAreaChange(e);
+              }}
+              endIcon={
+                <SelectField
+                  iconWidth={30}
+                  iconHeight={30}
+                  text={areaType}
+                  sx={{
+                    width: "8.9375rem",
+                    height: "100%",
+                    ">p": {
+                      fontSize: "1.25rem",
+                      color: "var(--text-primary)",
+                    },
+                  }}
+                >
+                  <MenuCard
+                    sx={{
+                      top: "3.8rem",
+                      width: "100%",
+                      borderRadius: "0rem 0rem 0.3125rem 0.3125rem",
+                    }}
+                  >
+                    {areas.map((val, index) => (
+                      <TextLg
+                        key={val.title}
+                        text={val.title}
+                        onClick={() => {
+                          setAreaType(val.title);
+                          if (searchParams.get("totalArea")) {
+                            handleAreaType(val.value);
+                          }
+                        }}
+                        sx={{
+                          fontSize: "1.25rem",
+                          fontWeight: "400",
+                          padding: "0.5rem",
+                          borderBottom:
+                            index !== areas.length - 1
+                              ? "1px solid var(--platinum)"
+                              : "none",
+                        }}
+                      />
+                    ))}
+                  </MenuCard>
+                </SelectField>
+              }
+              sx={{
+                ".MuiOutlinedInput-root": {
+                  height: "3rem",
+                  "input::placeholder": {
+                    fontSize: "1.25rem",
+                    color: "var(--text-primary)",
+                  },
+                },
+
+                ".MuiInputBase-root": {
+                  input: {
+                    fontSize: "1.25rem",
+                    color: "var(--text-primary)",
+                  },
+                  pr: "0",
+                },
+              }}
+            />
+          </Stack>
         </SelectField>
 
         <SelectField
@@ -262,7 +496,7 @@ const Filters = () => {
                     gap: { xs: "0", md: "4rem" },
                   },
 
-                  button: {
+                  a: {
                     fontSize: "1.25rem",
                     color: "var(--text-black)",
                     padding: { xs: "0", md: "inherit" },
@@ -279,14 +513,22 @@ const Filters = () => {
                 }}
               >
                 {propertyTypes.map((val, index) => (
-                  <Tab key={val.type} disableRipple label={val.type} />
+                  <Tab
+                    LinkComponent={MUILink}
+                    href={getClassificationTabsLink(val.value)}
+                    key={val.type}
+                    disableRipple
+                    value={val.value}
+                    label={val.type}
+                  />
                 ))}
               </Tabs>
             </Box>
 
             {propertyTypes.map(
-              ({ index, items, type }) =>
-                tabValue === index && (
+              ({ index, items, type, value }) =>
+                (tabValue === value ||
+                  (!tabValue && value === "residential")) && (
                   <Stack
                     key={index}
                     direction={"row"}
@@ -297,30 +539,32 @@ const Filters = () => {
                     }}
                   >
                     {items.map((val) => (
-                      <IconText
-                        key={val.text}
-                        onClick={() =>
-                          setPropertyTypeValue({ type, category: val.text })
-                        }
-                        text={val.text}
-                        icon={val.icon}
-                        iconWidth={30}
-                        iconHeight={30}
-                        sxRow={{
-                          cursor: "pointer",
-                          gap: "0.63rem",
-                          borderRadius: "0.9375rem",
-                          padding: "0.75rem 1.69rem",
-                          boxShadow:
-                            propertyTypeValue.category === val.text
-                              ? "0px 0px 0px 4px var(--text-primary) inset"
-                              : "0px 0px 0px 1px var(--spanish-gray) inset",
-                        }}
-                        sxText={{
-                          fontSize: "1.25rem",
-                          color: "var(--text-primary)",
-                        }}
-                      />
+                      <MUILink href={getTypeLink(val.text)}>
+                        <IconText
+                          key={val.text}
+                          onClick={() =>
+                            setPropertyTypeValue({ type, category: val.text })
+                          }
+                          text={val.text}
+                          icon={val.icon}
+                          iconWidth={30}
+                          iconHeight={30}
+                          sxRow={{
+                            cursor: "pointer",
+                            gap: "0.63rem",
+                            borderRadius: "0.9375rem",
+                            padding: "0.75rem 1.69rem",
+                            boxShadow:
+                              propertyTypeValue.category === val.text
+                                ? "0px 0px 0px 4px var(--text-primary) inset"
+                                : "0px 0px 0px 1px var(--spanish-gray) inset",
+                          }}
+                          sxText={{
+                            fontSize: "1.25rem",
+                            color: "var(--text-primary)",
+                          }}
+                        />
+                      </MUILink>
                     ))}
                   </Stack>
                 ),
@@ -330,9 +574,12 @@ const Filters = () => {
 
         <Stack sx={{ width: { xs: "100%", md: "16.125rem" } }}>
           <LabelTopTextField
+            name={"keyword"}
             placeholder="Keyword"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
+            defaultValue={searchParams.get("keyword") || ""}
+            onChange={(e) => {
+              handleTextFieldChange(e);
+            }}
             sx={{
               width: "100%",
               ".MuiOutlinedInput-root": {
@@ -361,20 +608,21 @@ const Filters = () => {
         >
           <MenuCard sx={{ top: "3.8rem", width: "100%", textAlign: "center" }}>
             {baths.map((val, index) => (
-              <TextLg
-                key={val}
-                text={val}
-                onClick={() => setBathsValue(val)}
-                sx={{
-                  color: "var(--text-black)",
-                  fontWeight: "400",
-                  padding: "0.5rem",
-                  borderBottom:
-                    index !== areas.length - 1
-                      ? "1px solid var(--platinum)"
-                      : "none",
-                }}
-              />
+              <MUILink key={val} href={getBathroomsLink(val)}>
+                <TextLg
+                  text={val}
+                  onClick={() => setBathsValue(val)}
+                  sx={{
+                    color: "var(--text-black)",
+                    fontWeight: "400",
+                    padding: "0.5rem",
+                    borderBottom:
+                      index !== baths.length - 1
+                        ? "1px solid var(--platinum)"
+                        : "none",
+                  }}
+                />
+              </MUILink>
             ))}
           </MenuCard>
         </SelectField>
@@ -385,20 +633,21 @@ const Filters = () => {
         >
           <MenuCard sx={{ top: "3.8rem", width: "100%", textAlign: "center" }}>
             {beds.map((val, index) => (
-              <TextLg
-                key={val}
-                text={val}
-                onClick={() => setBedsValue(val)}
-                sx={{
-                  color: "var(--text-black)",
-                  fontWeight: "400",
-                  padding: "0.5rem",
-                  borderBottom:
-                    index !== areas.length - 1
-                      ? "1px solid var(--platinum)"
-                      : "none",
-                }}
-              />
+              <MUILink key={val} href={getBedroomsLink(val)}>
+                <TextLg
+                  text={val}
+                  onClick={() => setBedsValue(val)}
+                  sx={{
+                    color: "var(--text-black)",
+                    fontWeight: "400",
+                    padding: "0.5rem",
+                    borderBottom:
+                      index !== beds.length - 1
+                        ? "1px solid var(--platinum)"
+                        : "none",
+                  }}
+                />
+              </MUILink>
             ))}
           </MenuCard>
         </SelectField>

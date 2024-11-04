@@ -13,16 +13,33 @@ export async function GET(request: NextRequest) {
   const purpose = searchParams.get("purpose") || undefined;
   const page = searchParams.get("page") || undefined;
   const classification = searchParams.get("classification") || undefined;
+  const type = searchParams.get("type") || undefined;
   const minPrice = searchParams.get("minPrice") || undefined;
   const maxPrice = searchParams.get("maxPrice") || undefined;
+  const location = searchParams.get("location") || undefined;
+  const totalArea = searchParams.get("totalArea") || undefined;
+  const areaType = searchParams.get("areaType") || undefined;
+  const bedrooms = searchParams.get("bedrooms") || undefined;
+  const bathrooms = searchParams.get("bathrooms") || undefined;
+  const keyword = searchParams.get("keyword") || undefined;
 
   const apiFeatures = new ApiFeatures<IProperty>(PropertyModel.find(), {
     purpose,
     page,
     classification,
+    type,
     minPrice,
     maxPrice,
-  }).filter();
+    location,
+    totalArea,
+    areaType,
+    bedrooms,
+    bathrooms,
+    keyword,
+  })
+    .search()
+    .searchKeyword()
+    .filter();
 
   const properties = await apiFeatures.query;
 
