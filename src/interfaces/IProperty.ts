@@ -27,7 +27,6 @@ export interface IProperty
     | "city"
     | "location"
     | "area"
-    | "price"
     | "bedrooms"
     | "bathrooms"
     | "features"
@@ -47,4 +46,8 @@ export interface IProperty
       }[]
     | [];
   features: IPropertyFeatures;
+  price: {
+    askingPrice: string;
+    currency: string;
+  };
 }

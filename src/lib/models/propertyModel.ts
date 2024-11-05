@@ -15,7 +15,7 @@ export interface IPropertySchema extends Document {
     totalArea: string;
   };
   price: {
-    askingPrice: string;
+    askingPrice: number;
     currency: string;
   };
   bedrooms: string;
@@ -86,7 +86,7 @@ const propertySchema: Schema<IPropertySchema> = new Schema({
   },
   price: {
     askingPrice: {
-      type: String,
+      type: Number,
       required: [true, "Price is required"],
     },
     currency: {
