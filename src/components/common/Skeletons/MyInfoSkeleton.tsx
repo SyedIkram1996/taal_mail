@@ -1,6 +1,5 @@
-import { ProfileIcon } from "@/constants/images.routes";
 import { Skeleton, Stack } from "@mui/material";
-import Image from "next/image";
+import ProfileIcon from "../SvgIcons/ProfileIcon";
 import TextXs from "../Text/TextXs";
 
 const MyInfoSkeleton = () => {
@@ -27,12 +26,8 @@ const MyInfoSkeleton = () => {
           },
         }}
       >
-        <Image
-          className="profileImage"
-          src={ProfileIcon}
-          alt="profile"
-          width={150}
-          height={150}
+        <ProfileIcon
+          sx={{ width: { xs: "100px", md: "150px" }, height: "150px" }}
         />
       </Stack>
 

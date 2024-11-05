@@ -1,12 +1,10 @@
 "use client";
 import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
-import {
-  CarousalChevronLeftIcon,
-  CarousalChevronRightIcon,
-} from "@/constants/images.routes";
+import CarousalChevronLeftIcon from "@/components/common/SvgIcons/CarousalChevronLeftIcon";
+import CarousalChevronRightIcon from "@/components/common/SvgIcons/CarousalChevronRightIcon";
+
 import { IProperty } from "@/interfaces/IProperty";
 import { Box, Stack } from "@mui/material";
-import Image from "next/image";
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -35,12 +33,7 @@ const FeaturedListingSwiper = ({ featuredListing }: Props) => {
           cursor: "pointer",
         }}
       >
-        <Image
-          src={CarousalChevronLeftIcon}
-          alt="Chevron right"
-          width={50}
-          height={50}
-        />
+        <CarousalChevronLeftIcon sx={{ width: "50px", height: "50px" }} />
       </Box>
 
       <Swiper
@@ -83,12 +76,7 @@ const FeaturedListingSwiper = ({ featuredListing }: Props) => {
           cursor: "pointer",
         }}
       >
-        <Image
-          src={CarousalChevronRightIcon}
-          alt="Chevron right"
-          width={50}
-          height={50}
-        />
+        <CarousalChevronRightIcon sx={{ width: "50px", height: "50px" }} />
       </Box>
     </Stack>
   );

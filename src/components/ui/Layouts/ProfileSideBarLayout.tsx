@@ -1,13 +1,7 @@
 "use client";
 
-import IconText from "@/components/common/IconText";
 import MUILink from "@/components/common/MUILink/MUILink";
-import {
-  BidBlueIcon,
-  InfoCircleIcon,
-  OffersIcon,
-  PropertyManagerIcon,
-} from "@/constants/images.routes";
+
 import {
   MY_BIDS_PAGE,
   MY_INFO,
@@ -22,8 +16,12 @@ import {
 } from "@mui/material";
 import { usePathname } from "next/navigation";
 
+import SvgIconText from "@/components/common/SvgIconText";
+import BidIcon from "@/components/common/SvgIcons/BidIcon";
+import InfoCircleIcon from "@/components/common/SvgIcons/InfoCircleIcon";
+import OfferIcon from "@/components/common/SvgIcons/OfferIcon";
+import PropertyManagerIcon from "@/components/common/SvgIcons/PropertyManagerIcon";
 import TextMd from "@/components/common/Text/TextMd";
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -45,12 +43,12 @@ const ProfileSideBarLayout = () => {
     {
       title: "My Bids",
       link: MY_BIDS_PAGE,
-      icon: BidBlueIcon,
+      icon: BidIcon,
     },
     {
       title: "My Offers",
       link: MY_OFFERS,
-      icon: OffersIcon,
+      icon: OfferIcon,
     },
   ];
   return (
@@ -71,9 +69,9 @@ const ProfileSideBarLayout = () => {
             mt: "4.81rem",
           }}
         >
-          {items.map(({ title, link, icon }) => (
+          {items.map(({ title, link, icon: Icon }) => (
             <MUILink key={title} href={link}>
-              <IconText
+              <SvgIconText
                 text={title}
                 sxRow={{
                   cursor: "pointer",
@@ -88,9 +86,15 @@ const ProfileSideBarLayout = () => {
                   color: "var(--text-secondary)",
                   fontWeight: link.includes(pathname) ? "700" : "400",
                 }}
-                icon={icon}
-                iconWidth={30}
-                iconHeight={30}
+                icon={
+                  <Icon
+                    sx={{
+                      width: "30px",
+                      height: "30px",
+                      path: { fill: "var(--text-secondary)" },
+                    }}
+                  />
+                }
               />
             </MUILink>
           ))}
@@ -119,7 +123,7 @@ const ProfileSideBarLayout = () => {
             a: { px: "0", py: "0.5rem" },
           }}
         >
-          {items.map((item) => (
+          {items.map(({ icon: Icon, ...item }) => (
             <BottomNavigationAction
               key={item.link}
               sx={{
@@ -135,15 +139,7 @@ const ProfileSideBarLayout = () => {
               }
               LinkComponent={Link}
               href={item.link}
-              icon={
-                <Image
-                  priority
-                  src={item.icon}
-                  alt={"icon"}
-                  width={25}
-                  height={25}
-                />
-              }
+              icon={<Icon sx={{ width: "25px", height: "25px" }} />}
             />
           ))}
         </BottomNavigation>

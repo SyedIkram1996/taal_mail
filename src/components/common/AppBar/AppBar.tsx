@@ -3,11 +3,7 @@
 import { auth } from "@/../firebase";
 import { deleteCookie, logoutAction } from "@/app/actions";
 import SessionExpire from "@/components/ui/SessionExpire/SessionExpire";
-import {
-  ChevronDownGreyIcon,
-  CloseGreyIcon,
-  LogoIcon,
-} from "@/constants/images.routes";
+import { LogoIcon } from "@/constants/images.routes";
 import { navbarPages } from "@/constants/navbar";
 import {
   ACCOUNT_MANAGEMENT,
@@ -41,6 +37,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { ReactNode, useEffect, useState } from "react";
 import TextMd from "../../common/Text/TextMd";
 import MUILink from "../MUILink/MUILink";
+import ChevronDownGreyIcon from "../SvgIcons/ChevronDownGreyIcon";
+import CrossIcon from "../SvgIcons/CrossIcon";
 import TextSm from "../Text/TextSm";
 
 interface MenuProps {
@@ -221,17 +219,18 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
               sx={{
                 width: "280px",
                 p: "1rem",
-                ".closeIcon": { alignSelf: "end" },
               }}
             >
-              <Image
+              <CrossIcon
                 onClick={() => setOpenDrawer(false)}
-                className="closeIcon"
-                src={CloseGreyIcon}
-                alt="close"
-                width={30}
-                height={30}
+                sx={{
+                  width: "30px",
+                  height: "30px",
+                  alignSelf: "end",
+                  path: { fill: "black" },
+                }}
               />
+
               {navbarPages.map(({ title, link, menu }, idx) => (
                 <Stack
                   key={title}
@@ -265,21 +264,19 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
                       sx={{
                         alignItems: "center",
                         justifyContent: "space-between",
-                        img: {
-                          transform: expandMenu.includes(title)
-                            ? "rotate(-180deg)"
-                            : "rotate(0deg)",
-                          transition: "ease 0.3s",
-                        },
                       }}
                     >
                       <TextMd text={title} />
                       {menu.length > 0 && (
-                        <Image
-                          src={ChevronDownGreyIcon}
-                          alt="chevron"
-                          width={20}
-                          height={20}
+                        <ChevronDownGreyIcon
+                          sx={{
+                            width: "20px",
+                            height: "20px",
+                            transform: expandMenu.includes(title)
+                              ? "rotate(-180deg)"
+                              : "rotate(0deg)",
+                            transition: "ease 0.3s",
+                          }}
                         />
                       )}
                     </Stack>
@@ -324,11 +321,15 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
                   >
                     <TextMd text={"My Profile"} />
 
-                    <Image
-                      src={ChevronDownGreyIcon}
-                      alt="chevron"
-                      width={20}
-                      height={20}
+                    <ChevronDownGreyIcon
+                      sx={{
+                        width: "20px",
+                        height: "20px",
+                        transform: openProfileMenu
+                          ? "rotate(-180deg)"
+                          : "rotate(0deg)",
+                        transition: "ease 0.3s",
+                      }}
                     />
                   </Stack>
                 ) : (

@@ -5,8 +5,8 @@ import FilledButton from "@/components/common/Button/FilledButton";
 import DialogHeader from "@/components/common/Dialog/DialogHeader";
 import FieldTitle from "@/components/common/Input/FieldTitle";
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
+import BidIcon from "@/components/common/SvgIcons/BidIcon";
 import TextMd from "@/components/common/Text/TextMd";
-import { BidIcon } from "@/constants/images.routes";
 import { MY_BIDS_PAGE } from "@/constants/page.routes";
 import { useUserContext } from "@/context/userContext";
 import { IBid } from "@/interfaces/IBid";
@@ -16,7 +16,6 @@ import { bidSchema } from "@/validators/bid";
 import { Dialog, Stack } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
-import Image from "next/image";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
@@ -75,15 +74,7 @@ const BidButton = ({ userSession }: Props) => {
             setOpenBid(true);
           }
         }}
-        startIcon={
-          <Image
-            priority
-            src={BidIcon}
-            alt={"BidIcon"}
-            width={30}
-            height={30}
-          />
-        }
+        startIcon={<BidIcon sx={{ width: "30px", height: "30px" }} />}
         sx={{
           gap: "0.62rem",
           width: { xs: "100%", sm: "11.875rem" },

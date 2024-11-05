@@ -1,14 +1,14 @@
 import FilledButton from "@/components/common/Button/FilledButton";
 import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
+import PencilIcon from "@/components/common/SvgIcons/PencilIcon";
+import TrashIcon from "@/components/common/SvgIcons/TrashIcon";
 import TextMd from "@/components/common/Text/TextMd";
-import { PencilBlueIcon, TrashRedIcon } from "@/constants/images.routes";
 import { SELL_PLOT } from "@/constants/page.routes";
 import { IProperty } from "@/interfaces/IProperty";
 import { deleteProperty } from "@/services/property.services";
 import { Dialog, Stack } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -68,7 +68,7 @@ const MyProperty = ({ val, token }: Props) => {
             width: "fit-content",
           }}
         >
-          <Image src={PencilBlueIcon} alt="pencilIcon" width={30} height={30} />
+          <PencilIcon sx={{ width: "30px", height: "30px" }} />
         </Stack>
 
         <Stack
@@ -85,7 +85,7 @@ const MyProperty = ({ val, token }: Props) => {
             cursor: "pointer",
           }}
         >
-          <Image src={TrashRedIcon} alt="pencilIcon" width={30} height={30} />
+          <TrashIcon sx={{ width: "30px", height: "30px" }} />
         </Stack>
       </Stack>
 

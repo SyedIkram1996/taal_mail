@@ -1,12 +1,10 @@
 import { auth } from "@/../firebase";
 import FilledButton from "@/components/common/Button/FilledButton";
-import IconText from "@/components/common/IconText";
 import MUILink from "@/components/common/MUILink/MUILink";
-import {
-  CrossRed,
-  LoadingDarkIcon,
-  TickCheckboxGreen,
-} from "@/constants/images.routes";
+import CrossFilled from "@/components/common/SvgIcons/CrossFilled";
+import LoadingIcon from "@/components/common/SvgIcons/LoadingIcon";
+import TickCheckboxFilled from "@/components/common/SvgIcons/TickCheckboxFilled";
+import SvgIconText from "@/components/common/SvgIconText";
 import { LOGIN } from "@/constants/page.routes";
 import { Stack } from "@mui/material";
 import { memo, useEffect, useState } from "react";
@@ -47,8 +45,7 @@ const EmailVerified = ({ oobCode }: Props) => {
         borderRadius: "0.5rem",
       }}
     >
-      <IconText
-        iconClassName={loading ? "rotating" : ""}
+      <SvgIconText
         text={
           loading
             ? "Verifying Email"
@@ -57,14 +54,20 @@ const EmailVerified = ({ oobCode }: Props) => {
               : "Email Verification Successful!"
         }
         icon={
-          loading
-            ? LoadingDarkIcon
-            : isInvalidCode
-              ? CrossRed
-              : TickCheckboxGreen
+          loading ? (
+            <LoadingIcon
+              sx={{
+                path: { fill: "#344054" },
+                width: "50px",
+                height: "50px",
+              }}
+            />
+          ) : isInvalidCode ? (
+            <CrossFilled sx={{ width: "50px", height: "50px" }} />
+          ) : (
+            <TickCheckboxFilled sx={{ width: "50px", height: "50px" }} />
+          )
         }
-        iconWidth={50}
-        iconHeight={50}
         sxRow={{ gap: "1rem" }}
         sxText={{ fontSize: "2rem" }}
       />

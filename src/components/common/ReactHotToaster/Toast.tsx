@@ -1,9 +1,10 @@
-import { CrossRed, TickCheckboxGreen } from "@/constants/images.routes";
 import { Stack, Typography } from "@mui/material";
 
-import Image from "next/image";
 import Link from "next/link";
+import { ReactNode } from "react";
 import toast from "react-hot-toast";
+import CrossFilled from "../SvgIcons/CrossFilled";
+import TickCheckboxFilled from "../SvgIcons/TickCheckboxFilled";
 
 export enum toastTypes {
   success = "success",
@@ -24,19 +25,21 @@ export interface contentTest {
   linkHref?: string;
 }
 
-const image: { [type in toastTypes]: string } = {
-  [toastTypes.success]: TickCheckboxGreen,
-  [toastTypes.error]: CrossRed,
-  [toastTypes.info]: CrossRed,
-  [toastTypes.warning]: CrossRed,
+const image: { [type in toastTypes]: ReactNode } = {
+  [toastTypes.success]: (
+    <TickCheckboxFilled sx={{ width: "20px", height: "20px" }} />
+  ),
+  [toastTypes.error]: <CrossFilled sx={{ width: "20px", height: "20px" }} />,
+  [toastTypes.info]: <CrossFilled sx={{ width: "20px", height: "20px" }} />,
+  [toastTypes.warning]: <CrossFilled sx={{ width: "20px", height: "20px" }} />,
 };
 
-const background: { [type in toastTypes]: string } = {
-  [toastTypes.success]: "bg-success ",
-  [toastTypes.error]: "bg-danger",
-  [toastTypes.info]: "bg-info",
-  [toastTypes.warning]: "bg-warning",
-};
+// const background: { [type in toastTypes]: string } = {
+//   [toastTypes.success]: "bg-success ",
+//   [toastTypes.error]: "bg-danger",
+//   [toastTypes.info]: "bg-info",
+//   [toastTypes.warning]: "bg-warning",
+// };
 
 const Toast = ({ type, description, link, linkHref }: contentTest) => (
   <>
@@ -59,13 +62,7 @@ const Toast = ({ type, description, link, linkHref }: contentTest) => (
               backgroundColor: "white",
             }}
           >
-            <Image
-              priority
-              src={image[type]}
-              alt={"icon"}
-              width={20}
-              height={20}
-            />
+            {image[type]}
             <Stack
               direction={"row"}
               sx={{

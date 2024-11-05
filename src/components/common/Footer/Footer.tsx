@@ -95,9 +95,9 @@ const Footer = () => {
         />
 
         <Stack direction={"row"} sx={{ gap: "1.25rem" }}>
-          {followUs.map(({ icon, link }, index) => (
+          {followUs.map(({ icon: Icon, link }, index) => (
             <MUILink key={index} href={link} target="_blank">
-              <Image src={icon} priority alt="Logo2" width={30} height={30} />
+              <Icon sx={{ width: "30px", height: "30px" }} />
             </MUILink>
           ))}
         </Stack>

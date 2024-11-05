@@ -1,7 +1,6 @@
-import { ChevronDownGreyIcon } from "@/constants/images.routes";
 import { ClickAwayListener, Stack, SxProps } from "@mui/material";
-import Image from "next/image";
 import { ReactNode, useState } from "react";
+import ChevronDownGreyIcon from "../SvgIcons/ChevronDownGreyIcon";
 import TextLg from "../Text/TextLg";
 
 interface Props {
@@ -44,13 +43,23 @@ const SelectField = ({
           text={text}
           sx={{ color: "var(--text-black)", fontWeight: "400", flex: 1 }}
         />
-        <Image
+
+        <ChevronDownGreyIcon
+          sx={{
+            width: { iconWidth },
+            height: { iconHeight },
+            transform: open ? "rotate(-180deg)" : "rotate(0deg)",
+            transition: "ease 0.3s",
+          }}
+        />
+
+        {/* <Image
           className="chevron"
           src={ChevronDownGreyIcon}
           alt="Chevron down"
           width={iconWidth}
           height={iconHeight}
-        />
+        /> */}
 
         {open && <Stack onClick={() => setOpen(false)}>{children}</Stack>}
       </Stack>

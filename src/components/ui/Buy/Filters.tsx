@@ -2,10 +2,10 @@
 
 import FilledButton from "@/components/common/Button/FilledButton";
 import MenuCard from "@/components/common/Card/MenuCard";
-import IconText from "@/components/common/IconText";
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import SelectField from "@/components/common/Input/SelectField";
 import MUILink from "@/components/common/MUILink/MUILink";
+import SvgIconText from "@/components/common/SvgIconText";
 import TextLg from "@/components/common/Text/TextLg";
 import TextMd from "@/components/common/Text/TextMd";
 import {
@@ -538,17 +538,15 @@ const Filters = () => {
                       padding: "3.32rem 1.38rem 1rem 1.38rem",
                     }}
                   >
-                    {items.map((val) => (
+                    {items.map(({ icon: Icon, ...val }) => (
                       <MUILink href={getTypeLink(val.text)}>
-                        <IconText
+                        <SvgIconText
                           key={val.text}
                           onClick={() =>
                             setPropertyTypeValue({ type, category: val.text })
                           }
                           text={val.text}
-                          icon={val.icon}
-                          iconWidth={30}
-                          iconHeight={30}
+                          icon={<Icon sx={{ width: "30px", height: "30px" }} />}
                           sxRow={{
                             cursor: "pointer",
                             gap: "0.63rem",

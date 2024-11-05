@@ -1,5 +1,5 @@
-import IconText from "@/components/common/IconText";
 import FieldTitleDesc from "@/components/common/Input/FieldTitleDesc";
+import SvgIconText from "@/components/common/SvgIconText";
 import { rentSell } from "@/constants/filters";
 import { Stack } from "@mui/material";
 import { memo } from "react";
@@ -28,14 +28,12 @@ const PurposeSelect = ({ handleChange, value, error }: Props) => {
           justifyContent: { xs: "center", md: "flex-start" },
         }}
       >
-        {rentSell.map((val) => (
-          <IconText
+        {rentSell.map(({ icon: Icon, ...val }) => (
+          <SvgIconText
             key={val.title}
             onClick={() => handleChange(val.value)}
             text={val.title}
-            icon={val.icon}
-            iconWidth={30}
-            iconHeight={30}
+            icon={<Icon sx={{ width: "30px", height: "30px" }} />}
             sxRow={{
               cursor: "pointer",
               gap: "0.63rem",

@@ -1,14 +1,12 @@
 import FilledButton from "@/components/common/Button/FilledButton";
+import CircleCheckBoxFilledIcon from "@/components/common/SvgIcons/CircleCheckBoxFilledIcon";
+import CircleCheckboxOutlinedIcon from "@/components/common/SvgIcons/CircleCheckboxOutlinedIcon";
 import SvgIconText from "@/components/common/SvgIconText";
 import TextXs from "@/components/common/Text/TextXs";
-import {
-  CircleCheckboxFilledIcon,
-  CircleCheckboxOutlinedIcon,
-} from "@/constants/images.routes";
+
 import { EPropertyFeaturesType } from "@/enums/enums";
 import { arrayContainObject } from "@/utils/helperFunctions";
 import { Grid2, Stack } from "@mui/material";
-import Image from "next/image";
 
 const { MULTIPLE, SINGLE } = EPropertyFeaturesType;
 
@@ -49,9 +47,6 @@ const FeatureItem = ({
         borderRadius: "0.9375rem",
         padding: "0.75rem 1.69rem",
         height: { xs: "auto", md: "fit-content" },
-        ".checkBox": {
-          cursor: "pointer",
-        },
       }}
     >
       <SvgIconText
@@ -59,7 +54,7 @@ const FeatureItem = ({
         icon={<Icon sx={{ width: "30px", height: "30px" }} />}
         sxRow={{
           flexDirection: { xs: "column", md: "row" },
-          cursor: "pointer",
+
           gap: "0.63rem",
         }}
         sxText={{
@@ -112,22 +107,14 @@ const FeatureItem = ({
           },
           "title",
         ) ? (
-        <Image
-          className="checkBox"
+        <CircleCheckBoxFilledIcon
           onClick={() => handleClickUnCheckBox(val.title)}
-          alt="tick"
-          src={CircleCheckboxFilledIcon}
-          width={26}
-          height={26}
+          sx={{ width: "26px", height: "26px", cursor: "pointer" }}
         />
       ) : (
-        <Image
-          className="checkBox"
+        <CircleCheckboxOutlinedIcon
           onClick={() => handleClickCheckBox(val.title)}
-          alt="tick"
-          src={CircleCheckboxOutlinedIcon}
-          width={26}
-          height={26}
+          sx={{ width: "26px", height: "26px", cursor: "pointer" }}
         />
       )}
     </Grid2>

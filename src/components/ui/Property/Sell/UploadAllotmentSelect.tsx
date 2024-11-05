@@ -1,7 +1,7 @@
 import FieldTitleDesc from "@/components/common/Input/FieldTitleDesc";
+import UploadImageIcon from "@/components/common/SvgIcons/UploadImageIcon";
 import TextLg from "@/components/common/Text/TextLg";
 import TextMd from "@/components/common/Text/TextMd";
-import { UploadImageIcon } from "@/constants/images.routes";
 import { Box, Stack } from "@mui/material";
 import Image from "next/image";
 import { memo } from "react";
@@ -72,12 +72,8 @@ const UploadAllotmentSelect = ({ handleChange, allotmentLetter }: Props) => {
           }}
         >
           <Stack sx={{ alignItems: "center" }}>
-            <Image
-              src={UploadImageIcon}
-              alt="upload image"
-              width={100}
-              height={100}
-            />
+            <UploadImageIcon sx={{ width: "100px", height: "100px" }} />
+
             <TextMd
               text="Click here to upload images"
               sx={{ fontWeight: "400" }}

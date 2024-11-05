@@ -2,20 +2,17 @@
 
 import FilledButton from "@/components/common/Button/FilledButton";
 import MenuCard from "@/components/common/Card/MenuCard";
-import IconText from "@/components/common/IconText";
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import SelectField from "@/components/common/Input/SelectField";
+import CrossIcon from "@/components/common/SvgIcons/CrossIcon";
+import GasIcon from "@/components/common/SvgIcons/GasIcon";
+import PlusIcon from "@/components/common/SvgIcons/PlusIcon";
+import SvgIconText from "@/components/common/SvgIconText";
 import TextLg from "@/components/common/Text/TextLg";
 import TextMd from "@/components/common/Text/TextMd";
 import TextSm from "@/components/common/Text/TextSm";
 import { areas, baths, beds } from "@/constants/filters";
-import {
-  CloseGreyIcon,
-  FlameGreyIcon,
-  PlusIcon,
-} from "@/constants/images.routes";
 import { Stack } from "@mui/material";
-import Image from "next/image";
 import { useState } from "react";
 
 interface Props {
@@ -429,15 +426,7 @@ const Investment = () => {
           <FilledButton
             text="Add Features"
             onClick={() => setOpenFeatures(true)}
-            startIcon={
-              <Image
-                priority
-                src={PlusIcon}
-                alt={"PlusIcon"}
-                width={30}
-                height={30}
-              />
-            }
+            startIcon={<PlusIcon sx={{ width: "30px", height: "30px" }} />}
             sx={{
               mt: "3.12rem",
               padding: "0",
@@ -467,20 +456,27 @@ const Investment = () => {
                 },
               }}
             >
-              <IconText
-                icon={FlameGreyIcon}
-                iconWidth={30}
-                iconHeight={30}
+              <SvgIconText
+                icon={
+                  <GasIcon
+                    sx={{
+                      width: "30px",
+                      height: "30px",
+                      path: { stroke: "var(--spanish-gray)" },
+                    }}
+                  />
+                }
                 text="Gas"
                 sxText={{ fontSize: "1.25rem", color: "var(--spanish-gray)" }}
               />
 
-              <Image
-                className="closeIcon"
-                src={CloseGreyIcon}
-                alt="close icon"
-                width={30}
-                height={30}
+              <CrossIcon
+                sx={{
+                  width: "30px",
+                  height: "30px",
+                  cursor: "pointer",
+                  path: { fill: "#9E9E9E" },
+                }}
               />
             </Stack>
           </Stack>
