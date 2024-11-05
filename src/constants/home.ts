@@ -1,9 +1,7 @@
-import {
-  BuyPropertyIcon,
-  InvestPropertyIcon,
-  RentPropertyIcon,
-  SellPropertyIcon,
-} from "./images.routes";
+import BuyPropertyIcon from "@/components/common/SvgIcons/BuyPropertyIcon";
+import InvestPropertyIcon from "@/components/common/SvgIcons/InvestPropertyIcon";
+import RentPropertyIcon from "@/components/common/SvgIcons/RentPropertyIcon";
+import SellPropertyIcon from "@/components/common/SvgIcons/SellPropertyIcon";
 
 export const homeCards = [
   {

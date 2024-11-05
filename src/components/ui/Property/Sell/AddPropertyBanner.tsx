@@ -1,7 +1,7 @@
+import AddPropertyIcon from "@/components/common/SvgIcons/AddPropertyIcon";
 import TextXl from "@/components/common/Text/TextXl";
-import { AddPropertyIcon } from "@/constants/images.routes";
+
 import { Container, Stack } from "@mui/material";
-import Image from "next/image";
 
 interface Props {
   id?: string;
@@ -41,13 +41,8 @@ const AddPropertyBanner = ({ id }: Props) => {
               color: "var(--text-white)",
             }}
           />
-          <Image
-            className="addPropertyIcon"
-            src={AddPropertyIcon}
-            alt="add property"
-            width={401}
-            height={400}
-          />
+
+          <AddPropertyIcon sx={{ width: "401px", height: "400px" }} />
         </Stack>
       </Container>
     </Stack>

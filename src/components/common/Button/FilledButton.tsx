@@ -1,8 +1,6 @@
-import { ROTATING } from "@/constants/classNames";
-import { Loading } from "@/constants/images.routes";
 import { Button, SxProps } from "@mui/material";
-import Image from "next/image";
 import { MouseEventHandler, ReactNode } from "react";
+import LoadingIcon from "../SvgIcons/LoadingIcon";
 
 interface Props {
   text: string;
@@ -48,14 +46,7 @@ const FilledButton = ({
       variant={"contained"}
       startIcon={
         loading ? (
-          <Image
-            className={ROTATING}
-            priority
-            src={Loading}
-            alt={"icon"}
-            width={21}
-            height={20}
-          />
+          <LoadingIcon sx={{ width: "21px", height: "21px" }} />
         ) : (
           startIcon
         )

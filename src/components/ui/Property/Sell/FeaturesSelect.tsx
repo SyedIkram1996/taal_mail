@@ -1,8 +1,9 @@
 import FilledButton from "@/components/common/Button/FilledButton";
 import DialogHeader from "@/components/common/Dialog/DialogHeader";
 import FieldTitleDesc from "@/components/common/Input/FieldTitleDesc";
+import CrossIcon from "@/components/common/SvgIcons/CrossIcon";
+import PlusIcon from "@/components/common/SvgIcons/PlusIcon";
 import SvgIconText from "@/components/common/SvgIconText";
-import { CloseGreyIcon, PlusIcon } from "@/constants/images.routes";
 import {
   basicFeatures,
   facilities,
@@ -13,7 +14,6 @@ import {
 import { EPropertyFeatures } from "@/enums/enums";
 import { IPropertyFeature, IPropertyFeatures } from "@/interfaces/IProperty";
 import { Box, Dialog, Grid2, Stack, Tab, Tabs } from "@mui/material";
-import Image from "next/image";
 import { clone } from "ramda";
 import { useMemo, useState } from "react";
 import FeatureItem from "./FeatureItem";
@@ -51,9 +51,6 @@ const SelectedFeature = ({
         padding: "0.56rem 1.37rem",
         borderRadius: "0.625rem",
         alignItems: "center",
-        ".closeIcon": {
-          cursor: "pointer",
-        },
       }}
     >
       <SvgIconText
@@ -78,13 +75,14 @@ const SelectedFeature = ({
         }}
       />
 
-      <Image
+      <CrossIcon
         onClick={() => handleRemoveFeature(tab, title)}
-        className="closeIcon"
-        src={CloseGreyIcon}
-        alt="close icon"
-        width={30}
-        height={30}
+        sx={{
+          width: "30px",
+          height: "30px",
+          cursor: "pointer",
+          path: { fill: "#9E9E9E" },
+        }}
       />
     </Stack>
   );
@@ -224,15 +222,7 @@ const FeaturesSelect = ({ value, formik, error }: Props) => {
       <FilledButton
         text="Add Features"
         onClick={() => setOpenFeatures(true)}
-        startIcon={
-          <Image
-            priority
-            src={PlusIcon}
-            alt={"PlusIcon"}
-            width={30}
-            height={30}
-          />
-        }
+        startIcon={<PlusIcon sx={{ width: "30px", height: "30px" }} />}
         sx={{
           mt: "3.12rem",
           padding: "0",

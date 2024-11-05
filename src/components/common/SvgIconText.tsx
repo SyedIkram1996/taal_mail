@@ -9,9 +9,18 @@ interface Props {
   sxRow?: SxProps;
   bg?: boolean;
   onClick?: MouseEventHandler<HTMLDivElement>;
+  noWrap?: boolean;
 }
 
-const SvgIconText = ({ icon, text, sxText, sxRow, bg, onClick }: Props) => {
+const SvgIconText = ({
+  icon,
+  text,
+  sxText,
+  sxRow,
+  bg,
+  onClick,
+  noWrap,
+}: Props) => {
   return (
     <Stack
       onClick={onClick}
@@ -35,6 +44,7 @@ const SvgIconText = ({ icon, text, sxText, sxRow, bg, onClick }: Props) => {
     >
       {icon && icon}
       <TextXs
+        noWrap={noWrap}
         text={text}
         sx={{
           fontWeight: "500",

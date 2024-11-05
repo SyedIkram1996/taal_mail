@@ -1,21 +1,19 @@
 import { areas } from "@/constants/filters";
-import {
-  AreaIcon,
-  BannerImage,
-  BathroomIcon,
-  BedroomIcon,
-  BuyIcon,
-  HouseIcon,
-  LocationIcon,
-} from "@/constants/images.routes";
+import { BannerImage } from "@/constants/images.routes";
 import { PROPERTY } from "@/constants/page.routes";
 import { IProperty } from "@/interfaces/IProperty";
 import { formatAmountToPKR } from "@/utils/maths";
 import { Box, Grid2, Stack, SxProps } from "@mui/material";
 import Image from "next/image";
 import { ReactNode } from "react";
-import IconText from "../IconText";
 import MUILink from "../MUILink/MUILink";
+import SvgIconText from "../SvgIconText";
+import AreaIcon from "../SvgIcons/AreaIcon";
+import BathroomIcon from "../SvgIcons/BathroomIcon";
+import BedroomIcon from "../SvgIcons/BedroomIcon";
+import BuyIcon from "../SvgIcons/BuyIcon";
+import HouseIcon from "../SvgIcons/HouseIcon";
+import LocationIcon from "../SvgIcons/LocationIcon";
 import TextMd from "../Text/TextMd";
 
 interface Props {
@@ -95,58 +93,50 @@ const PropertyCard = ({ property, children, sx }: Props) => {
             />
             <Grid2 container>
               <Grid2 size={3.5}>
-                <IconText
+                <SvgIconText
                   noWrap
-                  icon={BedroomIcon}
-                  iconWidth={20}
-                  iconHeight={20}
+                  icon={<BedroomIcon sx={{ width: "20px", height: "20px" }} />}
                   text={bedrooms}
                 />
               </Grid2>
               <Grid2 size={3.5}>
-                <IconText
+                <SvgIconText
                   noWrap
-                  icon={BathroomIcon}
-                  iconWidth={20}
-                  iconHeight={20}
+                  icon={<BathroomIcon sx={{ width: "20px", height: "20px" }} />}
                   text={bathrooms}
                   sxRow={{ justifyContent: "center" }}
                 />
               </Grid2>
-              <Grid2 size={5} sx={{}}>
-                <IconText
+              <Grid2 size={5}>
+                <SvgIconText
                   noWrap
-                  icon={AreaIcon}
-                  iconWidth={20}
-                  iconHeight={20}
-                  sxRow={{ justifyContent: "flex-end" }}
+                  icon={<AreaIcon sx={{ width: "20px", height: "20px" }} />}
                   text={`${area.totalArea} ${areas.find((val) => val.value === area.type)?.title}`}
+                  sxRow={{ justifyContent: "flex-end" }}
                 />
               </Grid2>
             </Grid2>
 
-            <Stack direction={"row"} sx={{ justifyContent: "space-between" }}>
-              <IconText
+            <Stack
+              direction={"row"}
+              sx={{ justifyContent: "space-between", alignItems: "center" }}
+            >
+              <SvgIconText
                 noWrap
-                icon={BuyIcon}
-                iconWidth={30}
-                iconHeight={30}
+                icon={<BuyIcon sx={{ width: "30px", height: "30px" }} />}
                 text={"Buy"}
               />
-              <IconText
+
+              <SvgIconText
                 noWrap
-                icon={HouseIcon}
-                iconWidth={20}
-                iconHeight={20}
+                icon={<HouseIcon sx={{ width: "22px", height: "22px" }} />}
                 text={type}
               />
             </Stack>
 
-            <IconText
+            <SvgIconText
               noWrap
-              icon={LocationIcon}
-              iconWidth={20}
-              iconHeight={20}
+              icon={<LocationIcon sx={{ width: "22px", height: "22px" }} />}
               text={location}
             />
           </Stack>

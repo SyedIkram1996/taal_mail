@@ -1,17 +1,16 @@
 import TextLg from "@/components/common/Text/TextLg";
 import TextMd from "@/components/common/Text/TextMd";
 import { Stack, SxProps } from "@mui/material";
-import Image from "next/image";
 
 interface Props {
-  image: string;
+  image: any;
   title: string;
   desc: string;
   index: number;
   sxRow?: SxProps;
 }
 
-const HomeCard = ({ image, title, desc, index, sxRow }: Props) => {
+const HomeCard = ({ image: Image, title, desc, index, sxRow }: Props) => {
   return (
     <Stack
       direction={"row"}
@@ -23,11 +22,11 @@ const HomeCard = ({ image, title, desc, index, sxRow }: Props) => {
       }}
     >
       <Image
-        className="featureImage"
-        src={image}
-        alt="Home card"
-        width={350}
-        height={350}
+        sx={{
+          display: { xs: "none", md: "initial" },
+          width: "350px",
+          height: "350px",
+        }}
       />
       <Stack
         sx={{

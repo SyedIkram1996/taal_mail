@@ -1,4 +1,6 @@
-import { FacebookIcon, InstagramIcon, TwitterIcon } from "./images.routes";
+import FacebookIcon from "@/components/common/SvgIcons/FacebookIcon";
+import InstagramIcon from "@/components/common/SvgIcons/InstagramIcon";
+import TwitterIcon from "@/components/common/SvgIcons/TwitterIcon";
 
 export const followUs = [
   {

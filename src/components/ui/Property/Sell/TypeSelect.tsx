@@ -1,5 +1,5 @@
-import IconText from "@/components/common/IconText";
 import FieldTitleDesc from "@/components/common/Input/FieldTitleDesc";
+import SvgIconText from "@/components/common/SvgIconText";
 import { propertyTypes } from "@/constants/filters";
 import { Box, Stack, Tab, Tabs } from "@mui/material";
 import { memo } from "react";
@@ -90,14 +90,12 @@ const TypeSelect = ({
                 padding: { xs: "2rem 0", md: "3.32rem 1.38rem 1rem 0" },
               }}
             >
-              {items.map((val) => (
-                <IconText
+              {items.map(({ icon: Icon, ...val }) => (
+                <SvgIconText
                   key={val.text}
                   onClick={() => handleChangeType(val.text)}
                   text={val.text}
-                  icon={val.icon}
-                  iconWidth={30}
-                  iconHeight={30}
+                  icon={<Icon sx={{ width: "30px", height: "30px" }} />}
                   sxRow={{
                     cursor: "pointer",
                     gap: "0.63rem",

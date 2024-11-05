@@ -2,15 +2,14 @@
 
 import FilledButton from "@/components/common/Button/FilledButton";
 import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
+import CrossIcon from "@/components/common/SvgIcons/CrossIcon";
 import TextMd from "@/components/common/Text/TextMd";
-import { CrossWhiteIcon } from "@/constants/images.routes";
 import { IProperty } from "@/interfaces/IProperty";
 import { cancelBid } from "@/services/bid.services";
 import { formatAmountToPKR } from "@/utils/maths";
 import { Dialog, Stack } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -56,15 +55,7 @@ const MyBid = ({ property, bidderBid, id, token }: Props) => {
             setOpenBidCancel(true);
           }}
           text="Cancel Bid"
-          startIcon={
-            <Image
-              priority
-              src={CrossWhiteIcon}
-              alt={"close icon"}
-              width={40}
-              height={40}
-            />
-          }
+          startIcon={<CrossIcon sx={{ width: "40px", height: "40px" }} />}
           sx={{
             alignSelf: "center",
             width: "10.625rem",

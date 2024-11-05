@@ -1,12 +1,14 @@
 import { SvgIcon, SxProps } from "@mui/material";
+import { MouseEventHandler } from "react";
 
 interface Props {
   sx?: SxProps;
+  onClick?: MouseEventHandler<SVGSVGElement>;
 }
 
-const CrossIcon = ({ sx }: Props) => {
+const CrossIcon = ({ sx, onClick }: Props) => {
   return (
-    <SvgIcon sx={sx}>
+    <SvgIcon sx={{ cursor: "pointer", ...sx }} onClick={onClick}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="60"

@@ -2,7 +2,7 @@
 
 import ImageCropperDialog from "@/components/common/ImageCropperDialog/ImageCropperDialog";
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
-import { ProfileIcon } from "@/constants/images.routes";
+import ProfileIcon from "@/components/common/SvgIcons/ProfileIcon";
 import { IUser } from "@/interfaces/IUser";
 import { Stack } from "@mui/material";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
@@ -63,13 +63,17 @@ const MyInfo = ({ user, token }: Props) => {
           },
         }}
       >
-        <Image
-          className="profileImage"
-          src={avatar ? avatar : ProfileIcon}
-          alt="profile"
-          width={150}
-          height={150}
-        />
+        {avatar ? (
+          <Image
+            className="profileImage"
+            src={avatar}
+            alt="profile"
+            width={150}
+            height={150}
+          />
+        ) : (
+          <ProfileIcon sx={{ width: "150px", height: "150px" }} />
+        )}
         <input
           type="file"
           onChange={handleChangeImage}

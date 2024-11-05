@@ -3,12 +3,12 @@
 import FilledButton from "@/components/common/Button/FilledButton";
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
+import CrossIcon from "@/components/common/SvgIcons/CrossIcon";
+import TickIcon from "@/components/common/SvgIcons/TickIcon";
 import TextMd from "@/components/common/Text/TextMd";
 import TextXl from "@/components/common/Text/TextXl";
-import { CloseIcon, TickWhiteIcon } from "@/constants/images.routes";
 import { formatAmountToPKR } from "@/utils/maths";
 import { Dialog, Stack } from "@mui/material";
-import Image from "next/image";
 import { useState } from "react";
 
 interface Props {
@@ -73,21 +73,19 @@ const MyOffer = ({ val }: Props) => {
               padding: { xs: "1rem", md: "2.81rem 3.12rem 2.34rem 3.12rem" },
               gap: "1.87rem",
               position: "relative",
-              ".closeImg": {
+            }}
+          >
+            <CrossIcon
+              onClick={() => setOpenBidDetails(false)}
+              sx={{
+                width: "60px",
+                height: "60px",
+                path: { fill: "var(--myrtle-green)" },
                 position: "absolute",
                 top: "1.87rem",
                 right: "1rem",
                 cursor: "pointer",
-              },
-            }}
-          >
-            <Image
-              onClick={() => setOpenBidDetails(false)}
-              className="closeImg"
-              src={CloseIcon}
-              alt="close"
-              width={60}
-              height={60}
+              }}
             />
             <TextXl
               text={`${val.title}`}
@@ -154,15 +152,7 @@ const MyOffer = ({ val }: Props) => {
                 setAcceptOffer(true);
                 setOpenBidDetails(false);
               }}
-              startIcon={
-                <Image
-                  priority
-                  src={TickWhiteIcon}
-                  alt={"tick white icon"}
-                  width={30}
-                  height={30}
-                />
-              }
+              startIcon={<TickIcon sx={{ width: "30px", height: "30px" }} />}
               sx={{
                 width: "12.1875rem",
                 height: "3.4375rem",

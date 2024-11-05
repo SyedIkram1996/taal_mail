@@ -1,7 +1,7 @@
 import { homeCards } from "@/constants/home";
-import { Line } from "@/constants/images.routes";
+
+import LineIcon from "@/components/common/SvgIcons/LineIcon";
 import { Stack } from "@mui/material";
-import Image from "next/image";
 import HomeCard from "./HomeCard";
 
 const Features = () => {
@@ -12,16 +12,6 @@ const Features = () => {
           key={title}
           sx={{
             position: "relative",
-            ".lineImage": {
-              position: "absolute",
-              bottom: "-20rem",
-              right: index % 2 == 0 ? { xs: "-18%", md: "15rem" } : "auto",
-              left: index % 2 == 1 ? { xs: "-15%", md: "15rem" } : "auto",
-              transform:
-                index % 2 == 0
-                  ? { xs: "rotate(-46deg)", md: "initial" }
-                  : { xs: "rotate(-46deg)", md: "rotate(90deg)" },
-            },
           }}
         >
           <HomeCard
@@ -36,12 +26,19 @@ const Features = () => {
           />
 
           {index !== homeCards.length - 1 && (
-            <Image
-              className="lineImage"
-              src={Line}
-              alt="Line"
-              width={400}
-              height={400}
+            <LineIcon
+              sx={{
+                width: "400px",
+                height: "400px",
+                position: "absolute",
+                bottom: "-20rem",
+                right: index % 2 == 0 ? { xs: "-18%", md: "15rem" } : "auto",
+                left: index % 2 == 1 ? { xs: "-15%", md: "15rem" } : "auto",
+                transform:
+                  index % 2 == 0
+                    ? { xs: "rotate(-46deg)", md: "initial" }
+                    : { xs: "rotate(-46deg)", md: "rotate(90deg)" },
+              }}
             />
           )}
         </Stack>

@@ -1,6 +1,7 @@
 import FieldTitleDesc from "@/components/common/Input/FieldTitleDesc";
+import CrossIcon from "@/components/common/SvgIcons/CrossIcon";
+import PlusIcon from "@/components/common/SvgIcons/PlusIcon";
 import TextXs from "@/components/common/Text/TextXs";
-import { CloseRoundedIcon, PlusGreyIcon } from "@/constants/images.routes";
 import { Grid2, Stack } from "@mui/material";
 import Image from "next/image";
 import { memo, useMemo } from "react";
@@ -68,14 +69,6 @@ const UploadImagesSelect = ({
                     width: { xs: "300px", md: "184px" },
                     height: { xs: "100%", md: "165px" },
                   },
-                  ".closeIcon": {
-                    position: "absolute",
-                    top: { xs: "-10px", md: "-20px" },
-                    right: { xs: "-15px", md: "-25px" },
-                    cursor: "pointer",
-                    width: { xs: "40px", md: "60px" },
-                    height: { xs: "40px", md: "60px" },
-                  },
                 }}
               >
                 <Image
@@ -86,13 +79,20 @@ const UploadImagesSelect = ({
                   width={184}
                   height={165}
                 />
-                <Image
+
+                <CrossIcon
                   onClick={() => handleDeleteImage(index)}
-                  className="closeIcon"
-                  src={CloseRoundedIcon}
-                  alt="close icon"
-                  width={60}
-                  height={60}
+                  sx={{
+                    backgroundColor: "#D7D7D7",
+                    borderRadius: "50%",
+                    position: "absolute",
+                    top: { xs: "-10px", md: "-20px" },
+                    right: { xs: "-13px", md: "-23px" },
+                    cursor: "pointer",
+                    width: { xs: "40px", md: "50px" },
+                    height: { xs: "40px", md: "50px" },
+                    path: { fill: "#7A7A7A" },
+                  }}
                 />
 
                 {val.coverImage && (
@@ -143,11 +143,12 @@ const UploadImagesSelect = ({
               },
             }}
           >
-            <Image
-              src={PlusGreyIcon}
-              alt="property image"
-              width={80}
-              height={80}
+            <PlusIcon
+              sx={{
+                width: "80px",
+                height: "80px",
+                path: { stroke: "#847979", strokeWidth: "0.1rem" },
+              }}
             />
 
             <input

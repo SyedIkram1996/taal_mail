@@ -1,30 +1,28 @@
+import AgriculturalLandIcon from "@/components/common/SvgIcons/AgriculturalLandIcon";
+import ApartmentIcon from "@/components/common/SvgIcons/ApartmentIcon";
+import BuildingIcon from "@/components/common/SvgIcons/BuildingIcon";
+import CommercialPlotIcon from "@/components/common/SvgIcons/CommercialPlotIcon";
+import FactoryIcon from "@/components/common/SvgIcons/FactoryIcon";
+import FarmhouseIcon from "@/components/common/SvgIcons/FarmhouseIcon";
+import FarmhousePlotIcon from "@/components/common/SvgIcons/FarmhousePlotIcon";
+import GuestHouseIcon from "@/components/common/SvgIcons/GuestHouseIcon";
+import GymIcon from "@/components/common/SvgIcons/GymIcon";
+import HallIcon from "@/components/common/SvgIcons/HallIcon";
+import HotelSuiteIcon from "@/components/common/SvgIcons/HotelSuiteIcon";
+import HouseIcon from "@/components/common/SvgIcons/HouseIcon";
+import IndustrialPlotIcon from "@/components/common/SvgIcons/IndustrialPlotIcon";
+import LowerPortionIcon from "@/components/common/SvgIcons/LowerPortionIcon";
+import OfficeIcon from "@/components/common/SvgIcons/OfficeIcon";
+import RentPropertyIcon from "@/components/common/SvgIcons/RentPropertyIcon";
+import ResidentialPlotIcon from "@/components/common/SvgIcons/ResidentialPlotIcon";
+import RoomIcon from "@/components/common/SvgIcons/RoomIcon";
+import SellPropertyIcon from "@/components/common/SvgIcons/SellPropertyIcon";
+import ShopIcon from "@/components/common/SvgIcons/ShopIcon";
+import UpperPortionIcon from "@/components/common/SvgIcons/UpperPortionIcon";
 import {
   EPropertyClassification,
   EPropertyClassificationType,
 } from "@/enums/enums";
-import {
-  AgriculturalLandIcon,
-  ApartmentIcon,
-  BuildingIcon,
-  CommercialPlotIcon,
-  FactoryIcon,
-  FarmhouseIcon,
-  FarmhousePlotIcon,
-  GuestHouseIcon,
-  GymIcon,
-  HallIcon,
-  HotelSuiteIcon,
-  HouseIcon,
-  IndustrialPlotIcon,
-  LowerPortionIcon,
-  OfficeIcon,
-  RentPropertyIcon,
-  ResidentialPlotIcon,
-  RoomIcon,
-  SellPropertyIcon,
-  ShopIcon,
-  UpperPortionIcon,
-} from "./images.routes";
 
 const {
   RESIDENTIAL,

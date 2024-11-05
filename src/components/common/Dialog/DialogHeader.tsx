@@ -1,6 +1,5 @@
-import { CloseIcon } from "@/constants/images.routes";
 import { Box } from "@mui/material";
-import Image from "next/image";
+import CrossIcon from "../SvgIcons/CrossIcon";
 import TextXl from "../Text/TextXl";
 
 interface Props {
@@ -11,28 +10,23 @@ interface Props {
 
 const DialogHeader = ({ setOpen, title, onClose }: Props) => {
   return (
-    <Box
-      sx={{
-        ".closeImg": {
-          position: "absolute",
-          top: { xs: "0.5rem", md: "1.87rem" },
-          right: { xs: "0.5rem", md: "1rem" },
-          cursor: "pointer",
-        },
-      }}
-    >
-      <Image
+    <Box>
+      <CrossIcon
         onClick={() => {
           setOpen(false);
           if (onClose) {
             onClose();
           }
         }}
-        className="closeImg"
-        src={CloseIcon}
-        alt="close"
-        width={60}
-        height={60}
+        sx={{
+          path: { fill: "var(--myrtle-green)" },
+          width: "60px",
+          height: "60px",
+          position: "absolute",
+          top: { xs: "0.5rem", md: "1.87rem" },
+          right: { xs: "0.5rem", md: "1rem" },
+          cursor: "pointer",
+        }}
       />
       <TextXl
         text={title}
