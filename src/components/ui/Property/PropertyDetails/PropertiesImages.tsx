@@ -3,7 +3,7 @@
 import TextXl from "@/components/common/Text/TextXl";
 import { Box, Grid2, Stack } from "@mui/material";
 import Image from "next/image";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import PropertiesImagesModal from "./PropertiesImagesModal";
 
 interface Props {
@@ -12,6 +12,18 @@ interface Props {
 
 const PropertiesImages = ({ images }: Props) => {
   const [openImages, setOpenImages] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(images[0]);
+
+  const coverImage = useMemo(
+    () => images.find((val: any) => val.coverImage),
+    [],
+  );
+
+  const filteredImages = useMemo(
+    () => images.filter((val: any) => !val.coverImage),
+    [],
+  );
+
   return (
     <>
       <Grid2
@@ -19,7 +31,10 @@ const PropertiesImages = ({ images }: Props) => {
         onClick={() => setOpenImages(true)}
         sx={{ cursor: "pointer" }}
       >
-        <Grid2 size={images.length > 1 ? 8 : 12}>
+        <Grid2
+          size={images.length > 1 ? 8 : 12}
+          onClick={() => setSelectedImage(coverImage ? coverImage : images[0])}
+        >
           <Box
             sx={{
               width: "100%",
@@ -28,16 +43,22 @@ const PropertiesImages = ({ images }: Props) => {
               img: { objectFit: "cover" },
             }}
           >
-            <Image src={images[0].url} alt="property" priority fill />
+            <Image
+              src={coverImage ? coverImage.url : images[0].url}
+              alt="property"
+              priority
+              fill
+            />
           </Box>
         </Grid2>
 
-        {images.length > 1 && (
+        {filteredImages.length > 0 && (
           <Grid2 size={4}>
             <Stack>
-              {images.length > 2 ? (
-                images.slice(1, 3).map((image: any, index: number) => (
+              {filteredImages.length >= 2 ? (
+                filteredImages.slice(0, 2).map((image: any, index: number) => (
                   <Stack
+                    onClick={() => setSelectedImage(image)}
                     key={index}
                     sx={{
                       position: "relative",
@@ -53,7 +74,7 @@ const PropertiesImages = ({ images }: Props) => {
                     >
                       <Image src={image.url} alt="property" priority fill />
                     </Box>
-                    {index === 1 && (
+                    {index === 1 && filteredImages.length > 2 && (
                       <TextXl
                         text={`+${images.length - images.slice(1, 4).length}`}
                         sx={{
@@ -80,7 +101,12 @@ const PropertiesImages = ({ images }: Props) => {
                     img: { objectFit: "cover" },
                   }}
                 >
-                  <Image src={images[1].url} alt="property" priority fill />
+                  <Image
+                    src={filteredImages[0].url}
+                    alt="property"
+                    priority
+                    fill
+                  />
                 </Box>
               )}
             </Stack>
@@ -92,6 +118,8 @@ const PropertiesImages = ({ images }: Props) => {
         images={images}
         openImages={openImages}
         setOpenImages={setOpenImages}
+        selectedImage={selectedImage}
+        setSelectedImage={setSelectedImage}
       />
     </>
   );
