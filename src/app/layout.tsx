@@ -16,7 +16,51 @@ import "swiper/css";
 import Providers from "./providers";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://taal-mail.vercel.app"),
   title: "Taal Mail",
+  openGraph: {
+    type: "website",
+    siteName: "Taal Mail",
+    images: [
+      {
+        url: "https://res.cloudinary.com/taalmail/image/upload/v1730311074/taalmaillogo_khjusc.png",
+      },
+    ],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    "max-image-preview": "large",
+    "max-snippet": -1,
+    "max-video-preview": -1,
+    googleBot: "index, follow",
+  },
+  applicationName: "Taal Mail",
+  appleWebApp: {
+    title: "Taal Mail",
+    statusBarStyle: "default",
+    capable: true,
+  },
+  icons: {
+    icon: [
+      {
+        url: "/favicon.ico",
+        type: "image/x-icon",
+      },
+      {
+        url: "/icon.png",
+        sizes: "32x32",
+        type: "image/png",
+      },
+      // add favicon-32x32.png, favicon-96x96.png, android-chrome-192x192.png
+    ],
+    shortcut: [
+      {
+        url: "/icon.png",
+        type: "image/png",
+      },
+    ],
+  },
 };
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
