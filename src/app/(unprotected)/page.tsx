@@ -20,8 +20,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "https://res.cloudinary.com/taalmail/image/upload/v1730311074/taalmaillogo_khjusc.png",
-        width: 1200,
-        height: 630,
+        width: 514,
+        height: 170,
         alt: "taal-mail",
       },
     ],
