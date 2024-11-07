@@ -367,7 +367,10 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
                   <TextMd
                     onClick={() => {
                       auth.signOut();
-                      logoutAction();
+                      logoutAction(pathname);
+                      setTimeout(() => {
+                        localStorage.setItem("loggedOut", "true");
+                      }, 500);
                       handleProfileMenu(false);
                     }}
                     text={"Logout"}
@@ -500,7 +503,10 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
                 <TextSm
                   onClick={() => {
                     auth.signOut();
-                    logoutAction();
+                    logoutAction(pathname);
+                    setTimeout(() => {
+                      localStorage.setItem("loggedOut", "true");
+                    }, 500);
                     handleProfileMenu(false);
                   }}
                   text={"Logout"}

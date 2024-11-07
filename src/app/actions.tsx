@@ -35,9 +35,18 @@ export const loginAction = ({
   }
 };
 
-export const logoutAction = () => {
+export const logoutAction = (pathname: string) => {
   cookies().delete("token");
-  redirect(HOME);
+
+  if (
+    pathname.startsWith("/sell") ||
+    pathname.startsWith("/profile") ||
+    pathname.startsWith("/admin")
+  ) {
+    redirect(HOME);
+  } else {
+    redirect(pathname);
+  }
 };
 
 export const deleteCookie = () => {

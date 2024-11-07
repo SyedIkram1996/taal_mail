@@ -85,6 +85,10 @@ const LoginForm = () => {
           redirectLink,
           role: data.data.user.role,
         });
+
+        setTimeout(() => {
+          localStorage.setItem("loggedIn", "true");
+        }, 500);
       }
     },
     onError: (error) => {

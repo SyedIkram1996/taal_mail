@@ -1,6 +1,7 @@
 import ResponsiveAppBar from "@/components/common/AppBar/AppBar";
 import Footer from "@/components/common/Footer/Footer";
 import ReactHotToaster from "@/components/common/ReactHotToaster/ReactHotToaster";
+import Logout from "@/components/ui/Logout/Logout";
 import UserState from "@/context/userContext";
 import { useGetUserServer } from "@/hooks/useGetUserServer";
 import "@/styles/globals.css";
@@ -75,6 +76,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
             <ReactHotToaster />
+            <Logout />
             <UserState>
               <>
                 <ResponsiveAppBar
