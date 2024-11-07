@@ -1,3 +1,8 @@
+export enum ERoles {
+  ADMIN = "Admin",
+  USER = "User",
+}
+
 export enum EPropertyType {
   PLOT = "plot",
   HOUSE = "house",

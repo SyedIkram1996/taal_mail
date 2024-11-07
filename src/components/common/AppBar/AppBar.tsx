@@ -7,6 +7,8 @@ import { LogoIcon } from "@/constants/images.routes";
 import { navbarPages } from "@/constants/navbar";
 import {
   ACCOUNT_MANAGEMENT,
+  ADMIN_PAGE,
+  ADMIN_USERS_PAGE,
   FORGOT_PASSWORD_PAGE,
   HOME,
   LOGIN,
@@ -18,6 +20,7 @@ import {
   SIGN_UP,
 } from "@/constants/page.routes";
 import { useUserContext } from "@/context/userContext";
+import { ERoles } from "@/enums/enums";
 import { IUser } from "@/interfaces/IUser";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
@@ -40,6 +43,8 @@ import MUILink from "../MUILink/MUILink";
 import ChevronDownGreyIcon from "../SvgIcons/ChevronDownGreyIcon";
 import CrossIcon from "../SvgIcons/CrossIcon";
 import TextSm from "../Text/TextSm";
+
+const { ADMIN } = ERoles;
 
 interface MenuProps {
   children?: ReactNode;
@@ -121,24 +126,27 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
     }
   }, [userData]);
 
-  const profilePages = [
-    {
-      title: "My Bids",
-      link: MY_BIDS_PAGE,
-    },
-    {
-      title: "My Info",
-      link: MY_INFO,
-    },
-    {
-      title: "My Property",
-      link: MY_PROPERTIES_PAGE(),
-    },
-    {
-      title: "My Offers",
-      link: MY_OFFERS,
-    },
-  ];
+  const profilePages =
+    userData && userData.role === ADMIN
+      ? [{ title: "Dashboard", link: ADMIN_USERS_PAGE }]
+      : [
+          {
+            title: "My Bids",
+            link: MY_BIDS_PAGE,
+          },
+          {
+            title: "My Info",
+            link: MY_INFO,
+          },
+          {
+            title: "My Property",
+            link: MY_PROPERTIES_PAGE(),
+          },
+          {
+            title: "My Offers",
+            link: MY_OFFERS,
+          },
+        ];
 
   const [openProfileMenu, setOpenProfileMenu] = useState<boolean>(false);
 
@@ -173,7 +181,8 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
     pathname === SIGN_UP ||
     pathname === ACCOUNT_MANAGEMENT ||
     pathname === SESSION_EXPIRE ||
-    pathname === FORGOT_PASSWORD_PAGE
+    pathname === FORGOT_PASSWORD_PAGE ||
+    pathname.includes(ADMIN_PAGE)
   ) {
     return <></>;
   }

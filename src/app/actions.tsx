@@ -1,16 +1,24 @@
 "use server";
 
-import { HOME, MY_PROPERTIES_PAGE } from "@/constants/page.routes";
+import {
+  ADMIN_USERS_PAGE,
+  HOME,
+  MY_PROPERTIES_PAGE,
+} from "@/constants/page.routes";
+import { ERoles } from "@/enums/enums";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+const { ADMIN, USER } = ERoles;
 
 export const loginAction = ({
   redirectLink,
   token,
+  role,
 }: {
   redirectLink?: string | null;
   token: string;
+  role: string;
 }) => {
   const expiresIn = 60 * 60 * 24 * 15;
   const options = {
@@ -20,7 +28,11 @@ export const loginAction = ({
     // path: "/",
   };
   cookies().set("token", token, options);
-  redirect(redirectLink ? redirectLink : MY_PROPERTIES_PAGE());
+  if (role === ADMIN) {
+    redirect(ADMIN_USERS_PAGE);
+  } else {
+    redirect(redirectLink ? redirectLink : MY_PROPERTIES_PAGE());
+  }
 };
 
 export const logoutAction = () => {

@@ -8,7 +8,9 @@ export function middleware(request: NextRequest) {
 
   request.headers.set("x-pathname", pathname);
   if (
-    (pathname.startsWith("/sell") || pathname.startsWith("/profile")) &&
+    (pathname.startsWith("/sell") ||
+      pathname.startsWith("/profile") ||
+      pathname.startsWith("/admin")) &&
     !request.cookies.has("token")
   ) {
     return NextResponse.redirect(new URL(LOGIN, request.url), {
