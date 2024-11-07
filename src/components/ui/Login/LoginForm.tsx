@@ -55,6 +55,7 @@ const LoginForm = () => {
         if (!user?.emailVerified) {
           toastError("Email is not verified");
           setLoginError("Email is not verified");
+          setIsLoading(false);
           return auth.signOut();
         }
 
