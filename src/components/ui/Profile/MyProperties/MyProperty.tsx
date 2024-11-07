@@ -41,7 +41,7 @@ const MyProperty = ({ val, token }: Props) => {
         position: "relative",
       }}
     >
-      <PropertyCard property={val} sx={{ pb: "5rem" }} />
+      <PropertyCard disableLink property={val} sx={{ pb: "5rem" }} />
 
       <Stack
         direction={"row"}

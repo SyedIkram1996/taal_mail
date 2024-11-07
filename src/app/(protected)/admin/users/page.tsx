@@ -1,5 +1,9 @@
-import TextXs from "@/components/common/Text/TextXs";
+import Users from "@/components/ui/Admin/Users/Users";
 
 export default function UsersPage() {
-  return <TextXs text="Users Page" />;
+  return (
+    <>
+      <Users />
+    </>
+  );
 }
