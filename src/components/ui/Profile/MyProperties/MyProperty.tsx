@@ -11,7 +11,7 @@ import { Dialog, Stack } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface Props {
@@ -23,6 +23,7 @@ interface Props {
 const MyProperty = ({ val, token, showDetails }: Props) => {
   const [openPropertyDelete, setOpenPropertyDelete] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   const deletePropertyMutation = useMutation({
     mutationFn: async () => {
@@ -57,7 +58,9 @@ const MyProperty = ({ val, token, showDetails }: Props) => {
         }}
       >
         <Stack
-          href={showDetails ? "" : `${SELL_PLOT}/${val.id}`}
+          href={
+            showDetails ? `${pathname}/${val.id}` : `${SELL_PLOT}/${val.id}`
+          }
           component={Link}
           sx={{
             justifyContent: "center",

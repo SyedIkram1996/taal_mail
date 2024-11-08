@@ -1,10 +1,12 @@
 "use client";
 
 import FilledButton from "@/components/common/Button/FilledButton";
+import MUILink from "@/components/common/MUILink/MUILink";
 import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
 import TextXl from "@/components/common/Text/TextXl";
 import { Grid2, Stack, Typography } from "@mui/material";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import { usePathname } from "next/navigation";
 import AdminSearch from "../AdminSearch";
 
 interface Props {
@@ -13,6 +15,7 @@ interface Props {
 }
 
 const BidsAndFollowUps = ({ data, token }: Props) => {
+  const pathname = usePathname();
   return (
     <AdminSearch title="BIDS AND FOLLOW UPS">
       <Grid2
@@ -33,7 +36,7 @@ const BidsAndFollowUps = ({ data, token }: Props) => {
                 <PropertyCard
                   property={val.property}
                   disableLink
-                  sx={{ pb: "3.5rem", cursor: "initial" }}
+                  sx={{ pb: "1rem", cursor: "initial" }}
                 >
                   <Stack sx={{ paddingX: "2rem" }}>
                     {[
@@ -59,20 +62,23 @@ const BidsAndFollowUps = ({ data, token }: Props) => {
                       </Typography>
                     ))}
                   </Stack>
-                </PropertyCard>
 
-                <FilledButton
-                  text="Details"
-                  sx={{
-                    alignSelf: "center",
-                    fontSize: "1rem",
-                    width: "6.52163rem",
-                    height: "2.0625rem",
-                    padding: "0",
-                    position: "absolute",
-                    bottom: "1.2rem",
-                  }}
-                />
+                  <MUILink
+                    href={`${pathname}/${val.id}`}
+                    sx={{ alignSelf: "center" }}
+                  >
+                    <FilledButton
+                      text="Details"
+                      sx={{
+                        fontSize: "1rem",
+                        width: "6.52163rem",
+                        height: "2.0625rem",
+                        padding: "0",
+                        mt: "0.5rem",
+                      }}
+                    />
+                  </MUILink>
+                </PropertyCard>
               </Stack>
             </Grid2>
           ))

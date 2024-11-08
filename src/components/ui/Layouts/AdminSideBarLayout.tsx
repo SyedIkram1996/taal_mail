@@ -7,7 +7,7 @@ import UserIcon from "@/components/common/SvgIcons/UserIcon";
 import SvgIconText from "@/components/common/SvgIconText";
 import { LogoIcon } from "@/constants/images.routes";
 import {
-  ADMIN_BID_AND_FOLLOW_UP_PAGE,
+  ADMIN_BIDS_AND_FOLLOW_UPS_PAGE,
   ADMIN_INVESTORS_PAGE,
   ADMIN_USERS_PAGE,
 } from "@/constants/page.routes";
@@ -28,7 +28,7 @@ const AdminSideBarLayout = () => {
     },
     {
       title: "Bids and Follow Ups",
-      link: ADMIN_BID_AND_FOLLOW_UP_PAGE,
+      link: ADMIN_BIDS_AND_FOLLOW_UPS_PAGE,
       icon: BidIcon,
     },
     {
