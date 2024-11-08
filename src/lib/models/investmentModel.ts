@@ -100,7 +100,7 @@ investmentSchema.set("toJSON", {
 });
 
 const InvestmentModel =
-  (models.Property as Model<IInvestmentSchema>) ||
-  model("Property", investmentSchema);
+  (models.Investment as Model<IInvestmentSchema>) ||
+  model("Investment", investmentSchema);
 
 export default InvestmentModel;

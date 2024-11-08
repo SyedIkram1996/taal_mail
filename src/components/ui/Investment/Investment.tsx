@@ -1,17 +1,22 @@
 "use client";
 
+import { revalidatePage } from "@/app/actions";
 import FilledButton from "@/components/common/Button/FilledButton";
 import CustomTextField from "@/components/common/Input/CustomTextField";
 import TextLg from "@/components/common/Text/TextLg";
 import TextMd from "@/components/common/Text/TextMd";
-import TextSm from "@/components/common/Text/TextSm";
+import { baths, beds } from "@/constants/filters";
+import { ADMIN_INVESTORS_PAGE } from "@/constants/page.routes";
 import { IInvestment } from "@/interfaces/IInvestment";
+import { addInvestment } from "@/services/investment.services";
 import { investmentSchema } from "@/validators/investment";
-import { Stack } from "@mui/material";
+import { Dialog, Stack } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import AreaField from "../Property/Sell/AreaField";
+import BedBathroomsSelect from "../Property/Sell/BedBathroomsSelect";
 import FeaturesSelect from "../Property/Sell/FeaturesSelect";
 import PriceField from "../Property/Sell/PriceField";
 
@@ -20,25 +25,8 @@ interface Props {
   desc: string;
 }
 
-const TitleDesc = ({ title, desc }: Props) => {
-  return (
-    <Stack
-      direction={{ xs: "column", md: "row" }}
-      sx={{ alignItems: "center", gap: "0.62rem" }}
-    >
-      <TextLg
-        text={title}
-        sx={{ fontWeight: "400", color: "var(--text-black)" }}
-      />
-      <TextSm
-        text={desc}
-        sx={{ fontWeight: "400", color: "var(--spanish-gray)" }}
-      />
-    </Stack>
-  );
-};
-
 const Investment = () => {
+  const [openModal, setOpenModal] = useState(false);
   const formik = useFormik<IInvestment>({
     initialValues: {
       username: "",
@@ -65,13 +53,23 @@ const Investment = () => {
       description: "",
     },
     onSubmit: (values) => {
-      // mutation.mutate();
+      mutation.mutate();
     },
     validationSchema: toFormikValidationSchema(investmentSchema),
   });
 
   const formikValues = formik.values;
   const formikErrors = formik.errors;
+
+  const mutation = useMutation({
+    mutationFn: async () => addInvestment(formikValues),
+    onSuccess: (data) => {
+      // router.refresh();
+      revalidatePage(ADMIN_INVESTORS_PAGE);
+      setOpenModal(true);
+    },
+    onError: (error) => {},
+  });
 
   const handleChangeTextField = useCallback((e: any) => {
     const { name } = e.target;
@@ -86,6 +84,14 @@ const Investment = () => {
 
   const handleChangeAreaType = useCallback((value: any) => {
     formik.setFieldValue("area.type", value);
+  }, []);
+
+  const handleChangeBedrooms = useCallback((value: any) => {
+    formik.setFieldValue("bedrooms", value);
+  }, []);
+
+  const handleChangeBathrooms = useCallback((value: any) => {
+    formik.setFieldValue("bathrooms", value);
   }, []);
 
   return (
@@ -232,13 +238,12 @@ const Investment = () => {
           }
         />
 
-        <CustomTextField
-          id="bedrooms"
-          name="bedrooms"
-          placeholder="Enter bedrooms"
-          title="No. of Bedrooms:"
-          desc="How many bed rooms does this property have?"
-          handleChange={handleChangeTextField}
+        <BedBathroomsSelect
+          id={"bedrooms"}
+          title={"No. of Bedrooms:"}
+          desc={"How many bed rooms does this property have?"}
+          options={beds}
+          handleChange={handleChangeBedrooms}
           value={formikValues.bedrooms}
           error={
             formikErrors.bedrooms && formik.touched.bedrooms
@@ -246,17 +251,17 @@ const Investment = () => {
               : ""
           }
         />
-        <CustomTextField
-          id="bathrooms"
-          name="bathrooms"
-          placeholder="Enter bathrooms"
-          title="No. of Bathrooms:"
-          desc="How many bathrooms does this property have?"
-          handleChange={handleChangeTextField}
-          value={formikValues.bedrooms}
+
+        <BedBathroomsSelect
+          id={"bathrooms"}
+          title={"No. of Bathrooms:"}
+          desc={"How many bathrooms does this property have?"}
+          options={baths}
+          handleChange={handleChangeBathrooms}
+          value={formikValues.bathrooms}
           error={
-            formikErrors.bedrooms && formik.touched.bedrooms
-              ? formikErrors.bedrooms
+            formikErrors.bathrooms && formik.touched.bathrooms
+              ? formikErrors.bathrooms
               : ""
           }
         />
@@ -275,6 +280,8 @@ const Investment = () => {
         <FilledButton
           type="submit"
           text="Inquire"
+          loading={mutation.isPending}
+          disabled={mutation.isPending}
           onClick={() => {
             const errorsKeys = Object.keys(formikErrors);
             if (errorsKeys.length) {
@@ -299,6 +306,65 @@ const Investment = () => {
           }}
         />
       </Stack>
+
+      <Dialog
+        open={openModal}
+        PaperProps={{
+          sx: {
+            width: "15.625rem",
+            textAlign: "center",
+            borderRadius: "1.875rem",
+          },
+        }}
+      >
+        <Stack
+          sx={{
+            padding: "1.88rem",
+            pb: "1.19rem",
+            alignItems: "center",
+          }}
+        >
+          <TextMd
+            text={"Inquiry Sent!"}
+            sx={{
+              width: "11.875rem",
+              fontSize: "1.125rem",
+              fontWeight: "400",
+              color: "var(--text-black)",
+              lineHeight: "normal",
+              textAlign: "center",
+            }}
+          />
+          <TextMd
+            text={"Our agent will get in contact with you shortly."}
+            sx={{
+              width: "11.875rem",
+              fontSize: "1.125rem",
+              fontWeight: "400",
+              color: "var(--text-black)",
+              lineHeight: "normal",
+              textAlign: "center",
+            }}
+          />
+
+          <FilledButton
+            text="Ok"
+            onClick={() => {
+              formik.resetForm();
+              setOpenModal(false);
+            }}
+            sx={{
+              width: "4.125rem",
+              height: "2rem",
+              fontSize: "1rem",
+              fontWeight: "400",
+              borderRadius: "0.9375rem",
+              padding: "0.31rem 1.44rem",
+              mt: "1.86rem",
+            }}
+          />
+        </Stack>
+      </Dialog>
     </>
   );
 };

@@ -53,7 +53,7 @@ const Investors = ({ data, token }: Props) => {
               >
                 <TextMd
                   noWrap
-                  text={`${val.price.currency} ${formatAmountToPKR(Number(val.price.askingPrice))}`}
+                  text={`${val.price.currency} ${formatAmountToPKR(Number(val.price.minPrice))} - ${formatAmountToPKR(Number(val.price.maxPrice))}`}
                   sx={{ color: "var(--text-black)" }}
                 />
 
@@ -70,7 +70,7 @@ const Investors = ({ data, token }: Props) => {
                       icon={
                         <LocationIcon sx={{ width: "22px", height: "22px" }} />
                       }
-                      text={val.location}
+                      text={val.city}
                     />
                   </Grid2>
                   <Grid2 size={6}>
@@ -79,7 +79,7 @@ const Investors = ({ data, token }: Props) => {
                       icon={
                         <HouseIcon sx={{ width: "22px", height: "22px" }} />
                       }
-                      text={val.type}
+                      text={"House"}
                       sxRow={{ justifyContent: "flex-end" }}
                     />
                   </Grid2>

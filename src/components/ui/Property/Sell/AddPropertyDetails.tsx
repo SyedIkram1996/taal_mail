@@ -5,6 +5,7 @@ import FilledButton from "@/components/common/Button/FilledButton";
 import { revalidatePage } from "@/app/actions";
 import CustomTextField from "@/components/common/Input/CustomTextField";
 import TextMd from "@/components/common/Text/TextMd";
+import { baths, beds } from "@/constants/filters";
 import { MY_PROPERTIES_PAGE } from "@/constants/page.routes";
 import { EPropertyClassification } from "@/enums/enums";
 import { IProperty } from "@/interfaces/IProperty";
@@ -17,8 +18,7 @@ import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { useCallback, useState } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import AreaField from "./AreaField";
-import BathroomsSelect from "./BathroomsSelect";
-import BedroomsSelect from "./BedroomsSelect";
+import BedBathroomsSelect from "./BedBathroomsSelect";
 import CityField from "./CityField";
 import DescriptionField from "./DescriptionField";
 import DuesSelect from "./DuesSelect";
@@ -328,7 +328,11 @@ const AddPropertyDetails = ({ token, data }: Props) => {
           }
         />
 
-        <BedroomsSelect
+        <BedBathroomsSelect
+          id={"bedrooms"}
+          title={"No. of Bedrooms:"}
+          desc={"How many bed rooms does your property have?"}
+          options={beds}
           handleChange={handleChangeBedrooms}
           value={formikValues.bedrooms}
           error={
@@ -338,7 +342,11 @@ const AddPropertyDetails = ({ token, data }: Props) => {
           }
         />
 
-        <BathroomsSelect
+        <BedBathroomsSelect
+          id={"bathrooms"}
+          title={"No. of Bathrooms:"}
+          desc={"How many bathrooms does your property have?"}
+          options={baths}
           handleChange={handleChangeBathrooms}
           value={formikValues.bathrooms}
           error={
