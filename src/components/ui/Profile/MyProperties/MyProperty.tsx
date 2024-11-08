@@ -1,5 +1,6 @@
 import FilledButton from "@/components/common/Button/FilledButton";
 import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
+import InfoCircleIcon from "@/components/common/SvgIcons/InfoCircleIcon";
 import PencilIcon from "@/components/common/SvgIcons/PencilIcon";
 import TrashIcon from "@/components/common/SvgIcons/TrashIcon";
 import TextMd from "@/components/common/Text/TextMd";
@@ -16,9 +17,10 @@ import { useState } from "react";
 interface Props {
   val: IProperty;
   token?: RequestCookie;
+  showDetails?: boolean;
 }
 
-const MyProperty = ({ val, token }: Props) => {
+const MyProperty = ({ val, token, showDetails }: Props) => {
   const [openPropertyDelete, setOpenPropertyDelete] = useState(false);
   const router = useRouter();
 
@@ -55,7 +57,7 @@ const MyProperty = ({ val, token }: Props) => {
         }}
       >
         <Stack
-          href={`${SELL_PLOT}/${val.id}`}
+          href={showDetails ? "" : `${SELL_PLOT}/${val.id}`}
           component={Link}
           sx={{
             justifyContent: "center",
@@ -68,7 +70,11 @@ const MyProperty = ({ val, token }: Props) => {
             width: "fit-content",
           }}
         >
-          <PencilIcon sx={{ width: "30px", height: "30px" }} />
+          {showDetails ? (
+            <InfoCircleIcon sx={{ width: "30px", height: "30px" }} />
+          ) : (
+            <PencilIcon sx={{ width: "30px", height: "30px" }} />
+          )}
         </Stack>
 
         <Stack

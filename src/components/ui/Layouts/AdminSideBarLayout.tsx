@@ -72,7 +72,7 @@ const AdminSideBarLayout = () => {
                   borderRadius: "0.35rem",
                   padding: "0.72rem 0.5rem",
                   width: "12rem",
-                  backgroundColor: link.includes(pathname)
+                  backgroundColor: pathname.includes(link)
                     ? "var(--alice-blue)"
                     : "transparent",
                 }}

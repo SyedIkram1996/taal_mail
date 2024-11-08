@@ -1,10 +1,12 @@
 "use client";
 
 import FilledButton from "@/components/common/Button/FilledButton";
+import MUILink from "@/components/common/MUILink/MUILink";
 import TextMd from "@/components/common/Text/TextMd";
 import TextSm from "@/components/common/Text/TextSm";
 import { IUser } from "@/interfaces/IUser";
 import { Grid2, Stack } from "@mui/material";
+import { usePathname } from "next/navigation";
 import AdminSearch from "../AdminSearch";
 
 interface Props {
@@ -12,6 +14,7 @@ interface Props {
 }
 
 const Users = ({ users }: Props) => {
+  const pathname = usePathname();
   return (
     <AdminSearch title="USERS">
       <Grid2
@@ -62,15 +65,17 @@ const Users = ({ users }: Props) => {
               <TextSm text={val.phoneNo} sx={{ color: "var(--text-black)" }} />
             </Grid2>
             <Grid2 size={3}>
-              <FilledButton
-                text="Details"
-                sx={{
-                  width: "7rem",
-                  height: "2.125rem",
-                  padding: "0",
-                  fontSize: "1rem",
-                }}
-              />
+              <MUILink href={`${pathname}/${val.id}`}>
+                <FilledButton
+                  text="Details"
+                  sx={{
+                    width: "7rem",
+                    height: "2.125rem",
+                    padding: "0",
+                    fontSize: "1rem",
+                  }}
+                />
+              </MUILink>
             </Grid2>
           </Grid2>
         ))}
