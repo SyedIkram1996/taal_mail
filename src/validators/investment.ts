@@ -1,25 +1,24 @@
-import { array, boolean, number, object, string } from "zod";
+import { array, number, object, string } from "zod";
 
-export const propertySchema = object({
-  id: string().optional(),
-  createdBy: string().optional(),
-  purpose: string(),
-  classification: string(),
-  type: string(),
-  duesCleared: string(),
-  status: string(),
+export const investmentSchema = object({
+  username: string(),
+  email: string().email("Invalid email address"),
+  phoneNo: string(),
   city: string(),
-  location: string(),
   area: object({
     type: string(),
     totalArea: string(),
   }),
   price: object({
-    askingPrice: string({ message: "Required" }).or(
+    minPrice: string({ message: "Required" }).or(
+      number({ message: "Required" }),
+    ),
+    maxPrice: string({ message: "Required" }).or(
       number({ message: "Required" }),
     ),
     currency: string(),
   }),
+  description: string(),
   bedrooms: string(),
   bathrooms: string(),
   features: object({
@@ -41,18 +40,4 @@ export const propertySchema = object({
       message: "Required",
     },
   ),
-  name: string(),
-  description: string(),
-  images: array(
-    object({
-      public_id: string().optional(),
-      url: string(),
-      delete: boolean().optional(),
-      coverImage: boolean().optional(),
-    }),
-  ).nonempty("Required"),
-  allotmentLetter: object({
-    public_id: string().optional(),
-    url: string().optional(),
-  }),
 });

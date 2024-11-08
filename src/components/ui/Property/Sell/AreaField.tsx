@@ -13,6 +13,7 @@ interface Props {
   totalAreaValue: string;
   areaTypeValue: string;
   error: string;
+  desc?: string;
 }
 
 const AreaField = ({
@@ -21,14 +22,11 @@ const AreaField = ({
   totalAreaValue,
   areaTypeValue,
   error,
+  desc,
 }: Props) => {
   return (
     <Stack id="area">
-      <FieldTitleDesc
-        title="Area:"
-        desc="What is the size of your property?"
-        error={error}
-      />
+      <FieldTitleDesc title="Area:" desc={desc} error={error} />
       <LabelTopTextField
         type="number"
         name="area"

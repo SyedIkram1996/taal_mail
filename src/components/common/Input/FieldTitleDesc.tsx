@@ -4,7 +4,7 @@ import TextSm from "../Text/TextSm";
 
 interface Props {
   title: string;
-  desc: string;
+  desc?: string;
   error?: string;
 }
 
@@ -18,10 +18,12 @@ const FieldTitleDesc = ({ title, desc, error }: Props) => {
         text={title}
         sx={{ fontWeight: "400", color: "var(--text-black)" }}
       />
-      <TextSm
-        text={desc}
-        sx={{ fontWeight: "400", color: "var(--spanish-gray)" }}
-      />
+      {desc && (
+        <TextSm
+          text={desc}
+          sx={{ fontWeight: "400", color: "var(--spanish-gray)" }}
+        />
+      )}
 
       {error && <TextSm text={`(${error})`} sx={{ color: "var(--error)" }} />}
     </Stack>
