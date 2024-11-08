@@ -9,7 +9,9 @@ export const FORGOT_PASSWORD = `${BASE_URL}/forgot-password`;
 export const PROPERTY = `${BASE_URL}/property`;
 export const PROPERTIES = `${BASE_URL}/properties`;
 export const INVESTMENT = `${BASE_URL}/investment`;
-export const INVESTMENTS = `${BASE_URL}/investments`;
+export const INVESTMENTS = `${BASE_URL}/admin/investments`;
+export const USERS = `${BASE_URL}/admin/users`;
+export const BIDS_AND_FOLLOW_UPS = `${BASE_URL}/admin/bids-follow-ups`;
 export const FEATURED_PROPERTIES = `${BASE_URL}/properties/featured`;
 export const SEARCH_PROPERTIES_BY_LOCATION = `${BASE_URL}/properties/search-by-location`;
 

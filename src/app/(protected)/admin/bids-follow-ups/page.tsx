@@ -1,19 +1,20 @@
 import BidsAndFollowUps from "@/components/ui/Admin/BidsAndFollowUps/BidsAndFollowUps";
-import { PROPERTIES } from "@/constants/api.routes";
+import { BIDS_AND_FOLLOW_UPS } from "@/constants/api.routes";
 import { cookies } from "next/headers";
 
 export default async function BidsAndFollowUpsPage() {
   const token = cookies().get("token");
 
-  //TODO: change this api route
-  const response = await fetch(`${PROPERTIES}`, {
+  const response = await fetch(`${BIDS_AND_FOLLOW_UPS}`, {
     cache: "no-store",
+    headers: {
+      Authorization: token ? `Bearer ${token.value}` : "",
+      "Content-Type": "application/json",
+    },
   });
   const res = await response.json();
 
   return (
-    <>
-      {!res.error && <BidsAndFollowUps data={res.properties} token={token} />}
-    </>
+    <>{!res.error && <BidsAndFollowUps data={res.bids} token={token} />}</>
   );
 }

@@ -3,10 +3,15 @@
 import FilledButton from "@/components/common/Button/FilledButton";
 import TextMd from "@/components/common/Text/TextMd";
 import TextSm from "@/components/common/Text/TextSm";
+import { IUser } from "@/interfaces/IUser";
 import { Grid2, Stack } from "@mui/material";
 import AdminSearch from "../AdminSearch";
 
-const Users = () => {
+interface Props {
+  users: IUser[];
+}
+
+const Users = ({ users }: Props) => {
   return (
     <AdminSearch title="USERS">
       <Grid2
@@ -35,7 +40,7 @@ const Users = () => {
           gap: "2.19rem",
         }}
       >
-        {Array.from({ length: 10 }).map((val, index) => (
+        {users.map((val, index) => (
           <Grid2
             container
             sx={{
@@ -48,19 +53,13 @@ const Users = () => {
             }}
           >
             <Grid2 size={3}>
-              <TextSm text="John Doe" sx={{ color: "var(--text-black)" }} />
+              <TextSm text={val.name} sx={{ color: "var(--text-black)" }} />
             </Grid2>
             <Grid2 size={3}>
-              <TextSm
-                text="John Doe@gmail.com"
-                sx={{ color: "var(--text-black)" }}
-              />
+              <TextSm text={val.email} sx={{ color: "var(--text-black)" }} />
             </Grid2>
             <Grid2 size={3}>
-              <TextSm
-                text="+92 1234567890"
-                sx={{ color: "var(--text-black)" }}
-              />
+              <TextSm text={val.phoneNo} sx={{ color: "var(--text-black)" }} />
             </Grid2>
             <Grid2 size={3}>
               <FilledButton

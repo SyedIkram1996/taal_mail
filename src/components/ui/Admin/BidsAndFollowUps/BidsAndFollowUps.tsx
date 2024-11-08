@@ -31,7 +31,7 @@ const BidsAndFollowUps = ({ data, token }: Props) => {
             >
               <Stack sx={{ position: "relative" }}>
                 <PropertyCard
-                  property={val}
+                  property={val.property}
                   disableLink
                   sx={{ pb: "3.5rem", cursor: "initial" }}
                 >
@@ -39,10 +39,10 @@ const BidsAndFollowUps = ({ data, token }: Props) => {
                     {[
                       {
                         title: "Title",
-                        value: "10 marla villa for sale 23213 23213 213213",
+                        value: val.title,
                       },
-                      { title: "Seller", value: "John Doe" },
-                      { title: "Bidder", value: " Jane Doe" },
+                      { title: "Seller", value: val.property.createdBy.name },
+                      { title: "Bidder", value: val.bidBy.name },
                     ].map((value, idx) => (
                       <Typography
                         noWrap

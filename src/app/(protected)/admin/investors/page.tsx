@@ -5,7 +5,6 @@ import { cookies } from "next/headers";
 export default async function InvestorsPage() {
   const token = cookies().get("token");
 
-  //TODO: change this api route
   const response = await fetch(`${INVESTMENTS}`, {
     cache: "no-store",
     headers: {

@@ -9,6 +9,7 @@ export interface IBidSchema extends Document {
     currency: string;
   };
   description: string;
+  status: string;
   createdAt: Date;
 }
 
@@ -40,6 +41,11 @@ const bidSchema: Schema<IBidSchema> = new Schema({
   description: {
     type: String,
     required: [true, "description is required"],
+  },
+
+  status: {
+    type: String,
+    default: "pending",
   },
   createdAt: {
     type: Date,
