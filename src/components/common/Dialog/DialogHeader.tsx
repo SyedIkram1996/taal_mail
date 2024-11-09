@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, SxProps } from "@mui/material";
 import CrossIcon from "../SvgIcons/CrossIcon";
 import TextXl from "../Text/TextXl";
 
@@ -6,9 +6,11 @@ interface Props {
   setOpen: (open: boolean) => void;
   title: string;
   onClose?: () => void;
+  sxTitle?: SxProps;
+  sxIcon?: SxProps;
 }
 
-const DialogHeader = ({ setOpen, title, onClose }: Props) => {
+const DialogHeader = ({ setOpen, title, onClose, sxTitle, sxIcon }: Props) => {
   return (
     <Box>
       <CrossIcon
@@ -26,6 +28,7 @@ const DialogHeader = ({ setOpen, title, onClose }: Props) => {
           top: { xs: "0.5rem", md: "1.87rem" },
           right: { xs: "0.5rem", md: "1rem" },
           cursor: "pointer",
+          ...sxIcon,
         }}
       />
       <TextXl
@@ -36,6 +39,7 @@ const DialogHeader = ({ setOpen, title, onClose }: Props) => {
           fontWeight: "700",
           color: "var(--text-black)",
           textAlign: "center",
+          ...sxTitle,
         }}
       />
     </Box>
