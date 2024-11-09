@@ -87,3 +87,40 @@ export async function GET(request: NextRequest) {
     return decodedToken.response;
   }
 }
+
+export async function PUT(request: NextRequest) {
+  const decodedToken = verifyJwtToken(request);
+
+  if (!decodedToken.error) {
+    if (decodedToken.userRole !== ADMIN) {
+      return apiResponseError({
+        message: "Not Allowed",
+        statusCode: UNAUTHORIZED,
+      });
+    }
+
+    await dbConnect();
+    const body = await request.json();
+    const searchParams = request.nextUrl.searchParams;
+    const id = searchParams.get("id") || "";
+
+    if (body.meeting) {
+      const bid = await BidModel.findById(id, { followUps: 1 });
+      const followUpsLength = bid?.followUps?.length;
+      if (followUpsLength && followUpsLength > 0) {
+        await BidModel.findByIdAndUpdate(id, {
+          $set: {
+            [`followUps.${followUpsLength - 1}`]: {
+              ...bid?.followUps[followUpsLength - 1],
+              meeting: body.meeting,
+            },
+          },
+        });
+      }
+    }
+
+    return Response.json({ error: false }, { status: OK });
+  } else {
+    return decodedToken.response;
+  }
+}

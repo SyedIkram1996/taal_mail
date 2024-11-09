@@ -50,7 +50,33 @@ export async function PUT(request: NextRequest) {
           _id: new Types.ObjectId(id),
         },
       },
+      {
+        $lookup: {
+          from: "users", // Replace with the actual name of your users collection
+          localField: "property.createdBy",
+          foreignField: "_id",
+          as: "property.createdBy",
+        },
+      },
+
+      {
+        $unwind: "$property.createdBy",
+      },
+      {
+        $lookup: {
+          from: "users", // Replace with the actual name of your users collection
+          localField: "bidBy",
+          foreignField: "_id",
+          as: "bidBy",
+        },
+      },
+
+      {
+        $unwind: "$bidBy",
+      },
     ]);
+
+    console.log(offer);
 
     if (!offer.length) {
       return apiResponseError({
@@ -59,7 +85,16 @@ export async function PUT(request: NextRequest) {
       });
     }
 
-    await BidModel.findByIdAndUpdate(id, { status: "accepted" });
+    await BidModel.findByIdAndUpdate(id, {
+      status: "accepted",
+      $push: {
+        followUps: {
+          title: `${offer[0].property.createdBy.name} accepted ${offer[0].bidBy.name} Bid`,
+          sellerOffer: offer[0].property.price.askingPrice,
+          bidderBid: offer[0].bidderBid.price,
+        },
+      },
+    });
 
     return Response.json({ error: false }, { status: OK });
   }

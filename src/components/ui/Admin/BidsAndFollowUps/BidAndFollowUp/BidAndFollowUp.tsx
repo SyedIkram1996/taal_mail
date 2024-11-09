@@ -9,6 +9,7 @@ import { IBid } from "@/interfaces/IBid";
 import { formatAmountToPKR } from "@/utils/maths";
 import CircleIcon from "@mui/icons-material/Circle";
 import { Box, Grid2, Stack, Typography } from "@mui/material";
+import dayjs from "dayjs";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import AddFollowUpMeeting from "./AddFollowUpMeeting";
 
@@ -126,62 +127,79 @@ const BidAndFollowUp = ({ bid, token }: Props) => {
           padding: "2.88rem 5rem",
         }}
       >
-        <Stack sx={{ alignItems: "center", gap: "1.63rem", pb: "3.44rem" }}>
-          <ShadowCard sx={{ borderRadius: "0.625rem", width: "100%" }}>
-            <TextMd
-              text={`${bid.property.createdBy.name} accepted ${bid.bidBy.name} Bid`}
-              sx={{
-                padding: "0.87rem",
-                fontWeight: "400",
-                textAlign: "center",
-              }}
-            />
-          </ShadowCard>
+        {bid.followUps && bid.followUps.length > 0 ? (
+          bid.followUps.map((val, index) => (
+            <Stack sx={{ alignItems: "center", gap: "1.63rem", pb: "3.44rem" }}>
+              <ShadowCard sx={{ borderRadius: "0.625rem", width: "100%" }}>
+                <TextMd
+                  text={val.title}
+                  sx={{
+                    padding: "0.87rem",
+                    fontWeight: "400",
+                    textAlign: "center",
+                  }}
+                />
+              </ShadowCard>
 
-          <CircleIcon sx={{ ...circleIcon }} />
-          <CircleIcon sx={{ ...circleIcon }} />
+              <CircleIcon sx={{ ...circleIcon }} />
+              <CircleIcon sx={{ ...circleIcon }} />
 
-          <Typography
-            sx={{
-              ...sellerBidCard,
-            }}
-          >
-            Seller's Offer: <span>{bid.property.price.currency} </span>
-            {formatAmountToPKR(Number(bid.property.price.askingPrice))}
-          </Typography>
-          <Typography
-            sx={{
-              ...sellerBidCard,
-            }}
-          >
-            Bidder's Bid: <span>{bid.bidderBid.currency} </span>
-            {formatAmountToPKR(Number(bid.bidderBid.price))}
-          </Typography>
+              <Typography
+                sx={{
+                  ...sellerBidCard,
+                }}
+              >
+                Seller's Offer: <span>{bid.property.price.currency} </span>
+                {formatAmountToPKR(Number(val.sellerOffer))}
+              </Typography>
+              <Typography
+                sx={{
+                  ...sellerBidCard,
+                }}
+              >
+                Bidder's Bid: <span>{bid.bidderBid.currency} </span>
+                {formatAmountToPKR(Number(val.bidderBid))}
+              </Typography>
 
-          <CircleIcon sx={{ ...circleIcon }} />
-          <CircleIcon sx={{ ...circleIcon }} />
+              <CircleIcon sx={{ ...circleIcon }} />
+              <CircleIcon sx={{ ...circleIcon }} />
 
-          <Typography
-            sx={{
-              ...sellerBidCard,
-            }}
-          >
-            <span>Meeting:</span> 01/01/2024
-          </Typography>
+              {val.meeting && (
+                <>
+                  <Typography
+                    sx={{
+                      ...sellerBidCard,
+                    }}
+                  >
+                    <span>Meeting:</span>{" "}
+                    {dayjs(val.meeting).format("DD/MM/YYYY")}
+                  </Typography>
 
-          <CircleIcon sx={{ ...circleIcon }} />
-          <CircleIcon sx={{ ...circleIcon }} />
+                  <CircleIcon sx={{ ...circleIcon }} />
+                  <CircleIcon sx={{ ...circleIcon }} />
+                </>
+              )}
 
-          <Box
-            sx={{
-              width: "100%",
-              height: "0.0625rem",
-              backgroundColor: "var(--text-secondary)",
-            }}
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "0.0625rem",
+                  backgroundColor: "var(--text-secondary)",
+                }}
+              />
+            </Stack>
+          ))
+        ) : (
+          <TextLg text="Bid is pending" />
+        )}
+
+        {bid.followUps && bid.followUps.length > 0 && (
+          <AddFollowUpMeeting
+            followUps={bid.followUps}
+            bidId={bid.id}
+            token={token}
           />
-        </Stack>
-
-        <AddFollowUpMeeting />
+        )}
       </ShadowCard>
     </Stack>
   );

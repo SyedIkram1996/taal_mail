@@ -10,6 +10,12 @@ export interface IBidSchema extends Document {
   };
   description: string;
   status: string;
+  followUps: {
+    title: string;
+    sellerOffer: string;
+    bidderBid: string;
+    meeting: Date;
+  }[];
   createdAt: Date;
 }
 
@@ -30,7 +36,7 @@ const bidSchema: Schema<IBidSchema> = new Schema({
   },
   bidderBid: {
     price: {
-      type: String,
+      type: Number,
       required: [true, "Price is required"],
     },
     currency: {
@@ -47,6 +53,12 @@ const bidSchema: Schema<IBidSchema> = new Schema({
     type: String,
     default: "pending",
   },
+  followUps: Array<{
+    title: String;
+    sellerOffer: Number;
+    bidderBid: Number;
+    meeting: Date;
+  }>,
   createdAt: {
     type: Date,
     default: Date.now,

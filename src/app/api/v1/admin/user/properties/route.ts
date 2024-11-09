@@ -27,11 +27,11 @@ export async function GET(request: NextRequest) {
     const properties = await PropertyModel.find({ createdBy: id });
 
     const bids = await BidModel.aggregate([
-      {
-        $match: {
-          status: "accepted",
-        },
-      },
+      // {
+      //   $match: {
+      //     status: "accepted",
+      //   },
+      // },
       {
         $lookup: {
           from: "properties", // Replace with the actual name of your users collection

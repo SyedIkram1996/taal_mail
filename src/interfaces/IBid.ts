@@ -10,6 +10,7 @@ export interface IBid
     | "description"
     | "createdAt"
     | "status"
+    | "followUps"
   > {
   id: string;
 }
