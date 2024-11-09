@@ -1,6 +1,7 @@
 "use client";
 
 import FilledButton from "@/components/common/Button/FilledButton";
+import MUILink from "@/components/common/MUILink/MUILink";
 import BedsBathsArea from "@/components/common/PropertyCard/BedsBathsArea";
 import SvgIconText from "@/components/common/SvgIconText";
 import HouseIcon from "@/components/common/SvgIcons/HouseIcon";
@@ -11,6 +12,7 @@ import { areas } from "@/constants/filters";
 import { formatAmountToPKR } from "@/utils/maths";
 import { Grid2, Stack } from "@mui/material";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import { usePathname } from "next/navigation";
 import AdminSearch from "../AdminSearch";
 
 interface Props {
@@ -19,6 +21,7 @@ interface Props {
 }
 
 const Investors = ({ data, token }: Props) => {
+  const pathname = usePathname();
   data.map((val: any) => {
     val.images = [];
     return val;
@@ -94,16 +97,20 @@ const Investors = ({ data, token }: Props) => {
                   }}
                 />
 
-                <FilledButton
-                  text="Details"
-                  sx={{
-                    alignSelf: "center",
-                    fontSize: "1rem",
-                    width: "6.52163rem",
-                    height: "2.0625rem",
-                    padding: "0",
-                  }}
-                />
+                <MUILink
+                  href={`${pathname}/${val.id}`}
+                  sx={{ alignSelf: "center" }}
+                >
+                  <FilledButton
+                    text="Details"
+                    sx={{
+                      fontSize: "1rem",
+                      width: "6.52163rem",
+                      height: "2.0625rem",
+                      padding: "0",
+                    }}
+                  />
+                </MUILink>
               </Stack>
             </Grid2>
           ))

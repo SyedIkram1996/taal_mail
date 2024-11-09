@@ -1,7 +1,6 @@
 "use client";
 
 import ShadowCard from "@/components/common/Card/ShadowCard";
-import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import TextLg from "@/components/common/Text/TextLg";
 import TextMd from "@/components/common/Text/TextMd";
 import PropertyHeaderAndIcons from "@/components/ui/Property/PropertyDetails/PropertyHeaderAndIcons";
@@ -82,35 +81,25 @@ const BidAndFollowUp = ({ bid, token }: Props) => {
         </Grid2>
       </Grid2>
 
-      <TextLg
-        text="Bid Description:"
-        sx={{
-          fontSize: "1.875rem",
-          color: "var(--text-black)",
-          mt: "3.25rem",
-          mb: "1.25rem",
-        }}
-      />
-
-      <LabelTopTextField
-        multiline
-        readOnly
-        value={bid.description}
-        sx={{
-          maxWidth: "53.375rem",
-          ".MuiOutlinedInput-root": {
-            height: "3rem",
-          },
-
-          ".MuiInputBase-root": {
-            textArea: {
-              fontSize: "1.25rem",
-              color: "var(--text-secondary)",
-              fontWeight: "400",
-            },
-          },
-        }}
-      />
+      <Stack sx={{ gap: "1.87rem", mt: "3.25rem", mb: "1.25rem" }}>
+        <TextMd
+          text={"Bid Description:"}
+          sx={{
+            fontWeight: "600",
+            color: "var(--text-black)",
+            fontSize: "1.875rem",
+          }}
+        />
+        <TextMd
+          text={bid.description}
+          sx={{
+            fontWeight: "400",
+            border: "1px solid var(--spanish-gray)",
+            borderRadius: "0.9375rem",
+            padding: "0.65rem 2.31rem",
+          }}
+        />
+      </Stack>
 
       <TextLg
         text="Follow Up:"

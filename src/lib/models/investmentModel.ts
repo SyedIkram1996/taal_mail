@@ -18,6 +18,10 @@ export interface IInvestmentSchema extends Document {
   description: string;
   bedrooms: string;
   bathrooms: string;
+  followUps: {
+    title: string;
+    meeting: Date;
+  }[];
   features: {
     basicFeatures: Pick<IPropertyFeature, "title" | "count">[];
     facilities: Pick<IPropertyFeature, "title" | "count">[];
@@ -76,6 +80,10 @@ const investmentSchema: Schema<IInvestmentSchema> = new Schema({
     type: String,
     required: [true, "Bathrooms is required"],
   },
+  followUps: Array<{
+    title: String;
+    meeting: Date;
+  }>,
   description: {
     type: String,
     required: [true, "Description is required"],

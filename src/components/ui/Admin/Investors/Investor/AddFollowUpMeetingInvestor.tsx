@@ -5,22 +5,18 @@ import PlusIcon from "@/components/common/SvgIcons/PlusIcon";
 import { Grid2 } from "@mui/material";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { useState } from "react";
-import AddFollowUpModal from "./AddFollowUpModal";
-import AddMeeting from "./AddMeeting";
-import EndFollowUpModal from "./EndFollowUpModal";
+import AddFollowUpModalInvestor from "./AddFollowUpModalInvestor";
+import AddMeetingInvestor from "./AddMeetingInvestor";
 
 interface Props {
-  bidId: string;
   token?: RequestCookie;
   followUps: {
     title: string;
-    sellerOffer: string;
-    bidderBid: string;
     meeting: Date;
   }[];
 }
 
-const AddFollowUpMeeting = ({ followUps, bidId, token }: Props) => {
+const AddFollowUpMeetingInvestor = ({ followUps, token }: Props) => {
   const [openMeetingModal, setOpenMeetingModal] = useState(false);
   const [openAddFollowUpModal, setOpenAddFollowUpModal] = useState(false);
   const [openEndFollowUpModal, setOpenEndFollowUpModal] = useState(false);
@@ -55,28 +51,28 @@ const AddFollowUpMeeting = ({ followUps, bidId, token }: Props) => {
         </Grid2>
       </Grid2>
 
-      <AddMeeting
+      <AddMeetingInvestor
         openMeetingModal={openMeetingModal}
         setOpenMeetingModal={setOpenMeetingModal}
         token={token}
       />
 
-      <AddFollowUpModal
+      <AddFollowUpModalInvestor
         token={token}
         setOpenAddFollowUpModal={setOpenAddFollowUpModal}
         openAddFollowUpModal={openAddFollowUpModal}
         followUps={followUps}
       />
 
-      {openEndFollowUpModal && (
+      {/* {openEndFollowUpModal && (
         <EndFollowUpModal
           openEndFollowUpModal={openEndFollowUpModal}
           setOpenEndFollowUpModal={setOpenEndFollowUpModal}
           token={token}
         />
-      )}
+      )}  */}
     </>
   );
 };
 
-export default AddFollowUpMeeting;
+export default AddFollowUpMeetingInvestor;

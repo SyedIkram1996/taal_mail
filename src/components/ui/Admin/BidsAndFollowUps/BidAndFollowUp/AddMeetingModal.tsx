@@ -1,14 +1,11 @@
 import FilledButton from "@/components/common/Button/FilledButton";
 import DialogHeader from "@/components/common/Dialog/DialogHeader";
 import TextMd from "@/components/common/Text/TextMd";
-import { updateFollowUp } from "@/services/bidAndFollowUp.services";
 import { Dialog, Grid2, Stack } from "@mui/material";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { useMutation } from "@tanstack/react-query";
 import dayjs from "dayjs";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
-import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 
 const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
@@ -16,29 +13,23 @@ const days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 interface Props {
   openMeetingModal: boolean;
   setOpenMeetingModal: (value: boolean) => void;
+  meetingMutation: any;
+  openSetMeetingTime: boolean;
+  setOpenSetMeetingTime: (value: boolean) => void;
   token?: RequestCookie;
 }
 
 const AddMeetingModal = ({
   openMeetingModal,
   setOpenMeetingModal,
+  meetingMutation,
+  openSetMeetingTime,
+  setOpenSetMeetingTime,
   token,
 }: Props) => {
-  const { bidId }: { bidId: string } = useParams();
+  console.log(meetingMutation);
   const [selectedDate, setSelectedDate] = useState(dayjs());
-  const [openSetMeetingTime, setOpenSetMeetingTime] = useState(false);
   const [openMeetingScheduled, setOpenMeetingScheduled] = useState(false);
-
-  const router = useRouter();
-  const meetingMutation = useMutation({
-    mutationFn: async () =>
-      updateFollowUp(bidId, token, selectedDate.valueOf(), undefined),
-    onSuccess: (data) => {
-      router.refresh();
-      setOpenSetMeetingTime(false);
-    },
-    onError: (error) => {},
-  });
 
   return (
     <>
@@ -173,7 +164,7 @@ const AddMeetingModal = ({
             <FilledButton
               loading={meetingMutation.isPending}
               disabled={meetingMutation.isPending}
-              onClick={() => meetingMutation.mutate()}
+              onClick={() => meetingMutation.mutate(selectedDate.valueOf())}
               text="Yes"
               sx={{
                 width: "4.125rem",

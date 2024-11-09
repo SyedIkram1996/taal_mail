@@ -16,7 +16,10 @@ export async function POST(request: NextRequest) {
 
   const data = validationResult.data;
 
-  const investment = await InvestmentModel.create(data);
+  const investment = await InvestmentModel.create({
+    ...data,
+    followUps: [{ title: `${data.username} requested inquiry` }],
+  });
 
   return Response.json({ investment, error: false }, { status: CREATED });
 }

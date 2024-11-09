@@ -41,3 +41,7 @@ export const investmentSchema = object({
     },
   ),
 });
+
+export const investFollowUpSchema = object({
+  title: string(),
+});

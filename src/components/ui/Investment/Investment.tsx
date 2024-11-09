@@ -29,6 +29,7 @@ const Investment = () => {
   const [openModal, setOpenModal] = useState(false);
   const formik = useFormik<IInvestment>({
     initialValues: {
+      followUps: [],
       username: "",
       email: "",
       area: {

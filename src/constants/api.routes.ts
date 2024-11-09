@@ -10,6 +10,7 @@ export const PROPERTY = `${BASE_URL}/property`;
 export const PROPERTIES = `${BASE_URL}/properties`;
 export const INVESTMENT = `${BASE_URL}/investment`;
 export const INVESTMENTS = `${BASE_URL}/admin/investments`;
+export const ADMIN_INVESTMENT = `${BASE_URL}/admin/investment`;
 export const USERS = `${BASE_URL}/admin/users`;
 export const USER = `${BASE_URL}/admin/user`;
 export const USER_PROPERTIES = `${BASE_URL}/admin/user/properties`;

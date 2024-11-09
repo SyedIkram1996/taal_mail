@@ -1,20 +1,5 @@
 import { IInvestmentSchema } from "@/lib/models/investmentModel";
-
-export interface IPropertyFeatures {
-  basicFeatures: IPropertyFeature[];
-  facilities: IPropertyFeature[];
-  nearbyPlaces: IPropertyFeature[];
-  secondaryFeatures: IPropertyFeature[];
-}
-
-export interface IPropertyFeature {
-  title: string;
-  count: number;
-  icon: any;
-  tab: string;
-  pathFill?: boolean;
-  time: number;
-}
+import { IPropertyFeatures } from "./IProperty";
 
 export interface IInvestment
   extends Pick<
@@ -28,6 +13,7 @@ export interface IInvestment
     | "description"
     | "phoneNo"
     | "city"
+    | "followUps"
   > {
   price: {
     minPrice: string;
