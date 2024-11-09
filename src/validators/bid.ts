@@ -9,3 +9,13 @@ export const bidSchema = object({
   }),
   description: string(),
 });
+
+export const bidFollowUpSchema = object({
+  title: string(),
+  sellerOffer: string({ message: "Required" }).or(
+    number({ message: "Required" }),
+  ),
+  bidderBid: string({ message: "Required" }).or(
+    number({ message: "Required" }),
+  ),
+});

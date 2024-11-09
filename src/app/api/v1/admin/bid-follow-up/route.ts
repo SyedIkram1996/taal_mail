@@ -3,7 +3,9 @@ import { ERoles } from "@/enums/enums";
 import dbConnect from "@/lib/db/dbConnect";
 import BidModel from "@/lib/models/BidModel";
 import { apiResponseError } from "@/lib/utils/apiResponseError";
+import { validateResultError } from "@/lib/utils/validateResultError";
 import { verifyJwtToken } from "@/lib/utils/verifyJwtToken";
+import { bidFollowUpSchema } from "@/validators/bid";
 import { Types } from "mongoose";
 import { NextRequest } from "next/server";
 const { ADMIN } = ERoles;
@@ -117,6 +119,25 @@ export async function PUT(request: NextRequest) {
           },
         });
       }
+    } else if (body.followUp) {
+      console.log(body.followUp);
+      const validationResult = bidFollowUpSchema.safeParse(body.followUp);
+
+      if (!validationResult.success) {
+        return validateResultError(validationResult);
+      }
+
+      const data = validationResult.data;
+
+      await BidModel.findByIdAndUpdate(id, {
+        $push: {
+          followUps: {
+            title: data.title,
+            sellerOffer: data.sellerOffer,
+            bidderBid: data.bidderBid,
+          },
+        },
+      });
     }
 
     return Response.json({ error: false }, { status: OK });

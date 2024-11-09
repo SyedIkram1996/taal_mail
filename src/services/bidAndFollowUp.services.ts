@@ -3,14 +3,15 @@ import { makeApiRequest } from "@/utils/servicesHelper";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 export const updateFollowUp = (
-  meeting: number,
   bidId: string,
   token?: RequestCookie,
+  meeting?: number,
+  followUp?: any,
 ) => {
   return makeApiRequest({
     method: "PUT",
     url: `${BID_AND_FOLLOW_UP}?id=${bidId}`,
     token,
-    data: { meeting },
+    data: { meeting, followUp },
   });
 };
