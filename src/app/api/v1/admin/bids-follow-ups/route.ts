@@ -31,6 +31,16 @@ export async function GET(request: NextRequest) {
       //   },
       // },
       {
+        $match: search
+          ? {
+              title: {
+                $regex: search,
+                $options: "i",
+              },
+            }
+          : {},
+      },
+      {
         $lookup: {
           from: "properties", // Replace with the actual name of your users collection
           localField: "property",

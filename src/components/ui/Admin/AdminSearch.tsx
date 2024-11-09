@@ -1,7 +1,9 @@
 import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import SearchIcon from "@/components/common/SvgIcons/SearchIcon";
 import TextLg from "@/components/common/Text/TextLg";
+import useTextFieldPropertyFiltersDebounce from "@/hooks/useTextFieldPropertyFiltersDebounce";
 import { Stack } from "@mui/material";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ReactNode } from "react";
 
 interface Props {
@@ -10,6 +12,14 @@ interface Props {
 }
 
 const AdminSearch = ({ title, children }: Props) => {
+  const searchParams = useSearchParams();
+  const { replace } = useRouter();
+  const pathname = usePathname();
+  const { handleTextFieldChange } = useTextFieldPropertyFiltersDebounce({
+    searchParams,
+    replace,
+    pathname,
+  });
   return (
     <>
       <Stack
@@ -29,7 +39,12 @@ const AdminSearch = ({ title, children }: Props) => {
         />
 
         <LabelTopTextField
+          name="search"
+          defaultValue={searchParams.get("search") || ""}
           placeholder="Search"
+          onChange={(e) => {
+            handleTextFieldChange(e);
+          }}
           endIcon={
             <SearchIcon
               sx={{

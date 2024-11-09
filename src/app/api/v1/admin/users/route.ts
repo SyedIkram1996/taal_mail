@@ -23,7 +23,16 @@ export async function GET(request: NextRequest) {
     await dbConnect();
     const searchParams = request.nextUrl.searchParams;
     const search = searchParams.get("search");
-    const users = await UserModel.find();
+    const users = await UserModel.find(
+      search
+        ? {
+            name: {
+              $regex: search,
+              $options: "i",
+            },
+          }
+        : {},
+    );
     return Response.json({ users, error: false }, { status: OK });
   }
   {

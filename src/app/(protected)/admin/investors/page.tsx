@@ -2,16 +2,23 @@ import Investors from "@/components/ui/Admin/Investors/Investors";
 import { INVESTMENTS } from "@/constants/api.routes";
 import { cookies } from "next/headers";
 
-export default async function InvestorsPage() {
+interface Params {
+  searchParams: { search: string };
+}
+
+export default async function InvestorsPage({ searchParams }: Params) {
   const token = cookies().get("token");
 
-  const response = await fetch(`${INVESTMENTS}`, {
-    cache: "no-store",
-    headers: {
-      Authorization: token ? `Bearer ${token.value}` : "",
-      "Content-Type": "application/json",
+  const response = await fetch(
+    `${INVESTMENTS}?search=${searchParams.search || ""}`,
+    {
+      cache: "no-store",
+      headers: {
+        Authorization: token ? `Bearer ${token.value}` : "",
+        "Content-Type": "application/json",
+      },
     },
-  });
+  );
   const res = await response.json();
 
   return (

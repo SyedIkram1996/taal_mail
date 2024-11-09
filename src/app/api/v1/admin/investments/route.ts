@@ -23,7 +23,16 @@ export async function GET(request: NextRequest) {
     await dbConnect();
     const searchParams = request.nextUrl.searchParams;
     const search = searchParams.get("search");
-    const investments = await InvestmentModel.find();
+    const investments = await InvestmentModel.find(
+      search
+        ? {
+            username: {
+              $regex: search,
+              $options: "i",
+            },
+          }
+        : {},
+    );
     return Response.json({ investments, error: false }, { status: OK });
   }
   {

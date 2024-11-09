@@ -5,6 +5,7 @@ import BidModel from "@/lib/models/BidModel";
 import PropertyModel from "@/lib/models/propertyModel";
 import { apiResponseError } from "@/lib/utils/apiResponseError";
 import { verifyJwtToken } from "@/lib/utils/verifyJwtToken";
+import { Types } from "mongoose";
 import { NextRequest } from "next/server";
 const { ADMIN } = ERoles;
 
@@ -23,15 +24,16 @@ export async function GET(request: NextRequest) {
 
     await dbConnect();
     const searchParams = request.nextUrl.searchParams;
-    const id = searchParams.get("id");
+    const id = searchParams.get("id") || "";
     const properties = await PropertyModel.find({ createdBy: id });
 
     const bids = await BidModel.aggregate([
-      // {
-      //   $match: {
-      //     status: "accepted",
-      //   },
-      // },
+      {
+        $match: {
+          // status: "accepted",
+          bidBy: new Types.ObjectId(id),
+        },
+      },
       {
         $lookup: {
           from: "properties", // Replace with the actual name of your users collection

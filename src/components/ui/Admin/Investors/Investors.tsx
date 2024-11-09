@@ -89,7 +89,7 @@ const Investors = ({ data, token }: Props) => {
                 </Grid2>
 
                 <TextMd
-                  text={`Investor: John Doe`}
+                  text={`Investor: ${val.username}`}
                   sx={{
                     fontSize: "1rem",
                     paddingX: "0.5rem",
@@ -115,7 +115,7 @@ const Investors = ({ data, token }: Props) => {
             </Grid2>
           ))
         ) : (
-          <TextXl text="No Bids and Follow Ups" />
+          <TextXl text="No Investor Found" />
         )}
       </Grid2>
     </AdminSearch>

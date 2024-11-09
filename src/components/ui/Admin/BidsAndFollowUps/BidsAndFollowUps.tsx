@@ -83,7 +83,7 @@ const BidsAndFollowUps = ({ data, token }: Props) => {
             </Grid2>
           ))
         ) : (
-          <TextXl text="No Bids and Follow Ups" />
+          <TextXl text="No Bids and Follow Ups Found" />
         )}
       </Grid2>
     </AdminSearch>
