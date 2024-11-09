@@ -15,6 +15,7 @@ export const USER = `${BASE_URL}/admin/user`;
 export const USER_PROPERTIES = `${BASE_URL}/admin/user/properties`;
 export const USER_PROPERTY = `${BASE_URL}/admin/user/property`;
 export const BIDS_AND_FOLLOW_UPS = `${BASE_URL}/admin/bids-follow-ups`;
+export const BID_AND_FOLLOW_UP = `${BASE_URL}/admin/bid-follow-up`;
 export const FEATURED_PROPERTIES = `${BASE_URL}/properties/featured`;
 export const SEARCH_PROPERTIES_BY_LOCATION = `${BASE_URL}/properties/search-by-location`;
 

@@ -4,11 +4,12 @@ import MUILink from "@/components/common/MUILink/MUILink";
 import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
 import TextLg from "@/components/common/Text/TextLg";
 import MyProperty from "@/components/ui/Profile/MyProperties/MyProperty";
+import { ADMIN_BIDS_AND_FOLLOW_UPS_PAGE } from "@/constants/page.routes";
 import { IBid } from "@/interfaces/IBid";
 import { IProperty } from "@/interfaces/IProperty";
 import { Box, Grid2, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 interface Props {
@@ -20,6 +21,7 @@ interface Props {
 const UserPropertiesBids = ({ properties, token, bids }: Props) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { userId } = useParams();
   const [tabValue, setTabValue] = useState(
     searchParams.get("filter") ?? "properties",
   );
@@ -136,7 +138,7 @@ const UserPropertiesBids = ({ properties, token, bids }: Props) => {
                     <PropertyCard
                       property={val.property}
                       disableLink
-                      sx={{ pb: "3.5rem", cursor: "initial" }}
+                      sx={{ pb: "1rem", cursor: "initial" }}
                     >
                       <Stack sx={{ paddingX: "2rem" }}>
                         {[
@@ -165,20 +167,23 @@ const UserPropertiesBids = ({ properties, token, bids }: Props) => {
                           </Typography>
                         ))}
                       </Stack>
-                    </PropertyCard>
 
-                    <FilledButton
-                      text="Details"
-                      sx={{
-                        alignSelf: "center",
-                        fontSize: "1rem",
-                        width: "6.52163rem",
-                        height: "2.0625rem",
-                        padding: "0",
-                        position: "absolute",
-                        bottom: "1.2rem",
-                      }}
-                    />
+                      <MUILink
+                        href={`${ADMIN_BIDS_AND_FOLLOW_UPS_PAGE}/${val.id}?user=${userId}`}
+                        sx={{ alignSelf: "center" }}
+                      >
+                        <FilledButton
+                          text="Details"
+                          sx={{
+                            fontSize: "1rem",
+                            width: "6.52163rem",
+                            height: "2.0625rem",
+                            padding: "0",
+                            mt: "0.5rem",
+                          }}
+                        />
+                      </MUILink>
+                    </PropertyCard>
                   </Stack>
                 </Grid2>
               ))}

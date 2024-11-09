@@ -24,7 +24,7 @@ const PropertyDetails = ({ property }: Props) => {
     price,
   } = property;
   return (
-    <Stack sx={{ mt: "2.38rem", px: "3.5rem", pb: "5rem" }}>
+    <Stack maxWidth={"xl"} sx={{ mt: "2.38rem", px: "3.5rem", pb: "5rem" }}>
       <Grid2 container>
         <Grid2 size={{ xs: 12, md: 9 }}>
           <PropertyHeaderAndIcons
