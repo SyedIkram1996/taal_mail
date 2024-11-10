@@ -33,18 +33,36 @@ export default async function PropertyDetailsPage({ params }: Params) {
 
   const data = await response.json();
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: data.property ? data.property.name : "",
+    image: data.property ? data.property.images[0].url : "",
+    description: data.property ? data.property.description : "",
+  };
+
   return (
-    <Stack
-      sx={{
-        minHeight: "100vh",
-        overflow: "hidden",
-      }}
-    >
-      {data && !data.error ? (
-        <PropertyDetails property={data.property} />
-      ) : (
-        <TextLg text={data.message} sx={{ mt: "3rem" }} />
-      )}
-    </Stack>
+    <>
+      <section>
+        {/* Add JSON-LD to your page */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        {/* ... */}
+      </section>
+      <Stack
+        sx={{
+          minHeight: "100vh",
+          overflow: "hidden",
+        }}
+      >
+        {data && !data.error ? (
+          <PropertyDetails property={data.property} />
+        ) : (
+          <TextLg text={data.message} sx={{ mt: "3rem" }} />
+        )}
+      </Stack>
+    </>
   );
 }
