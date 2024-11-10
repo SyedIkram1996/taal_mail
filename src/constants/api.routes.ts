@@ -19,6 +19,7 @@ export const BIDS_AND_FOLLOW_UPS = `${BASE_URL}/admin/bids-follow-ups`;
 export const BID_AND_FOLLOW_UP = `${BASE_URL}/admin/bid-follow-up`;
 export const FEATURED_PROPERTIES = `${BASE_URL}/properties/featured`;
 export const SEARCH_PROPERTIES_BY_LOCATION = `${BASE_URL}/properties/search-by-location`;
+export const CONTACT_US = `${BASE_URL}/contact-us`;
 
 export const MY_PROPERTIES = (classification: string) =>
   `${BASE_URL}/profile/my-properties?classification=${classification ?? RESIDENTIAL_VALUE}`;
