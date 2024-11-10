@@ -28,7 +28,14 @@ const PropertyDetails = ({ property }: Props) => {
   return (
     <>
       <PropertiesImages images={images} />
-      <Stack maxWidth={"xl"} sx={{ mt: "2.38rem", px: "3.5rem", pb: "5rem" }}>
+      <Stack
+        maxWidth={"xl"}
+        sx={{
+          mt: { md: "2.38rem" },
+          px: { xs: "1rem", md: "3.5rem" },
+          pb: "5rem",
+        }}
+      >
         <Grid2 container>
           <Grid2 size={{ xs: 12, md: 9 }}>
             <PropertyHeaderAndIcons

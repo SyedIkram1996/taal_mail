@@ -5,14 +5,22 @@ import BidIcon from "@/components/common/SvgIcons/BidIcon";
 import InvestorIcon from "@/components/common/SvgIcons/InvestorIcon";
 import UserIcon from "@/components/common/SvgIcons/UserIcon";
 import SvgIconText from "@/components/common/SvgIconText";
+import TextMd from "@/components/common/Text/TextMd";
 import { LogoIcon } from "@/constants/images.routes";
 import {
   ADMIN_BIDS_AND_FOLLOW_UPS_PAGE,
   ADMIN_INVESTORS_PAGE,
   ADMIN_USERS_PAGE,
 } from "@/constants/page.routes";
-import { Box, Stack } from "@mui/material";
+import {
+  BottomNavigation,
+  BottomNavigationAction,
+  Box,
+  Paper,
+  Stack,
+} from "@mui/material";
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
@@ -98,6 +106,61 @@ const AdminSideBarLayout = () => {
           ))}
         </Stack>
       </Stack>
+
+      <Paper
+        sx={{
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          display: { xs: "initial", md: "none" },
+          zIndex: "1",
+        }}
+        elevation={3}
+      >
+        <BottomNavigation
+          showLabels
+          value={value}
+          onChange={(event, newValue) => {
+            setValue(newValue);
+          }}
+          sx={{
+            height: "auto",
+            a: { px: "0", py: "0.5rem" },
+          }}
+        >
+          {items.map(({ icon: Icon, ...item }, index) => (
+            <BottomNavigationAction
+              key={item.link}
+              sx={{
+                bgcolor: pathname.includes(item.link)
+                  ? "var(--anti-flash-white)"
+                  : "transparent",
+              }}
+              label={
+                <TextMd
+                  text={item.title}
+                  sx={{ textAlign: "center", fontSize: "0.75rem" }}
+                />
+              }
+              LinkComponent={Link}
+              href={item.link}
+              icon={
+                <Icon
+                  //@ts-ignore
+                  sx={{
+                    width: "25px",
+                    height: "25px",
+                    path: {
+                      fill: index === 1 && "var(--text-secondary)",
+                    },
+                  }}
+                />
+              }
+            />
+          ))}
+        </BottomNavigation>
+      </Paper>
     </>
   );
 };

@@ -28,7 +28,7 @@ const Investors = ({ data, token }: Props) => {
   });
 
   return (
-    <AdminSearch title="BIDS AND FOLLOW UPS">
+    <AdminSearch title="Investments">
       <Grid2
         maxWidth={"lg"}
         container

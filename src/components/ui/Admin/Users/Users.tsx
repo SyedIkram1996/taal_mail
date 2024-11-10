@@ -19,6 +19,8 @@ const Users = ({ users }: Props) => {
   return (
     <AdminSearch title="USERS">
       <Grid2
+        spacing={1}
+        display={{ xs: "none", md: "flex" }}
         container
         sx={{
           maxWidth: "64.4375rem",
@@ -48,28 +50,53 @@ const Users = ({ users }: Props) => {
           users.map((val, index) => (
             <Grid2
               container
+              spacing={1}
               sx={{
-                maxWidth: "64.4375rem",
+                maxWidth: { md: "64.4375rem" },
                 width: "100%",
                 boxShadow: "2px 2px 6px rgba(0, 0, 0, 0.25)",
                 borderRadius: "0.625rem",
                 alignItems: "center",
-                padding: "1.5rem 2.31rem",
+                padding: { xs: "1rem", md: "1.5rem 2.31rem" },
               }}
             >
-              <Grid2 size={3}>
+              <Grid2 size={{ xs: 12, md: 3 }}>
+                <TextMd
+                  text={"Name:"}
+                  sx={{
+                    color: "var(--text-black)",
+                    fontSize: "1rem",
+                    display: { md: "none" },
+                  }}
+                />
                 <TextSm text={val.name} sx={{ color: "var(--text-black)" }} />
               </Grid2>
-              <Grid2 size={3}>
+              <Grid2 size={{ xs: 12, md: 3 }}>
+                <TextMd
+                  text={"Email:"}
+                  sx={{
+                    color: "var(--text-black)",
+                    fontSize: "1rem",
+                    display: { md: "none" },
+                  }}
+                />
                 <TextSm text={val.email} sx={{ color: "var(--text-black)" }} />
               </Grid2>
-              <Grid2 size={3}>
+              <Grid2 size={{ xs: 12, md: 3 }}>
+                <TextMd
+                  text={"Phone Number:"}
+                  sx={{
+                    color: "var(--text-black)",
+                    fontSize: "1rem",
+                    display: { md: "none" },
+                  }}
+                />
                 <TextSm
                   text={val.phoneNo}
                   sx={{ color: "var(--text-black)" }}
                 />
               </Grid2>
-              <Grid2 size={3}>
+              <Grid2 size={{ xs: 12, md: 3 }}>
                 <MUILink href={`${pathname}/${val.id}`}>
                   <FilledButton
                     text="Details"

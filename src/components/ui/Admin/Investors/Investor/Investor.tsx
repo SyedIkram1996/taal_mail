@@ -110,7 +110,7 @@ const Investor = ({ investment, token }: Props) => {
     border: "1px solid var(--platinum)",
     borderRadius: "0.625rem",
     padding: "0.87rem",
-    minWidth: "25.6875rem",
+    minWidth: { xs: "100%", md: "25.6875rem" },
     textAlign: "center",
     span: {
       color: "var(--text-secondary)",
@@ -123,7 +123,14 @@ const Investor = ({ investment, token }: Props) => {
   };
 
   return (
-    <Stack maxWidth={"xl"} sx={{ mt: "2.38rem", px: "3.5rem", pb: "5rem" }}>
+    <Stack
+      maxWidth={"xl"}
+      sx={{
+        mt: { md: "2.38rem" },
+        px: { xs: "1rem", md: "3.5rem" },
+        pb: "5rem",
+      }}
+    >
       <PropertyHeaderAndIcons
         name={`${username} wants a ${bedrooms}-Bed room House in ${city}`}
         bedrooms={bedrooms}
@@ -215,7 +222,7 @@ const Investor = ({ investment, token }: Props) => {
 
       <ShadowCard
         sx={{
-          padding: "2.88rem 5rem",
+          padding: { xs: "0.5rem", md: "2.88rem 5rem" },
         }}
       >
         {investment.followUps.map((val, index) => (

@@ -28,29 +28,50 @@ const AddFollowUpMeeting = ({ followUps, bidId, token }: Props) => {
   return (
     <>
       <Grid2 container spacing={2}>
-        <Grid2 size={4}>
+        <Grid2
+          size={{ xs: 12, md: 4 }}
+          sx={{ justifyContent: "center", display: "flex" }}
+        >
           <FilledButton
             onClick={() => setOpenAddFollowUpModal(true)}
             disabled={!followUps[followUps.length - 1].meeting}
             text="Add Follow Up"
             startIcon={<PlusIcon sx={{ width: "30px", height: "30px" }} />}
-            sx={{ height: "3.4375rem", padding: "0.25rem 1rem" }}
+            sx={{
+              height: "3.4375rem",
+              padding: "0.25rem 1rem",
+              width: { xs: "100%", md: "fit-content" },
+            }}
           />
         </Grid2>
-        <Grid2 size={4}>
+        <Grid2
+          size={{ xs: 12, md: 4 }}
+          sx={{ justifyContent: "center", display: "flex" }}
+        >
           <FilledButton
             onClick={() => setOpenMeetingModal(true)}
             text="Setup Meeting"
             startIcon={<MeetingIcon sx={{ width: "40px", height: "40px" }} />}
-            sx={{ height: "3.4375rem", padding: "0.25rem 1rem" }}
+            sx={{
+              height: "3.4375rem",
+              padding: "0.25rem 1rem",
+              width: { xs: "100%", md: "fit-content" },
+            }}
           />
         </Grid2>
-        <Grid2 size={4}>
+        <Grid2
+          size={{ xs: 12, md: 4 }}
+          sx={{ justifyContent: "center", display: "flex" }}
+        >
           <FilledButton
             onClick={() => setOpenEndFollowUpModal(true)}
             text="End Follow up"
             startIcon={<CrossIcon sx={{ width: "40px", height: "40px" }} />}
-            sx={{ height: "3.4375rem", padding: "0.25rem 1rem" }}
+            sx={{
+              height: "3.4375rem",
+              padding: "0.25rem 1rem",
+              width: { xs: "100%", md: "fit-content" },
+            }}
           />
         </Grid2>
       </Grid2>

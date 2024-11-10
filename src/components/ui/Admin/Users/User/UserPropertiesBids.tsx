@@ -46,7 +46,7 @@ const UserPropertiesBids = ({ properties, token, bids }: Props) => {
       <Box
         sx={{
           borderBottom: "1px solid var(--platinum)",
-          mt: "3.12rem",
+          mt: { xs: "2rem", md: "3.12rem" },
           px: { xs: "1rem", md: "2rem" },
         }}
       >
@@ -97,7 +97,11 @@ const UserPropertiesBids = ({ properties, token, bids }: Props) => {
               container
               spacing={4}
               rowSpacing={12}
-              sx={{ padding: "2rem", py: "6.25rem", width: "100%" }}
+              sx={{
+                padding: "2rem",
+                py: { xs: "2.5rem", md: "6.25rem" },
+                width: "100%",
+              }}
             >
               {properties.map((val, index) => (
                 <Grid2
@@ -126,7 +130,11 @@ const UserPropertiesBids = ({ properties, token, bids }: Props) => {
               container
               spacing={4}
               rowSpacing={12}
-              sx={{ padding: "2rem", py: "6.25rem", width: "100%" }}
+              sx={{
+                padding: "2rem",
+                py: { xs: "2.5rem", md: "6.25rem" },
+                width: "100%",
+              }}
             >
               {bids.map((val, index) => (
                 <Grid2
@@ -134,7 +142,13 @@ const UserPropertiesBids = ({ properties, token, bids }: Props) => {
                   sx={{ display: "flex", justifyContent: "center" }}
                   key={index}
                 >
-                  <Stack sx={{ position: "relative" }}>
+                  <Stack
+                    sx={{
+                      alignItems: "center",
+                      width: { xs: "100%", md: "initial" },
+                      position: "relative",
+                    }}
+                  >
                     <PropertyCard
                       property={val.property}
                       disableLink

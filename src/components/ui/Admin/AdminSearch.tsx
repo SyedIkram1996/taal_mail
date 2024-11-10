@@ -25,16 +25,16 @@ const AdminSearch = ({ title, children }: Props) => {
       <Stack
         sx={{
           backgroundColor: "var(--text-secondary)",
-          padding: "2.31rem 2.31rem 2.31rem 4.12rem",
+          padding: { xs: "1rem", md: "2.31rem 2.31rem 2.31rem 4.12rem" },
         }}
       >
         <TextLg
           text={title}
           sx={{
-            fontSize: "2rem",
+            fontSize: { xs: "1.5rem", md: "2rem" },
             color: "var(--text-white)",
-            mb: "3.31rem",
-            ml: "2.38rem",
+            mb: { xs: "1rem", md: "3.31rem" },
+            ml: { md: "2.38rem" },
           }}
         />
 
@@ -85,7 +85,7 @@ const AdminSearch = ({ title, children }: Props) => {
 
       <Stack
         sx={{
-          padding: "3.19rem 5.19rem",
+          padding: { xs: "1rem", md: "3.19rem 5.19rem" },
           // height: "calc(100vh - 235px)",
           // overflowY: "auto",
         }}

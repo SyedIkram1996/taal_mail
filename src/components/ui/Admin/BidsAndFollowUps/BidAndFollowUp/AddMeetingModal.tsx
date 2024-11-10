@@ -33,29 +33,51 @@ const AddMeetingModal = ({
 
   return (
     <>
-      <Dialog open={openMeetingModal} fullWidth scroll="body" maxWidth="md">
+      <Dialog
+        open={openMeetingModal}
+        fullWidth
+        scroll="body"
+        maxWidth="md"
+        PaperProps={{
+          sx: {
+            width: { xs: "100%", md: "calc(100% - 64px)" },
+            maxWidth: {
+              xs: "100% !important",
+              md: "900px !important",
+            },
+            margin: { xs: "0", md: "32px" },
+          },
+        }}
+      >
         <Stack
           sx={{
-            padding: "3rem",
+            padding: { xs: "0.5rem", md: "3rem" },
             alignItems: "center",
           }}
         >
           <DialogHeader
             title="Schedule Meeting"
             setOpen={setOpenMeetingModal}
-            sxIcon={{ top: "3rem" }}
+            sxIcon={{ top: { xs: "0", md: "3rem" } }}
             sxTitle={{ fontWeight: "400" }}
           />
           <Grid2
             container
             spacing={3}
             sx={{
-              my: "3.75rem",
+              my: { xs: "2rem", md: "3.75rem" },
               width: "100%",
               alignItems: "center",
             }}
           >
-            <Grid2 size={7} sx={{ display: "flex", alignItems: "center" }}>
+            <Grid2
+              size={{ xs: 12, md: 7 }}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <Stack
                 sx={{
                   boxShadow: "8px 3px 22px 10px rgba(150, 150, 150, 0.11)",
@@ -92,7 +114,8 @@ const AddMeetingModal = ({
                 </LocalizationProvider>
               </Stack>
             </Grid2>
-            <Grid2 size={5}>
+
+            <Grid2 size={{ xs: 12, md: 5 }}>
               <TextMd
                 text="Date:"
                 sx={{

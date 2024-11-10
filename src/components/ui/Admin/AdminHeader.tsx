@@ -13,18 +13,27 @@ const AdminHeader = ({ title, link }: Props) => {
     <Stack
       sx={{
         backgroundColor: "var(--text-secondary)",
-        padding: "1.75rem 1.38rem",
+        padding: { xs: "1rem", md: "1.75rem 1.38rem" },
       }}
     >
       <SvgIconText
         text={title}
         icon={
           <MUILink href={link}>
-            <ArrowIcon sx={{ width: "60px", height: "60px" }} />
+            <ArrowIcon
+              sx={{
+                width: { xs: "40px", md: "60px" },
+                height: { xs: "40px", md: "60px" },
+              }}
+            />
           </MUILink>
         }
         sxRow={{ gap: "0.62rem" }}
-        sxText={{ fontSize: "2rem", fontWeight: "600", color: "white" }}
+        sxText={{
+          fontSize: { xs: "1.5rem", md: "2rem" },
+          fontWeight: "600",
+          color: "white",
+        }}
       />
     </Stack>
   );

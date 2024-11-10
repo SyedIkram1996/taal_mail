@@ -32,7 +32,13 @@ const BidsAndFollowUps = ({ data, token }: Props) => {
               sx={{ display: "flex", justifyContent: "center" }}
               key={index}
             >
-              <Stack sx={{ position: "relative" }}>
+              <Stack
+                sx={{
+                  alignItems: "center",
+                  width: { xs: "100%", md: "initial" },
+                  position: "relative",
+                }}
+              >
                 <PropertyCard
                   property={val.property}
                   disableLink
