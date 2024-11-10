@@ -11,4 +11,3 @@ export const CLOUDINARY_API_KEY = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
 export const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET;
 
 export const WEBSITE_URL = process.env.NEXT_PUBLIC_WEBSITE_URL || "";
-export const WEBSITE_TITLE = process.env.NEXT_PUBLIC_WEBSITE_TITLE || "";

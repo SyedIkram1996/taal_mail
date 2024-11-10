@@ -2,15 +2,12 @@ import ResponsiveAppBar from "@/components/common/AppBar/AppBar";
 import Footer from "@/components/common/Footer/Footer";
 import ReactHotToaster from "@/components/common/ReactHotToaster/ReactHotToaster";
 import Logout from "@/components/ui/Logout/Logout";
-import {
-  EMAIL_TEMPLATE_LOGO,
-  WEBSITE_TITLE,
-  WEBSITE_URL,
-} from "@/constants/environment";
+import { WEBSITE_URL } from "@/constants/environment";
 import UserState from "@/context/userContext";
 import { useGetUserServer } from "@/hooks/useGetUserServer";
 import "@/styles/globals.css";
 import theme from "@/theme";
+import { LAYOUT_OPEN_GRAPH, WEBSITE_TITLE } from "@/utils/seo";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
@@ -24,18 +21,7 @@ import Providers from "./providers";
 export const metadata: Metadata = {
   metadataBase: new URL(WEBSITE_URL),
   title: WEBSITE_TITLE,
-  openGraph: {
-    type: "website",
-    siteName: WEBSITE_TITLE,
-    images: [
-      {
-        url: EMAIL_TEMPLATE_LOGO,
-        width: 1200,
-        height: 630,
-        alt: "taal-mail",
-      },
-    ],
-  },
+  openGraph: LAYOUT_OPEN_GRAPH,
   robots: {
     index: true,
     follow: true,
