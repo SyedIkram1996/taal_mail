@@ -56,6 +56,9 @@ export const metadata: Metadata = {
       },
     ],
   },
+  other: {
+    "google-site-verification": "1Jww3SKcEe-rkKDkEvQg7nOkMzf606w0DmQOq_bE2cc",
+  },
 };
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
