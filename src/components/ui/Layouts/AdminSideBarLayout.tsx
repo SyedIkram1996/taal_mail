@@ -11,6 +11,7 @@ import {
   ADMIN_BIDS_AND_FOLLOW_UPS_PAGE,
   ADMIN_INVESTORS_PAGE,
   ADMIN_USERS_PAGE,
+  HOME,
 } from "@/constants/page.routes";
 import {
   BottomNavigation,
@@ -60,6 +61,8 @@ const AdminSideBarLayout = () => {
         }}
       >
         <Box
+          component={MUILink}
+          href={HOME}
           sx={{ position: "relative", width: "11.6875rem", height: "4.125rem" }}
         >
           <Image src={LogoIcon} priority alt="Logo" fill />
