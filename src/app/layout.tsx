@@ -2,6 +2,11 @@ import ResponsiveAppBar from "@/components/common/AppBar/AppBar";
 import Footer from "@/components/common/Footer/Footer";
 import ReactHotToaster from "@/components/common/ReactHotToaster/ReactHotToaster";
 import Logout from "@/components/ui/Logout/Logout";
+import {
+  EMAIL_TEMPLATE_LOGO,
+  WEBSITE_TITLE,
+  WEBSITE_URL,
+} from "@/constants/environment";
 import UserState from "@/context/userContext";
 import { useGetUserServer } from "@/hooks/useGetUserServer";
 import "@/styles/globals.css";
@@ -17,14 +22,17 @@ import "swiper/css";
 import Providers from "./providers";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://taal-mail.vercel.app"),
-  title: "Taal Mail",
+  metadataBase: new URL(WEBSITE_URL),
+  title: WEBSITE_TITLE,
   openGraph: {
     type: "website",
-    siteName: "Taal Mail",
+    siteName: WEBSITE_TITLE,
     images: [
       {
-        url: "https://res.cloudinary.com/taalmail/image/upload/v1730311074/taalmaillogo_khjusc.png",
+        url: EMAIL_TEMPLATE_LOGO,
+        width: 1200,
+        height: 630,
+        alt: "taal-mail",
       },
     ],
   },
@@ -36,9 +44,9 @@ export const metadata: Metadata = {
     "max-video-preview": -1,
     googleBot: "index, follow",
   },
-  applicationName: "Taal Mail",
+  applicationName: WEBSITE_TITLE,
   appleWebApp: {
-    title: "Taal Mail",
+    title: WEBSITE_TITLE,
     statusBarStyle: "default",
     capable: true,
   },
