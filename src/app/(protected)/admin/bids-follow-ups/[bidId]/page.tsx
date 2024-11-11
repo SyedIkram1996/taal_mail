@@ -1,3 +1,4 @@
+import TextLg from "@/components/common/Text/TextLg";
 import AdminHeader from "@/components/ui/Admin/AdminHeader";
 import BidAndFollowUp from "@/components/ui/Admin/BidsAndFollowUps/BidAndFollowUp/BidAndFollowUp";
 import { BID_AND_FOLLOW_UP } from "@/constants/api.routes";
@@ -26,19 +27,27 @@ export default async function BidAndFollowUpPage({
       "Content-Type": "application/json",
     },
   });
-  const res = await response.json();
+  const data = await response.json();
 
   return (
     <>
       <AdminHeader
-        title={`${res.bid.property.price.currency} ${formatAmountToPKR(Number(res.bid.property.price.askingPrice))}`}
+        title={
+          data && !data.error
+            ? `${data.bid.property.price.currency} ${formatAmountToPKR(Number(data.bid.property.price.askingPrice))}`
+            : ""
+        }
         link={
           searchParams.user
             ? `${ADMIN_USERS_PAGE}/${searchParams.user}?filter=bids`
             : ADMIN_BIDS_AND_FOLLOW_UPS_PAGE
         }
       />
-      {!res.error && <BidAndFollowUp bid={res.bid} token={token} />}
+      {data && !data.error ? (
+        <BidAndFollowUp bid={data.bid} token={token} />
+      ) : (
+        <TextLg text={data.message} sx={{ mt: "3rem", textAlign: "center" }} />
+      )}
     </>
   );
 }

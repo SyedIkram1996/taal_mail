@@ -1,4 +1,10 @@
-import { OK, UNAUTHORIZED } from "@/constants/statusCodes";
+import {
+  BAD_REQUEST,
+  INTERNAL_SERVER_ERROR,
+  NOT_FOUND,
+  OK,
+  UNAUTHORIZED,
+} from "@/constants/statusCodes";
 import { ERoles } from "@/enums/enums";
 import dbConnect from "@/lib/db/dbConnect";
 import UserModel from "@/lib/models/userModel";
@@ -20,13 +26,35 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    await dbConnect();
     const searchParams = request.nextUrl.searchParams;
     const id = searchParams.get("id");
-    const user = await UserModel.findById(id);
-    return Response.json({ user, error: false }, { status: OK });
-  }
-  {
+
+    if (!id) {
+      return apiResponseError({
+        message: "id required",
+        statusCode: BAD_REQUEST,
+      });
+    }
+
+    await dbConnect();
+
+    try {
+      const user = await UserModel.findById(id);
+      if (user) {
+        return Response.json({ user, error: false }, { status: OK });
+      } else {
+        return apiResponseError({
+          message: "User not found",
+          statusCode: NOT_FOUND,
+        });
+      }
+    } catch (error) {
+      return apiResponseError({
+        message: "Something went wrong",
+        statusCode: INTERNAL_SERVER_ERROR,
+      });
+    }
+  } else {
     return decodedToken.response;
   }
 }

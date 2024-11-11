@@ -1,3 +1,4 @@
+import TextLg from "@/components/common/Text/TextLg";
 import AdminHeader from "@/components/ui/Admin/AdminHeader";
 import Investor from "@/components/ui/Admin/Investors/Investor/Investor";
 import { ADMIN_INVESTMENT } from "@/constants/api.routes";
@@ -18,20 +19,25 @@ export default async function InvestorPage({ params }: Params) {
       "Content-Type": "application/json",
     },
   });
-  const res = await response.json();
+  const data = await response.json();
 
   return (
     <>
-      {!res.error && (
-        <>
-          <AdminHeader
-            title={res.investment.username}
-            link={ADMIN_INVESTORS_PAGE}
-          />
+      <>
+        <AdminHeader
+          title={data && !data.error ? data.investment.username : ""}
+          link={ADMIN_INVESTORS_PAGE}
+        />
 
-          <Investor investment={res.investment} token={token} />
-        </>
-      )}
+        {data && !data.error ? (
+          <Investor investment={data.investment} token={token} />
+        ) : (
+          <TextLg
+            text={data.message}
+            sx={{ mt: "3rem", textAlign: "center" }}
+          />
+        )}
+      </>
     </>
   );
 }

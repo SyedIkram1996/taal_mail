@@ -1,4 +1,5 @@
 import PropertiesSkeleton from "@/components/common/Skeletons/PropertiesSkeleton";
+import TextLg from "@/components/common/Text/TextLg";
 import AdminHeader from "@/components/ui/Admin/AdminHeader";
 import User from "@/components/ui/Admin/Users/User/User";
 import { USER } from "@/constants/api.routes";
@@ -20,19 +21,27 @@ export default async function UserPage({ params }: Params) {
       "Content-Type": "application/json",
     },
   });
-  const res = await response.json();
+  const data = await response.json();
 
   return (
     <>
-      {!res.error && (
-        <>
-          <AdminHeader title={res.user.name} link={ADMIN_USERS_PAGE} />
+      <>
+        <AdminHeader
+          title={data && !data.error ? data.user.name : ""}
+          link={ADMIN_USERS_PAGE}
+        />
 
+        {data && !data.error ? (
           <Suspense fallback={<PropertiesSkeleton />}>
             <User userId={params.userId} />
           </Suspense>
-        </>
-      )}
+        ) : (
+          <TextLg
+            text={data.message}
+            sx={{ mt: "3rem", textAlign: "center" }}
+          />
+        )}
+      </>
     </>
   );
 }

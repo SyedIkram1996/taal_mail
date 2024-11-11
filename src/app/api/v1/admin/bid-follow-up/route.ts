@@ -1,4 +1,10 @@
-import { OK, UNAUTHORIZED } from "@/constants/statusCodes";
+import {
+  BAD_REQUEST,
+  INTERNAL_SERVER_ERROR,
+  NOT_FOUND,
+  OK,
+  UNAUTHORIZED,
+} from "@/constants/statusCodes";
 import { ERoles } from "@/enums/enums";
 import dbConnect from "@/lib/db/dbConnect";
 import BidModel from "@/lib/models/BidModel";
@@ -23,69 +29,93 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    await dbConnect();
     const searchParams = request.nextUrl.searchParams;
-    const id = searchParams.get("id") || "";
+    const id = searchParams.get("id");
 
-    const bid = await BidModel.aggregate([
-      {
-        $match: {
-          _id: new Types.ObjectId(id),
-        },
-      },
-      {
-        $lookup: {
-          from: "properties", // Replace with the actual name of your users collection
-          localField: "property",
-          foreignField: "_id",
-          as: "property",
-        },
-      },
-      {
-        $unwind: "$property",
-      },
-      {
-        $lookup: {
-          from: "users", // Replace with the actual name of your users collection
-          localField: "property.createdBy",
-          foreignField: "_id",
-          as: "property.createdBy",
-        },
-      },
+    if (!id) {
+      return apiResponseError({
+        message: "id required",
+        statusCode: BAD_REQUEST,
+      });
+    }
 
-      {
-        $unwind: "$property.createdBy",
-      },
-      {
-        $lookup: {
-          from: "users", // Replace with the actual name of your users collection
-          localField: "bidBy",
-          foreignField: "_id",
-          as: "bidBy",
-        },
-      },
+    await dbConnect();
 
-      {
-        $unwind: "$bidBy",
-      },
-      {
-        $addFields: {
-          "property.id": "$property._id",
-          id: "$_id",
+    try {
+      const bid = await BidModel.aggregate([
+        {
+          $match: {
+            _id: new Types.ObjectId(id),
+          },
         },
-      },
-
-      {
-        $project: {
-          _id: 0,
-          "property._id": 0,
+        {
+          $lookup: {
+            from: "properties", // Replace with the actual name of your users collection
+            localField: "property",
+            foreignField: "_id",
+            as: "property",
+          },
         },
-      },
-    ]);
+        {
+          $unwind: "$property",
+        },
+        {
+          $lookup: {
+            from: "users", // Replace with the actual name of your users collection
+            localField: "property.createdBy",
+            foreignField: "_id",
+            as: "property.createdBy",
+          },
+        },
 
-    return Response.json({ bid: bid[0] || null, error: false }, { status: OK });
-  }
-  {
+        {
+          $unwind: "$property.createdBy",
+        },
+        {
+          $lookup: {
+            from: "users", // Replace with the actual name of your users collection
+            localField: "bidBy",
+            foreignField: "_id",
+            as: "bidBy",
+          },
+        },
+
+        {
+          $unwind: "$bidBy",
+        },
+        {
+          $addFields: {
+            "property.id": "$property._id",
+            id: "$_id",
+          },
+        },
+
+        {
+          $project: {
+            _id: 0,
+            "property._id": 0,
+          },
+        },
+      ]);
+
+      if (bid[0]) {
+        return Response.json(
+          { bid: bid[0] || null, error: false },
+          { status: OK },
+        );
+      } else {
+        return apiResponseError({
+          message: "Bid not found",
+          statusCode: NOT_FOUND,
+        });
+      }
+    } catch (error) {
+      return apiResponseError({
+        message: "Something went wrong",
+        statusCode: INTERNAL_SERVER_ERROR,
+      });
+    }
+  } else {
     return decodedToken.response;
   }
 }

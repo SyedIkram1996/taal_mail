@@ -51,6 +51,7 @@ export default async function PropertyDetailsPage({ params }: Params) {
         />
         {/* ... */}
       </section>
+
       <Stack
         sx={{
           minHeight: "100vh",
@@ -60,7 +61,10 @@ export default async function PropertyDetailsPage({ params }: Params) {
         {data && !data.error ? (
           <PropertyDetails property={data.property} />
         ) : (
-          <TextLg text={data.message} sx={{ mt: "3rem" }} />
+          <TextLg
+            text={data.message}
+            sx={{ mt: "3rem", textAlign: "center" }}
+          />
         )}
       </Stack>
     </>

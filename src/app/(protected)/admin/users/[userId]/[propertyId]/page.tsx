@@ -1,3 +1,4 @@
+import TextLg from "@/components/common/Text/TextLg";
 import AdminHeader from "@/components/ui/Admin/AdminHeader";
 import PropertyDetails from "@/components/ui/Admin/Users/User/PropertyDetails/PropertyDetails";
 import { USER_PROPERTY } from "@/constants/api.routes";
@@ -19,19 +20,23 @@ export default async function UserPropertyPage({ params }: Params) {
       "Content-Type": "application/json",
     },
   });
-  const res = await response.json();
-
-  if (!res.property) {
-    return <></>;
-  }
+  const data = await response.json();
 
   return (
     <>
       <AdminHeader
-        title={`${res.property.price.currency} ${formatAmountToPKR(Number(res.property.price.askingPrice))}`}
+        title={
+          data && !data.error
+            ? `${data.property.price.currency} ${formatAmountToPKR(Number(data.property.price.askingPrice))}`
+            : ""
+        }
         link={`${ADMIN_USERS_PAGE}/${params.userId}`}
       />
-      <PropertyDetails property={res.property} />
+      {data && !data.error ? (
+        <PropertyDetails property={data.property} />
+      ) : (
+        <TextLg text={data.message} sx={{ mt: "3rem", textAlign: "center" }} />
+      )}
     </>
   );
 }
