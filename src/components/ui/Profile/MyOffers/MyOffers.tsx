@@ -24,7 +24,7 @@ const MyOffers = ({ data, token }: Props) => {
             sx={{ display: "flex", justifyContent: "center" }}
             key={index}
           >
-            <MyOffer val={val} />
+            <MyOffer val={val} token={token} />
           </Grid2>
         ))
       ) : (

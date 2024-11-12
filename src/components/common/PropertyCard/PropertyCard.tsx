@@ -3,26 +3,25 @@ import { BannerImage } from "@/constants/images.routes";
 import { PROPERTY } from "@/constants/page.routes";
 import { IProperty } from "@/interfaces/IProperty";
 import { formatAmountToPKR } from "@/utils/maths";
-import { Box, Grid2, Stack, SxProps } from "@mui/material";
+import { Box, Stack, SxProps } from "@mui/material";
 import Image from "next/image";
 import { ReactNode } from "react";
 import MUILink from "../MUILink/MUILink";
 import SvgIconText from "../SvgIconText";
-import AreaIcon from "../SvgIcons/AreaIcon";
-import BathroomIcon from "../SvgIcons/BathroomIcon";
-import BedroomIcon from "../SvgIcons/BedroomIcon";
 import BuyIcon from "../SvgIcons/BuyIcon";
 import HouseIcon from "../SvgIcons/HouseIcon";
 import LocationIcon from "../SvgIcons/LocationIcon";
 import TextMd from "../Text/TextMd";
+import BedsBathsArea from "./BedsBathsArea";
 
 interface Props {
   property: IProperty;
   children?: ReactNode;
+  disableLink?: boolean;
   sx?: SxProps;
 }
 
-const PropertyCard = ({ property, children, sx }: Props) => {
+const PropertyCard = ({ property, children, disableLink, sx }: Props) => {
   const {
     id,
     purpose,
@@ -53,7 +52,10 @@ const PropertyCard = ({ property, children, sx }: Props) => {
         position: "relative",
       }}
     >
-      <MUILink href={`${PROPERTY}/${id}`} sx={{ width: "100%" }}>
+      <MUILink
+        href={disableLink ? "" : `${PROPERTY}/${id}`}
+        sx={{ width: "100%" }}
+      >
         <Stack
           sx={{
             borderRadius: "0.9375rem",
@@ -61,14 +63,18 @@ const PropertyCard = ({ property, children, sx }: Props) => {
             backgroundColor: "var(--text-white)",
             boxShadow: "2px 4px 6px 0px rgba(0, 0, 0, 0.25)",
             width: { md: "18.5rem" },
-            minHeight: "26.8125rem",
+            minHeight: images.length > 0 ? "26.8125rem" : "fit-content",
             overflow: "hidden",
-            cursor: "pointer",
+            cursor: disableLink ? "initial" : "pointer",
             ...sx,
           }}
         >
           <Box
-            sx={{ position: "relative", width: "100%", height: "15.59231rem" }}
+            sx={{
+              position: "relative",
+              width: "100%",
+              height: "15.59231rem",
+            }}
           >
             <Image
               priority
@@ -91,31 +97,12 @@ const PropertyCard = ({ property, children, sx }: Props) => {
               text={`${price.currency} ${formatAmountToPKR(Number(price.askingPrice))}`}
               sx={{ color: "var(--text-black)" }}
             />
-            <Grid2 container>
-              <Grid2 size={3.5}>
-                <SvgIconText
-                  noWrap
-                  icon={<BedroomIcon sx={{ width: "20px", height: "20px" }} />}
-                  text={bedrooms}
-                />
-              </Grid2>
-              <Grid2 size={3.5}>
-                <SvgIconText
-                  noWrap
-                  icon={<BathroomIcon sx={{ width: "20px", height: "20px" }} />}
-                  text={bathrooms}
-                  sxRow={{ justifyContent: "center" }}
-                />
-              </Grid2>
-              <Grid2 size={5}>
-                <SvgIconText
-                  noWrap
-                  icon={<AreaIcon sx={{ width: "20px", height: "20px" }} />}
-                  text={`${area.totalArea} ${areas.find((val) => val.value === area.type)?.title}`}
-                  sxRow={{ justifyContent: "flex-end" }}
-                />
-              </Grid2>
-            </Grid2>
+
+            <BedsBathsArea
+              bedrooms={bedrooms}
+              bathrooms={bathrooms}
+              area={`${area.totalArea} ${areas.find((val) => val.value === area.type)?.title}`}
+            />
 
             <Stack
               direction={"row"}

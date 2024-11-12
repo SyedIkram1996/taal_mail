@@ -80,7 +80,15 @@ const LoginForm = () => {
     },
     onSuccess: (data: any) => {
       if (data && data.data) {
-        loginAction({ token: data.data.token, redirectLink });
+        loginAction({
+          token: data.data.token,
+          redirectLink,
+          role: data.data.user.role,
+        });
+
+        setTimeout(() => {
+          localStorage.setItem("loggedIn", "true");
+        }, 500);
       }
     },
     onError: (error) => {

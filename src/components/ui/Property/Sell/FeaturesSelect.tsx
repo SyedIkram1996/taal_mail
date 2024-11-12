@@ -92,6 +92,7 @@ interface Props {
   value: IPropertyFeatures;
   formik: any;
   error: string;
+  desc: string;
 }
 
 const getFeatureTabAndIcon = (
@@ -110,7 +111,7 @@ const getFeatureTabAndIcon = (
   });
 };
 
-const FeaturesSelect = ({ value, formik, error }: Props) => {
+const FeaturesSelect = ({ value, formik, error, desc }: Props) => {
   const [openFeatures, setOpenFeatures] = useState(false);
   const [tabValue, setTabValue] = useState<string>(BASIC_FEATURES_VALUE);
   const [tempValues, setTempValues] = useState<any>(clone(value));
@@ -213,11 +214,7 @@ const FeaturesSelect = ({ value, formik, error }: Props) => {
 
   return (
     <Stack id="features">
-      <FieldTitleDesc
-        title="Features:"
-        desc="what features does yor property have?"
-        error={error}
-      />
+      <FieldTitleDesc title="Features:" desc={desc} error={error} />
 
       <FilledButton
         text="Add Features"

@@ -10,21 +10,32 @@ interface Props {
   value: string;
   currency: string;
   error: string;
+  title: string;
+  id: string;
+  name: string;
+  placeholder: string;
+  desc?: string;
 }
 
-const PriceField = ({ handleChange, currency, value, error }: Props) => {
+const PriceField = ({
+  handleChange,
+  currency,
+  value,
+  error,
+  title,
+  id,
+  name,
+  desc,
+  placeholder,
+}: Props) => {
   return (
-    <Stack id="price">
-      <FieldTitleDesc
-        title="Asking Price:"
-        desc="How much do you want for your property?"
-        error={error}
-      />
+    <Stack id={id}>
+      <FieldTitleDesc title={title} desc={desc} error={error} />
 
       <LabelTopTextField
-        name="price"
+        name={name}
         type="number"
-        placeholder="Price"
+        placeholder={placeholder}
         value={value}
         onChange={(e) => {
           handleChange(e);

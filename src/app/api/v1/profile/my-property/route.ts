@@ -1,4 +1,10 @@
-import { CREATED, NOT_FOUND, OK } from "@/constants/statusCodes";
+import {
+  BAD_REQUEST,
+  CREATED,
+  INTERNAL_SERVER_ERROR,
+  NOT_FOUND,
+  OK,
+} from "@/constants/statusCodes";
 import dbConnect from "@/lib/db/dbConnect";
 import PropertyModel from "@/lib/models/propertyModel";
 import { apiResponseError } from "@/lib/utils/apiResponseError";
@@ -58,23 +64,37 @@ export async function GET(request: NextRequest) {
   const decodedToken = verifyJwtToken(request);
 
   if (!decodedToken.error) {
-    await dbConnect();
     const searchParams = request.nextUrl.searchParams;
     const id = searchParams.get("id");
-    const property = await PropertyModel.findOne({
-      _id: id,
-      createdBy: decodedToken.userId,
-    });
-    if (property) {
-      return Response.json({ property, error: false }, { status: OK });
-    } else {
+
+    if (!id) {
       return apiResponseError({
-        message: "Property not found",
-        statusCode: NOT_FOUND,
+        message: "id required",
+        statusCode: BAD_REQUEST,
       });
     }
-  }
-  {
+
+    await dbConnect();
+    try {
+      const property = await PropertyModel.findOne({
+        _id: id,
+        createdBy: decodedToken.userId,
+      });
+      if (property) {
+        return Response.json({ property, error: false }, { status: OK });
+      } else {
+        return apiResponseError({
+          message: "Property not found",
+          statusCode: NOT_FOUND,
+        });
+      }
+    } catch (error) {
+      return apiResponseError({
+        message: "Something went wrong",
+        statusCode: INTERNAL_SERVER_ERROR,
+      });
+    }
+  } else {
     return decodedToken.response;
   }
 }

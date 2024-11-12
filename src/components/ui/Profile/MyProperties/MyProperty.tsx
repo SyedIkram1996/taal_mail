@@ -1,5 +1,6 @@
 import FilledButton from "@/components/common/Button/FilledButton";
 import PropertyCard from "@/components/common/PropertyCard/PropertyCard";
+import InfoCircleIcon from "@/components/common/SvgIcons/InfoCircleIcon";
 import PencilIcon from "@/components/common/SvgIcons/PencilIcon";
 import TrashIcon from "@/components/common/SvgIcons/TrashIcon";
 import TextMd from "@/components/common/Text/TextMd";
@@ -10,17 +11,19 @@ import { Dialog, Stack } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface Props {
   val: IProperty;
   token?: RequestCookie;
+  showDetails?: boolean;
 }
 
-const MyProperty = ({ val, token }: Props) => {
+const MyProperty = ({ val, token, showDetails }: Props) => {
   const [openPropertyDelete, setOpenPropertyDelete] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   const deletePropertyMutation = useMutation({
     mutationFn: async () => {
@@ -41,7 +44,7 @@ const MyProperty = ({ val, token }: Props) => {
         position: "relative",
       }}
     >
-      <PropertyCard property={val} sx={{ pb: "5rem" }} />
+      <PropertyCard disableLink property={val} sx={{ pb: "5rem" }} />
 
       <Stack
         direction={"row"}
@@ -55,7 +58,9 @@ const MyProperty = ({ val, token }: Props) => {
         }}
       >
         <Stack
-          href={`${SELL_PLOT}/${val.id}`}
+          href={
+            showDetails ? `${pathname}/${val.id}` : `${SELL_PLOT}/${val.id}`
+          }
           component={Link}
           sx={{
             justifyContent: "center",
@@ -68,7 +73,11 @@ const MyProperty = ({ val, token }: Props) => {
             width: "fit-content",
           }}
         >
-          <PencilIcon sx={{ width: "30px", height: "30px" }} />
+          {showDetails ? (
+            <InfoCircleIcon sx={{ width: "30px", height: "30px" }} />
+          ) : (
+            <PencilIcon sx={{ width: "30px", height: "30px" }} />
+          )}
         </Stack>
 
         <Stack

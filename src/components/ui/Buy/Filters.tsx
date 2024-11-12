@@ -49,9 +49,13 @@ const Filters = () => {
     value: string;
   }>({ title: "", value: "" });
 
-  const [bathsValue, setBathsValue] = useState<string>("");
+  const [bathsValue, setBathsValue] = useState<string>(
+    searchParams.get("bathrooms") || "",
+  );
 
-  const [bedsValue, setBedsValue] = useState<string>("");
+  const [bedsValue, setBedsValue] = useState<string>(
+    searchParams.get("bedrooms") || "",
+  );
 
   const [priceValue, setPriceValue] = useState<{
     minPrice: string;
@@ -69,7 +73,7 @@ const Filters = () => {
   }>({ type: "Residential", category: "" });
 
   const [tabValue, setTabValue] = useState(
-    searchParams.get("classification") || "",
+    searchParams.get("classification") || "residential",
   );
 
   const handleChangeTabs = (event: React.SyntheticEvent, newValue: string) => {
@@ -132,6 +136,7 @@ const Filters = () => {
     const params = new URLSearchParams(searchParams);
     params.set("page", "1");
     params.set("classification", value);
+    params.delete("type");
     return `${pathname}?${params.toString()}`;
   };
 
@@ -355,8 +360,8 @@ const Filters = () => {
         </SelectField>
 
         <SelectField
-          text={areaValue.title ? areaValue.title : "Area"}
-          sx={{ width: { xs: "100%", md: "8.9375rem" }, position: "relative" }}
+          text={"Area"}
+          sx={{ width: { xs: "100%", md: "10.9375rem" }, position: "relative" }}
         >
           <Stack
             sx={{
@@ -372,21 +377,6 @@ const Filters = () => {
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* {areas.map((val, index) => (
-              <TextLg
-                text={val.title}
-                onClick={() => setAreaValue(val)}
-                sx={{
-                  color: "var(--text-black)",
-                  fontWeight: "400",
-                  padding: "0.5rem",
-                  borderBottom:
-                    index !== areas.length - 1
-                      ? "1px solid var(--platinum)"
-                      : "none",
-                }}
-              />
-            ))} */}
             <TextLg
               text={"Area:"}
               sx={{ color: "var(--text-black)", fontWeight: "400", flex: 1 }}
@@ -398,6 +388,7 @@ const Filters = () => {
               // value={totalAreaValue}
               defaultValue={searchParams.get("totalArea") || ""}
               onChange={(e) => {
+                setAreaValue({ title: e.target.value, value: areaType });
                 handleAreaChange(e);
               }}
               endIcon={

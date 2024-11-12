@@ -40,8 +40,13 @@ const SelectField = ({
         }}
       >
         <TextLg
+          noWrap
           text={text}
-          sx={{ color: "var(--text-black)", fontWeight: "400", flex: 1 }}
+          sx={{
+            color: "var(--text-black)",
+            fontWeight: "400",
+            flex: 1,
+          }}
         />
 
         <ChevronDownGreyIcon
