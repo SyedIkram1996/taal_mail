@@ -27,7 +27,9 @@ export async function POST(request: NextRequest) {
 
   const { email, idToken, uid } = validationResult.data;
 
-  const user = await UserModel.findOne({ email });
+  const user = await UserModel.findOne({
+    email: { $regex: new RegExp(`^${email}$`, "i") },
+  });
 
   if (uid && !user) {
     await admin.auth().deleteUser(uid);
