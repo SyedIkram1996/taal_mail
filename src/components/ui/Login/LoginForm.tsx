@@ -88,7 +88,7 @@ const LoginForm = () => {
 
         setTimeout(() => {
           localStorage.setItem("loggedIn", "true");
-        }, 500);
+        }, 1000);
       }
     },
     onError: (error) => {

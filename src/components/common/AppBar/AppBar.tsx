@@ -370,7 +370,7 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
                       logoutAction(pathname);
                       setTimeout(() => {
                         localStorage.setItem("loggedOut", "true");
-                      }, 500);
+                      }, 1000);
                       handleProfileMenu(false);
                     }}
                     text={"Logout"}
@@ -506,7 +506,7 @@ function ResponsiveAppBar({ userSession, userData }: Props) {
                     logoutAction(pathname);
                     setTimeout(() => {
                       localStorage.setItem("loggedOut", "true");
-                    }, 500);
+                    }, 1000);
                     handleProfileMenu(false);
                   }}
                   text={"Logout"}
