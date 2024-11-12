@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
 
   if (EMAIL) {
     await sendEmail({
-      sentTo: EMAIL,
+      sentTo: "taalmailpvt@gmail.com",
       subject: `${body.email} sent a Feedback`,
       body: body.feedback,
     });
