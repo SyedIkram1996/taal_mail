@@ -46,6 +46,11 @@ export const loginInIdTokenSchema = object({
   uid: string(),
 });
 
+export const googleLoginSchema = object({
+  email: string().email("Invalid email address"),
+  idToken: string(),
+});
+
 export const verifySchema = object({
   verifyCode: string().length(6, "Verification code must be 6 digits"),
 });

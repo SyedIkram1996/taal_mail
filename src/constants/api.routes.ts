@@ -4,6 +4,7 @@ import { BASE_URL } from "./environment";
 const { RESIDENTIAL_VALUE } = EPropertyClassification;
 
 export const SIGN_UP = `${BASE_URL}/sign-up`;
+export const SIGN_UP_AND_LOGIN_GOOGLE = `${BASE_URL}/sign-up-login-google`;
 export const LOGIN = `${BASE_URL}/login`;
 export const FORGOT_PASSWORD = `${BASE_URL}/forgot-password`;
 export const PROPERTY = `${BASE_URL}/property`;
