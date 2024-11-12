@@ -28,6 +28,7 @@ const LoginForm = () => {
   const [loginError, setLoginError] = useState("");
   const redirectLink = searchParams.get("redirect");
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingGoogle, setIsLoadingGoogle] = useState(false);
 
   const formik = useFormik<ILogin>({
     initialValues: {
@@ -105,6 +106,7 @@ const LoginForm = () => {
     const auth2 = getAuth();
     signInWithPopup(auth2, provider)
       .then(async (result) => {
+        setIsLoadingGoogle(true);
         // This gives you a Google Access Token. You can use it to access the Google API.
         // const credential = GoogleAuthProvider.credentialFromResult(result);
         // const idToken = credential?.idToken;
@@ -130,12 +132,14 @@ const LoginForm = () => {
               }, 1000);
             }
           } else {
+            setIsLoadingGoogle(false);
             auth.signOut();
           }
         }
       })
       .catch((error) => {
         console.log(error);
+        setIsLoadingGoogle(false);
         // Handle Errors here.
         // const errorCode = error.code;
         // const errorMessage = error.message;
@@ -272,7 +276,7 @@ const LoginForm = () => {
           text="Login"
           type="submit"
           loading={isLoading}
-          disabled={isLoading}
+          disabled={isLoading || isLoadingGoogle}
           // onClick={() => loginAction({ redirectLink })}
           sx={{
             height: "3.0625rem",
@@ -322,6 +326,8 @@ const LoginForm = () => {
         </Stack>
 
         <FilledButton
+          loading={isLoadingGoogle}
+          disabled={isLoadingGoogle || isLoading}
           onClick={signInWithGoogle}
           secondary
           text="Google"
