@@ -10,16 +10,18 @@ import TextXs from "@/components/common/Text/TextXs";
 import { GoogleColorIcon, LogoIcon } from "@/constants/images.routes";
 import { FORGOT_PASSWORD_PAGE, HOME, SIGN_UP } from "@/constants/page.routes";
 import { ILogin } from "@/interfaces/api";
-import { login } from "@/services/auth.services";
+import { login, signUpAndLoginGoogle } from "@/services/auth.services";
 import { toastError } from "@/utils/toaster";
 import { loginInSchema } from "@/validators/auth";
 import { Box, Stack, Typography } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { useFormik } from "formik";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
+const provider = new GoogleAuthProvider();
 
 const LoginForm = () => {
   const searchParams = useSearchParams();
@@ -61,6 +63,8 @@ const LoginForm = () => {
 
         if (userCredential.user) {
           const idToken = await userCredential.user.getIdToken();
+
+          console.log(idToken);
           const uid = userCredential.user.uid;
           return login({ email, idToken, uid });
         }
@@ -96,6 +100,52 @@ const LoginForm = () => {
       setIsLoading(false);
     },
   });
+
+  const signInWithGoogle = async () => {
+    const auth2 = getAuth();
+    signInWithPopup(auth2, provider)
+      .then(async (result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        // const credential = GoogleAuthProvider.credentialFromResult(result);
+        // const idToken = credential?.idToken;
+        // The signed-in user info.
+        const user = result.user;
+        const idToken = await user.getIdToken();
+
+        if (user && user.email && idToken) {
+          const response: any = await signUpAndLoginGoogle({
+            email: user.email,
+            idToken,
+          });
+
+          if (response) {
+            if (response && response.data) {
+              loginAction({
+                token: response.data.token,
+                redirectLink,
+                role: response.data.user.role,
+              });
+              setTimeout(() => {
+                localStorage.setItem("loggedIn", "true");
+              }, 1000);
+            }
+          } else {
+            auth.signOut();
+          }
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        // Handle Errors here.
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
+        // // The email of the user's account used.
+        // const email = error.customData.email;
+        // // The AuthCredential type that was used.
+        // const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
+  };
 
   return (
     <Stack
@@ -272,6 +322,7 @@ const LoginForm = () => {
         </Stack>
 
         <FilledButton
+          onClick={signInWithGoogle}
           secondary
           text="Google"
           startIcon={
