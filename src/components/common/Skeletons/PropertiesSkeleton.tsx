@@ -3,7 +3,7 @@ import PropertySkeleton from "./PropertySkeleton";
 
 const PropertiesSkeleton = () => {
   return (
-    <Stack sx={{ alignItems: "center", width: "100%" }}>
+    <Stack sx={{ alignItems: "center", width: "100%", height: "100vh" }}>
       <Grid2
         maxWidth={"lg"}
         container

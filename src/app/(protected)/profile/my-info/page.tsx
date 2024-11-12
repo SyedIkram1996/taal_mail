@@ -1,11 +1,23 @@
 import MyInfo from "@/components/ui/Profile/MyInfo/MyInfo";
 import { MY_INFO } from "@/constants/api.routes";
+import { META_DATA } from "@/utils/seo";
 import { Stack } from "@mui/material";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
-  title: "My Info | Taal Mail",
+  ...META_DATA({
+    title: "My Info | Taal Mail",
+    description:
+      "Access and update your personal account information. Keep your profile details up-to-date to manage property listings and offers.",
+  }),
+  keywords: [
+    "account information",
+    "my profile details",
+    "personal info",
+    "update profile",
+    "user account info",
+  ],
 };
 
 export default async function MyInfoPage() {

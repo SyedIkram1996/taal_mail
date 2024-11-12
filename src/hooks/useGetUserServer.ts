@@ -1,5 +1,5 @@
 import { BASE_URL } from "@/constants/environment";
-import { PROFILE, SELL, SESSION_EXPIRE } from "@/constants/page.routes";
+import { HOME, PROFILE, SELL, SESSION_EXPIRE } from "@/constants/page.routes";
 import { IUser } from "@/interfaces/IUser";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { headers } from "next/headers";
@@ -18,11 +18,11 @@ export const useGetUserServer = async (token: RequestCookie | undefined) => {
 
     if (res.ok) {
       data = await res.json();
+      const headersList = headers();
+      const pathname = headersList.get("x-pathname") || "";
+
       //@ts-ignore
       if (data && !data.user) {
-        const headersList = headers();
-        const pathname = headersList.get("x-pathname") || "";
-
         if (
           pathname &&
           pathname !== SESSION_EXPIRE &&
@@ -30,6 +30,16 @@ export const useGetUserServer = async (token: RequestCookie | undefined) => {
         ) {
           redirect(SESSION_EXPIRE);
         }
+      } else if (
+        data &&
+        //@ts-ignore
+        data.user &&
+        //@ts-ignore
+        ((data.user.role === "User" && pathname.includes("/admin")) ||
+          //@ts-ignore
+          (data.user.role === "Admin" && pathname.includes("/profile")))
+      ) {
+        redirect(HOME);
       }
     }
   }

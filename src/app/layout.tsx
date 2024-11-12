@@ -1,10 +1,13 @@
 import ResponsiveAppBar from "@/components/common/AppBar/AppBar";
 import Footer from "@/components/common/Footer/Footer";
 import ReactHotToaster from "@/components/common/ReactHotToaster/ReactHotToaster";
+import Logout from "@/components/ui/Logout/Logout";
+import { WEBSITE_URL } from "@/constants/environment";
 import UserState from "@/context/userContext";
 import { useGetUserServer } from "@/hooks/useGetUserServer";
 import "@/styles/globals.css";
 import theme from "@/theme";
+import { LAYOUT_OPEN_GRAPH, WEBSITE_TITLE } from "@/utils/seo";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
@@ -16,17 +19,9 @@ import "swiper/css";
 import Providers from "./providers";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://taal-mail.vercel.app"),
-  title: "Taal Mail",
-  openGraph: {
-    type: "website",
-    siteName: "Taal Mail",
-    images: [
-      {
-        url: "https://res.cloudinary.com/taalmail/image/upload/v1730311074/taalmaillogo_khjusc.png",
-      },
-    ],
-  },
+  metadataBase: new URL(WEBSITE_URL),
+  title: WEBSITE_TITLE,
+  openGraph: LAYOUT_OPEN_GRAPH,
   robots: {
     index: true,
     follow: true,
@@ -35,9 +30,9 @@ export const metadata: Metadata = {
     "max-video-preview": -1,
     googleBot: "index, follow",
   },
-  applicationName: "Taal Mail",
+  applicationName: WEBSITE_TITLE,
   appleWebApp: {
-    title: "Taal Mail",
+    title: WEBSITE_TITLE,
     statusBarStyle: "default",
     capable: true,
   },
@@ -61,6 +56,9 @@ export const metadata: Metadata = {
       },
     ],
   },
+  other: {
+    "google-site-verification": "1Jww3SKcEe-rkKDkEvQg7nOkMzf606w0DmQOq_bE2cc",
+  },
 };
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
@@ -75,6 +73,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
             <ReactHotToaster />
+            <Logout />
             <UserState>
               <>
                 <ResponsiveAppBar

@@ -32,3 +32,8 @@ export const MY_PROPERTIES_PAGE = (
 export const MY_OFFERS = `${PROFILE}/my-offers`;
 
 export const SESSION_EXPIRE = "/session-expire";
+
+export const ADMIN_PAGE = "/admin";
+export const ADMIN_USERS_PAGE = "/admin/users";
+export const ADMIN_BIDS_AND_FOLLOW_UPS_PAGE = "/admin/bids-follow-ups";
+export const ADMIN_INVESTORS_PAGE = "/admin/investors";

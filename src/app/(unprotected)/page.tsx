@@ -4,28 +4,17 @@ import Banner from "@/components/ui/Home/Banner";
 import FeaturedListing from "@/components/ui/Home/FeaturedListing";
 import Features from "@/components/ui/Home/Features";
 import SearchByLocation from "@/components/ui/Home/SearchByLocation";
+import { META_DATA } from "@/utils/seo";
 import { Stack } from "@mui/material";
 import { Metadata } from "next";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
-  title: "Home | Taal Mail",
-  description: "taal-mail.vercel.app - Buy and Rent Properties",
-  keywords: ["buy property", "sell properties", "buy house", "sell house"],
-  openGraph: {
-    url: "https://taal-mail.vercel.app",
-    type: "website",
+  ...META_DATA({
     title: "Home | Taal Mail",
-    description: "taal-mail.vercel.app - Buy and Rent Properties",
-    images: [
-      {
-        url: "https://res.cloudinary.com/taalmail/image/upload/v1730311074/taalmaillogo_khjusc.png",
-        width: 1200,
-        height: 630,
-        alt: "taal-mail",
-      },
-    ],
-  },
+    description: "Buy and Rent Properties",
+  }),
+  keywords: ["buy property", "sell properties", "buy house", "sell house"],
 };
 
 export default function Home() {

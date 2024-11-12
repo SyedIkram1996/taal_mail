@@ -3,7 +3,9 @@
 import FilledButton from "@/components/common/Button/FilledButton";
 
 import { revalidatePage } from "@/app/actions";
+import CustomTextField from "@/components/common/Input/CustomTextField";
 import TextMd from "@/components/common/Text/TextMd";
+import { baths, beds } from "@/constants/filters";
 import { MY_PROPERTIES_PAGE } from "@/constants/page.routes";
 import { EPropertyClassification } from "@/enums/enums";
 import { IProperty } from "@/interfaces/IProperty";
@@ -13,18 +15,15 @@ import { Dialog, Stack } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
-import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import AreaField from "./AreaField";
-import BathroomsSelect from "./BathroomsSelect";
-import BedroomsSelect from "./BedroomsSelect";
+import BedBathroomsSelect from "./BedBathroomsSelect";
 import CityField from "./CityField";
 import DescriptionField from "./DescriptionField";
 import DuesSelect from "./DuesSelect";
 import FeaturesSelect from "./FeaturesSelect";
 import LocationField from "./LocationField";
-import NameField from "./NameField";
 import PriceField from "./PriceField";
 import PurposeSelect from "./PurposeSelect";
 import StatusSelect from "./StatusSelect";
@@ -41,7 +40,6 @@ interface Props {
 
 const AddPropertyDetails = ({ token, data }: Props) => {
   const [openPropertyAdded, setOpenPropertyAdded] = useState(false);
-  const router = useRouter();
   const formik = useFormik<IProperty>({
     initialValues: {
       createdBy: data ? data.createdBy : "",
@@ -306,6 +304,7 @@ const AddPropertyDetails = ({ token, data }: Props) => {
           handleChangeType={handleChangeAreaType}
           totalAreaValue={formikValues.area.totalArea}
           areaTypeValue={formikValues.area.type}
+          desc="What is the size of your property?"
           error={
             formikErrors.area?.totalArea && formik.touched.area?.totalArea
               ? formikErrors.area?.totalArea
@@ -317,6 +316,11 @@ const AddPropertyDetails = ({ token, data }: Props) => {
           handleChange={handleChangePrice}
           value={formikValues.price.askingPrice}
           currency={formikValues.price.currency}
+          id={"price"}
+          title={"Asking Price:"}
+          name={"price"}
+          placeholder="Price"
+          desc="How much do you want for your property?"
           error={
             formikErrors.price?.askingPrice && formik.touched.price?.askingPrice
               ? formikErrors.price?.askingPrice
@@ -324,7 +328,11 @@ const AddPropertyDetails = ({ token, data }: Props) => {
           }
         />
 
-        <BedroomsSelect
+        <BedBathroomsSelect
+          id={"bedrooms"}
+          title={"No. of Bedrooms:"}
+          desc={"How many bed rooms does your property have?"}
+          options={beds}
           handleChange={handleChangeBedrooms}
           value={formikValues.bedrooms}
           error={
@@ -334,7 +342,11 @@ const AddPropertyDetails = ({ token, data }: Props) => {
           }
         />
 
-        <BathroomsSelect
+        <BedBathroomsSelect
+          id={"bathrooms"}
+          title={"No. of Bathrooms:"}
+          desc={"How many bathrooms does your property have?"}
+          options={baths}
           handleChange={handleChangeBathrooms}
           value={formikValues.bathrooms}
           error={
@@ -347,6 +359,7 @@ const AddPropertyDetails = ({ token, data }: Props) => {
         <FeaturesSelect
           value={formikValues.features}
           formik={formik}
+          desc="what features does yor property have?"
           error={
             formikErrors.features && formik.touched.features
               ? `${formikErrors.features}`
@@ -354,7 +367,12 @@ const AddPropertyDetails = ({ token, data }: Props) => {
           }
         />
 
-        <NameField
+        <CustomTextField
+          id="name"
+          name="name"
+          placeholder="Name of Property"
+          title="Name of Property:"
+          desc="Add the Title of your post."
           handleChange={handleChangeName}
           value={formikValues.name}
           error={

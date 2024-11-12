@@ -1,11 +1,22 @@
 import MyProperties from "@/components/ui/Profile/MyProperties/MyProperties";
 import { MY_PROPERTIES } from "@/constants/api.routes";
+import { META_DATA } from "@/utils/seo";
 import { Stack } from "@mui/material";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 
 export const metadata: Metadata = {
-  title: "My Properties | Taal Mail",
+  ...META_DATA({
+    title: "My Properties | Taal Mail",
+    description:
+      "View and manage all properties you have listed for sale or rent. Easily update property details and track engagement.",
+  }),
+  keywords: [
+    "my listed properties",
+    "view my properties",
+    "listed property details",
+    "property management dashboard",
+  ],
 };
 
 interface Params {

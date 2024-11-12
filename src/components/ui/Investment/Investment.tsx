@@ -1,53 +1,99 @@
 "use client";
 
+import { revalidatePage } from "@/app/actions";
 import FilledButton from "@/components/common/Button/FilledButton";
-import MenuCard from "@/components/common/Card/MenuCard";
-import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
-import SelectField from "@/components/common/Input/SelectField";
-import CrossIcon from "@/components/common/SvgIcons/CrossIcon";
-import GasIcon from "@/components/common/SvgIcons/GasIcon";
-import PlusIcon from "@/components/common/SvgIcons/PlusIcon";
-import SvgIconText from "@/components/common/SvgIconText";
+import CustomTextField from "@/components/common/Input/CustomTextField";
 import TextLg from "@/components/common/Text/TextLg";
 import TextMd from "@/components/common/Text/TextMd";
-import TextSm from "@/components/common/Text/TextSm";
-import { areas, baths, beds } from "@/constants/filters";
-import { Stack } from "@mui/material";
-import { useState } from "react";
+import { baths, beds } from "@/constants/filters";
+import { ADMIN_INVESTORS_PAGE } from "@/constants/page.routes";
+import { IInvestment } from "@/interfaces/IInvestment";
+import { addInvestment } from "@/services/investment.services";
+import { investmentSchema } from "@/validators/investment";
+import { Dialog, Stack } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
+import { useFormik } from "formik";
+import { useCallback, useState } from "react";
+import { toFormikValidationSchema } from "zod-formik-adapter";
+import AreaField from "../Property/Sell/AreaField";
+import BedBathroomsSelect from "../Property/Sell/BedBathroomsSelect";
+import FeaturesSelect from "../Property/Sell/FeaturesSelect";
+import PriceField from "../Property/Sell/PriceField";
 
 interface Props {
   title: string;
   desc: string;
 }
 
-const TitleDesc = ({ title, desc }: Props) => {
-  return (
-    <Stack
-      direction={{ xs: "column", md: "row" }}
-      sx={{ alignItems: "center", gap: "0.62rem" }}
-    >
-      <TextLg
-        text={title}
-        sx={{ fontWeight: "400", color: "var(--text-black)" }}
-      />
-      <TextSm
-        text={desc}
-        sx={{ fontWeight: "400", color: "var(--spanish-gray)" }}
-      />
-    </Stack>
-  );
-};
-
 const Investment = () => {
-  const [areaValue, setAreaValue] = useState<{
-    title: string;
-    value: string;
-  }>({ title: "Marla", value: "marla" });
+  const [openModal, setOpenModal] = useState(false);
+  const formik = useFormik<IInvestment>({
+    initialValues: {
+      followUps: [],
+      username: "",
+      email: "",
+      area: {
+        type: "sqft",
+        totalArea: "",
+      },
+      price: {
+        minPrice: "",
+        maxPrice: "",
+        currency: "PKR",
+      },
+      bedrooms: "",
+      bathrooms: "",
+      phoneNo: "",
+      city: "",
+      features: {
+        basicFeatures: [],
+        facilities: [],
+        nearbyPlaces: [],
+        secondaryFeatures: [],
+      },
+      description: "",
+    },
+    onSubmit: (values) => {
+      mutation.mutate();
+    },
+    validationSchema: toFormikValidationSchema(investmentSchema),
+  });
 
-  const [bathsValue, setBathsValue] = useState<string>("2");
+  const formikValues = formik.values;
+  const formikErrors = formik.errors;
 
-  const [bedsValue, setBedsValue] = useState<string>("1");
-  const [openFeatures, setOpenFeatures] = useState(false);
+  const mutation = useMutation({
+    mutationFn: async () => addInvestment(formikValues),
+    onSuccess: (data) => {
+      // router.refresh();
+      revalidatePage(ADMIN_INVESTORS_PAGE);
+      setOpenModal(true);
+    },
+    onError: (error) => {},
+  });
+
+  const handleChangeTextField = useCallback((e: any) => {
+    const { name } = e.target;
+    formik.setFieldTouched(name, false);
+    formik.handleChange(e);
+  }, []);
+
+  const handleChangeTotalArea = useCallback((e: any) => {
+    formik.setFieldTouched("area.totalArea", false);
+    formik.setFieldValue("area.totalArea", e.target.value);
+  }, []);
+
+  const handleChangeAreaType = useCallback((value: any) => {
+    formik.setFieldValue("area.type", value);
+  }, []);
+
+  const handleChangeBedrooms = useCallback((value: any) => {
+    formik.setFieldValue("bedrooms", value);
+  }, []);
+
+  const handleChangeBathrooms = useCallback((value: any) => {
+    formik.setFieldValue("bathrooms", value);
+  }, []);
 
   return (
     <>
@@ -72,6 +118,8 @@ const Investment = () => {
       />
 
       <Stack
+        component={"form"}
+        onSubmit={formik.handleSubmit}
         sx={{
           gap: "6.25rem",
           mt: "6.25rem",
@@ -79,411 +127,171 @@ const Investment = () => {
           px: { xs: "1rem", md: "6.37rem" },
         }}
       >
-        <Stack>
-          <TitleDesc title="Name:" desc="" />
-          <LabelTopTextField
-            placeholder="John Doe"
-            sx={{
-              mt: "3.13rem",
-              maxWidth: "41rem",
-              ".MuiOutlinedInput-root": {
-                height: "3rem",
-                "input::placeholder": {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                },
-              },
+        <CustomTextField
+          id="username"
+          name="username"
+          placeholder="Enter your name"
+          title="Name:"
+          handleChange={handleChangeTextField}
+          value={formikValues.username}
+          error={
+            formikErrors.username && formik.touched.username
+              ? formikErrors.username
+              : ""
+          }
+        />
 
-              ".MuiInputBase-root": {
-                input: {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                  px: { xs: "1rem", md: "2.31rem" },
-                },
-              },
-            }}
-          />
-        </Stack>
+        <CustomTextField
+          id="email"
+          name="email"
+          placeholder="Enter your email"
+          title="Email"
+          handleChange={handleChangeTextField}
+          value={formikValues.email}
+          error={
+            formikErrors.email && formik.touched.email ? formikErrors.email : ""
+          }
+        />
 
-        <Stack>
-          <TitleDesc title="Email:" desc="" />
-          <LabelTopTextField
-            placeholder="John Doe.@gmail.com"
-            sx={{
-              mt: "3.13rem",
-              maxWidth: "41rem",
-              ".MuiOutlinedInput-root": {
-                height: "3rem",
-                "input::placeholder": {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                },
-              },
+        <CustomTextField
+          id="phoneNo"
+          name="phoneNo"
+          placeholder="Enter your phone number"
+          title="Phone Number:"
+          handleChange={handleChangeTextField}
+          value={formikValues.phoneNo}
+          error={
+            formikErrors.phoneNo && formik.touched.phoneNo
+              ? formikErrors.phoneNo
+              : ""
+          }
+        />
 
-              ".MuiInputBase-root": {
-                input: {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                  px: { xs: "1rem", md: "2.31rem" },
-                },
-              },
-            }}
-          />
-        </Stack>
+        <CustomTextField
+          id="city"
+          name="city"
+          placeholder="Enter your city"
+          title="City:"
+          desc="Which city/area is this property located in?"
+          handleChange={handleChangeTextField}
+          value={formikValues.city}
+          error={
+            formikErrors.city && formik.touched.city ? formikErrors.city : ""
+          }
+        />
 
-        <Stack>
-          <TitleDesc title="Phone Number:" desc="" />
-          <LabelTopTextField
-            placeholder="+92 3456789012"
-            sx={{
-              mt: "3.13rem",
-              maxWidth: "41rem",
-              ".MuiOutlinedInput-root": {
-                height: "3rem",
-                "input::placeholder": {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                },
-              },
+        <AreaField
+          handleChangeTotalArea={handleChangeTotalArea}
+          handleChangeType={handleChangeAreaType}
+          totalAreaValue={formikValues.area.totalArea}
+          areaTypeValue={formikValues.area.type}
+          desc="What is the size of this property?"
+          error={
+            formikErrors.area?.totalArea && formik.touched.area?.totalArea
+              ? formikErrors.area?.totalArea
+              : ""
+          }
+        />
 
-              ".MuiInputBase-root": {
-                input: {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                  px: { xs: "1rem", md: "2.31rem" },
-                },
-              },
-            }}
-          />
-        </Stack>
+        <PriceField
+          handleChange={handleChangeTextField}
+          value={formikValues.price.minPrice}
+          currency={formikValues.price.currency}
+          id={"price.minPrice"}
+          title={"Minimum Price:"}
+          name={"price.minPrice"}
+          placeholder="Min Price"
+          desc="What amount (minimum), do you want to invest?"
+          error={
+            formikErrors.price?.minPrice && formik.touched.price?.minPrice
+              ? formikErrors.price?.minPrice
+              : ""
+          }
+        />
+        <PriceField
+          handleChange={handleChangeTextField}
+          value={formikValues.price.maxPrice}
+          currency={formikValues.price.currency}
+          id={"price.maxPrice"}
+          title={"Maximum Price:"}
+          name={"price.maxPrice"}
+          placeholder="Max Price"
+          desc="What amount (maximum), do you want to invest?"
+          error={
+            formikErrors.price?.maxPrice && formik.touched.price?.maxPrice
+              ? formikErrors.price?.maxPrice
+              : ""
+          }
+        />
 
-        <Stack>
-          <TitleDesc
-            title="City:"
-            desc="Which city/area is this property located in?"
-          />
-          <LabelTopTextField
-            placeholder="City"
-            sx={{
-              mt: "3.13rem",
-              maxWidth: "41rem",
-              ".MuiOutlinedInput-root": {
-                height: "3rem",
-                "input::placeholder": {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                },
-              },
+        <CustomTextField
+          id="description"
+          name="description"
+          placeholder="Enter description"
+          title="Description:"
+          desc="Add any description that you would like to include."
+          handleChange={handleChangeTextField}
+          value={formikValues.description}
+          error={
+            formikErrors.description && formik.touched.description
+              ? formikErrors.description
+              : ""
+          }
+        />
 
-              ".MuiInputBase-root": {
-                input: {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                  px: { xs: "1rem", md: "2.31rem" },
-                },
-              },
-            }}
-          />
-        </Stack>
+        <BedBathroomsSelect
+          id={"bedrooms"}
+          title={"No. of Bedrooms:"}
+          desc={"How many bed rooms does this property have?"}
+          options={beds}
+          handleChange={handleChangeBedrooms}
+          value={formikValues.bedrooms}
+          error={
+            formikErrors.bedrooms && formik.touched.bedrooms
+              ? formikErrors.bedrooms
+              : ""
+          }
+        />
 
-        <Stack>
-          <TitleDesc title="Area:" desc="What is the size of this property?" />
-          <LabelTopTextField
-            placeholder="Area"
-            endIcon={
-              <SelectField
-                iconWidth={30}
-                iconHeight={30}
-                text={areaValue.title ? areaValue.title : "Area"}
-                sx={{
-                  width: "8.9375rem",
-                  ">p": {
-                    fontSize: "1.25rem",
-                    color: "var(--text-primary)",
-                  },
-                }}
-              >
-                <MenuCard
-                  sx={{
-                    top: "3.8rem",
-                    width: "100%",
-                    borderRadius: "0rem 0rem 0.3125rem 0.3125rem",
-                  }}
-                >
-                  {areas.map((val, index) => (
-                    <TextLg
-                      key={val.title}
-                      text={val.title}
-                      onClick={() => setAreaValue(val)}
-                      sx={{
-                        fontSize: "1.25rem",
-                        fontWeight: "400",
-                        padding: "0.5rem",
-                        borderBottom:
-                          index !== areas.length - 1
-                            ? "1px solid var(--platinum)"
-                            : "none",
-                      }}
-                    />
-                  ))}
-                </MenuCard>
-              </SelectField>
-            }
-            sx={{
-              mt: "3.13rem",
-              maxWidth: "50.375rem",
-              ".MuiOutlinedInput-root": {
-                height: "3rem",
-                "input::placeholder": {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                },
-              },
+        <BedBathroomsSelect
+          id={"bathrooms"}
+          title={"No. of Bathrooms:"}
+          desc={"How many bathrooms does this property have?"}
+          options={baths}
+          handleChange={handleChangeBathrooms}
+          value={formikValues.bathrooms}
+          error={
+            formikErrors.bathrooms && formik.touched.bathrooms
+              ? formikErrors.bathrooms
+              : ""
+          }
+        />
 
-              ".MuiInputBase-root": {
-                input: {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                  px: { xs: "1rem", md: "2.31rem" },
-                },
-              },
-            }}
-          />
-        </Stack>
-
-        <Stack>
-          <TitleDesc
-            title="Minimum Price:"
-            desc="What amount (minimum), do you want to invest?"
-          />
-
-          <LabelTopTextField
-            placeholder="Min Price"
-            endIcon={<TextMd text={"PKR"} sx={{ fontWeight: "400" }} />}
-            sx={{
-              mt: "3.13rem",
-              maxWidth: "52.375rem",
-              ".MuiOutlinedInput-root": {
-                height: "3",
-                "input::placeholder": {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                },
-              },
-
-              ".MuiInputBase-root": {
-                input: {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                  px: { xs: "1rem", md: "2.31rem" },
-                },
-              },
-            }}
-          />
-
-          <TextMd
-            text={"i.e 2 Lac"}
-            sx={{ fontWeight: "400", pl: "2.31rem" }}
-          />
-        </Stack>
-
-        <Stack>
-          <TitleDesc
-            title="Maximum Price:"
-            desc="What amount (maximum), do you want to invest?"
-          />
-
-          <LabelTopTextField
-            placeholder="Max Price"
-            endIcon={<TextMd text={"PKR"} sx={{ fontWeight: "400" }} />}
-            sx={{
-              mt: "3.13rem",
-              maxWidth: "52.375rem",
-              ".MuiOutlinedInput-root": {
-                height: "3",
-                "input::placeholder": {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                },
-              },
-
-              ".MuiInputBase-root": {
-                input: {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                  px: { xs: "1rem", md: "2.31rem" },
-                },
-              },
-            }}
-          />
-
-          <TextMd
-            text={"i.e 2 Lac"}
-            sx={{ fontWeight: "400", pl: "2.31rem" }}
-          />
-        </Stack>
-
-        <Stack>
-          <TitleDesc
-            title="Description:"
-            desc="Add any description that you would like to include."
-          />
-
-          <LabelTopTextField
-            placeholder="Description"
-            multiline
-            rows={10}
-            sx={{
-              mt: "3.13rem",
-              maxWidth: { md: "31.125rem" },
-              ".MuiOutlinedInput-root": {
-                "textArea::placeholder": {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                  opacity: 1,
-                },
-              },
-
-              ".MuiInputBase-root": {
-                textArea: {
-                  fontSize: "1.25rem",
-                  color: "var(--text-primary)",
-                  px: { xs: "0.25rem", md: "1.37rem" },
-                },
-              },
-            }}
-          />
-        </Stack>
-
-        <Stack>
-          <TitleDesc
-            title="No. of Bedrooms:"
-            desc="How many bed rooms does this property have?"
-          />
-
-          <Stack
-            direction={"row"}
-            sx={{ gap: "1.44rem", mt: "3.11rem", flexWrap: "wrap" }}
-          >
-            {beds.map((val, index) => (
-              <TextLg
-                key={val}
-                text={val}
-                onClick={() => setBathsValue(val)}
-                sx={{
-                  fontSize: "1.25rem",
-                  fontWeight: "400",
-                  cursor: "pointer",
-                  borderRadius: "0.9375rem",
-                  padding: "0.75rem 1.69rem",
-                  boxShadow:
-                    bathsValue === val
-                      ? "0px 0px 0px 4px var(--text-primary) inset"
-                      : "0px 0px 0px 1px var(--spanish-gray) inset",
-                }}
-              />
-            ))}
-          </Stack>
-        </Stack>
-
-        <Stack>
-          <TitleDesc
-            title="No. of Bathrooms:"
-            desc="How many bathrooms does this property have?"
-          />
-
-          <Stack
-            direction={"row"}
-            sx={{ gap: "1.44rem", mt: "3.11rem", flexWrap: "wrap" }}
-          >
-            {baths.map((val, index) => (
-              <TextLg
-                key={val}
-                text={val}
-                onClick={() => setBedsValue(val)}
-                sx={{
-                  fontSize: "1.25rem",
-                  fontWeight: "400",
-                  cursor: "pointer",
-                  borderRadius: "0.9375rem",
-                  padding: "0.75rem 1.69rem",
-                  boxShadow:
-                    bedsValue === val
-                      ? "0px 0px 0px 4px var(--text-primary) inset"
-                      : "0px 0px 0px 1px var(--spanish-gray) inset",
-                }}
-              />
-            ))}
-          </Stack>
-        </Stack>
-
-        <Stack>
-          <TitleDesc
-            title="Features:"
-            desc="what features does yor property have?"
-          />
-
-          <FilledButton
-            text="Add Features"
-            onClick={() => setOpenFeatures(true)}
-            startIcon={<PlusIcon sx={{ width: "30px", height: "30px" }} />}
-            sx={{
-              mt: "3.12rem",
-              padding: "0",
-              fontSize: "1.25rem",
-              fontWeight: "400",
-              gap: "0.62rem",
-              width: "13rem",
-              height: "3rem",
-              boxShadow: "none",
-              ":hover": {
-                boxShadow: "none",
-              },
-            }}
-          />
-
-          <Stack direction={"row"} sx={{ mt: "1.42rem" }}>
-            <Stack
-              direction={"row"}
-              sx={{
-                gap: "1.88rem",
-                backgroundColor: "rgba(227, 227, 227, 0.48)",
-                padding: "0.56rem 1.37rem",
-                borderRadius: "0.625rem",
-                alignItems: "center",
-                ".closeIcon": {
-                  cursor: "pointer",
-                },
-              }}
-            >
-              <SvgIconText
-                icon={
-                  <GasIcon
-                    sx={{
-                      width: "30px",
-                      height: "30px",
-                      path: { stroke: "var(--spanish-gray)" },
-                    }}
-                  />
-                }
-                text="Gas"
-                sxText={{ fontSize: "1.25rem", color: "var(--spanish-gray)" }}
-              />
-
-              <CrossIcon
-                sx={{
-                  width: "30px",
-                  height: "30px",
-                  cursor: "pointer",
-                  path: { fill: "#9E9E9E" },
-                }}
-              />
-            </Stack>
-          </Stack>
-        </Stack>
+        <FeaturesSelect
+          value={formikValues.features}
+          formik={formik}
+          desc="what features does this property have?"
+          error={
+            formikErrors.features && formik.touched.features
+              ? `${formikErrors.features}`
+              : ""
+          }
+        />
 
         <FilledButton
+          type="submit"
           text="Inquire"
+          loading={mutation.isPending}
+          disabled={mutation.isPending}
+          onClick={() => {
+            const errorsKeys = Object.keys(formikErrors);
+            if (errorsKeys.length) {
+              const element = document.getElementById(errorsKeys[0]);
+              if (element) {
+                element.scrollIntoView({ behavior: "smooth" });
+              }
+            }
+          }}
           sx={{
             mb: "6.21rem",
             alignSelf: "center",
@@ -499,6 +307,65 @@ const Investment = () => {
           }}
         />
       </Stack>
+
+      <Dialog
+        open={openModal}
+        PaperProps={{
+          sx: {
+            width: "15.625rem",
+            textAlign: "center",
+            borderRadius: "1.875rem",
+          },
+        }}
+      >
+        <Stack
+          sx={{
+            padding: "1.88rem",
+            pb: "1.19rem",
+            alignItems: "center",
+          }}
+        >
+          <TextMd
+            text={"Inquiry Sent!"}
+            sx={{
+              width: "11.875rem",
+              fontSize: "1.125rem",
+              fontWeight: "400",
+              color: "var(--text-black)",
+              lineHeight: "normal",
+              textAlign: "center",
+            }}
+          />
+          <TextMd
+            text={"Our agent will get in contact with you shortly."}
+            sx={{
+              width: "11.875rem",
+              fontSize: "1.125rem",
+              fontWeight: "400",
+              color: "var(--text-black)",
+              lineHeight: "normal",
+              textAlign: "center",
+            }}
+          />
+
+          <FilledButton
+            text="Ok"
+            onClick={() => {
+              formik.resetForm();
+              setOpenModal(false);
+            }}
+            sx={{
+              width: "4.125rem",
+              height: "2rem",
+              fontSize: "1rem",
+              fontWeight: "400",
+              borderRadius: "0.9375rem",
+              padding: "0.31rem 1.44rem",
+              mt: "1.86rem",
+            }}
+          />
+        </Stack>
+      </Dialog>
     </>
   );
 };

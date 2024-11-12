@@ -5,6 +5,7 @@ import { Logo2Icon } from "@/constants/images.routes";
 import { navbarPages } from "@/constants/navbar";
 import {
   ACCOUNT_MANAGEMENT,
+  ADMIN_PAGE,
   FORGOT_PASSWORD_PAGE,
   LOGIN,
   SESSION_EXPIRE,
@@ -26,7 +27,8 @@ const Footer = () => {
     pathname === SIGN_UP ||
     pathname === ACCOUNT_MANAGEMENT ||
     pathname === SESSION_EXPIRE ||
-    pathname === FORGOT_PASSWORD_PAGE
+    pathname === FORGOT_PASSWORD_PAGE ||
+    pathname.includes(ADMIN_PAGE)
   ) {
     return <></>;
   }

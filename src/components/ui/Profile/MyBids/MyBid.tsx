@@ -40,7 +40,7 @@ const MyBid = ({ property, bidderBid, id, token }: Props) => {
 
   return (
     <>
-      <PropertyCard property={property}>
+      <PropertyCard disableLink property={property}>
         <TextMd
           text={`Bid: ${bidderBid.currency} ${formatAmountToPKR(Number(bidderBid.price))}`}
           sx={{

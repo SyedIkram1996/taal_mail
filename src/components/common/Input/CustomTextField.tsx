@@ -1,26 +1,40 @@
-import FieldTitleDesc from "@/components/common/Input/FieldTitleDesc";
-import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import { Stack } from "@mui/material";
+import { memo } from "react";
+import FieldTitleDesc from "./FieldTitleDesc";
+import LabelTopTextField from "./LabelTopTextField";
 
 interface Props {
+  id?: string;
+  name?: string;
+  placeholder: string;
+  title: string;
+  desc?: string;
+  type?: string;
   handleChange: any;
   value: string;
   error: string;
 }
 
-const NameField = ({ handleChange, value, error }: Props) => {
+const CustomTextField = ({
+  id,
+  name,
+  placeholder,
+  title,
+  desc,
+  type,
+  handleChange,
+  value,
+  error,
+}: Props) => {
   return (
-    <Stack id="name">
-      <FieldTitleDesc
-        title="Name of Property:"
-        desc="Add the Title of your post."
-        error={error}
-      />
+    <Stack id={id}>
+      <FieldTitleDesc title={title} desc={desc} error={error} />
 
       <LabelTopTextField
-        name="name"
-        placeholder="Name of Property"
+        name={name}
+        placeholder={placeholder}
         value={value}
+        type={type}
         onChange={(e) => {
           handleChange(e);
         }}
@@ -48,4 +62,4 @@ const NameField = ({ handleChange, value, error }: Props) => {
   );
 };
 
-export default NameField;
+export default memo(CustomTextField);

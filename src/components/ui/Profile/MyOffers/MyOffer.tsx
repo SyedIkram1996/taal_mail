@@ -7,21 +7,39 @@ import CrossIcon from "@/components/common/SvgIcons/CrossIcon";
 import TickIcon from "@/components/common/SvgIcons/TickIcon";
 import TextMd from "@/components/common/Text/TextMd";
 import TextXl from "@/components/common/Text/TextXl";
+import { updateBid } from "@/services/bid.services";
 import { formatAmountToPKR } from "@/utils/maths";
 import { Dialog, Stack } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
+import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface Props {
   val: any;
+  token?: RequestCookie;
 }
 
-const MyOffer = ({ val }: Props) => {
+const MyOffer = ({ val, token }: Props) => {
   const [openBidDetails, setOpenBidDetails] = useState(false);
   const [acceptOffer, setAcceptOffer] = useState(false);
+  const [offerAccepted, setOfferAccepted] = useState(false);
+  const router = useRouter();
+
+  const mutation = useMutation({
+    mutationFn: async () => updateBid(val.id, token),
+    onSuccess: (data) => {
+      // revalidatePage(ADMIN_INVESTORS_PAGE);
+      router.refresh();
+      setAcceptOffer(false);
+      setOfferAccepted(true);
+    },
+    onError: (error) => {},
+  });
 
   return (
     <>
-      <PropertyCard property={val.property}>
+      <PropertyCard disableLink property={val.property}>
         <TextMd
           noWrap
           text={`${val.title}`}
@@ -45,7 +63,8 @@ const MyOffer = ({ val }: Props) => {
             e.preventDefault();
             setOpenBidDetails(true);
           }}
-          text="Details"
+          text={val.status === "accepted" ? "Accepted" : "Details"}
+          disabled={val.status === "accepted"}
           sx={{
             alignSelf: "center",
             fontSize: "1rem",
@@ -170,7 +189,9 @@ const MyOffer = ({ val }: Props) => {
         <Dialog
           open={acceptOffer}
           onClose={() => {
-            setAcceptOffer(false);
+            if (!mutation.isPending) {
+              setAcceptOffer(false);
+            }
           }}
           PaperProps={{
             sx: {
@@ -199,9 +220,11 @@ const MyOffer = ({ val }: Props) => {
 
             <Stack direction={"row"} sx={{ gap: "1.44rem" }}>
               <FilledButton
+                loading={mutation.isPending}
+                disabled={mutation.isPending}
                 text="Yes"
                 onClick={() => {
-                  setAcceptOffer(false);
+                  mutation.mutate();
                 }}
                 sx={{
                   width: "4.125rem",
@@ -213,6 +236,7 @@ const MyOffer = ({ val }: Props) => {
                 }}
               />
               <FilledButton
+                disabled={mutation.isPending}
                 text="No"
                 onClick={() => {
                   setAcceptOffer(false);
@@ -227,6 +251,66 @@ const MyOffer = ({ val }: Props) => {
                 }}
               />
             </Stack>
+          </Stack>
+        </Dialog>
+      )}
+
+      {offerAccepted && (
+        <Dialog
+          open={offerAccepted}
+          PaperProps={{
+            sx: {
+              width: "15.625rem",
+              textAlign: "center",
+              borderRadius: "1.875rem",
+            },
+          }}
+        >
+          <Stack
+            sx={{
+              padding: "1.88rem",
+              pb: "1.19rem",
+              alignItems: "center",
+            }}
+          >
+            <TextMd
+              text={"Accepted Offer!"}
+              sx={{
+                width: "11.875rem",
+                fontSize: "1.125rem",
+                fontWeight: "400",
+                color: "var(--text-black)",
+                lineHeight: "normal",
+                textAlign: "center",
+              }}
+            />
+            <TextMd
+              text={"Our agent will get in contact with you shortly."}
+              sx={{
+                width: "11.875rem",
+                fontSize: "1.125rem",
+                fontWeight: "400",
+                color: "var(--text-black)",
+                lineHeight: "normal",
+                textAlign: "center",
+              }}
+            />
+
+            <FilledButton
+              text="Ok"
+              onClick={() => {
+                setOfferAccepted(false);
+              }}
+              sx={{
+                width: "4.125rem",
+                height: "2rem",
+                fontSize: "1rem",
+                fontWeight: "400",
+                borderRadius: "0.9375rem",
+                padding: "0.31rem 1.44rem",
+                mt: "1.86rem",
+              }}
+            />
           </Stack>
         </Dialog>
       )}

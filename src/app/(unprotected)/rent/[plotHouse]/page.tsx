@@ -3,6 +3,7 @@ import BuyRentProperties from "@/components/ui/Buy/BuyRentProperties";
 import Filters from "@/components/ui/Buy/Filters";
 import { BUY_PLOT } from "@/constants/page.routes";
 import { EPropertyType } from "@/enums/enums";
+import { META_DATA } from "@/utils/seo";
 import { Stack } from "@mui/material";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -10,7 +11,23 @@ import { Suspense } from "react";
 const { PLOT, HOUSE, APARTMENT } = EPropertyType;
 
 export const metadata: Metadata = {
-  title: "Rent | Taal Mail",
+  ...META_DATA({
+    title: "Rent | Taal Mail",
+    description:
+      "Find residential apartments for rent. Explore various options with features and amenities to suit your lifestyle and location preferences.",
+  }),
+  keywords: [
+    "rent apartment",
+    "residential apartments for rent",
+    "rental homes",
+    "apartments with amenities",
+    "property rentals",
+    "rent a home",
+    "houses for rent",
+    "residential rentals",
+    "family homes for rent",
+    "property rental options",
+  ],
 };
 
 interface Params {

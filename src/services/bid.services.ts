@@ -22,3 +22,11 @@ export const cancelBid = (id: string, token?: RequestCookie) => {
     token,
   });
 };
+
+export const updateBid = (id: string, token?: RequestCookie) => {
+  return makeApiRequest({
+    method: "PUT",
+    url: `${MY_BID}?id=${id}`,
+    token,
+  });
+};

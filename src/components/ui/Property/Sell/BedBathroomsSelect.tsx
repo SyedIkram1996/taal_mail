@@ -1,29 +1,36 @@
 import FieldTitleDesc from "@/components/common/Input/FieldTitleDesc";
 import TextLg from "@/components/common/Text/TextLg";
-import { beds } from "@/constants/filters";
 import { Stack } from "@mui/material";
 import { memo } from "react";
 
 interface Props {
+  id?: string;
+  title: string;
+  options: string[];
+  desc?: string;
   handleChange: any;
   value: string;
   error: string;
 }
 
-const BedroomsSelect = ({ handleChange, value, error }: Props) => {
+const BedBathroomsSelect = ({
+  handleChange,
+  value,
+  error,
+  id,
+  title,
+  options,
+  desc,
+}: Props) => {
   return (
-    <Stack id="bedrooms">
-      <FieldTitleDesc
-        title="No. of Bedrooms:"
-        desc="How many bed rooms does your property have?"
-        error={error}
-      />
+    <Stack id={id}>
+      <FieldTitleDesc title={title} desc={desc} error={error} />
 
       <Stack
         direction={"row"}
         sx={{ gap: "1.44rem", mt: "3.11rem", flexWrap: "wrap" }}
       >
-        {beds.map((val, index) => (
+        {options.map((val, index) => (
           <TextLg
             key={val}
             text={val}
@@ -46,4 +53,4 @@ const BedroomsSelect = ({ handleChange, value, error }: Props) => {
   );
 };
 
-export default memo(BedroomsSelect);
+export default memo(BedBathroomsSelect);
