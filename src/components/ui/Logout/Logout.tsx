@@ -1,9 +1,10 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const Logout = () => {
+  const pathname = usePathname();
   const router = useRouter();
 
   useEffect(() => {
@@ -22,7 +23,7 @@ const Logout = () => {
     return () => {
       window.removeEventListener("storage", onAuthChanged);
     };
-  }, [router]);
+  }, [router, pathname]);
 
   return null;
 };
