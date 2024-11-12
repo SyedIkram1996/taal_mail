@@ -5,11 +5,13 @@ interface Props {
   text: string;
   sx?: SxProps;
   onClick?: MouseEventHandler<HTMLSpanElement>;
+  noWrap?: boolean;
 }
 
-const TextLg = ({ text, sx, onClick }: Props) => {
+const TextLg = ({ text, sx, onClick, noWrap }: Props) => {
   return (
     <Typography
+      noWrap={noWrap}
       onClick={onClick}
       sx={{
         fontSize: "1.5rem",
