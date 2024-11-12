@@ -150,7 +150,6 @@ export async function PUT(request: NextRequest) {
         });
       }
     } else if (body.followUp) {
-      console.log(body.followUp);
       const validationResult = bidFollowUpSchema.safeParse(body.followUp);
 
       if (!validationResult.success) {

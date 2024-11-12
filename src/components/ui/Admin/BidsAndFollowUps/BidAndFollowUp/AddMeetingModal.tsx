@@ -27,7 +27,6 @@ const AddMeetingModal = ({
   setOpenSetMeetingTime,
   token,
 }: Props) => {
-  console.log(meetingMutation);
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [openMeetingScheduled, setOpenMeetingScheduled] = useState(false);
 

@@ -24,7 +24,10 @@ const AddFollowUpMeetingInvestor = ({ followUps, token }: Props) => {
   return (
     <>
       <Grid2 container spacing={2}>
-        <Grid2 size={{ xs: 12, md: 4 }}>
+        <Grid2
+          size={{ xs: 12, md: 4 }}
+          sx={{ justifyContent: "center", display: "flex" }}
+        >
           <FilledButton
             onClick={() => setOpenAddFollowUpModal(true)}
             disabled={!followUps[followUps.length - 1].meeting}
@@ -37,7 +40,10 @@ const AddFollowUpMeetingInvestor = ({ followUps, token }: Props) => {
             }}
           />
         </Grid2>
-        <Grid2 size={{ xs: 12, md: 4 }}>
+        <Grid2
+          size={{ xs: 12, md: 4 }}
+          sx={{ justifyContent: "center", display: "flex" }}
+        >
           <FilledButton
             onClick={() => setOpenMeetingModal(true)}
             text="Setup Meeting"
@@ -49,7 +55,10 @@ const AddFollowUpMeetingInvestor = ({ followUps, token }: Props) => {
             }}
           />
         </Grid2>
-        <Grid2 size={{ xs: 12, md: 4 }}>
+        <Grid2
+          size={{ xs: 12, md: 4 }}
+          sx={{ justifyContent: "center", display: "flex" }}
+        >
           <FilledButton
             onClick={() => setOpenEndFollowUpModal(true)}
             text="End Follow up"

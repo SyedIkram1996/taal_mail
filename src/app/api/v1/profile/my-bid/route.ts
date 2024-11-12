@@ -76,8 +76,6 @@ export async function PUT(request: NextRequest) {
       },
     ]);
 
-    console.log(offer);
-
     if (!offer.length) {
       return apiResponseError({
         message: "Not allowed",
