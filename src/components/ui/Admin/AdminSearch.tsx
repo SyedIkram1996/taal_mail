@@ -9,16 +9,18 @@ import { ReactNode } from "react";
 interface Props {
   title: string;
   children: ReactNode;
+  setIsTyping: (value: boolean) => void;
 }
 
-const AdminSearch = ({ title, children }: Props) => {
+const AdminSearch = ({ title, children, setIsTyping }: Props) => {
   const searchParams = useSearchParams();
-  const { replace } = useRouter();
+  const { replace, refresh } = useRouter();
   const pathname = usePathname();
   const { handleTextFieldChange } = useTextFieldPropertyFiltersDebounce({
     searchParams,
     replace,
     pathname,
+    refresh,
   });
   return (
     <>
@@ -43,6 +45,7 @@ const AdminSearch = ({ title, children }: Props) => {
           defaultValue={searchParams.get("search") || ""}
           placeholder="Search"
           onChange={(e) => {
+            setIsTyping(true);
             handleTextFieldChange(e);
           }}
           endIcon={
