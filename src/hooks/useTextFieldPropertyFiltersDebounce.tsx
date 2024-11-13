@@ -5,10 +5,12 @@ const useTextFieldPropertyFiltersDebounce = ({
   searchParams,
   pathname,
   replace,
+  refresh,
 }: {
   searchParams: any;
   pathname: any;
   replace: any;
+  refresh?: any;
 }) => {
   const handleTextFieldChange = useDebouncedCallback(
     (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -22,6 +24,9 @@ const useTextFieldPropertyFiltersDebounce = ({
       }
 
       replace(`${pathname}?${params.toString()}`);
+      if (refresh) {
+        refresh();
+      }
     },
     500,
   );

@@ -1,5 +1,7 @@
 "use client";
 
+import { auth } from "@/../firebase";
+import { logoutAction } from "@/app/actions";
 import MUILink from "@/components/common/MUILink/MUILink";
 import BidIcon from "@/components/common/SvgIcons/BidIcon";
 import InvestorIcon from "@/components/common/SvgIcons/InvestorIcon";
@@ -13,6 +15,7 @@ import {
   ADMIN_USERS_PAGE,
   HOME,
 } from "@/constants/page.routes";
+import LogoutIcon from "@mui/icons-material/Logout";
 import {
   BottomNavigation,
   BottomNavigationAction,
@@ -45,6 +48,11 @@ const AdminSideBarLayout = () => {
       link: ADMIN_INVESTORS_PAGE,
       icon: InvestorIcon,
     },
+    {
+      title: "Logout",
+      link: "",
+      icon: LogoutIcon,
+    },
   ];
 
   return (
@@ -74,7 +82,19 @@ const AdminSideBarLayout = () => {
           }}
         >
           {items.map(({ title, link, icon: Icon }, index) => (
-            <MUILink key={title} href={link}>
+            <MUILink
+              key={title}
+              href={link}
+              onClick={() => {
+                if (title === "Logout") {
+                  auth.signOut();
+                  logoutAction(pathname);
+                  setTimeout(() => {
+                    localStorage.setItem("loggedOut", "true");
+                  }, 1000);
+                }
+              }}
+            >
               <SvgIconText
                 text={title}
                 sxRow={{
@@ -83,9 +103,10 @@ const AdminSideBarLayout = () => {
                   borderRadius: "0.35rem",
                   padding: "0.72rem 0.5rem",
                   width: "12rem",
-                  backgroundColor: pathname.includes(link)
-                    ? "var(--alice-blue)"
-                    : "transparent",
+                  backgroundColor:
+                    title !== "Logout" && pathname.includes(link)
+                      ? "var(--alice-blue)"
+                      : "transparent",
                 }}
                 sxText={{
                   fontSize: "1.25rem",
@@ -99,7 +120,9 @@ const AdminSideBarLayout = () => {
                       width: "30px",
                       height: "30px",
                       path: {
-                        fill: index === 1 && "var(--text-secondary)",
+                        fill:
+                          (index === 1 || index === 3) &&
+                          "var(--text-secondary)",
                       },
                     }}
                   />
@@ -130,15 +153,26 @@ const AdminSideBarLayout = () => {
           sx={{
             height: "auto",
             a: { px: "0", py: "0.5rem" },
+            button: { px: "0", py: "0.5rem" },
           }}
         >
           {items.map(({ icon: Icon, ...item }, index) => (
             <BottomNavigationAction
+              onClick={() => {
+                if (item.title === "Logout") {
+                  auth.signOut();
+                  logoutAction(pathname);
+                  setTimeout(() => {
+                    localStorage.setItem("loggedOut", "true");
+                  }, 1000);
+                }
+              }}
               key={item.link}
               sx={{
-                bgcolor: pathname.includes(item.link)
-                  ? "var(--anti-flash-white)"
-                  : "transparent",
+                bgcolor:
+                  item.title !== "Logout" && pathname.includes(item.link)
+                    ? "var(--anti-flash-white)"
+                    : "transparent",
               }}
               label={
                 <TextMd
@@ -146,7 +180,7 @@ const AdminSideBarLayout = () => {
                   sx={{ textAlign: "center", fontSize: "0.75rem" }}
                 />
               }
-              LinkComponent={Link}
+              LinkComponent={item.title !== "Logout" ? Link : "div"}
               href={item.link}
               icon={
                 <Icon
@@ -155,7 +189,8 @@ const AdminSideBarLayout = () => {
                     width: "25px",
                     height: "25px",
                     path: {
-                      fill: index === 1 && "var(--text-secondary)",
+                      fill:
+                        (index === 1 || index === 3) && "var(--text-secondary)",
                     },
                   }}
                 />
