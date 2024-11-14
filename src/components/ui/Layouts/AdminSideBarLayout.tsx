@@ -169,6 +169,7 @@ const AdminSideBarLayout = () => {
               }}
               key={item.link}
               sx={{
+                justifyContent: "start",
                 bgcolor:
                   item.title !== "Logout" && pathname.includes(item.link)
                     ? "var(--anti-flash-white)"
@@ -177,7 +178,7 @@ const AdminSideBarLayout = () => {
               label={
                 <TextMd
                   text={item.title}
-                  sx={{ textAlign: "center", fontSize: "0.75rem" }}
+                  sx={{ textAlign: "center", fontSize: "0.625rem" }}
                 />
               }
               LinkComponent={item.title !== "Logout" ? Link : "div"}
@@ -186,8 +187,8 @@ const AdminSideBarLayout = () => {
                 <Icon
                   //@ts-ignore
                   sx={{
-                    width: "25px",
-                    height: "25px",
+                    width: "20px",
+                    height: "20px",
                     path: {
                       fill:
                         (index === 1 || index === 3) && "var(--text-secondary)",

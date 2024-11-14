@@ -123,10 +123,11 @@ const ProfileSideBarLayout = () => {
             a: { px: "0", py: "0.5rem" },
           }}
         >
-          {items.map(({ icon: Icon, ...item }) => (
+          {items.map(({ icon: Icon, ...item }, index) => (
             <BottomNavigationAction
               key={item.link}
               sx={{
+                justifyContent: "start",
                 bgcolor: item.link.includes(pathname)
                   ? "var(--anti-flash-white)"
                   : "transparent",
@@ -134,12 +135,23 @@ const ProfileSideBarLayout = () => {
               label={
                 <TextMd
                   text={item.title}
-                  sx={{ textAlign: "center", fontSize: "0.75rem" }}
+                  sx={{ textAlign: "center", fontSize: "0.625rem" }}
                 />
               }
               LinkComponent={Link}
               href={item.link}
-              icon={<Icon sx={{ width: "25px", height: "25px" }} />}
+              icon={
+                <Icon
+                  //@ts-ignore
+                  sx={{
+                    width: "20px",
+                    height: "20px",
+                    path: {
+                      fill: index === 2 && "var(--text-secondary)",
+                    },
+                  }}
+                />
+              }
             />
           ))}
         </BottomNavigation>
