@@ -28,9 +28,10 @@ const AdminSearchSkeleton = ({ title }: Props) => {
 
         <Skeleton
           sx={{
-            height: "3.5rem",
+            height: "3.6rem",
             transform: "none",
-            backgroundColor: "white",
+            borderRadius: "0.625rem",
+            backgroundColor: "var(--anti-flash-white)",
           }}
         />
       </Stack>
