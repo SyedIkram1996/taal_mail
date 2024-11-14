@@ -1,16 +1,5 @@
-import { CircularProgress, Stack } from "@mui/material";
+import AdminSearchSkeleton from "@/components/common/Skeletons/AdminSearchSkeleton";
 
 export default function Loading() {
-  return (
-    <Stack
-      maxWidth={"900px"}
-      sx={{
-        justifyContent: "center",
-        alignItems: "center",
-        height: "31.625rem",
-      }}
-    >
-      <CircularProgress />
-    </Stack>
-  );
+  return <AdminSearchSkeleton title="USERS" />;
 }
