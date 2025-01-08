@@ -7,21 +7,20 @@ import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import MUILink from "@/components/common/MUILink/MUILink";
 import TextXl from "@/components/common/Text/TextXl";
 import TextXs from "@/components/common/Text/TextXs";
-import { GoogleColorIcon, LogoIcon } from "@/constants/images.routes";
+import { LogoIcon } from "@/constants/images.routes";
 import { FORGOT_PASSWORD_PAGE, HOME, SIGN_UP } from "@/constants/page.routes";
 import { ILogin } from "@/interfaces/api";
-import { login, signUpAndLoginGoogle } from "@/services/auth.services";
+import { login } from "@/services/auth.services";
 import { toastError } from "@/utils/toaster";
 import { loginInSchema } from "@/validators/auth";
 import { Box, Stack, Typography } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
-import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { useFormik } from "formik";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-const provider = new GoogleAuthProvider();
+import LoginWithSocial from "./LoginWithSocial";
 
 const LoginForm = () => {
   const searchParams = useSearchParams();
@@ -50,7 +49,7 @@ const LoginForm = () => {
       try {
         const userCredential = await auth.signInWithEmailAndPassword(
           email,
-          password,
+          password
         );
 
         const user = userCredential.user;
@@ -101,55 +100,6 @@ const LoginForm = () => {
       setIsLoading(false);
     },
   });
-
-  const signInWithGoogle = async () => {
-    const auth2 = getAuth();
-    signInWithPopup(auth2, provider)
-      .then(async (result) => {
-        setIsLoadingGoogle(true);
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        // const credential = GoogleAuthProvider.credentialFromResult(result);
-        // const idToken = credential?.idToken;
-        // The signed-in user info.
-        const user = result.user;
-        const idToken = await user.getIdToken();
-
-        if (user && user.email && idToken) {
-          const response: any = await signUpAndLoginGoogle({
-            email: user.email,
-            idToken,
-          });
-
-          if (response) {
-            if (response && response.data) {
-              loginAction({
-                token: response.data.token,
-                redirectLink,
-                role: response.data.user.role,
-              });
-              setTimeout(() => {
-                localStorage.setItem("loggedIn", "true");
-              }, 1000);
-            }
-          } else {
-            setIsLoadingGoogle(false);
-            auth.signOut();
-          }
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsLoadingGoogle(false);
-        // Handle Errors here.
-        // const errorCode = error.code;
-        // const errorMessage = error.message;
-        // // The email of the user's account used.
-        // const email = error.customData.email;
-        // // The AuthCredential type that was used.
-        // const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
-      });
-  };
 
   return (
     <Stack
@@ -325,31 +275,10 @@ const LoginForm = () => {
           />
         </Stack>
 
-        <FilledButton
-          loading={isLoadingGoogle}
-          disabled={isLoadingGoogle || isLoading}
-          onClick={signInWithGoogle}
-          secondary
-          text="Google"
-          startIcon={
-            <Image
-              priority
-              src={GoogleColorIcon}
-              alt={"google icon"}
-              width={30}
-              height={30}
-            />
-          }
-          sx={{
-            height: "3.125rem",
-            gap: "0.63rem",
-            fontSize: "1rem",
-            borderRadius: "0.3125rem",
-            boxShadow: "none",
-            ":hover": {
-              boxShadow: "none",
-            },
-          }}
+        <LoginWithSocial
+          isLoading={isLoading}
+          isLoadingGoogle={isLoadingGoogle}
+          setIsLoadingGoogle={setIsLoadingGoogle}
         />
 
         <Typography

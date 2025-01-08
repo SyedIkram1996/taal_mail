@@ -5,7 +5,7 @@ import LabelTopTextField from "@/components/common/Input/LabelTopTextField";
 import MUILink from "@/components/common/MUILink/MUILink";
 import TextXl from "@/components/common/Text/TextXl";
 import TextXs from "@/components/common/Text/TextXs";
-import { GoogleColorIcon, LogoIcon } from "@/constants/images.routes";
+import { LogoIcon } from "@/constants/images.routes";
 import { HOME, LOGIN } from "@/constants/page.routes";
 import { ISignUp } from "@/interfaces/api";
 import { signUp } from "@/services/auth.services";
@@ -19,11 +19,13 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { isValidPhoneNumber } from "react-phone-number-input";
 import { toFormikValidationSchema } from "zod-formik-adapter";
+import LoginWithSocial from "../Login/LoginWithSocial";
 
 const SignUpForm = () => {
   const [signUpError, setSignUpError] = useState("");
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingGoogle, setIsLoadingGoogle] = useState(false);
 
   const formik: any = useFormik<ISignUp>({
     initialValues: {
@@ -40,7 +42,7 @@ const SignUpForm = () => {
       if (
         phoneNo &&
         !isValidPhoneNumber(
-          isContainCountryCode === "+92" ? phoneNo : `+92${phoneNo}`,
+          isContainCountryCode === "+92" ? phoneNo : `+92${phoneNo}`
         )
       ) {
         return formik.setFieldError("phoneNo", "Invalid phone number.");
@@ -278,7 +280,7 @@ const SignUpForm = () => {
             },
           }}
           error={Boolean(
-            formik.errors.confirmPassword && formik.touched.confirmPassword,
+            formik.errors.confirmPassword && formik.touched.confirmPassword
           )}
           helperText={
             formik.errors.confirmPassword && formik.touched.confirmPassword
@@ -297,7 +299,7 @@ const SignUpForm = () => {
           type="submit"
           // onClick={() => loginAction({ redirectLink })}
           loading={isLoading}
-          disabled={isLoading}
+          disabled={isLoading || isLoadingGoogle}
           sx={{
             height: "3.0625rem",
             fontSize: "1rem",
@@ -345,28 +347,10 @@ const SignUpForm = () => {
           />
         </Stack>
 
-        <FilledButton
-          secondary
-          text="Google"
-          startIcon={
-            <Image
-              priority
-              src={GoogleColorIcon}
-              alt={"google icon"}
-              width={30}
-              height={30}
-            />
-          }
-          sx={{
-            height: "3.125rem",
-            gap: "0.63rem",
-            fontSize: "1rem",
-            borderRadius: "0.3125rem",
-            boxShadow: "none",
-            ":hover": {
-              boxShadow: "none",
-            },
-          }}
+        <LoginWithSocial
+          isLoading={isLoading}
+          isLoadingGoogle={isLoadingGoogle}
+          setIsLoadingGoogle={setIsLoadingGoogle}
         />
 
         <Typography
