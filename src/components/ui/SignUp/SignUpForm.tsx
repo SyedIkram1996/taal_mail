@@ -42,7 +42,7 @@ const SignUpForm = () => {
       if (
         phoneNo &&
         !isValidPhoneNumber(
-          isContainCountryCode === "+92" ? phoneNo : `+92${phoneNo}`
+          isContainCountryCode === "+92" ? phoneNo : `+92${phoneNo}`,
         )
       ) {
         return formik.setFieldError("phoneNo", "Invalid phone number.");
@@ -280,7 +280,7 @@ const SignUpForm = () => {
             },
           }}
           error={Boolean(
-            formik.errors.confirmPassword && formik.touched.confirmPassword
+            formik.errors.confirmPassword && formik.touched.confirmPassword,
           )}
           helperText={
             formik.errors.confirmPassword && formik.touched.confirmPassword

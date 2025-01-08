@@ -49,7 +49,7 @@ const LoginForm = () => {
       try {
         const userCredential = await auth.signInWithEmailAndPassword(
           email,
-          password
+          password,
         );
 
         const user = userCredential.user;
